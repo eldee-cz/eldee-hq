@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>eldee HQ — přehled projektu</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Space+Grotesk:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0A0A0A; --ink2:#121211; --line:#262624;
+    --bone:#F5F5F0; --muted:#8d8a81; --dim:#cfcdc4;
+    --gold:#C9A227; --blood:#B91C1C; --blood-l:#DC2626; --green:#3f9e58;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+  body{background:var(--ink);color:var(--bone);font-family:'Space Grotesk',system-ui,sans-serif;line-height:1.55}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 28px}
+  a{color:var(--gold);text-decoration:none}
+  a:hover{color:var(--bone)}
+
+  /* ---------- topbar ---------- */
+  .topbar{position:sticky;top:0;z-index:50;background:rgba(10,10,10,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  .topbar .in{display:flex;align-items:center;justify-content:space-between;padding:14px 28px;max-width:1080px;margin:0 auto}
+  .tb-brand{display:flex;align-items:center;gap:12px}
+  .tb-brand svg{width:30px;height:30px}
+  .tb-brand .n{font-family:'Big Shoulders Display';font-weight:900;font-size:19px;letter-spacing:.05em}
+  .tb-brand .n b{color:var(--gold)}
+  .tb-nav{display:flex;gap:22px;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase}
+  .tb-nav a{color:var(--muted)} .tb-nav a:hover{color:var(--gold)}
+  @media(max-width:720px){.tb-nav{display:none}}
+
+  /* ---------- hero ---------- */
+  .hero{padding:72px 0 56px;border-bottom:1px solid var(--line);position:relative;overflow:hidden}
+  .hero .kick{font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.3em;color:var(--gold);text-transform:uppercase;margin-bottom:18px}
+  .hero h1{font-family:'Big Shoulders Display';font-weight:900;font-size:clamp(44px,7vw,84px);line-height:.92;text-transform:uppercase;letter-spacing:-.01em}
+  .hero p{margin-top:18px;max-width:58ch;color:var(--dim);font-size:17px}
+  .hero .logo-bg{position:absolute;right:-20px;top:50%;transform:translateY(-50%);width:300px;opacity:.95}
+  @media(max-width:880px){.hero .logo-bg{width:180px;opacity:.35}}
+  .stamp{display:flex;gap:14px;flex-wrap:wrap;margin-top:28px;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.08em;color:var(--muted)}
+  .stamp .pill{border:1px solid var(--line);padding:6px 12px;border-radius:999px}
+  .stamp .pill b{color:var(--gold);font-weight:400}
+
+  /* ---------- sections ---------- */
+  section{padding:64px 0;border-bottom:1px solid var(--line)}
+  .sec-head{display:flex;align-items:baseline;gap:16px;margin-bottom:34px}
+  .sec-head .no{font-family:'Space Mono',monospace;color:var(--gold);font-size:13px;letter-spacing:.2em}
+  .sec-head h2{font-family:'Big Shoulders Display';font-weight:900;font-size:clamp(28px,4vw,42px);text-transform:uppercase;letter-spacing:.01em}
+
+  /* ---------- stav teď: cards ---------- */
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
+  .card{background:var(--ink2);border:1px solid var(--line);padding:22px;display:flex;flex-direction:column;gap:10px;transition:border-color .2s}
+  .card:hover{border-color:#3a382f}
+  .card .tag{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+  .card h3{font-family:'Big Shoulders Display';font-weight:800;font-size:24px;text-transform:uppercase;line-height:1}
+  .card p{font-size:14px;color:var(--dim)}
+  .badge{display:inline-block;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.1em;padding:4px 10px;border-radius:999px;text-transform:uppercase;align-self:flex-start}
+  .b-run{background:rgba(201,162,39,.13);color:var(--gold);border:1px solid rgba(201,162,39,.4)}
+  .b-wait{background:rgba(185,28,28,.12);color:var(--blood-l);border:1px solid rgba(185,28,28,.45)}
+  .b-done{background:rgba(63,158,88,.12);color:#5fbf7a;border:1px solid rgba(63,158,88,.4)}
+
+  /* ---------- timeline ---------- */
+  .tl{position:relative;margin-left:8px;padding-left:34px}
+  .tl::before{content:"";position:absolute;left:0;top:6px;bottom:6px;width:1px;background:var(--line)}
+  .tl-item{position:relative;padding-bottom:30px}
+  .tl-item:last-child{padding-bottom:0}
+  .tl-item::before{content:"";position:absolute;left:-38.5px;top:5px;width:9px;height:9px;border-radius:50%;background:var(--gold)}
+  .tl-item.minor::before{background:var(--ink);border:2px solid var(--muted);width:7px;height:7px}
+  .tl-date{font-family:'Space Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:.1em}
+  .tl-item h3{font-family:'Big Shoulders Display';font-weight:800;font-size:21px;text-transform:uppercase;margin:2px 0 4px}
+  .tl-item p{font-size:14px;color:var(--dim);max-width:64ch}
+
+  /* ---------- tasks ---------- */
+  table{width:100%;border-collapse:collapse;font-size:14px}
+  th{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);text-align:left;padding:10px 14px;border-bottom:1px solid var(--line)}
+  td{padding:13px 14px;border-bottom:1px solid var(--line);vertical-align:top;color:var(--dim)}
+  td:first-child{color:var(--bone);font-weight:500}
+  tr:hover td{background:var(--ink2)}
+  .who{font-family:'Space Mono',monospace;font-size:11px;color:var(--muted)}
+  @media(max-width:680px){
+    table,thead,tbody,tr{display:block}
+    thead{display:none}
+    td{display:block;border:none;padding:3px 0}
+    tr{padding:14px 0;border-bottom:1px solid var(--line)}
+  }
+
+  /* ---------- links ---------- */
+  .links{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
+  .link-card{background:var(--ink2);border:1px solid var(--line);padding:20px 22px;display:flex;flex-direction:column;gap:8px;transition:border-color .2s,transform .2s}
+  a.link-card:hover{border-color:var(--gold);transform:translateY(-2px);color:inherit}
+  .link-card .t{font-family:'Big Shoulders Display';font-weight:800;font-size:20px;text-transform:uppercase;color:var(--bone)}
+  .link-card p{font-size:13px;color:var(--muted)}
+  .link-card .st{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase}
+  .st.on{color:#5fbf7a} .st.off{color:var(--muted)} .st.soon{color:var(--gold)}
+
+  /* ---------- team ---------- */
+  .team{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}
+  .member{border:1px solid var(--line);background:var(--ink2);padding:22px;text-align:left}
+  .member .ava{width:46px;height:46px;border-radius:50%;background:var(--ink);border:1px solid var(--gold);display:flex;align-items:center;justify-content:center;font-family:'Big Shoulders Display';font-weight:900;color:var(--gold);font-size:18px;margin-bottom:12px}
+  .member h3{font-family:'Big Shoulders Display';font-weight:800;font-size:20px;text-transform:uppercase}
+  .member p{font-size:13px;color:var(--muted)}
+
+  /* ---------- footer ---------- */
+  footer{padding:36px 0 56px;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;font-family:'Space Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:.06em}
+</style>
+</head>
+<body>
+
+<div class="topbar"><div class="in">
+  <div class="tb-brand">
+    <svg viewBox="3.2 46.0 301.5 301.5" aria-hidden="true"><defs><mask id="ldk-a" maskUnits="userSpaceOnUse" x="3.2" y="46" width="301.5" height="301.5"><rect x="3.2" y="46" width="301.5" height="301.5" fill="white"/><path d="M66.32 285.00V78.60H105.02V250.94H155.85V285.00Z" fill="black" stroke="black" stroke-width="20" stroke-linejoin="round"/></mask></defs><path d="M128.32 318.00V111.60H180.69Q209.72 111.60 222.68 123.92Q235.65 136.24 236.16 164.49Q236.55 182.42 236.68 198.55Q236.81 214.67 236.68 230.80Q236.55 246.92 236.16 264.85Q235.65 293.23 222.68 305.62Q209.72 318.00 180.69 318.00ZM167.02 283.94H180.69Q188.82 283.94 193.08 280.20Q197.34 276.46 197.46 269.50Q197.85 255.69 198.04 242.02Q198.24 228.34 198.24 214.67Q198.24 201.00 198.04 187.26Q197.85 173.52 197.46 159.85Q197.34 153.01 193.08 149.33Q188.82 145.66 180.69 145.66H167.02Z" fill="#F5F5F0" mask="url(#ldk-a)"/><path d="M66.32 285.00V78.60H105.02V250.94H155.85V285.00Z" fill="#F5F5F0"/><ellipse cx="182.3" cy="79.5" rx="66" ry="12.5" fill="none" stroke="#C9A227" stroke-width="7"/></svg>
+    <span class="n"><b>eldee</b> HQ</span>
+  </div>
+  <nav class="tb-nav">
+    <a href="#stav">Stav</a><a href="#timeline">Timeline</a><a href="#ukoly">Úkoly</a><a href="#data">Data &amp; odkazy</a><a href="#tym">Tým</a>
+  </nav>
+</div></div>
+
+<header class="hero"><div class="wrap" style="position:relative">
+  <div class="kick">Interní přehled projektu · Holy Socks</div>
+  <h1>Kde teď<br>jsme.</h1>
+  <p>České fotbalové štulpny se dvěma chráněnými designy — díry na lýtku a kapsa na chránič. Tahle stránka je jediný zdroj pravdy o stavu projektu pro celý tým.</p>
+  <div class="stamp">
+    <span class="pill">Aktualizováno <b>4.&nbsp;6.&nbsp;2026</b></span>
+    <span class="pill">Logo <b>v2.0 finál</b></span>
+    <span class="pill">Brand book <b>v1.4</b></span>
+    <span class="pill">Kniha <b>7/8 kapitol</b></span>
+  </div>
+  <svg class="logo-bg" viewBox="3.2 46.0 301.5 301.5" aria-hidden="true"><defs><mask id="ldk-b" maskUnits="userSpaceOnUse" x="3.2" y="46" width="301.5" height="301.5"><rect x="3.2" y="46" width="301.5" height="301.5" fill="white"/><path d="M66.32 285.00V78.60H105.02V250.94H155.85V285.00Z" fill="black" stroke="black" stroke-width="20" stroke-linejoin="round"/></mask></defs><path d="M128.32 318.00V111.60H180.69Q209.72 111.60 222.68 123.92Q235.65 136.24 236.16 164.49Q236.55 182.42 236.68 198.55Q236.81 214.67 236.68 230.80Q236.55 246.92 236.16 264.85Q235.65 293.23 222.68 305.62Q209.72 318.00 180.69 318.00ZM167.02 283.94H180.69Q188.82 283.94 193.08 280.20Q197.34 276.46 197.46 269.50Q197.85 255.69 198.04 242.02Q198.24 228.34 198.24 214.67Q198.24 201.00 198.04 187.26Q197.85 173.52 197.46 159.85Q197.34 153.01 193.08 149.33Q188.82 145.66 180.69 145.66H167.02Z" fill="#F5F5F0" mask="url(#ldk-b)"/><path d="M66.32 285.00V78.60H105.02V250.94H155.85V285.00Z" fill="#F5F5F0"/><ellipse cx="182.3" cy="79.5" rx="66" ry="12.5" fill="none" stroke="#C9A227" stroke-width="7"/></svg>
+</div></header>
+
+<section id="stav"><div class="wrap">
+  <div class="sec-head"><span class="no">01</span><h2>Stav teď</h2></div>
+  <div class="cards">
+    <div class="card">
+      <span class="tag">Produkt</span>
+      <h3>Prototyp štulpen</h3>
+      <span class="badge b-run">běží</span>
+      <p>Balíček s logem v2.0 pro výrobce je připraven k odeslání. Následuje digitalizace výšivky (.PES/.DST) a sew-out vzorek na úpletu — bez něj se nešije série.</p>
+    </div>
+    <div class="card">
+      <span class="tag">Brand</span>
+      <h3>Logo v2.0</h3>
+      <span class="badge b-done">hotovo</span>
+      <p>LD monogram — interlock: písmena srostlá v jedno těleso, zlatá svatozář. Finál včetně samostatné verze pro vyšívání. Zbývá lockup s wordmarkem.</p>
+    </div>
+    <div class="card">
+      <span class="tag">Brand</span>
+      <h3>Brand book v1.4</h3>
+      <span class="badge b-wait">čeká deploy</span>
+      <p>16 sekcí, kompletní vizuální i verbální identita, nové logo propsáno. Čeká na nasazení na web (Vercel + doména brand.eldee.cz).</p>
+    </div>
+    <div class="card">
+      <span class="tag">Byznys</span>
+      <h3>Kniha projektu</h3>
+      <span class="badge b-run">7 / 8</span>
+      <p>Business příručka eldee — hotovo 7 kapitol (marketing, právní rámec, finance, brand, smlouvy, e&#8209;shop, akvizice klubů). Zbývá kapitola 8: finalizace.</p>
+    </div>
+  </div>
+</div></section>
+
+<section id="timeline"><div class="wrap">
+  <div class="sec-head"><span class="no">02</span><h2>Co je hotovo</h2></div>
+  <div class="tl">
+    <div class="tl-item">
+      <div class="tl-date">4. 6. 2026</div>
+      <h3>Balíček pro výrobce v2</h3>
+      <p>Kompletní podklady pro vyšití prototypu — vektory, PNG, pokyny pro digitizéra s přesnými parametry (výška 35 mm, spára 1,8 mm, prstenec 1,6 mm, barvy nití v Pantone).</p>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">3. 6. 2026</div>
+      <h3>Logo v2.0 — interlock finál</h3>
+      <p>Kompletní redesign monogramu: L proniká skrz D, jedno srostlé těleso („eldee rodina drží pohromadě"). Navrženo iterativně v Claude Design, geometrie zafixovaná na milimetry. Propsáno do brand booku (→ v1.4) včetně nového faviconu.</p>
+    </div>
+    <div class="tl-item minor">
+      <div class="tl-date">2. 6. 2026</div>
+      <h3>Foundation copy overhaul</h3>
+      <p>Texty značky přepsány podle kompasu „storytelling + výjimečnost + belonging". Brand nemluví o sobě — show, don't tell. Brand book → v1.3.</p>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">26. 5. 2026</div>
+      <h3>Logo v1.0 + mockupy štulpen</h3>
+      <p>První zafixovaný LD monogram a tři barevné varianty štulpny: 01 Signature (off-white + red), 02 Black Gold, 03 Clean.</p>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">22.–24. 5. 2026</div>
+      <h3>Brand book v1.0 — web</h3>
+      <p>Profesionální brand book jako webová aplikace: 16 sekcí, auto-generované PDF, barvy, typografie, voice &amp; tone, logo systém, mockupy. Plus wordmark eLDee a 6 logo iterací.</p>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">18.–19. 5. 2026</div>
+      <h3>Databáze klubů + interaktivní hledač</h3>
+      <p>940+ amatérských klubů z celé ČR (krajské i okresní soutěže) s barvami dresů a prioritami. Interaktivní hledač s CRM trackingem, mailovými šablonami a mapou ČR se špendlíky v barvách dresů.</p>
+    </div>
+    <div class="tl-item minor">
+      <div class="tl-date">17. 5. 2026</div>
+      <h3>Podcast &amp; dotazník</h3>
+      <p>Podcastové materiály a dotazník v2.1 pro validaci u hráčů a trenérů.</p>
+    </div>
+    <div class="tl-item">
+      <div class="tl-date">15.–19. 5. 2026</div>
+      <h3>Business kniha — 7 kapitol</h3>
+      <p>Marketing &amp; content, právní a daňový rámec, finanční model, brand identita, smluvní šablony (4×), e&#8209;shop na Shoptetu, akviziční strategie klubů. Vše jako mobilní HTML kniha.</p>
+    </div>
+  </div>
+</div></section>
+
+<section id="ukoly"><div class="wrap">
+  <div class="sec-head"><span class="no">03</span><h2>Otevřené úkoly</h2></div>
+  <table>
+    <thead><tr><th>Úkol</th><th>Stav</th><th>Kdo</th><th>Poznámka</th></tr></thead>
+    <tbody>
+      <tr><td>Poslat balíček v2 dodavateli + vyžádat sew-out vzorek</td><td><span class="badge b-run">teď</span></td><td class="who">Lukáš</td><td>Podklady hotové, trvat na vzorku na úpletu</td></tr>
+      <tr><td>Lockup — monogram + wordmark „eldee"</td><td><span class="badge b-wait">další</span></td><td class="who">Lukáš + Jarvis</td><td>Potvrdit přesný zápis názvu</td></tr>
+      <tr><td>Nasadit brand book na web (Vercel + DNS)</td><td><span class="badge b-wait">další</span></td><td class="who">Lukáš</td><td>brand.eldee.cz</td></tr>
+      <tr><td>Kniha — kapitola 8: finalizace + kalkulačka</td><td><span class="badge b-wait">další</span></td><td class="who">Lukáš + Jarvis</td><td>Poslední kapitola knihy</td></tr>
+      <tr><td>Sladit wordmark eLDee s monogramem v2</td><td><span class="badge b-wait">fronta</span></td><td class="who">Jarvis</td><td>Wordmark je zatím v1</td></tr>
+      <tr><td>Ověřit barvy dresů u ~100 P3 klubů</td><td><span class="badge b-wait">fronta</span></td><td class="who">kdokoliv</td><td>~8 h práce, jde delegovat a rozložit</td></tr>
+      <tr><td>Construction grid loga do brand booku</td><td><span class="badge b-wait">fronta</span></td><td class="who">Jarvis</td><td>Parametry N2 jako vizuální stránka</td></tr>
+    </tbody>
+  </table>
+</div></section>
+
+<section id="data"><div class="wrap">
+  <div class="sec-head"><span class="no">04</span><h2>Data &amp; odkazy</h2></div>
+  <div class="links">
+    <div class="link-card"><span class="t">Brand book</span><p>Kompletní vizuální a verbální identita — 16 sekcí, logo systém, barvy, typografie, voice.</p><span class="st soon">● čeká na deploy — zatím lokálně</span></div>
+    <div class="link-card"><span class="t">Business kniha</span><p>8 kapitol byznys plánu jako mobilní HTML kniha (eldee-book.html).</p><span class="st off">● lokálně ve složce projektu</span></div>
+    <div class="link-card"><span class="t">Hledač klubů</span><p>940+ klubů, filtry, CRM tracking, mailové šablony, mapa ČR (kluby-vyhledavac.html).</p><span class="st off">● lokálně ve složce projektu</span></div>
+    <div class="link-card"><span class="t">Logo balíček v2</span><p>Podklady pro výrobce: vektory, PNG, pokyny pro digitizéra (brand/vyrobce-balicek-v2).</p><span class="st on">● hotovo k odeslání</span></div>
+    <a class="link-card" href="https://eldee.cz" target="_blank" rel="noopener"><span class="t">eldee.cz</span><p>Doména koupená — e-shop vznikne na Shoptetu dle kapitoly 5.</p><span class="st soon">● doména připravena</span></a>
+    <div class="link-card"><span class="t">GitHub — eldee-brandbook</span><p>Zdrojový kód brand booku (privátní repo).</p><span class="st on">● aktivní</span></div>
+  </div>
+  <p style="margin-top:22px;font-family:'Space Mono',monospace;font-size:11px;color:var(--muted)">Pozn.: odkazy na lokální artefakty se doplní, jakmile budou nasazené online. Citlivá data (finance, smlouvy) na tuhle stránku záměrně nepatří.</p>
+</div></section>
+
+<section id="tym" style="border-bottom:none"><div class="wrap">
+  <div class="sec-head"><span class="no">05</span><h2>Tým</h2></div>
+  <div class="team">
+    <div class="member"><div class="ava">LH</div><h3>Lukáš Hledík</h3><p>Founder · produkt, brand, byznys</p></div>
+    <div class="member"><div class="ava">?</div><h3>Doplnit</h3><p>Role — doplníme</p></div>
+    <div class="member"><div class="ava">?</div><h3>Doplnit</h3><p>Role — doplníme</p></div>
+  </div>
+</div></section>
+
+<footer><div class="wrap" style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;padding:0">
+  <span>eldee — Holy Socks. No, just socks with holes.</span>
+  <span>HQ přehled · aktualizace 2026-06-04 · interní</span>
+</div></footer>
+
+</body>
+</html>

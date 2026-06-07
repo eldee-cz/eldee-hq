@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>eldee.cz — Vyhledávač fotbalových klubů</title>
+<link href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css" rel="stylesheet"/>
+<script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #0a0a0a; color: #f5f5f5; line-height: 1.5; }
+header { background: linear-gradient(135deg, #1a1a1a, #2a2a2a); padding: 20px; border-bottom: 2px solid #fff; }
+header h1 { font-size: 24px; margin-bottom: 5px; }
+header .sub { color: #888; font-size: 13px; }
+.container { max-width: 1400px; margin: 0 auto; padding: 16px; }
+.filters { background: #1a1a1a; padding: 16px; border-radius: 8px; margin-bottom: 16px; display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
+.filter-group { display: flex; flex-direction: column; gap: 6px; }
+.filter-group label { font-size: 11px; text-transform: uppercase; color: #888; letter-spacing: 0.5px; }
+.filter-group input, .filter-group select { background: #2a2a2a; color: #fff; border: 1px solid #444; padding: 8px 10px; border-radius: 4px; font-size: 14px; }
+.filter-group input:focus, .filter-group select:focus { outline: none; border-color: #fff; }
+.colors { display: flex; flex-wrap: wrap; gap: 4px; }
+.color-chip { padding: 4px 10px; border-radius: 12px; font-size: 12px; cursor: pointer; user-select: none; background: #2a2a2a; border: 1px solid #444; }
+.color-chip.active { background: #fff; color: #000; border-color: #fff; }
+.color-chip.bila.active { background: #fff; color: #000; }
+.color-chip.cerna.active { background: #000; color: #fff; border-color: #fff; }
+.color-chip.modra.active { background: #2563eb; color: #fff; }
+.color-chip.cervena.active { background: #dc2626; color: #fff; }
+.color-chip.zelena.active { background: #16a34a; color: #fff; }
+.color-chip.zluta.active { background: #eab308; color: #000; }
+.stats { background: #1a1a1a; padding: 12px 16px; border-radius: 8px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; font-size: 13px; }
+.stats .count { font-size: 16px; font-weight: bold; }
+.stats button { background: #fff; color: #000; border: none; padding: 8px 14px; border-radius: 4px; cursor: pointer; font-weight: 600; font-size: 12px; }
+.stats button:hover { background: #ddd; }
+.stats button.reset { background: #444; color: #fff; }
+.stats button.reset:hover { background: #555; }
+.table-wrap { overflow-x: auto; background: #1a1a1a; border-radius: 8px; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+thead { background: #2a2a2a; position: sticky; top: 0; }
+th { padding: 10px 8px; text-align: left; font-weight: 600; cursor: pointer; user-select: none; white-space: nowrap; border-bottom: 2px solid #444; }
+th:hover { background: #333; }
+th.sorted::after { content: ' ▼'; color: #fff; }
+th.sorted.asc::after { content: ' ▲'; }
+td { padding: 8px; border-bottom: 1px solid #2a2a2a; vertical-align: top; }
+tr:hover { background: #222; }
+.prio { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: bold; }
+.prio-P1 { background: #16a34a; color: #fff; }
+.prio-P2 { background: #eab308; color: #000; }
+.prio-P3 { background: #6b7280; color: #fff; }
+tr.incomplete { opacity: 0.55; }
+tr.incomplete td { font-style: italic; }
+.incomplete-badge { display: inline-block; margin-left: 4px; padding: 1px 5px; border-radius: 3px; background: #92400e; color: #fef3c7; font-size: 10px; font-weight: 700; }
+.toggle-incomplete { display: flex; align-items: center; gap: 6px; font-size: 12px; color: #ccc; cursor: pointer; user-select: none; }
+.toggle-incomplete input { width: 16px; height: 16px; cursor: pointer; }
+.star { cursor: pointer; font-size: 18px; color: #444; user-select: none; line-height: 1; transition: color 0.15s; }
+.star:hover { color: #888; }
+.star.active { color: #fbbf24; }
+.status-sel { background: #1a1a1a; color: #fff; border: 1px solid #333; padding: 3px 6px; border-radius: 3px; font-size: 11px; cursor: pointer; }
+.status-sel.s-osloven { background: #1e3a8a; color: #fff; border-color: #3b82f6; }
+.status-sel.s-odpovedel { background: #14532d; color: #fff; border-color: #22c55e; }
+.status-sel.s-vzorek { background: #713f12; color: #fff; border-color: #eab308; }
+.status-sel.s-objednavka { background: #14532d; color: #fff; border-color: #16a34a; font-weight: 700; }
+.status-sel.s-odmitl { background: #450a0a; color: #fff; border-color: #dc2626; }
+.note-input { width: 100%; background: #1a1a1a; color: #fff; border: 1px solid #333; padding: 4px 6px; border-radius: 3px; font-size: 11px; margin-top: 3px; }
+.note-input::placeholder { color: #555; }
+.crm-stats { display: inline-flex; gap: 10px; font-size: 12px; color: #888; margin-left: 12px; }
+.crm-stats span b { color: #fff; }
+.crm-actions { display: flex; gap: 6px; align-items: center; }
+.btn-small { background: #2a2a2a; color: #ccc; border: 1px solid #444; padding: 4px 8px; border-radius: 3px; font-size: 11px; cursor: pointer; }
+.btn-small:hover { background: #3a3a3a; color: #fff; }
+.btn-small.danger:hover { background: #7f1d1d; color: #fff; border-color: #dc2626; }
+.mail-btn { background: #fff; color: #000; border: none; padding: 4px 10px; border-radius: 3px; font-size: 11px; font-weight: 700; cursor: pointer; text-decoration: none; display: inline-block; margin-top: 4px; }
+.mail-btn:hover { background: #ddd; }
+.mail-btn.disabled { background: #333; color: #666; cursor: not-allowed; }
+.template-sel { background: #2a2a2a; color: #fff; border: 1px solid #444; padding: 6px 8px; border-radius: 4px; font-size: 12px; }
+.map-section { background: #0f0f0f; border-radius: 8px; padding: 16px; margin-bottom: 16px; position: relative; }
+.map-section h2 { font-size: 14px; color: #888; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+.map-section h2 .hint { font-size: 11px; color: #555; text-transform: none; letter-spacing: 0; font-weight: normal; }
+.map-wrap { position: relative; width: 100%; max-width: 900px; margin: 0 auto; }
+.cz-map { width: 100%; height: auto; display: block; background: radial-gradient(ellipse at center, #0d0d0d 0%, #050505 80%); border-radius: 6px; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.4)); }
+.kraj-region { fill: #1c1c1c; stroke: #3a3a3a; stroke-width: 1.2; cursor: pointer; transition: fill 0.15s, stroke 0.15s; }
+.kraj-region:hover { fill: #262626; stroke: #fff; stroke-width: 1.8; }
+.kraj-region.active { fill: #1e293b; stroke: #fbbf24; stroke-width: 2; }
+.kraj-region[data-kraj="PHA"] { fill: #2a2a3a; stroke: #555; }
+.kraj-region[data-kraj="PHA"]:hover { fill: #353550; stroke: #fff; }
+.kraj-label { fill: #666; font-size: 10px; font-weight: 700; pointer-events: none; user-select: none; text-anchor: middle; letter-spacing: 0.5px; }
+.kraj-count { fill: #999; font-size: 9px; pointer-events: none; user-select: none; text-anchor: middle; }
+.club-pin-group { cursor: pointer; transition: opacity 0.25s; }
+.club-pin-group circle { stroke: #888; stroke-width: 0.6; transition: stroke-width 0.12s, stroke 0.12s; }
+.club-pin-group path { stroke: #555; stroke-width: 0.3; }
+.club-pin-group:hover circle { stroke: #fff; stroke-width: 1.5; }
+.club-pin-group.fav circle { stroke: #ef4444; stroke-width: 1.2; }
+.club-pin-group.fav:hover circle { stroke: #fbbf24; stroke-width: 1.8; }
+.club-pin-group.p-P3 { opacity: 0.75; }
+.club-pin-group.p-P3:hover { opacity: 1; }
+.club-pin-group.dim { opacity: 0.08; pointer-events: none; }
+.club-pin-group.dim:hover { opacity: 0.08; }
+.cz-map.filtering .club-pin-group:not(.dim) circle { stroke: #fff; stroke-width: 1; filter: drop-shadow(0 0 2px rgba(255,255,255,0.9)); }
+
+/* MapLibre modal */
+.kraj-modal { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.92); z-index: 10000; display: none; flex-direction: column; }
+.kraj-modal.show { display: flex; }
+.kraj-modal-header { padding: 12px 20px; background: #0a0a0a; border-bottom: 1px solid #333; display: flex; justify-content: space-between; align-items: center; color: #fff; }
+.kraj-modal-header h3 { font-size: 16px; margin: 0; }
+.kraj-modal-header h3 small { color: #888; font-weight: normal; margin-left: 8px; font-size: 12px; }
+.kraj-modal-close { background: #fff; color: #000; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-weight: 700; }
+.kraj-modal-close:hover { background: #ddd; }
+.kraj-modal-body { flex: 1; position: relative; }
+.kraj-mapcanvas { width: 100%; height: 100%; }
+.kraj-modal-info { position: absolute; bottom: 12px; left: 12px; background: rgba(0,0,0,0.85); color: #fff; padding: 8px 14px; border-radius: 6px; font-size: 12px; z-index: 100; }
+.kraj-modal-info .leg { display: inline-flex; align-items: center; gap: 4px; margin-right: 12px; }
+.kraj-modal-info .legdot { width: 10px; height: 10px; border-radius: 50%; border: 1px solid #000; display: inline-block; }
+.maplibregl-popup-content { background: #1a1a1a !important; color: #fff !important; border-radius: 6px !important; padding: 10px 14px !important; min-width: 180px; }
+.maplibregl-popup-tip { border-top-color: #1a1a1a !important; border-bottom-color: #1a1a1a !important; }
+.maplibregl-popup-content strong { color: #fbbf24; }
+.maplibregl-popup-close-button { color: #fff !important; font-size: 18px !important; padding: 2px 8px !important; }
+.club-marker { width: 22px; height: 28px; cursor: pointer; transform-origin: center bottom; transition: transform 0.15s; }
+.club-marker:hover { transform: scale(1.25); z-index: 10; }
+.maplibregl-canvas { outline: none !important; }
+.map-tooltip { position: fixed; background: rgba(0,0,0,0.95); border: 1px solid #fff; padding: 6px 10px; border-radius: 4px; font-size: 12px; pointer-events: none; z-index: 1000; opacity: 0; transition: opacity 0.1s; max-width: 280px; color: #fff; }
+.map-tooltip.show { opacity: 1; }
+.map-tooltip strong { color: #fbbf24; }
+.map-legend { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; margin-top: 10px; font-size: 11px; color: #888; }
+.map-legend span { display: inline-flex; align-items: center; gap: 5px; }
+.map-legend .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; border: 1px solid #000; }
+.map-legend .dot.bw { background: linear-gradient(90deg, #fff 50%, #000 50%); }
+.map-legend .dot.bm { background: linear-gradient(90deg, #fff 50%, #2563eb 50%); }
+.map-legend .dot.rb { background: linear-gradient(90deg, #dc2626 50%, #fff 50%); }
+.map-legend .dot.fav { background: #ef4444; border-color: #fff; }
+.map-legend .small { font-size: 8px; }
+.map-legend .big { font-size: 13px; }
+@media (max-width: 768px) {
+  .map-section { padding: 10px; }
+  .kraj-label { font-size: 8px; }
+  .kraj-count { font-size: 7px; }
+}
+.kraj-tag { display: inline-block; padding: 1px 6px; border-radius: 3px; background: #333; font-size: 11px; color: #ccc; }
+.email, .tel { color: #888; font-size: 12px; }
+.email a, .tel a { color: #60a5fa; text-decoration: none; }
+.email a:hover, .tel a:hover { text-decoration: underline; }
+.empty { padding: 40px; text-align: center; color: #666; }
+@media (max-width: 768px) {
+  header h1 { font-size: 18px; }
+  .container { padding: 8px; }
+  table { font-size: 11px; }
+  td, th { padding: 6px 4px; }
+  th { font-size: 10px; }
+  .hide-mobile { display: none; }
+}
+footer { padding: 20px; text-align: center; color: #555; font-size: 12px; }
+</style>
+</head>
+<body>
+<header>
+<a href="index.html" style="color:#888;text-decoration:none;font-size:13px;font-weight:600">← HQ</a>
+<h1>⚽ Vyhledávač klubů — eldee.cz</h1>
+<div class="sub">B2B databáze neprofesionálních fotbalových klubů ČR s bílou nebo černou v dresech, s aktivní mládeží</div>
+</header>
+<div class="container">
+<div class="map-section">
+<h2>📍 Mapa ČR — kluby jako špendlíky <span class="hint">klikni na špendlík (klub) nebo na kraj pro filtr</span></h2>
+<div class="map-wrap">
+<svg id="cz-map" class="cz-map" viewBox="0 0 880 325" xmlns="http://www.w3.org/2000/svg"></svg>
+<div id="map-tooltip" class="map-tooltip"></div>
+</div>
+<div class="map-legend">
+<span style="color:#aaa">Špendlíky v barvách dresů klubu:</span>
+<span><span class="dot bw"></span> bílo-černá</span>
+<span><span class="dot bm"></span> bílo-modrá</span>
+<span><span class="dot rb"></span> červeno-bílá</span>
+<span>· velikost = priorita (<span class="big">●</span> P1 / <span>●</span> P2 / <span class="small">●</span> P3) ·</span>
+<span><span class="dot fav"></span> ⭐ oblíbený (bílý okraj)</span>
+</div>
+</div>
+<div class="filters">
+<div class="filter-group">
+<label>🔍 Hledej (klub, město)</label>
+<input type="text" id="search" placeholder="např. Sokol, Hradec...">
+</div>
+<div class="filter-group">
+<label>📍 Kraj</label>
+<select id="kraj"><option value="">Všechny kraje</option></select>
+</div>
+<div class="filter-group">
+<label>🏟️ Soutěž</label>
+<select id="soutez">
+<option value="">Všechny</option>
+<option value="krajska">Krajský přebor + I.A/I.B</option>
+<option value="okresni">Okresní přebor + nižší</option>
+</select>
+</div>
+<div class="filter-group">
+<label>⭐ Priorita</label>
+<select id="priorita">
+<option value="">Všechny</option>
+<option value="P1">P1 (top)</option>
+<option value="P2">P2 (solidní)</option>
+<option value="P3">P3 (k ověření)</option>
+</select>
+</div>
+<div class="filter-group">
+<label>📋 Můj CRM</label>
+<select id="crm">
+<option value="">Všechny</option>
+<option value="fav">⭐ Jen oblíbené</option>
+<option value="osloven">📨 Oslovené</option>
+<option value="odpovedel">💬 Odpověděli</option>
+<option value="vzorek">📦 Vzorek poslán</option>
+<option value="objednavka">✅ Objednávka</option>
+<option value="odmitl">❌ Odmítli</option>
+<option value="nezacal">⚪ Nezačal jsem</option>
+</select>
+</div>
+<div class="filter-group">
+<label>✉️ Mailová šablona (pro „Napsat")</label>
+<select id="template" class="template-sel">
+<option value="A">A) Drzý opener (Holy Socks)</option>
+<option value="B">B) Trenér trenérovi (autenticita)</option>
+<option value="C">C) Tajemně (curiosity gap)</option>
+<option value="D">D) B2B partnerství (formálně)</option>
+<option value="E">E) Cool oneliner (rychlý pitch)</option>
+</select>
+</div>
+<div class="filter-group" style="grid-column: 1/-1;">
+<label>🎨 Barvy dresů (klikni vícero — najde kluby s libovolnou z nich)</label>
+<div class="colors" id="colors">
+<span class="color-chip bila" data-color="bila">⚪ bílá</span>
+<span class="color-chip cerna" data-color="cerna">⚫ černá</span>
+<span class="color-chip modra" data-color="modra">🔵 modrá</span>
+<span class="color-chip cervena" data-color="cervena">🔴 červená</span>
+<span class="color-chip zelena" data-color="zelena">🟢 zelená</span>
+<span class="color-chip zluta" data-color="zluta">🟡 žlutá</span>
+</div>
+</div>
+</div>
+<div class="stats">
+<div>
+  <span class="count" id="count">0</span> klubů zobrazeno z <span id="total">0</span> · <span style="color:#888">neúplných: <span id="incomplete-count">0</span></span>
+  <div class="crm-stats" id="crm-stats" style="margin-top:4px;"></div>
+</div>
+<div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+<label class="toggle-incomplete"><input type="checkbox" id="hideIncomplete"> Skrýt neúplné</label>
+<button class="reset" onclick="resetFilters()">Reset</button>
+<button onclick="exportCSV()">📥 CSV</button>
+<button class="btn-small" onclick="exportCRM()" title="Záloha CRM dat (oblíbené, stavy)">💾 Záloha CRM</button>
+<button class="btn-small" onclick="importCRM()" title="Načti CRM data ze souboru">📂 Načíst</button>
+<button class="btn-small danger" onclick="clearCRM()" title="Smaž všechna CRM data">🗑️</button>
+</div>
+</div>
+<div class="table-wrap">
+<table>
+<thead>
+<tr>
+<th style="width:30px">⭐</th>
+<th data-sort="id">ID</th>
+<th data-sort="klub">Klub & status</th>
+<th data-sort="kraj" class="hide-mobile">Kraj</th>
+<th data-sort="okres" class="hide-mobile">Okres / Město</th>
+<th data-sort="soutez" class="hide-mobile">Soutěž</th>
+<th data-sort="mladez" class="hide-mobile">Mládež</th>
+<th data-sort="barvy">Barvy</th>
+<th class="hide-mobile">Kontakt</th>
+<th data-sort="priorita">Prio</th>
+</tr>
+</thead>
+<tbody id="tbody"></tbody>
+</table>
+<div class="empty" id="empty" style="display:none;">Žádné kluby neodpovídají filtrům.</div>
+</div>
+</div>
+<footer>eldee.cz — B2B databáze klubů v3 (krajské + okresní soutěže celé ČR). <strong>940+ klubů</strong>, sezóna 2025/26. <span style="color:#92400e">⚠ neúplné</span> = chybí buď kontakty, nebo barvy/mládež k ověření přes FB klubu.</footer>
+
+<div class="kraj-modal" id="krajModal">
+<div class="kraj-modal-header">
+<h3 id="krajModalTitle">Mapa kraje <small id="krajModalSub"></small></h3>
+<button class="kraj-modal-close" onclick="closeKrajModal()">✕ Zavřít</button>
+</div>
+<div class="kraj-modal-body">
+<div class="kraj-mapcanvas" id="krajMapCanvas"></div>
+<div class="kraj-modal-info">
+<span class="leg"><span class="legdot" style="background:#fff"></span> bílá</span>
+<span class="leg"><span class="legdot" style="background:#1a1a1a"></span> černá</span>
+<span class="leg"><span class="legdot" style="background:#2563eb"></span> modrá</span>
+<span class="leg"><span class="legdot" style="background:#dc2626"></span> červená</span>
+<span class="leg"><span class="legdot" style="background:#16a34a"></span> zelená</span>
+<span class="leg"><span class="legdot" style="background:#eab308"></span> žlutá</span>
+<br><span style="color:#888;font-size:11px">💡 Tilt/zoom: ⌘ + drag · Klik na špendlík = detail klubu</span>
+</div>
+</div>
+</div>
+<script>
+// ============ DATA LAYER ============
+// Data jsou v samostatném souboru `data/kluby-data.json`.
+// Konfigurace cesty + možnost přepsat odkud načítat (pro plug-in do firemní appky)
+const DATA_CONFIG = {
+  // Změň URL podle potřeby — local file, REST API, CDN...
+  url: "data/kluby-data.json",
+  // Fallback inline data pokud fetch selže (např. file:// CORS)
+  fallback: null
+};
+
+const KRAJE = {"KHK":"Královéhradecký","PHA":"Praha","STC":"Středočeský","JHC":"Jihočeský","PLK":"Plzeňský","KVK":"Karlovarský","ULK":"Ústecký","LBK":"Liberecký","PAK":"Pardubický","VYS":"Vysočina","JHM":"Jihomoravský","OLK":"Olomoucký","ZLK":"Zlínský","MSK":"Moravskoslezský"};
+
+let CLUBS = [];
+let DB_META = null;
+
+function enrichClub(obj) {
+  obj.krajFull = KRAJE[obj.kraj] || obj.kraj;
+  const b = (obj.barvy||"").toLowerCase();
+  obj._colors = [];
+  if (/(bíl|bilo|bíle|bily)/.test(b)) obj._colors.push("bila");
+  if (/(čern|cerno|cerne|cerný|cerný|černa)/.test(b)) obj._colors.push("cerna");
+  if (/(modr)/.test(b)) obj._colors.push("modra");
+  if (/(červ|cerve)/.test(b)) obj._colors.push("cervena");
+  if (/(zelen|zeleno|zelene)/.test(b)) obj._colors.push("zelena");
+  if (/(žlut|zlut|žluto|zluto)/.test(b)) obj._colors.push("zluta");
+  const s = (obj.soutez||"").toLowerCase();
+  obj._tier = /(op|okresn|2\.|3\.|iii|ii\.)/.test(s) ? "okresni" : "krajska";
+  const noBarvy = !obj.barvy || obj.barvy.toLowerCase().includes("ověřit") || obj.barvy.toLowerCase().includes("overit");
+  const noContact = !obj.email && !obj.telefon;
+  const noMladez = !obj.mladez || obj.mladez.toLowerCase().includes("ověřit");
+  obj._incomplete = (noBarvy && noContact) || (noBarvy && noMladez);
+  return obj;
+}
+
+// Populate kraj select
+const krajSel = document.getElementById("kraj");
+Object.entries(KRAJE).forEach(([k,v]) => {
+  const o = document.createElement("option");
+  o.value = k; o.textContent = v;
+  krajSel.appendChild(o);
+});
+
+// SVG mapa ČR — REÁLNÁ DATA z GeoJSON (siwekm/czech-geojson), zjednodušená Douglas-Peucker
+// viewBox 0 0 880 325, projekce lineární (lng/lat → x/y)
+const KRAJ_GEOMETRY = {
+  KVK: {path:"M63.7,149.6L65.6,150.9L72.6,147.9L77.0,151.1L75.8,149.0L80.9,148.4L79.6,146.6L91.2,144.7L108.9,147.3L113.9,144.3L113.0,140.2L118.3,139.9L130.8,132.5L148.6,137.5L148.2,130.6L156.3,129.2L154.9,124.3L157.5,124.1L153.8,120.4L147.9,119.6L155.1,119.3L152.7,116.6L155.6,115.2L145.8,109.0L151.5,107.3L147.3,105.9L148.6,101.6L144.1,100.7L148.7,98.5L146.9,96.4L149.1,93.4L145.4,90.1L133.2,92.2L130.3,91.0L132.4,88.7L131.0,87.4L114.9,86.5L94.7,77.3L93.6,81.1L91.6,78.7L83.7,80.9L80.2,85.5L75.8,82.9L54.8,85.5L51.9,91.6L40.0,95.3L40.2,98.9L34.1,102.9L34.9,105.6L31.3,105.6L31.4,114.8L25.8,114.1L23.9,111.5L26.4,108.3L19.4,105.1L22.8,104.6L21.2,101.9L14.4,101.6L12.2,95.2L1.8,95.3L6.4,101.0L0.0,104.3L7.9,106.4L9.0,109.6L13.9,111.2L16.3,115.2L13.6,118.4L14.3,122.9L24.0,127.1L22.2,129.5L29.5,130.1L30.6,132.8L44.3,136.7L44.3,139.1L51.9,139.4L50.4,145.4L63.7,149.6Z", label:[78,114], bbox:[0,77,158,74]},
+  ULK: {path:"M314.1,32.4L321.1,33.2L321.9,28.3L327.3,27.6L333.1,19.5L332.8,16.1L321.6,17.8L326.1,8.9L313.1,4.4L313.3,1.2L312.3,4.2L307.2,2.6L301.4,4.8L287.5,0.1L283.8,2.1L285.5,3.7L281.9,8.8L290.3,9.1L290.9,10.7L287.6,11.7L288.7,13.2L299.9,15.5L298.7,20.3L287.9,22.3L283.0,20.8L278.6,21.8L277.3,25.5L258.4,31.6L252.1,32.6L247.0,30.6L240.3,34.5L235.3,34.0L233.6,37.1L235.1,40.3L229.4,42.7L216.8,41.5L210.1,44.0L204.6,42.0L190.0,44.4L186.5,45.6L189.0,49.1L184.9,52.2L186.4,54.1L178.7,58.9L166.5,52.6L167.3,55.6L160.5,58.1L160.2,61.6L150.5,60.2L143.6,71.7L135.5,69.7L129.3,72.1L122.4,70.9L120.8,79.1L110.5,84.0L114.9,86.5L130.9,87.4L132.4,88.7L130.3,91.0L133.2,92.2L135.6,90.3L147.1,91.3L148.7,98.5L144.1,100.7L148.6,101.6L147.3,105.9L151.5,107.3L145.8,109.0L155.6,115.2L152.7,116.6L155.1,119.3L147.9,119.6L153.8,120.4L156.8,124.1L160.4,123.6L160.4,125.7L164.5,123.5L166.5,127.0L169.6,126.6L173.5,122.9L178.4,123.3L179.4,119.8L182.3,120.4L181.7,115.5L187.9,112.5L197.2,112.1L205.3,106.1L205.6,108.2L215.9,108.0L223.8,102.8L227.4,105.9L230.5,105.4L232.4,102.0L240.5,100.7L242.1,97.2L247.1,97.6L245.8,93.7L249.2,92.1L280.8,94.4L283.9,91.0L296.0,91.3L297.6,85.7L295.0,81.2L302.4,82.4L303.3,78.2L309.8,78.7L307.4,72.6L311.6,71.4L305.4,68.2L292.8,50.4L297.5,47.4L297.2,43.5L304.3,41.4L302.4,40.8L303.8,37.5L307.8,36.0L305.8,31.7L314.1,32.4Z", label:[222,64], bbox:[110,0,223,127]},
+  LBK: {path:"M314.1,32.4L305.8,31.7L307.8,36.0L303.8,37.5L302.4,40.8L304.3,41.4L297.2,43.5L297.5,47.4L292.8,50.5L305.4,68.2L309.8,68.9L313.4,73.2L314.6,70.9L319.4,72.7L323.4,70.7L324.9,75.5L338.2,74.7L342.6,69.5L346.3,69.7L345.8,64.8L355.7,67.2L360.0,64.8L358.4,62.8L366.4,60.9L364.6,58.9L367.5,58.3L366.8,56.7L374.1,60.2L378.8,58.6L383.4,63.6L390.6,65.1L391.0,67.6L407.2,72.9L412.8,68.8L426.1,72.8L427.6,71.0L429.0,74.6L433.9,74.5L437.3,72.0L435.0,69.3L440.7,67.9L440.4,66.0L448.0,70.4L460.5,69.2L452.5,61.6L456.5,57.3L451.7,54.3L454.2,52.3L451.3,48.5L452.2,40.5L448.4,38.7L447.8,35.9L435.4,32.0L426.8,36.0L426.0,28.3L414.3,21.4L413.1,16.0L416.3,13.4L413.9,9.9L409.0,7.4L401.6,9.4L400.6,4.6L395.0,8.5L386.2,4.3L376.4,5.8L374.1,8.5L381.1,11.5L376.9,17.4L379.1,19.3L378.5,24.3L356.1,23.7L351.3,30.6L342.2,30.3L340.4,27.9L328.7,25.7L322.0,28.3L321.1,33.2L314.1,32.4Z", label:[377,40], bbox:[293,4,168,71]},
+  KHK: {path:"M478.5,114.6L482.8,115.2L482.8,118.8L486.8,119.9L497.5,114.9L507.3,116.6L509.5,118.1L509.5,122.4L516.5,122.4L518.0,125.8L533.9,132.0L539.8,129.8L551.5,131.8L548.8,129.1L554.7,127.0L552.6,125.0L569.7,119.3L570.8,115.7L582.3,119.0L584.4,117.3L581.2,115.7L579.6,107.2L564.3,94.9L558.1,94.3L555.2,87.8L544.5,89.3L541.1,84.4L536.1,83.9L533.7,80.9L536.0,78.4L538.4,79.5L536.9,77.6L541.9,74.7L546.5,74.8L548.8,71.3L555.1,72.0L560.5,68.2L558.6,66.7L561.7,65.9L560.9,63.1L566.1,61.8L552.9,51.2L538.8,49.9L536.5,54.8L532.2,55.6L521.7,50.9L511.5,59.3L506.5,57.4L511.1,55.2L507.1,48.3L490.2,49.5L484.4,39.0L470.0,41.3L449.2,35.7L448.2,38.5L452.8,41.5L451.3,48.5L454.2,52.3L451.7,54.3L456.5,57.3L452.5,61.6L460.5,69.2L448.0,70.4L440.4,66.0L440.7,67.9L435.0,69.3L437.3,72.0L435.7,73.8L429.3,74.7L427.6,71.0L426.1,72.8L412.8,68.8L407.3,72.9L397.2,69.2L393.0,71.7L397.1,75.4L395.1,78.6L399.4,81.6L396.1,84.6L397.0,86.7L391.8,88.2L395.3,89.8L395.1,92.1L402.8,92.9L401.8,94.4L406.4,95.5L405.1,98.5L408.0,99.7L418.1,100.5L423.9,98.0L427.4,100.1L426.5,107.6L429.9,111.3L423.6,118.2L435.5,120.3L437.0,124.7L451.9,117.6L454.5,119.7L472.8,119.7L478.5,114.6Z", label:[488,84], bbox:[392,36,193,96]},
+  PAK: {path:"M478.5,114.6L467.9,120.7L454.5,119.7L452.4,117.5L439.3,124.1L432.1,123.0L430.1,124.6L433.9,125.6L430.8,125.9L431.9,128.8L427.1,129.8L430.6,131.0L425.4,131.7L439.2,136.1L438.2,138.7L447.4,142.0L445.3,144.7L447.9,146.5L443.0,150.3L442.9,155.1L455.1,161.8L464.3,160.8L474.3,165.7L479.8,165.5L479.0,168.7L490.5,170.2L488.6,173.6L497.7,177.9L503.0,177.1L502.2,175.7L509.5,171.0L510.4,173.5L518.0,174.4L521.6,178.1L526.4,177.1L539.8,181.2L545.6,186.4L553.5,187.2L561.1,192.6L564.9,189.1L578.5,190.3L580.5,184.9L598.8,185.5L610.0,189.5L615.1,185.9L612.8,181.6L618.2,178.5L618.5,173.9L610.8,172.2L614.0,169.7L611.2,168.3L612.4,166.5L604.0,159.0L604.7,154.7L608.3,153.3L600.8,137.1L605.6,137.7L613.5,133.0L614.7,131.2L612.1,128.0L615.4,125.9L612.9,122.9L620.8,114.1L620.3,110.9L613.9,112.2L610.1,118.1L599.9,124.5L570.8,115.7L569.7,119.3L552.6,125.0L554.7,127.0L548.8,129.1L551.2,131.8L539.8,129.8L533.7,132.0L518.0,125.8L516.5,122.4L509.5,122.4L509.5,118.1L507.3,116.6L497.5,114.9L486.8,119.9L482.8,118.8L482.8,115.2L478.5,114.6Z", label:[523,152], bbox:[425,111,196,82]},
+  OLK: {path:"M666.5,158.0L667.5,155.3L662.4,157.2L657.4,152.8L661.0,148.6L659.4,147.2L664.7,143.6L658.5,139.3L660.9,137.9L660.1,135.6L668.8,128.7L666.9,123.8L670.7,121.3L669.4,118.6L678.4,112.8L683.6,112.4L687.3,108.1L693.1,109.8L694.3,102.9L688.5,100.3L683.7,102.7L683.6,94.4L676.0,95.8L670.5,94.0L664.4,89.8L664.7,86.9L656.9,87.6L652.7,84.5L622.8,79.6L620.1,84.1L626.7,86.5L631.3,96.1L638.6,97.8L640.9,100.9L638.5,103.7L642.0,107.2L638.1,109.0L635.1,105.3L632.6,108.1L625.2,108.1L620.4,111.3L615.6,122.1L612.9,122.9L615.4,125.9L612.1,128.0L614.7,131.2L613.5,133.0L605.6,137.7L600.8,137.1L608.3,153.3L604.7,154.7L604.0,159.0L612.4,166.5L611.2,168.3L614.0,169.7L610.8,172.2L618.5,173.9L618.2,178.5L612.8,181.6L615.1,185.9L610.8,190.0L612.6,191.8L605.2,190.6L606.2,194.2L604.2,196.3L616.6,197.7L613.1,198.2L610.3,202.3L612.0,207.6L616.1,210.2L611.8,213.4L616.9,216.0L620.0,217.3L627.3,211.2L620.1,204.3L631.5,202.9L636.6,207.8L636.7,211.5L641.4,214.4L641.2,218.6L656.4,224.4L658.5,231.0L661.3,231.9L663.5,228.2L674.3,228.5L684.7,222.4L681.5,217.2L684.5,213.8L688.4,214.2L687.0,217.5L696.8,217.5L699.9,220.8L705.2,217.1L703.9,214.7L720.4,214.8L722.8,213.0L719.5,208.5L724.7,209.8L728.3,206.7L731.9,210.0L738.9,210.1L742.3,205.8L740.6,203.4L747.3,201.4L747.1,199.1L753.5,200.8L757.2,198.1L755.6,193.3L749.2,195.3L747.9,193.5L750.6,191.3L739.4,184.6L735.4,179.2L732.5,180.8L727.9,179.0L726.8,175.4L729.1,171.7L726.8,169.0L718.1,170.1L706.9,166.8L706.5,164.2L702.5,163.1L704.0,160.8L701.1,159.7L700.1,153.4L695.6,154.3L698.4,158.8L691.6,159.5L692.5,161.1L689.3,161.3L688.6,164.2L684.6,161.3L687.9,156.7L684.5,154.8L672.7,158.4L672.9,160.6L666.3,160.6L666.5,158.0Z", label:[679,156], bbox:[600,79,157,153]},
+  MSK: {path:"M666.5,158.0L666.3,160.6L672.9,160.6L672.7,158.4L684.5,154.8L687.9,156.7L684.6,161.3L688.6,164.2L689.3,161.3L692.5,161.1L691.6,159.5L698.4,158.8L695.6,154.3L700.1,153.4L701.1,159.7L704.0,160.8L702.5,163.1L714.5,169.5L726.8,169.0L729.1,171.7L727.4,178.4L732.5,180.8L734.3,178.6L739.4,184.6L747.3,188.1L750.9,192.0L747.9,193.7L750.4,196.1L755.6,193.3L756.6,196.6L764.8,197.0L768.0,201.5L784.7,199.3L794.7,203.4L807.4,203.2L810.0,208.2L816.0,210.7L815.9,214.2L820.8,215.3L830.1,213.8L839.5,206.1L837.8,203.2L840.2,201.5L856.4,200.9L866.4,203.4L878.9,199.7L877.1,198.9L879.8,197.0L872.9,178.7L864.6,179.0L860.5,175.4L849.6,173.1L850.1,169.9L842.3,159.2L847.0,155.0L842.3,153.5L842.8,147.2L838.4,146.7L839.4,148.8L836.4,150.1L824.3,145.1L811.6,143.6L813.8,146.2L809.6,148.0L804.6,144.8L804.2,141.6L796.1,140.7L795.1,137.3L788.3,139.3L783.4,137.7L779.9,131.3L772.7,128.5L768.8,132.0L774.1,132.3L774.2,136.4L768.9,134.6L757.7,139.9L751.2,140.6L745.7,137.8L745.9,135.6L739.3,134.4L733.3,124.4L728.9,121.8L722.8,122.6L715.3,116.3L736.9,110.2L737.7,106.3L732.5,103.7L736.1,98.2L728.3,94.6L727.5,98.2L718.5,102.4L697.6,102.0L694.1,104.0L693.1,109.8L687.3,108.1L683.6,112.4L678.4,112.8L669.4,118.6L670.7,121.3L666.9,123.8L668.8,128.7L658.5,139.2L664.7,143.6L659.4,147.2L661.0,148.6L657.3,152.5L662.4,157.2L667.5,155.3L666.5,158.0Z", label:[768,155], bbox:[657,94,223,121]},
+  PHA: {path:"M316.9,137.0L324.0,134.9L331.5,137.7L335.3,134.6L331.5,129.6L340.1,125.7L333.7,123.2L333.9,121.1L326.3,120.2L326.1,117.0L317.7,116.1L317.5,114.0L295.8,117.8L295.2,122.0L287.6,120.1L277.4,123.7L285.9,127.0L280.5,129.5L289.3,134.0L286.6,136.7L292.8,138.2L290.7,140.7L293.1,141.2L290.5,142.4L292.1,143.7L299.7,144.6L300.3,140.8L308.3,140.8L316.9,137.0Z", label:[308,129], bbox:[277,114,63,31]},
+  STC: {path:"M442.9,140.9L438.2,138.7L439.2,136.1L425.4,131.7L430.6,131.0L427.1,129.8L431.9,128.8L430.8,125.9L433.9,125.6L430.1,124.6L435.1,123.8L436.5,120.9L423.6,118.2L429.9,111.3L426.5,107.6L427.4,100.1L423.9,98.0L418.1,100.5L408.0,99.7L405.1,98.5L406.4,95.5L401.8,94.4L402.8,92.9L395.0,92.1L395.3,89.8L391.8,88.2L397.0,86.7L396.1,84.6L399.4,81.6L395.1,78.6L397.1,75.4L393.0,71.4L397.3,69.1L391.0,67.6L386.6,62.9L383.4,63.6L378.8,58.6L372.8,60.0L368.3,56.7L364.7,58.9L366.4,60.9L358.4,62.8L360.0,64.8L355.7,67.2L345.8,64.8L346.3,69.7L342.6,69.5L338.2,74.7L324.9,75.5L323.5,70.7L319.4,72.7L314.6,70.9L313.4,73.2L309.3,70.9L307.4,72.6L309.8,78.7L303.3,78.2L302.4,82.4L295.0,81.2L297.6,85.7L296.0,91.3L283.9,91.0L280.8,94.4L249.2,92.1L245.8,93.7L247.1,97.6L242.1,97.2L240.5,100.7L232.4,102.0L230.5,105.4L227.4,105.9L223.8,102.8L215.9,108.0L205.6,108.2L205.3,106.1L197.2,112.1L187.9,112.5L181.7,115.5L182.3,120.4L179.4,119.9L178.4,123.3L170.8,124.3L174.1,129.1L169.8,132.3L185.9,131.8L188.1,133.3L183.4,134.2L192.2,137.7L203.6,136.8L209.1,142.0L215.5,141.4L214.8,144.7L226.6,146.4L224.6,148.9L226.7,154.2L223.3,154.2L223.4,161.4L220.8,162.8L222.2,165.4L219.9,168.2L223.9,168.1L227.5,176.4L217.9,181.1L218.8,184.0L214.6,186.1L216.2,187.0L214.0,196.1L217.7,195.9L218.3,200.5L230.6,198.6L239.4,201.8L248.9,199.0L249.5,195.3L253.3,194.1L258.2,194.6L257.9,198.1L264.6,198.3L275.3,197.8L277.7,193.9L282.8,193.1L294.4,198.8L302.0,197.1L301.0,194.4L308.9,197.8L310.3,195.9L321.2,197.9L324.9,196.2L322.8,199.1L332.5,201.5L338.5,196.2L344.2,195.6L342.4,189.9L347.9,186.2L358.1,192.0L362.4,190.6L366.4,196.3L371.3,194.6L370.4,191.6L377.4,191.3L374.2,189.5L375.9,188.2L385.5,189.7L393.5,187.6L399.7,190.4L400.5,187.1L410.8,185.0L408.8,180.5L401.6,179.0L401.9,174.7L406.5,172.6L407.5,168.6L423.3,167.0L427.9,163.0L433.5,164.0L435.3,162.4L432.4,159.4L442.2,156.5L443.0,150.3L447.9,146.5L445.3,144.7L447.4,142.0L442.9,140.9Z", label:[375,170], bbox:[170,57,278,145]},
+  PLK: {path:"M63.7,149.6L59.8,149.3L53.0,155.6L53.0,158.1L50.1,158.1L49.7,164.8L40.3,169.0L45.7,175.5L56.1,177.7L56.9,186.6L61.1,186.4L64.7,196.9L72.0,198.9L70.6,205.0L73.5,210.4L86.7,215.6L90.4,222.0L114.7,223.5L122.0,227.3L122.7,232.6L140.5,244.3L142.0,249.4L148.9,252.1L155.8,251.4L169.8,260.1L170.6,268.5L182.7,274.4L184.2,270.8L189.9,271.0L187.9,268.7L188.9,264.5L197.2,258.5L193.6,253.3L196.0,252.7L194.8,247.8L200.1,249.2L208.5,245.6L208.2,242.5L211.8,241.5L207.8,237.2L213.6,233.5L210.3,233.4L209.0,230.7L213.3,230.5L212.1,226.5L218.4,224.8L221.0,219.6L216.9,215.0L221.0,210.4L217.6,208.1L218.2,204.2L215.5,203.6L218.7,197.3L214.0,196.1L216.2,187.0L214.6,186.1L218.8,184.0L217.5,181.9L220.6,178.4L227.5,176.5L223.9,168.1L219.9,168.2L222.2,165.4L220.8,162.8L223.4,161.4L223.3,154.2L226.7,154.2L224.6,148.9L226.6,146.4L214.8,144.7L215.5,141.4L209.1,142.0L203.6,136.8L192.2,137.7L183.4,134.2L188.1,133.3L185.9,131.8L170.2,132.9L173.9,127.4L170.9,125.3L166.5,127.0L164.5,123.5L161.6,125.8L160.4,123.6L154.9,124.1L154.2,127.1L157.1,127.9L148.2,130.6L148.4,137.6L130.8,132.5L118.3,139.9L113.0,140.2L113.9,144.3L108.9,147.3L91.2,144.7L79.6,146.6L80.9,148.4L75.8,149.0L77.0,151.1L72.6,147.9L65.6,150.9L63.7,149.6Z", label:[134,199], bbox:[40,124,187,151]},
+  JHC: {path:"M368.6,204.2L368.6,201.6L365.4,200.0L370.9,198.8L369.5,195.6L365.6,196.2L362.4,190.6L358.1,192.0L348.0,186.2L342.4,189.9L344.2,195.6L338.5,196.2L332.5,201.5L322.8,199.1L324.9,196.2L321.2,197.9L310.3,195.9L308.9,197.8L301.0,194.4L302.0,197.1L294.4,198.8L282.8,193.1L277.7,193.9L275.3,197.8L264.6,198.3L257.9,198.1L258.2,194.6L253.3,194.1L249.5,195.3L248.9,199.0L239.4,201.8L230.9,198.6L227.7,200.5L225.0,198.4L216.7,200.3L215.5,203.6L218.2,204.2L217.6,208.1L221.0,210.4L216.9,215.0L221.1,219.0L218.4,224.8L212.1,226.5L213.3,230.5L209.0,230.7L210.3,233.4L213.6,233.5L207.8,237.2L211.8,241.5L208.2,242.5L207.9,246.1L200.1,249.2L194.8,247.8L196.0,252.7L193.6,253.3L197.2,258.5L190.6,261.9L187.9,268.7L197.6,274.8L200.2,273.6L205.5,282.4L214.2,281.6L217.6,288.3L221.3,288.9L224.2,293.2L224.0,296.2L232.1,297.1L256.0,309.2L255.2,311.9L249.6,313.6L254.5,315.2L253.7,317.1L257.0,319.4L283.5,321.2L291.6,325.0L294.7,322.0L298.7,322.4L298.5,319.7L304.3,320.2L307.5,315.5L305.9,313.1L309.3,312.5L313.7,316.5L321.3,318.3L327.6,315.1L334.5,321.1L339.5,321.0L342.0,318.4L340.9,312.2L342.8,307.4L353.3,301.4L353.4,295.5L372.5,298.2L375.6,296.4L372.2,293.4L376.2,287.3L374.7,283.1L377.3,279.3L375.2,270.6L377.7,264.9L398.6,267.7L399.1,274.4L412.3,272.8L414.5,267.5L439.2,273.1L448.8,278.8L454.6,273.7L453.7,271.3L446.3,269.9L446.9,267.5L441.6,267.2L447.6,263.5L446.5,262.0L449.2,261.3L450.2,256.8L456.0,256.9L455.0,253.3L449.7,251.9L452.0,250.1L439.2,251.3L435.6,249.6L433.4,251.6L422.1,245.2L422.7,238.5L411.2,240.0L403.2,236.1L399.9,238.8L396.4,238.1L394.3,234.7L388.0,234.1L391.4,234.5L391.7,231.8L386.3,231.5L382.1,228.3L375.5,230.8L368.4,226.5L365.8,223.6L369.5,220.6L363.7,218.0L368.6,204.2Z", label:[322,256], bbox:[188,186,268,139]},
+  VYS: {path:"M368.6,204.2L363.7,218.0L369.5,220.6L365.8,223.6L368.4,226.5L375.5,230.8L382.1,228.3L386.3,231.5L391.7,231.8L391.4,234.5L388.0,234.1L394.3,234.7L396.4,238.1L399.9,238.8L403.2,236.1L411.2,240.0L422.7,238.5L422.1,245.2L433.4,251.6L435.6,249.6L439.2,251.3L452.0,250.1L449.7,251.9L455.0,253.3L456.0,256.9L450.2,256.8L449.2,261.3L446.5,262.0L447.6,263.5L441.6,267.2L446.9,267.5L446.3,269.9L462.2,274.9L464.9,271.3L470.1,271.0L473.2,273.7L476.8,269.3L481.2,268.9L484.7,265.4L492.0,265.7L493.2,261.7L497.5,263.1L499.4,260.2L503.2,259.4L507.9,263.2L512.6,260.7L519.5,262.8L527.3,260.6L525.0,259.3L526.3,257.9L535.7,257.5L536.9,254.2L541.5,253.0L534.7,248.9L538.6,249.2L540.3,247.9L538.5,244.2L544.1,242.9L538.8,237.6L541.3,233.9L545.8,233.5L541.5,230.1L546.5,226.3L539.5,224.5L543.8,223.7L536.9,221.3L539.1,217.9L537.9,215.7L542.0,214.2L543.0,211.2L551.1,210.8L550.6,208.4L546.2,208.8L549.2,206.4L557.5,208.2L558.9,205.0L554.4,201.6L558.3,202.9L562.7,198.7L556.7,195.3L559.5,192.0L556.4,188.7L545.6,186.4L533.5,178.8L521.6,178.1L508.6,170.9L502.2,175.7L503.0,177.1L497.6,177.9L488.6,173.6L490.5,170.2L479.0,168.7L479.9,165.5L474.3,165.7L464.3,160.8L455.3,161.9L442.9,155.0L432.4,159.4L435.3,162.4L433.5,164.0L427.9,163.0L423.3,167.0L407.5,168.6L406.5,172.6L401.3,176.4L402.3,180.2L408.8,180.5L410.7,183.3L408.2,187.0L402.2,186.5L399.7,190.4L393.5,187.6L385.5,189.7L375.0,188.5L377.4,191.3L370.4,191.6L371.3,194.6L368.9,196.3L371.1,198.5L365.5,199.8L368.6,204.2Z", label:[463,215], bbox:[364,155,199,120]},
+  JHM: {path:"M507.2,262.8L503.2,259.4L497.5,263.1L493.2,261.7L492.0,265.7L484.7,265.4L473.2,273.7L470.1,271.0L464.1,271.4L462.2,274.9L454.7,272.6L448.8,278.8L458.1,280.1L468.0,285.6L476.2,286.0L479.6,283.1L487.7,282.8L487.8,285.0L495.0,286.5L494.4,288.3L502.9,289.8L501.7,292.1L507.5,295.5L521.6,299.9L551.2,301.7L552.8,299.8L557.4,302.1L564.8,297.2L568.1,291.6L575.7,293.0L578.6,290.9L585.4,295.0L594.6,295.3L597.0,302.2L602.5,300.8L612.3,305.0L625.5,303.4L628.3,309.7L627.7,315.8L630.5,316.6L643.9,297.4L649.8,294.7L652.7,288.7L664.3,282.7L680.1,286.9L685.3,291.0L689.9,291.1L697.2,286.7L707.0,291.2L722.4,285.7L716.6,278.5L708.2,276.8L709.5,273.6L703.1,271.2L694.7,273.3L689.8,269.4L684.0,269.5L685.5,266.2L681.9,264.8L667.1,262.6L668.4,258.5L666.0,254.8L652.5,256.8L653.0,253.4L662.7,248.9L664.6,244.0L657.4,244.1L659.7,242.2L655.2,235.0L659.3,230.8L656.6,224.6L642.9,220.2L644.9,219.4L641.2,218.6L641.4,214.4L636.7,211.5L636.6,207.8L631.3,202.8L619.9,204.6L627.3,211.1L620.0,217.3L611.8,213.4L616.1,210.2L612.0,207.6L610.7,200.7L616.6,197.7L604.2,196.3L606.2,194.2L605.2,190.6L611.4,192.3L610.8,190.0L612.9,189.2L598.8,185.5L580.5,184.9L578.5,190.3L564.9,189.1L561.1,192.6L559.2,191.5L556.7,195.3L562.7,198.7L558.3,202.9L554.4,201.6L558.9,205.0L557.5,208.2L549.2,206.4L546.2,208.8L550.6,208.4L551.1,210.8L543.0,211.2L542.0,214.2L537.9,215.7L539.1,217.9L536.9,221.3L543.8,223.7L539.5,224.5L546.5,226.3L541.5,230.1L545.8,233.5L541.3,233.9L538.8,237.6L544.1,242.9L538.5,244.2L540.3,247.9L538.6,249.2L534.7,248.9L541.4,253.2L536.9,254.2L535.7,257.5L526.1,258.0L527.3,260.6L523.5,262.1L512.6,260.7L511.1,263.0L507.2,262.8Z", label:[586,251], bbox:[449,185,274,132]},
+  ZLK: {path:"M660.6,256.1L666.0,254.8L668.4,258.5L667.1,262.5L685.3,266.1L684.7,269.8L689.8,269.4L694.7,273.3L703.1,271.2L709.5,273.6L708.2,276.8L716.6,278.5L722.4,285.7L729.7,285.0L739.9,276.5L753.4,276.2L758.4,264.2L771.5,264.1L779.0,260.8L783.3,255.1L782.2,249.4L786.1,245.9L787.4,234.6L792.2,229.6L815.8,224.7L822.3,219.1L820.8,215.3L815.9,214.2L815.9,210.6L808.2,206.5L807.4,203.2L794.7,203.4L784.7,199.3L768.0,201.5L762.7,196.8L757.5,197.0L753.5,200.8L747.9,198.8L747.3,201.4L740.6,203.4L742.3,205.8L739.0,210.0L731.9,210.0L728.3,206.7L724.7,209.8L719.5,208.5L722.8,213.0L720.4,214.8L703.9,214.7L705.2,217.1L699.9,220.8L696.8,217.5L687.0,217.5L688.4,214.2L684.4,213.8L681.5,217.2L684.7,222.4L674.3,228.5L663.5,228.2L655.3,234.7L657.5,236.9L655.9,238.9L659.7,242.2L657.4,244.1L664.6,244.0L662.7,248.9L653.0,253.4L652.5,256.8L660.6,256.1Z", label:[737,241], bbox:[653,197,170,89]}
+};
+
+function clubPos(id, kraj) {
+  const geom = KRAJ_GEOMETRY[kraj];
+  if (!geom) return [400, 200];
+  let h = 5381;
+  for (let i = 0; i < id.length; i++) h = ((h << 5) + h + id.charCodeAt(i)) | 0;
+  const px = (Math.abs(h) % 10000) / 10000;
+  const py = (Math.abs(h >> 9) % 10000) / 10000;
+  // 12% margin from bbox edges
+  const x = geom.bbox[0] + (0.12 + px * 0.76) * geom.bbox[2];
+  const y = geom.bbox[1] + (0.12 + py * 0.76) * geom.bbox[3];
+  return [x, y];
+}
+
+// Parsování barev dresů z textu → pole HEX kódů
+const COLOR_TOKENS = [
+  ["bíl", "#ffffff"],
+  ["čern", "#1a1a1a"],
+  ["modr", "#2563eb"],
+  ["červ", "#dc2626"],
+  ["zelen", "#16a34a"],
+  ["žlut", "#eab308"],
+  ["oranž", "#f97316"],
+  ["fial", "#9333ea"],
+  ["růžov", "#ec4899"],
+  ["šed", "#6b7280"],
+  ["hněd", "#92400e"]
+];
+function parsePinColors(barvyStr) {
+  if (!barvyStr || /(ověřit|overit|nezjištěno|nezjisteno)/i.test(barvyStr)) {
+    return ["#555555"]; // neznámé barvy → tmavá šedá
+  }
+  const s = barvyStr.toLowerCase();
+  const found = [];
+  const positions = []; // (pozice v textu, hex) — pro zachování pořadí
+  for (const [tok, hex] of COLOR_TOKENS) {
+    const idx = s.indexOf(tok);
+    if (idx >= 0 && !found.includes(hex)) {
+      positions.push([idx, hex]);
+      found.push(hex);
+    }
+  }
+  positions.sort((a, b) => a[0] - b[0]);
+  return positions.length > 0 ? positions.map(p => p[1]) : ["#555555"];
+}
+
+// Předpočítání barev je v bootApp() po načtení CLUBS
+
+// Render dvoubarevného špendlíku jako SVG path (dva půlkruhy)
+function renderPin(x, y, colors, r) {
+  if (colors.length === 1) {
+    return `<circle cx="${x}" cy="${y}" r="${r}" fill="${colors[0]}"/>`;
+  }
+  // Dva půlkruhy (levá + pravá půlka) — vnější circle dělá stroke pro viditelnost
+  const c1 = colors[0], c2 = colors[1];
+  const top = `${x},${(y-r).toFixed(2)}`;
+  const bot = `${x},${(y+r).toFixed(2)}`;
+  return `<circle cx="${x}" cy="${y}" r="${r}" fill="${c1}"/>` +
+         `<path d="M ${top} A ${r},${r} 0 0,1 ${bot} Z" fill="${c2}"/>`;
+}
+
+function renderMap() {
+  const svg = document.getElementById("cz-map");
+  const counts = {};
+  CLUBS.forEach(c => { counts[c.kraj] = (counts[c.kraj]||0) + 1; });
+  const activeKraj = document.getElementById("kraj").value;
+
+  let h = '';
+  // Definice — drop shadow for depth
+  h += `<defs><filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="2" stdDeviation="2" flood-opacity="0.4"/></filter></defs>`;
+  // 1. Regions — kreslíme v pořadí "od pozadí dopředu" (PHA naposled aby byla nad STC)
+  const drawOrder = ["KVK","ULK","LBK","KHK","STC","PLK","JHC","VYS","PAK","OLK","MSK","JHM","ZLK","PHA"];
+  drawOrder.forEach(k => {
+    const g = KRAJ_GEOMETRY[k];
+    if (!g) return;
+    const act = activeKraj === k ? ' active' : '';
+    h += `<path class="kraj-region${act}" data-kraj="${k}" d="${g.path}"/>`;
+  });
+  // 2. Pins — barva podle klubových barev dresů, velikost podle priority
+  // Dim ty, které nematchují aktuální filtry. Render dim PRVNÍ (pozadí), pak highlighted (popředí)
+  const filteredIds = new Set(filtered().map(c => c.id));
+  const anyFilter = filteredIds.size < CLUBS.length;
+  svg.classList.toggle("filtering", anyFilter);
+
+  function pinSize(c, cr, highlighted) {
+    let r = c.priorita === "P1" ? 3.0 : c.priorita === "P2" ? 2.4 : 1.8;
+    if (cr.fav) r = Math.max(r, 3.6);
+    if (highlighted && anyFilter) r += 1.2; // zvětš highlighted ve filtru
+    return r;
+  }
+  function renderClubPin(c) {
+    const [x, y] = clubPos(c.id, c.kraj);
+    const cr = getCRM(c.id);
+    const isDim = anyFilter && !filteredIds.has(c.id);
+    const cls = `club-pin-group p-${c.priorita}${cr.fav ? ' fav' : ''}${isDim ? ' dim' : ''}`;
+    const r = pinSize(c, cr, !isDim);
+    return `<g class="${cls}" data-id="${c.id}">${renderPin(x, y, c._pinColors, r)}</g>`;
+  }
+  // Nejdřív dim, pak highlighted — z-order zajistí že matching jsou nahoře
+  if (anyFilter) {
+    CLUBS.filter(c => !filteredIds.has(c.id)).forEach(c => { h += renderClubPin(c); });
+    CLUBS.filter(c => filteredIds.has(c.id)).forEach(c => { h += renderClubPin(c); });
+  } else {
+    CLUBS.forEach(c => { h += renderClubPin(c); });
+  }
+  // 3. Labels (on top)
+  Object.entries(KRAJ_GEOMETRY).forEach(([k, g]) => {
+    const cnt = counts[k]||0;
+    h += `<text class="kraj-label" x="${g.label[0]}" y="${g.label[1]}">${k}</text>`;
+    h += `<text class="kraj-count" x="${g.label[0]}" y="${g.label[1]+12}">${cnt} klubů</text>`;
+  });
+  svg.innerHTML = h;
+}
+
+// Hover tooltip + click handlers
+const mapEl = document.getElementById("cz-map");
+const tooltip = document.getElementById("map-tooltip");
+
+mapEl.addEventListener("mouseover", e => {
+  const t = e.target;
+  // Pin může být circle nebo path uvnitř .club-pin-group
+  const pinG = t.closest && t.closest(".club-pin-group");
+  if (pinG) {
+    const c = CLUBS.find(x => x.id === pinG.dataset.id);
+    if (!c) return;
+    const cr = getCRM(c.id);
+    const statusTxt = cr.status && cr.status !== "nezacal" ? `<br><span style="color:#60a5fa">${STATUS_LABELS[cr.status]}</span>` : '';
+    const favTxt = cr.fav ? ' ⭐' : '';
+    const colorSwatch = c._pinColors.map(col => `<span style="display:inline-block;width:8px;height:8px;background:${col};border:1px solid #444;border-radius:50%;margin-right:2px;"></span>`).join('');
+    tooltip.innerHTML = `<strong>${c.klub}${favTxt}</strong><br>${c.krajFull} · ${c.okres}<br>${colorSwatch} <span style="color:#aaa">${c.barvy}</span><br>${c.priorita}${statusTxt}`;
+    tooltip.classList.add("show");
+  } else if (t.classList.contains("kraj-region")) {
+    const k = t.dataset.kraj;
+    tooltip.innerHTML = `<strong>${KRAJE[k]}</strong><br>${counts2(k)} klubů (z toho ${p1count(k)} P1)`;
+    tooltip.classList.add("show");
+  }
+});
+mapEl.addEventListener("mousemove", e => {
+  tooltip.style.left = (e.clientX + 14) + "px";
+  tooltip.style.top = (e.clientY + 14) + "px";
+});
+mapEl.addEventListener("mouseout", () => tooltip.classList.remove("show"));
+
+mapEl.addEventListener("click", e => {
+  const t = e.target;
+  const pinG = t.closest && t.closest(".club-pin-group");
+  if (pinG) {
+    const id = pinG.dataset.id;
+    document.getElementById("search").value = id;
+    document.getElementById("kraj").value = "";
+    render();
+    setTimeout(() => {
+      const row = document.querySelector(`#tbody tr`);
+      if (row) row.scrollIntoView({behavior: "smooth", block: "center"});
+    }, 100);
+  } else if (t.classList.contains("kraj-region")) {
+    const k = t.dataset.kraj;
+    const sel = document.getElementById("kraj");
+    sel.value = (sel.value === k) ? "" : k;
+    sel.dispatchEvent(new Event("change"));
+    render();
+  }
+});
+
+function counts2(k) { return CLUBS.filter(c => c.kraj === k).length; }
+function p1count(k) { return CLUBS.filter(c => c.kraj === k && c.priorita === "P1").length; }
+
+let activeColors = new Set();
+let sortKey = null, sortAsc = true;
+
+// CRM v localStorage
+const CRM_KEY = "eldee-crm-v1";
+let CRM = {};
+try { CRM = JSON.parse(localStorage.getItem(CRM_KEY) || "{}"); } catch(e) { CRM = {}; }
+function saveCRM() { localStorage.setItem(CRM_KEY, JSON.stringify(CRM)); }
+function getCRM(id) { return CRM[id] || {fav: false, status: "nezacal", note: ""}; }
+function setCRM(id, patch) {
+  CRM[id] = Object.assign(getCRM(id), patch, {updated: Date.now()});
+  if (!CRM[id].fav && CRM[id].status === "nezacal" && !CRM[id].note) delete CRM[id];
+  saveCRM();
+}
+const STATUS_LABELS = {
+  nezacal: "⚪ nezačal",
+  osloven: "📨 oslovený",
+  odpovedel: "💬 odpověděl",
+  vzorek: "📦 vzorek poslán",
+  objednavka: "✅ objednávka",
+  odmitl: "❌ odmítl"
+};
+
+// Mailové šablony — tón „nabízíme něco, co ještě nevíte že potřebujete, ale vaši hráči po tom tajně touží"
+const TEMPLATES = {
+  A: {
+    subject: c => `Vaši hráči si stejně už řežou díry do štulpen`,
+    body: c => `Dobrý den ${c.klub},
+
+všiml jsem si, že hrajete v ${c.barvy}. Tip z fotbalového zákulisí: 8 z 10 dorostenců si tajně řeže díry do štulpen — aby to vypadalo, jak má. My to děláme líp.
+
+Estetika, kvalita, žádné odřeniny. Vyrábíme štulpny eldee — se sofistikovanými oválnými dírami na lýtku (chráněný průmyslový vzor) + vnitřní kapsou na chránič.
+
+Pošlu vám vzorek zdarma. Stačí mi napsat velikost.
+
+Lukáš Hledík
+eldee.cz — fotbalové štulpny, jak je vaši kluci sami chtějí
+trenér U19`
+  },
+  B: {
+    subject: c => `Otázka od kolegy trenéra ohledně vybavení`,
+    body: c => `Ahoj,
+
+jsem Lukáš, trénuju dorost (2. nejvyšší úroveň). Kromě tréninků jsem zakladatel značky štulpen, které bych sám chtěl pro své kluky.
+
+Hlavní featura: sofistikované oválné díry pod lýtkem (chráněný design — žádné amatérské stříhání nůžkami) + vnitřní kapsa na chránič. Hráči to milují, my dospělí to z venku ani nepoznáme.
+
+U vás v ${c.klub} (${c.kraj}) — ${c.barvy} — by to mohlo perfektně sednout.
+
+Pošlu vzorek zdarma vašemu dorostu/žákům. Stačí říct velikost. Pak ať si o tom kluci řeknou sami.
+
+Lukáš
+eldee.cz`
+  },
+  C: {
+    subject: c => `Vaše U15/U17 vám to ještě neřekli...`,
+    body: c => `Dobrý den ${c.klub},
+
+rychlá zpráva: existuje malá věc, kterou si vaši mladí hráči mezi sebou už šeptají, ale vy o ní možná nevíte.
+
+Týká se to štulpen. Konkrétně toho, jak vypadají PO zápase, když si je doma upraví.
+
+Vyrobili jsme štulpny, které tu úpravu už mají z výroby — estetické oválné díry na lýtku, navíc vnitřní kapsa na chránič. Český výrobek, chráněné průmyslové vzory.
+
+Vaše ${c.barvy} máme připravené. Pošlu vzorek zdarma — pak se zeptejte vašich kluků.
+
+Lukáš Hledík
+eldee.cz`
+  },
+  D: {
+    subject: c => `Nabídka spolupráce — štulpny pro mládež ${c.klub}`,
+    body: c => `Vážený ${c.klub}, dobrý den,
+
+spouštíme českou značku fotbalových štulpen eldee.cz se dvěma chráněnými průmyslovými vzory:
+1) sofistikované oválné díry na lýtku (alternativa k amatérskému stříhání)
+2) vnitřní kapsa na chránič
+
+Hledáme kluby pro pilotní spolupráci v sezóně 2026/27.
+
+Co nabízíme:
+• Štulpny v klubových barvách za nákupní cenu
+• 10 % z obratu vrácené klubu
+• Vzorek zdarma pro otestování dorostem/žáky
+
+Vaše kombinace ${c.barvy} nám sedí pro první sérii. Mohli bychom navázat?
+
+S pozdravem
+Lukáš Hledík
+eldee.cz`
+  },
+  E: {
+    subject: c => `Štulpny, které vaši kluci stejně chtějí`,
+    body: c => `Krátká nabídka pro ${c.klub}:
+
+Vyrobili jsme štulpny, které mladí stejně chtějí — díry na lýtku, jak je sami stříhají doma, jen z fabriky. Plus tajná kapsa na chránič uvnitř.
+
+Klubové barvy (${c.barvy}) máme. Pošlu vzorek zdarma.
+
+Lukáš, eldee.cz`
+  }
+};
+function generateMailto(c) {
+  const tplKey = document.getElementById("template").value;
+  const tpl = TEMPLATES[tplKey];
+  const subject = encodeURIComponent(tpl.subject(c));
+  const body = encodeURIComponent(tpl.body(c));
+  const to = c.email || "";
+  return `mailto:${to}?subject=${subject}&body=${body}`;
+}
+
+function refreshAll() { render(); renderMap(); }
+
+document.querySelectorAll(".color-chip").forEach(chip => {
+  chip.addEventListener("click", () => {
+    const c = chip.dataset.color;
+    if (activeColors.has(c)) { activeColors.delete(c); chip.classList.remove("active"); }
+    else { activeColors.add(c); chip.classList.add("active"); }
+    refreshAll();
+  });
+});
+
+document.querySelectorAll("th[data-sort]").forEach(th => {
+  th.addEventListener("click", () => {
+    const key = th.dataset.sort;
+    if (sortKey === key) sortAsc = !sortAsc;
+    else { sortKey = key; sortAsc = true; }
+    document.querySelectorAll("th").forEach(t => t.classList.remove("sorted","asc"));
+    th.classList.add("sorted");
+    if (sortAsc) th.classList.add("asc");
+    render();
+  });
+});
+
+["search","kraj","soutez","priorita","crm"].forEach(id => {
+  document.getElementById(id).addEventListener("input", refreshAll);
+  document.getElementById(id).addEventListener("change", refreshAll);
+});
+document.getElementById("kraj").addEventListener("change", () => {
+  const v = document.getElementById("kraj").value;
+  document.querySelectorAll(".kraj-region").forEach(r => {
+    r.classList.toggle("active", r.dataset.kraj === v);
+  });
+});
+document.getElementById("hideIncomplete").addEventListener("change", refreshAll);
+
+// CRM event delegation
+document.getElementById("tbody").addEventListener("click", e => {
+  const t = e.target;
+  if (t.classList.contains("star")) {
+    const id = t.dataset.id;
+    const cr = getCRM(id);
+    setCRM(id, {fav: !cr.fav});
+    t.classList.toggle("active");
+    t.textContent = cr.fav ? "☆" : "★";
+    updateCRMStats();
+    renderMap();
+  } else if (t.dataset.act === "mailto") {
+    const id = t.dataset.id;
+    const cr = getCRM(id);
+    if (cr.status === "nezacal" || !cr.status) {
+      setCRM(id, {status: "osloven"});
+      setTimeout(() => { render(); renderMap(); }, 100);
+    }
+  }
+});
+document.getElementById("template").addEventListener("change", render);
+document.getElementById("tbody").addEventListener("change", e => {
+  if (e.target.dataset.act === "status") {
+    const id = e.target.dataset.id;
+    const v = e.target.value;
+    setCRM(id, {status: v});
+    e.target.className = "status-sel" + (v !== "nezacal" ? " s-" + v : "");
+    updateCRMStats();
+    renderMap();
+  }
+});
+document.getElementById("tbody").addEventListener("input", e => {
+  if (e.target.dataset.act === "note") {
+    const id = e.target.dataset.id;
+    setCRM(id, {note: e.target.value});
+    clearTimeout(window._noteUpdT);
+    window._noteUpdT = setTimeout(updateCRMStats, 300);
+  }
+});
+
+function updateCRMStats() {
+  const ids = Object.keys(CRM);
+  let f = 0, o = 0, r = 0, v = 0, ob = 0, od = 0;
+  ids.forEach(id => {
+    const cr = CRM[id];
+    if (cr.fav) f++;
+    if (cr.status === "osloven") o++;
+    else if (cr.status === "odpovedel") r++;
+    else if (cr.status === "vzorek") v++;
+    else if (cr.status === "objednavka") ob++;
+    else if (cr.status === "odmitl") od++;
+  });
+  const el = document.getElementById("crm-stats");
+  if (el) el.innerHTML = `<span>⭐ <b>${f}</b></span><span>📨 <b>${o}</b></span><span>💬 <b>${r}</b></span><span>📦 <b>${v}</b></span><span>✅ <b>${ob}</b></span><span>❌ <b>${od}</b></span>`;
+}
+
+function exportCRM() {
+  const blob = new Blob([JSON.stringify(CRM, null, 2)], {type: "application/json"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url; a.download = `eldee-crm-backup-${new Date().toISOString().slice(0,10)}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+function importCRM() {
+  const inp = document.createElement("input");
+  inp.type = "file"; inp.accept = ".json";
+  inp.onchange = e => {
+    const f = e.target.files[0];
+    if (!f) return;
+    const r = new FileReader();
+    r.onload = ev => {
+      try {
+        const d = JSON.parse(ev.target.result);
+        if (confirm("Sloučit s aktuálním CRM? OK = sloučit, Cancel = nahradit")) {
+          Object.assign(CRM, d);
+        } else {
+          CRM = d;
+        }
+        saveCRM(); render();
+      } catch(e) { alert("Chyba při importu: " + e.message); }
+    };
+    r.readAsText(f);
+  };
+  inp.click();
+}
+function clearCRM() {
+  if (!confirm("Opravdu smazat všechna CRM data (oblíbené, stavy, poznámky)? Tato akce je nevratná.")) return;
+  CRM = {}; saveCRM(); render();
+}
+
+function filtered() {
+  const q = document.getElementById("search").value.toLowerCase().trim();
+  const kraj = document.getElementById("kraj").value;
+  const soutez = document.getElementById("soutez").value;
+  const prio = document.getElementById("priorita").value;
+  const crmF = document.getElementById("crm").value;
+  const hideInc = document.getElementById("hideIncomplete").checked;
+  return CLUBS.filter(c => {
+    if (hideInc && c._incomplete) return false;
+    if (q && !(c.klub.toLowerCase().includes(q) || c.okres.toLowerCase().includes(q) || c.id.toLowerCase().includes(q))) return false;
+    if (kraj && c.kraj !== kraj) return false;
+    if (soutez && c._tier !== soutez) return false;
+    if (prio && c.priorita !== prio) return false;
+    if (activeColors.size > 0) {
+      let match = false;
+      for (const col of activeColors) if (c._colors.includes(col)) { match = true; break; }
+      if (!match) return false;
+    }
+    if (crmF) {
+      const cr = getCRM(c.id);
+      if (crmF === "fav" && !cr.fav) return false;
+      else if (crmF !== "fav" && cr.status !== crmF) return false;
+    }
+    return true;
+  });
+}
+
+function render() {
+  let rows = filtered();
+  if (sortKey) {
+    rows.sort((a,b) => {
+      const av = (a[sortKey]||"").toString(); const bv = (b[sortKey]||"").toString();
+      return sortAsc ? av.localeCompare(bv, "cs") : bv.localeCompare(av, "cs");
+    });
+  }
+  const tbody = document.getElementById("tbody");
+  tbody.innerHTML = "";
+  rows.forEach(c => {
+    const tr = document.createElement("tr");
+    if (c._incomplete) tr.classList.add("incomplete");
+    const cr = getCRM(c.id);
+    const tel = c.telefon ? `<a href="tel:${c.telefon}">${c.telefon}</a>` : "—";
+    const em = c.email ? `<a href="mailto:${c.email}">${c.email}</a>` : "—";
+    const incBadge = c._incomplete ? '<span class="incomplete-badge" title="Chybí kontakty nebo barvy/mládež k ověření">⚠ neúplné</span>' : '';
+    const statusOpts = Object.entries(STATUS_LABELS).map(([k,v]) =>
+      `<option value="${k}"${cr.status===k?' selected':''}>${v}</option>`).join("");
+    const statusClass = cr.status && cr.status !== "nezacal" ? `s-${cr.status}` : "";
+    tr.innerHTML = `
+      <td><span class="star${cr.fav?' active':''}" data-id="${c.id}" data-act="fav">${cr.fav?'★':'☆'}</span></td>
+      <td><code style="font-size:11px;color:#888">${c.id}</code></td>
+      <td>
+        <strong>${c.klub}</strong>${incBadge}
+        <div style="margin-top:4px;">
+          <select class="status-sel ${statusClass}" data-id="${c.id}" data-act="status">${statusOpts}</select>
+        </div>
+        <input class="note-input" data-id="${c.id}" data-act="note" placeholder="Poznámka..." value="${(cr.note||'').replace(/"/g,'&quot;')}">
+      </td>
+      <td class="hide-mobile"><span class="kraj-tag">${c.krajFull}</span></td>
+      <td class="hide-mobile">${c.okres||"—"}</td>
+      <td class="hide-mobile">${c.soutez||"—"}</td>
+      <td class="hide-mobile">${c.mladez||"—"}</td>
+      <td>${c.barvy||"—"}</td>
+      <td class="hide-mobile">
+        <div class="email">${em}</div>
+        <div class="tel">${tel}</div>
+        ${c.email ? `<a class="mail-btn" href="${generateMailto(c)}" data-id="${c.id}" data-act="mailto">✉️ Napsat</a>` : '<span class="mail-btn disabled">✉️ bez emailu</span>'}
+      </td>
+      <td><span class="prio prio-${c.priorita}">${c.priorita}</span></td>
+    `;
+    tbody.appendChild(tr);
+  });
+  const incCount = CLUBS.filter(c => c._incomplete).length;
+  document.getElementById("count").textContent = rows.length;
+  document.getElementById("total").textContent = CLUBS.length;
+  document.getElementById("incomplete-count").textContent = incCount;
+  updateCRMStats();
+  document.getElementById("empty").style.display = rows.length ? "none" : "block";
+}
+
+function resetFilters() {
+  document.getElementById("search").value = "";
+  document.getElementById("kraj").value = "";
+  document.getElementById("soutez").value = "";
+  document.getElementById("priorita").value = "";
+  document.getElementById("crm").value = "";
+  document.getElementById("hideIncomplete").checked = false;
+  activeColors.clear();
+  document.querySelectorAll(".color-chip").forEach(c => c.classList.remove("active"));
+  document.querySelectorAll(".kraj-region").forEach(c => c.classList.remove("active"));
+  sortKey = null;
+  document.querySelectorAll("th").forEach(t => t.classList.remove("sorted","asc"));
+  refreshAll();
+}
+
+function exportCSV() {
+  const rows = filtered();
+  const header = ["ID","Klub","Kraj","Okres","Soutez","Mladez","Barvy","Email","Telefon","Priorita"];
+  const csv = [header.join(";")].concat(
+    rows.map(c => [c.id,c.klub,c.krajFull,c.okres,c.soutez,c.mladez,c.barvy,c.email,c.telefon,c.priorita]
+      .map(v => `"${(v||"").replace(/"/g,'""')}"`).join(";"))
+  ).join("\n");
+  const blob = new Blob(["﻿"+csv], {type:"text/csv;charset=utf-8"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url; a.download = `eldee-kluby-${new Date().toISOString().slice(0,10)}.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+// ============ BOOT — Async load JSON, pak init ============
+async function bootApp() {
+  try {
+    const res = await fetch(DATA_CONFIG.url);
+    if (!res.ok) throw new Error("HTTP " + res.status);
+    const data = await res.json();
+    DB_META = data.meta;
+    CLUBS = data.clubs.filter(c => !c.archived).map(enrichClub);
+    // Precompute pin colors (parsePinColors je defined výše)
+    CLUBS.forEach(c => { c._pinColors = parsePinColors(c.barvy); });
+    // Render
+    renderMap();
+    render();
+    console.log(`[eldee-db] Načteno ${CLUBS.length} klubů, verze ${data.schema?.version || "?"}`);
+  } catch (e) {
+    console.error("[eldee-db] Chyba načítání:", e);
+    document.querySelector(".container").innerHTML = `
+      <div style="background:#1a1a1a;border-left:4px solid #ef4444;padding:24px;border-radius:8px;color:#fff;margin-top:20px;">
+        <h2 style="color:#ef4444;font-size:18px;margin-bottom:12px;">⚠ Nepodařilo se načíst data</h2>
+        <p style="color:#ccc;line-height:1.6;">Hledač používá soubor <code style="background:#0a0a0a;padding:2px 6px;border-radius:3px;">${DATA_CONFIG.url}</code>, který se nepodařilo načíst.</p>
+        <p style="color:#888;margin-top:10px;font-size:13px;">Chyba: ${e.message}</p>
+        <h3 style="margin-top:20px;font-size:14px;color:#fbbf24;">💡 Jak spustit lokálně</h3>
+        <p style="color:#ccc;font-size:13px;margin-top:8px;">Browser blokuje <code style="background:#0a0a0a;padding:1px 4px;">fetch()</code> z <code>file://</code> (CORS). Spusť lokální server:</p>
+        <pre style="background:#0a0a0a;padding:12px;border-radius:4px;color:#16a34a;font-size:12px;margin-top:8px;overflow-x:auto;">cd ${DATA_CONFIG.url.includes('../') ? '~/Documents/Claude-code/07-eldee-business/kniha' : '.'}\npython3 -m http.server 8000\n# pak otevři http://localhost:8000/kluby-vyhledavac.html</pre>
+        <p style="color:#888;font-size:12px;margin-top:10px;">Pro plug-in do firemní appky: nastav <code>DATA_CONFIG.url</code> na REST API endpoint.</p>
+      </div>`;
+  }
+}
+bootApp();
+
+// ============ 3D MAPA KRAJE (MapLibre + OpenFreeMap) ============
+const KRAJ_CENTROIDS = {
+  PHA: [14.4656, 50.0597], STC: [14.7000, 49.9601], JHC: [14.5701, 49.0865],
+  PLK: [13.1204, 49.5228], KVK: [12.6962, 50.1753], ULK: [13.7966, 50.5663],
+  LBK: [14.9876, 50.7476], KHK: [15.8449, 50.4094], PAK: [16.1151, 49.8899],
+  VYS: [15.6532, 49.3994], JHM: [16.5947, 49.1249], OLK: [17.3150, 49.8591],
+  MSK: [18.0029, 49.8603], ZLK: [17.7626, 49.1970]
+};
+const KRAJ_LATLNG_BBOX = {
+  PHA: [14.2244, 49.9419, 14.7068, 50.1774], STC: [13.3965, 49.5013, 15.5355, 50.6189],
+  JHC: [13.5360, 48.5518, 15.6042, 49.6211], PLK: [12.4005, 48.9413, 13.8404, 50.1044],
+  KVK: [12.0906, 49.8904, 13.3018, 50.4603], ULK: [12.9403, 50.0769, 14.6529, 51.0557],
+  LBK: [14.3426, 50.4719, 15.6326, 51.0232], KHK: [15.1042, 50.0384, 16.5855, 50.7805],
+  PAK: [15.3628, 49.5721, 16.8674, 50.2076], VYS: [14.8882, 48.9376, 16.4183, 49.8612],
+  JHM: [15.5424, 48.6165, 17.6469, 49.6333], OLK: [16.7120, 49.2688, 17.9181, 50.4494],
+  MSK: [17.1465, 49.3926, 18.8593, 50.3280], ZLK: [17.1097, 48.8541, 18.4156, 49.5398]
+};
+
+// Deterministická lat/lng pozice klubu uvnitř bboxu kraje (hashe podle ID)
+function clubLatLng(id, kraj) {
+  const bb = KRAJ_LATLNG_BBOX[kraj];
+  if (!bb) return [15, 50];
+  let h = 5381;
+  for (let i = 0; i < id.length; i++) h = ((h << 5) + h + id.charCodeAt(i)) | 0;
+  const px = (Math.abs(h) % 10000) / 10000;
+  const py = (Math.abs(h >> 9) % 10000) / 10000;
+  // 12% margin od kraje bboxu
+  const lng = bb[0] + (0.12 + px * 0.76) * (bb[2] - bb[0]);
+  const lat = bb[1] + (0.12 + py * 0.76) * (bb[3] - bb[1]);
+  return [lng, lat];
+}
+
+let krajMap = null;
+let krajMapMarkers = [];
+
+function createMarkerEl(c, cr) {
+  const colors = c._pinColors;
+  const c1 = colors[0] || "#555";
+  const c2 = colors[1] || c1;
+  const wrap = document.createElement("div");
+  wrap.className = "club-marker";
+  const favRing = cr.fav ? '<circle cx="11" cy="11" r="10.5" fill="none" stroke="#ef4444" stroke-width="2"/>' : '';
+  // SVG: pin tvar (kulatý nahoře, špička dole) s dvoubarevným kruhem
+  wrap.innerHTML = `<svg width="22" height="28" viewBox="0 0 22 28" xmlns="http://www.w3.org/2000/svg">
+    <path d="M 11 26 L 4 14 A 8 8 0 1 1 18 14 Z" fill="#0a0a0a" stroke="#fff" stroke-width="1.5"/>
+    <circle cx="11" cy="11" r="7" fill="${c1}"/>
+    <path d="M 11 4 A 7 7 0 0 1 11 18 Z" fill="${c2}"/>
+    ${favRing}
+  </svg>`;
+  return wrap;
+}
+
+function openKrajMap(kraj) {
+  const center = KRAJ_CENTROIDS[kraj];
+  const clubs = CLUBS.filter(c => c.kraj === kraj);
+  document.getElementById("krajModalTitle").textContent = `Mapa kraje — ${KRAJE[kraj]}`;
+  document.getElementById("krajModalSub").textContent = `${clubs.length} klubů`;
+  document.getElementById("krajModal").classList.add("show");
+
+  // Inicializuj nebo přepoužij mapu
+  if (krajMap) {
+    // Cleanup markerů
+    krajMapMarkers.forEach(m => m.remove());
+    krajMapMarkers = [];
+    krajMap.remove();
+    krajMap = null;
+  }
+
+  krajMap = new maplibregl.Map({
+    container: 'krajMapCanvas',
+    style: 'https://tiles.openfreemap.org/styles/liberty',
+    center: center,
+    zoom: 8.2,
+    pitch: 55,        // 3D tilt
+    bearing: -15,     // mírné natočení
+    attributionControl: false
+  });
+  krajMap.addControl(new maplibregl.NavigationControl({visualizePitch: true}), 'top-right');
+  krajMap.addControl(new maplibregl.AttributionControl({compact: true, customAttribution: '© OpenFreeMap © OSM'}), 'bottom-right');
+
+  krajMap.on('load', () => {
+    // Resize trick (modal byl skrytý při init)
+    setTimeout(() => krajMap.resize(), 50);
+
+    // Přidat markery
+    clubs.forEach(c => {
+      const [lng, lat] = clubLatLng(c.id, c.kraj);
+      const cr = getCRM(c.id);
+      const el = createMarkerEl(c, cr);
+      const tel = c.telefon ? `<br>📞 ${c.telefon}` : '';
+      const email = c.email ? `<br>✉️ ${c.email}` : '';
+      const statusTxt = cr.status && cr.status !== "nezacal" ? `<br>${STATUS_LABELS[cr.status]}` : '';
+      const favTxt = cr.fav ? ' ⭐' : '';
+      const colorSwatch = c._pinColors.map(col => `<span style="display:inline-block;width:10px;height:10px;background:${col};border:1px solid #444;border-radius:50%;margin-right:3px;"></span>`).join('');
+      const popup = new maplibregl.Popup({offset: 25, closeButton: true}).setHTML(`
+        <strong>${c.klub}${favTxt}</strong><br>
+        <span style="color:#aaa">${c.okres} · ${c.priorita}</span><br>
+        ${colorSwatch} <span style="color:#ccc">${c.barvy}</span>
+        ${statusTxt}${tel}${email}
+      `);
+      const marker = new maplibregl.Marker({element: el, anchor: 'bottom'})
+        .setLngLat([lng, lat])
+        .setPopup(popup)
+        .addTo(krajMap);
+      krajMapMarkers.push(marker);
+    });
+  });
+}
+
+function closeKrajModal() {
+  document.getElementById("krajModal").classList.remove("show");
+  if (krajMap) {
+    krajMapMarkers.forEach(m => m.remove());
+    krajMapMarkers = [];
+    krajMap.remove();
+    krajMap = null;
+  }
+}
+
+// Klik na kraj v SVG mapě → otevři 3D mapu
+mapEl.addEventListener("dblclick", e => {
+  const t = e.target;
+  if (t.classList.contains("kraj-region")) {
+    openKrajMap(t.dataset.kraj);
+  }
+});
+// Zachovat single-click pro filter (už je), double-click pro 3D mapu
+// Escape zavře modal
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape" && document.getElementById("krajModal").classList.contains("show")) {
+    closeKrajModal();
+  }
+});
+
+// Update krajská hlavička s nápovědou
+const mapHint = document.querySelector(".map-section h2 .hint");
+if (mapHint) mapHint.innerHTML = "klik na špendlík = klub · klik na kraj = filtr · <strong>dvojklik na kraj = 3D mapa kraje</strong>";
+</script>
+</body>
+</html>

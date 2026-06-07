@@ -1,0 +1,1529 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>eldee — Business Book v1.0 | Holy Socks</title>
+<meta name="description" content="Kompletní business plán značky eldee.cz — fotbalové štulpny s chráněnými průmyslovými vzory.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&family=Allerta+Stencil&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0A0A0A;
+    --off-white: #F5F5F0;
+    --gray-soft: #1A1A1A;
+    --gray-border: #2A2A2A;
+    --gray-text: #A0A0A0;
+    --red: #DC2626;
+    --red-dark: #991B1B;
+    --green: #16A34A;
+    --orange: #F59E0B;
+    --max-width: 900px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+
+  body {
+    background: var(--black);
+    color: var(--off-white);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    line-height: 1.6;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* HEADER */
+  header.topbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(10, 10, 10, 0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--gray-border);
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .logo {
+    font-family: 'Anton', sans-serif;
+    font-size: 28px;
+    letter-spacing: 1px;
+    color: var(--off-white);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .logo .holes {
+    display: inline-flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+  .logo .holes::before, .logo .holes::after {
+    content: '';
+    width: 10px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--red);
+    display: block;
+  }
+
+  .menu-toggle {
+    background: transparent;
+    border: 1px solid var(--gray-border);
+    color: var(--off-white);
+    padding: 8px 14px;
+    font-family: 'Anton', sans-serif;
+    font-size: 14px;
+    letter-spacing: 1px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.2s;
+  }
+  .menu-toggle:hover { border-color: var(--red); color: var(--red); }
+
+  /* TOC SIDEBAR */
+  nav.toc {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 85%;
+    max-width: 360px;
+    height: 100vh;
+    background: var(--gray-soft);
+    padding: 80px 20px 20px;
+    overflow-y: auto;
+    transition: right 0.3s;
+    z-index: 99;
+    border-left: 1px solid var(--gray-border);
+  }
+  nav.toc.open { right: 0; }
+
+  nav.toc h3 {
+    font-family: 'Anton', sans-serif;
+    font-size: 16px;
+    letter-spacing: 2px;
+    color: var(--red);
+    margin: 24px 0 12px;
+    text-transform: uppercase;
+  }
+
+  nav.toc a {
+    display: block;
+    color: var(--off-white);
+    text-decoration: none;
+    padding: 10px 12px;
+    border-radius: 4px;
+    font-size: 15px;
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+  }
+  nav.toc a:hover, nav.toc a.active {
+    background: var(--black);
+    border-left-color: var(--red);
+    color: var(--red);
+  }
+  nav.toc a.done::before { content: '✓ '; color: var(--green); }
+  nav.toc a.pending::before { content: '○ '; color: var(--gray-text); }
+  nav.toc a.in-progress::before { content: '◐ '; color: var(--orange); }
+
+  /* MAIN */
+  main {
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 32px 20px 120px;
+  }
+
+  /* HERO */
+  section.hero {
+    text-align: center;
+    padding: 40px 0 60px;
+    border-bottom: 1px solid var(--gray-border);
+    margin-bottom: 48px;
+  }
+  .hero h1 {
+    font-family: 'Anton', sans-serif;
+    font-size: clamp(48px, 10vw, 96px);
+    line-height: 0.95;
+    letter-spacing: -1px;
+    margin-bottom: 16px;
+  }
+  .hero .tagline {
+    font-family: 'Allerta Stencil', sans-serif;
+    font-size: clamp(18px, 4vw, 24px);
+    color: var(--red);
+    margin-bottom: 32px;
+    letter-spacing: 1px;
+  }
+  .hero .meta {
+    color: var(--gray-text);
+    font-size: 14px;
+    margin-top: 24px;
+  }
+
+  /* SECTIONS */
+  section.chapter {
+    margin-bottom: 80px;
+    scroll-margin-top: 80px;
+  }
+  section.chapter h2 {
+    font-family: 'Anton', sans-serif;
+    font-size: clamp(32px, 6vw, 52px);
+    line-height: 1.1;
+    letter-spacing: -0.5px;
+    margin-bottom: 16px;
+    color: var(--off-white);
+    padding-bottom: 16px;
+    border-bottom: 3px solid var(--red);
+  }
+  section.chapter .chapter-meta {
+    color: var(--gray-text);
+    font-size: 13px;
+    margin-bottom: 32px;
+    font-style: italic;
+  }
+  section.chapter h3 {
+    font-family: 'Anton', sans-serif;
+    font-size: clamp(22px, 4vw, 28px);
+    margin: 40px 0 12px;
+    letter-spacing: 0.5px;
+    color: var(--off-white);
+  }
+  section.chapter h4 {
+    font-size: 18px;
+    font-weight: 700;
+    margin: 24px 0 8px;
+    color: var(--red);
+  }
+  section.chapter h5 {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 16px 0 8px;
+    color: var(--off-white);
+  }
+  section.chapter p {
+    margin-bottom: 14px;
+    color: var(--off-white);
+  }
+  section.chapter ul, section.chapter ol {
+    margin-bottom: 14px;
+    padding-left: 22px;
+  }
+  section.chapter li {
+    margin-bottom: 6px;
+  }
+  section.chapter blockquote {
+    border-left: 4px solid var(--red);
+    padding: 12px 16px;
+    margin: 16px 0;
+    background: var(--gray-soft);
+    border-radius: 0 4px 4px 0;
+    font-style: italic;
+    color: var(--gray-text);
+  }
+  section.chapter blockquote strong { color: var(--off-white); }
+  section.chapter strong { color: var(--off-white); font-weight: 700; }
+  section.chapter em { color: var(--red); font-style: normal; }
+  section.chapter code {
+    background: var(--gray-soft);
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    color: var(--red);
+  }
+  section.chapter pre {
+    background: var(--gray-soft);
+    padding: 16px;
+    border-radius: 4px;
+    overflow-x: auto;
+    margin-bottom: 14px;
+    font-family: 'Courier New', monospace;
+    font-size: 13px;
+    line-height: 1.5;
+    border: 1px solid var(--gray-border);
+  }
+  section.chapter pre code {
+    background: transparent;
+    color: var(--off-white);
+    padding: 0;
+  }
+
+  /* TABLES */
+  .table-wrap {
+    overflow-x: auto;
+    margin: 16px 0;
+    border-radius: 4px;
+    border: 1px solid var(--gray-border);
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+  th {
+    background: var(--gray-soft);
+    color: var(--red);
+    text-align: left;
+    padding: 12px;
+    font-family: 'Anton', sans-serif;
+    letter-spacing: 1px;
+    font-weight: normal;
+    border-bottom: 2px solid var(--red);
+  }
+  td {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--gray-border);
+  }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: var(--gray-soft); }
+
+  /* STATUS BADGES */
+  .badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    margin-left: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .badge-done { background: var(--green); color: white; }
+  .badge-pending { background: var(--gray-text); color: var(--black); }
+  .badge-in-progress { background: var(--orange); color: white; }
+
+  /* PROGRESS CARDS */
+  .progress-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin: 24px 0;
+  }
+  @media (min-width: 600px) {
+    .progress-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  .progress-card {
+    padding: 16px;
+    background: var(--gray-soft);
+    border-radius: 6px;
+    border-left: 4px solid var(--gray-border);
+  }
+  .progress-card.done { border-left-color: var(--green); }
+  .progress-card.in-progress { border-left-color: var(--orange); }
+  .progress-card.pending { border-left-color: var(--gray-text); }
+  .progress-card h4 {
+    font-size: 14px;
+    margin-bottom: 4px;
+    color: var(--off-white);
+    font-family: 'Anton', sans-serif;
+    letter-spacing: 1px;
+  }
+  .progress-card p {
+    color: var(--gray-text);
+    font-size: 13px;
+    margin: 0;
+  }
+
+  /* CALLOUT */
+  .callout {
+    background: var(--gray-soft);
+    border: 1px solid var(--gray-border);
+    border-left: 4px solid var(--red);
+    padding: 16px 20px;
+    border-radius: 0 6px 6px 0;
+    margin: 24px 0;
+  }
+  .callout.warning { border-left-color: var(--orange); }
+  .callout.tip { border-left-color: var(--green); }
+  .callout strong:first-child { color: var(--red); }
+  .callout.warning strong:first-child { color: var(--orange); }
+  .callout.tip strong:first-child { color: var(--green); }
+
+  /* CHECKLIST */
+  .checklist {
+    background: var(--gray-soft);
+    border-radius: 6px;
+    padding: 16px;
+    margin: 16px 0;
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    border: 1px dashed var(--gray-border);
+  }
+  .checklist div { padding: 4px 0; }
+
+  /* OVERLAY for menu */
+  .overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 98;
+  }
+  .overlay.show { display: block; }
+
+  /* PRINT */
+  @media print {
+    nav.toc, header.topbar, .menu-toggle { display: none; }
+    body { background: white; color: black; }
+    section.chapter { break-after: page; }
+  }
+
+  /* MOBILE TWEAKS */
+  @media (max-width: 600px) {
+    main { padding: 24px 16px 100px; }
+    section.hero { padding: 24px 0 40px; }
+    section.chapter { margin-bottom: 60px; }
+    th, td { padding: 8px; font-size: 13px; }
+    .callout, .progress-card { padding: 12px 16px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <a href="#hero" class="logo" style="color:#F5F5F0"><svg style="height:34px;width:auto;display:block" xmlns="http://www.w3.org/2000/svg" viewBox="84.4 180.9 563.4 283.5" fill="none" color="#F5F5F0">
+  <!-- eldee wordmark v2 — lockup L3 (finál 2026-06-06). MONO — currentColor včetně svatozáře. -->
+  <!-- 5 glyfů Big Shoulders Display Black fs 258, path-based. LD + svatozář = master monogram v2.1 (translate +160.4 +134.4), spára 25 j. průhledná, D podsedá 52,4 j. pod baseline e, blok LD+halo v ose e (y 322,6). -->
+  <!-- Maska v souřadnicích monogramu — aplikuje se na D uvnitř translate skupiny (userSpaceOnUse = lokální prostor). -->
+  <defs>
+    <mask id="wm-ko-book" maskUnits="userSpaceOnUse" x="-300" y="-300" width="1400" height="1400">
+      <rect x="-300" y="-300" width="1400" height="1400" fill="white"/>
+      <path d="M56.32 285.00V78.60H95.02V250.94H145.85V285.00Z" fill="black" stroke="black" stroke-width="25" stroke-linejoin="round"/>
+    </mask>
+  </defs>
+  <path d="M149.02 402.58L149.02 402.58Q122.57 402.58 110.45 391.87Q98.32 381.17 96.9 356.66L96.9 356.66Q96.64 352.27 96.51 343.18Q96.39 334.08 96.39 323.37Q96.39 312.67 96.51 303.25Q96.64 293.83 96.9 289.06L96.9 289.06Q98.71 264.03 110.64 253.33Q122.57 242.62 148.5 242.62L148.5 242.62Q174.43 242.62 186.17 253.07Q197.91 263.52 199.07 287.51L199.07 287.51Q199.2 290.35 199.26 297.51Q199.33 304.67 199.26 313.25Q199.2 321.83 198.81 329.05L198.81 329.05L135.09 329.05Q135.09 337.31 135.28 345.37Q135.47 353.43 135.6 360.78L135.6 360.78Q135.86 367.75 138.95 370.72Q142.05 373.68 149.02 373.68L149.02 373.68Q155.21 373.68 157.98 370.72Q160.76 367.75 161.14 360.78L161.14 360.78Q161.4 357.69 161.4 352.14Q161.4 346.59 161.14 339.89L161.14 339.89L198.81 339.89Q199.07 341.18 199.2 346.79Q199.33 352.4 199.07 356.66L199.07 356.66Q197.91 381.17 186.23 391.87Q174.56 402.58 149.02 402.58M135.09 302.48L135.09 302.48L161.4 302.48Q161.4 297.83 161.34 293.7Q161.27 289.58 161.21 286.74Q161.14 283.9 161.14 283.13L161.14 283.13Q160.76 276.93 157.85 274.23Q154.95 271.52 148.5 271.52L148.5 271.52Q141.79 271.52 138.83 274.23Q135.86 276.93 135.6 283.13L135.6 283.13Q135.47 287.77 135.41 292.61Q135.34 297.45 135.09 302.48" fill="currentColor"/>
+  <path d="M467.12 402.58L467.12 402.58Q440.67 402.58 428.55 391.87Q416.42 381.17 415 356.66L415 356.66Q414.74 352.27 414.61 343.18Q414.49 334.08 414.49 323.37Q414.49 312.67 414.61 303.25Q414.74 293.83 415 289.06L415 289.06Q416.81 264.03 428.74 253.33Q440.67 242.62 466.6 242.62L466.6 242.62Q492.53 242.62 504.27 253.07Q516.01 263.52 517.17 287.51L517.17 287.51Q517.3 290.35 517.36 297.51Q517.43 304.67 517.36 313.25Q517.3 321.83 516.91 329.05L516.91 329.05L453.19 329.05Q453.19 337.31 453.38 345.37Q453.57 353.43 453.7 360.78L453.7 360.78Q453.96 367.75 457.06 370.72Q460.15 373.68 467.12 373.68L467.12 373.68Q473.31 373.68 476.08 370.72Q478.86 367.75 479.24 360.78L479.24 360.78Q479.5 357.69 479.5 352.14Q479.5 346.59 479.24 339.89L479.24 339.89L516.91 339.89Q517.17 341.18 517.3 346.79Q517.43 352.4 517.17 356.66L517.17 356.66Q516.01 381.17 504.33 391.87Q492.66 402.58 467.12 402.58M453.19 302.48L453.19 302.48L479.5 302.48Q479.5 297.83 479.44 293.7Q479.37 289.58 479.31 286.74Q479.24 283.9 479.24 283.13L479.24 283.13Q478.86 276.93 475.95 274.23Q473.05 271.52 466.6 271.52L466.6 271.52Q459.89 271.52 456.93 274.23Q453.96 276.93 453.7 283.13L453.7 283.13Q453.57 287.77 453.51 292.61Q453.44 297.45 453.19 302.48" fill="currentColor"/>
+  <path d="M585.52 402.58L585.52 402.58Q559.07 402.58 546.95 391.87Q534.82 381.17 533.4 356.66L533.4 356.66Q533.14 352.27 533.01 343.18Q532.89 334.08 532.89 323.37Q532.89 312.67 533.01 303.25Q533.14 293.83 533.4 289.06L533.4 289.06Q535.21 264.03 547.14 253.33Q559.07 242.62 585 242.62L585 242.62Q610.93 242.62 622.67 253.07Q634.41 263.52 635.57 287.51L635.57 287.51Q635.7 290.35 635.76 297.51Q635.83 304.67 635.76 313.25Q635.7 321.83 635.31 329.05L635.31 329.05L571.59 329.05Q571.59 337.31 571.78 345.37Q571.97 353.43 572.1 360.78L572.1 360.78Q572.36 367.75 575.46 370.72Q578.55 373.68 585.52 373.68L585.52 373.68Q591.71 373.68 594.48 370.72Q597.26 367.75 597.64 360.78L597.64 360.78Q597.9 357.69 597.9 352.14Q597.9 346.59 597.64 339.89L597.64 339.89L635.31 339.89Q635.57 341.18 635.7 346.79Q635.83 352.4 635.57 356.66L635.57 356.66Q634.41 381.17 622.73 391.87Q611.06 402.58 585.52 402.58M571.59 302.48L571.59 302.48L597.9 302.48Q597.9 297.83 597.84 293.7Q597.77 289.58 597.71 286.74Q597.64 283.9 597.64 283.13L597.64 283.13Q597.26 276.93 594.35 274.23Q591.45 271.52 585 271.52L585 271.52Q578.29 271.52 575.33 274.23Q572.36 276.93 572.1 283.13L572.1 283.13Q571.97 287.77 571.91 292.61Q571.84 297.45 571.59 302.48" fill="currentColor"/>
+  <g transform="translate(160.4,134.4)">
+    <path d="M128.32 318.00V111.60H180.69Q209.72 111.60 222.68 123.92Q235.65 136.24 236.16 164.49Q236.55 182.42 236.68 198.55Q236.81 214.67 236.68 230.80Q236.55 246.92 236.16 264.85Q235.65 293.23 222.68 305.62Q209.72 318.00 180.69 318.00ZM167.02 283.94H180.69Q188.82 283.94 193.08 280.20Q197.34 276.46 197.46 269.50Q197.85 255.69 198.04 242.02Q198.24 228.34 198.24 214.67Q198.24 201.00 198.04 187.26Q197.85 173.52 197.46 159.85Q197.34 153.01 193.08 149.33Q188.82 145.66 180.69 145.66H167.02Z" fill="currentColor" mask="url(#wm-ko-book)"/>
+    <path d="M56.32 285.00V78.60H95.02V250.94H145.85V285.00Z" fill="currentColor"/>
+    <ellipse cx="182.3" cy="77" rx="66" ry="13" stroke="currentColor" stroke-width="11" fill="none"/>
+  </g>
+</svg></a>
+  <div style="display:flex;gap:10px;align-items:center">
+    <a href="index.html" style="color:var(--gray-text);text-decoration:none;font-size:13px;font-weight:600">← HQ</a>
+    <button class="menu-toggle" onclick="toggleMenu()">≡ Kapitoly</button>
+  </div>
+</header>
+
+<div class="overlay" onclick="toggleMenu()"></div>
+
+<nav class="toc" id="toc">
+  <h3>Status projektu</h3>
+  <a href="#hero" onclick="toggleMenu()">Cover & stav</a>
+  <a href="#roadmap" onclick="toggleMenu()">Roadmap 8 kapitol</a>
+
+  <h3>Hotové kapitoly</h3>
+  <a href="#kap6-marketing" class="done" onclick="toggleMenu()">Kapitola 6: Marketing</a>
+  <a href="#kap1-pravo" class="done" onclick="toggleMenu()">Kapitola 1: Právo & daně</a>
+  <a href="#kap2-finance" class="done" onclick="toggleMenu()">Kapitola 2: Finance</a>
+  <a href="#kap3-brand" class="done" onclick="toggleMenu()">Kapitola 3: Brand</a>
+  <a href="#kap4-smlouvy" class="done" onclick="toggleMenu()">Kapitola 4: Smlouvy</a>
+  <a href="#kap5-eshop" class="done" onclick="toggleMenu()">Kapitola 5: E-shop</a>
+  <a href="#kap7-akvizice" class="done" onclick="toggleMenu()">Kapitola 7: Akvizice klubů</a>
+  <a href="#kap8-finalni" class="done" onclick="toggleMenu()">Kapitola 8: Finalizace</a>
+
+  <h3>Bonusy</h3>
+  <a href="#bonus-dotaznik" class="done" onclick="toggleMenu()">Dotazník na vzorky v2.1</a>
+  <a href="#bonus-databaze" class="done" onclick="toggleMenu()">Databáze klubů (~950)</a>
+  <a href="kluby-vyhledavac.html" target="_blank">🔍 Interaktivní hledač klubů ↗</a>
+  <a href="kalkulacka.html" target="_blank">💰 Finanční kalkulačka ↗</a>
+</nav>
+
+<main>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <h1>HOLY<br>SOCKS</h1>
+  <div class="tagline">No, just socks with holes.</div>
+  <p style="max-width: 500px; margin: 0 auto; color: var(--gray-text);">
+    Business book pro novou českou značku <strong style="color: var(--off-white);">eldee.cz</strong> —
+    fotbalové štulpny s dvěma chráněnými průmyslovými vzory.
+  </p>
+  <div class="meta">
+    Verze 1.0 · Aktualizováno 6. 6. 2026 · 8 z 8 kapitol KOMPLETNÍ + kalkulačka + dotazníky + databáze 940 klubů
+  </div>
+</section>
+
+<!-- ROADMAP -->
+<section class="chapter" id="roadmap">
+  <h2>Roadmap projektu</h2>
+  <p class="chapter-meta">Postup, který jsme si schválili. Začali jsme Marketingem (původně bod 6), dále pokračujeme původním pořadím.</p>
+
+  <div class="progress-grid">
+    <div class="progress-card done">
+      <h4>Marketing & content <span class="badge badge-done">Hotovo</span></h4>
+      <p>5 bloků: strategický rámec, Holy Socks campaign, videa, community engine, 90-denní launch roadmap</p>
+    </div>
+    <div class="progress-card done">
+      <h4>Právní rámec <span class="badge badge-done">Hotovo</span></h4>
+      <p>OSVČ vedlejší činnost, daňový režim, DPH, GDPR, sponzoring s kluby</p>
+    </div>
+    <div class="progress-card done">
+      <h4>Finanční model <span class="badge badge-done">Hotovo</span></h4>
+      <p>Cena 599 Kč, marže 295 Kč/pár, cesta k 80k zisku za 18-24 měsíců</p>
+    </div>
+    <div class="progress-card done">
+      <h4>Brand & vizuál <span class="badge badge-done">Hotovo</span></h4>
+      <p>Jednotné logo v2.1 (embroidery-first) + wordmark v2, brand book v1.9 živě — fonty Big Shoulders Display + Space Grotesk</p>
+    </div>
+    <div class="progress-card done">
+      <h4>Smluvní šablony <span class="badge badge-done">Hotovo</span></h4>
+      <p>3 smlouvy: klub, plnoletý ambasador, nezletilý ambasador + GDPR doložka</p>
+    </div>
+    <div class="progress-card done">
+      <h4>E-shop Shoptet <span class="badge badge-done">Hotovo</span></h4>
+      <p>Struktura, platby, doprava, kupóny, pluginy, testovací checklist</p>
+    </div>
+    <div class="progress-card done">
+      <h4>Akvizice klubů <span class="badge badge-done">Hotovo</span></h4>
+      <p>Text + 6 šablon mailů + databáze v1 (16 ověřených klubů, 11× Královéhradecký + Praha + Středočeský + Pardubický + Vysočina)</p>
+    </div>
+    <div class="progress-card done">
+      <h4>Finalizace knihy <span class="badge badge-done">Hotovo</span></h4>
+      <p>Interaktivní finanční kalkulačka (4 produkty + bundle), brány go/no-go, 90denní plán k Drop 001</p>
+    </div>
+    <div class="progress-card done">
+      <h4>Bonus: dotazník na vzorky <span class="badge badge-done">Hotovo</span></h4>
+      <p>17 otázek, fokus na slabá místa produktu, PDF + Word ke sdílení testerům</p>
+    </div>
+  </div>
+
+  <div class="callout">
+    <strong>📍 Stav 6. 6. 2026:</strong> Kniha KOMPLETNÍ (8/8 + finanční kalkulačka). Značka: jednotné logo v2.1 + wordmark v2, brand book v1.9 živě. Portfolio: 4 produkty (návlek, tréninková ponožka, nízká/vysoká štulpna). Fáze: vzorkování — dlouhá štulpna v2 s logem u výrobce, testovací dotazníky připraveny.
+  </div>
+</section>
+
+<!-- BONUS: DOTAZNÍK -->
+<section class="chapter" id="bonus-dotaznik">
+  <h2>Bonus: Dotazník na vzorky v2.1 <span class="badge badge-done">Hotovo</span></h2>
+  <p class="chapter-meta">Aktualizováno 19. 5. 2026 · 33 otázek + 3 závěrečné · ~7 min · Bez nabídky slevy za vyplnění</p>
+
+  <div class="callout tip">
+    <strong>🎯 Cíl:</strong> Získat <em>akční</em> feedback od první vlny testerů PŘED sériovou výrobou + zmapovat zájem o budoucí featury (kapsa, personalizace, konfigurátor).
+  </div>
+
+  <h3>Struktura — 9 sekcí, 33 otázek + 3 závěrečné</h3>
+  <div class="table-wrap"><table>
+    <tr><th>Sekce</th><th>Téma</th><th>Otázky</th></tr>
+    <tr><td>A</td><td>O testerovi (věk, vel. obuvi, frekvence)</td><td>3</td></tr>
+    <tr><td>B</td><td>Současné štulpny (značka, co štve, stříhal díry?)</td><td>3</td></tr>
+    <tr><td>C</td><td>Naše eldee vzorky (sizing, dojem, sezení, větrání, <strong>merino</strong>, díry, test, prání, design, logo, ochota nosit v zápase)</td><td>13</td></tr>
+    <tr><td>D</td><td><strong>Typ produktu</strong> (tenké/silnější, komplet/návlek, protiskluz)</td><td>3</td></tr>
+    <tr><td>E</td><td><strong>Budoucí featury</strong> (kapsa na chránič, personalizace, konfigurátor)</td><td>5</td></tr>
+    <tr><td>F</td><td>Cena a nákup (reálná, ochota koupit, „dokonalé" štulpny)</td><td>3</td></tr>
+    <tr><td>G</td><td><strong>Klíčový feedback</strong> (zachovat / zlepšit / přidat)</td><td>1 (3 podotázky)</td></tr>
+    <tr><td>H</td><td><strong>Content spolupráce</strong> (zájem o tvorbu, motivace)</td><td>2</td></tr>
+    <tr><td>I</td><td>NPS + kontakt + GDPR</td><td>3</td></tr>
+  </table></div>
+
+  <h3>Co změnilo v2.1 oproti v2</h3>
+  <div class="progress-grid">
+    <div class="progress-card done">
+      <h4>Bez slevy za vyplnění</h4>
+      <p>Vyhozené všechny zmínky o slevovém kódu 30 %. Spoléháme na upřímnost a vztah, ne odměnu.</p>
+    </div>
+    <div class="progress-card done">
+      <h4>+ Materiál merino vs klasika</h4>
+      <p>Validuje, jestli respondenti vnímají kvalitu materiálu jako rozdíl (= USP nebo ne).</p>
+    </div>
+    <div class="progress-card done">
+      <h4>+ Sekce „Typ produktu"</h4>
+      <p>Tenké vs silnější, komplet vs návlek, protiskluz — strategická rozhodnutí o produktové řadě.</p>
+    </div>
+    <div class="progress-card done">
+      <h4>+ Sekce „Budoucí featury"</h4>
+      <p>Kapsa, personalizace, konfigurátor. Kapsa je tu jako future feature, ne pro testování vzorku.</p>
+    </div>
+    <div class="progress-card done">
+      <h4>+ Cena „dokonalých" štulpen</h4>
+      <p>Ukazuje, kolik lidi zaplatí navíc za individualizaci → premium edition strategie.</p>
+    </div>
+    <div class="progress-card done">
+      <h4>+ Content spolupráce</h4>
+      <p>Pool potenciálních ambasadorů. Ti, co řeknou „jo hned 🔥" → kontaktuj jako první.</p>
+    </div>
+  </div>
+
+  <h3>Soubory ke sdílení</h3>
+  <div class="table-wrap"><table>
+    <tr><th>Formát</th><th>Soubor</th><th>Pro koho</th></tr>
+    <tr><td>PDF ⭐</td><td><code>databaze/dotaznik-vzorky-v2.pdf</code></td><td>Univerzální sdílení (Messenger, WhatsApp, email)</td></tr>
+    <tr><td>Word</td><td><code>databaze/dotaznik-vzorky-v2.docx</code></td><td>Editace, návrhy úprav</td></tr>
+    <tr><td>HTML</td><td><code>databaze/dotaznik-vzorky-v2.html</code></td><td>Zdroj pro re-export</td></tr>
+    <tr><td>Markdown</td><td><code>databaze/dotaznik-vzorky-v2.md</code></td><td>Pro mě (Jarvise), pro budoucí editaci</td></tr>
+  </table></div>
+
+  <h3>14 klíčových signálů ve vyhodnocení</h3>
+  <ol>
+    <li><strong>Negativy (q31b)</strong> — kategorizuj témata, 3+ lidí říká totéž → řeš</li>
+    <li><strong>Sizing (q7)</strong> — &gt;20 % „mírně malé/velké" → přepočítej s výrobcem</li>
+    <li><strong>Materiál merino (q11)</strong> — pokud „nepoznal rozdíl" převažuje → nepoužívej merino jako USP</li>
+    <li><strong>Díry (q12)</strong> — pokud „víc/větší/jinde" → varianta v2</li>
+    <li><strong>Design — co hodnotí (q16)</strong> — vodítko pro marketing (zdůrazňovat to, co lidé vnímají)</li>
+    <li><strong>Logo (q17)</strong> — &gt;30 % „slabý/nelíbí" → potvrzuje problém LD logo (Brand kapitola)</li>
+    <li><strong>Tenké vs silnější (q20)</strong> — určuje prioritu produkce</li>
+    <li><strong>Komplet vs návlek (q21)</strong> — strategie produktové řady</li>
+    <li><strong>Kapsa na chránič (q23)</strong> — &gt;60 % „top věc / spíš jo" → silná validace finální verze</li>
+    <li><strong>Personalizace (q24+q25)</strong> — &gt;50 % „určitě / spíš jo" → prémiový upsell</li>
+    <li><strong>Konfigurátor (q26+q27)</strong> — strategie B2B (klubové objednávky)?</li>
+    <li><strong>Cena trojúhelník (q28+q29+q30)</strong> — rozdíl q28 vs q30 = jak moc respondenti váží individualizaci</li>
+    <li><strong>NPS (q34)</strong> — průměr ≥7 = potenciál, &lt;5 = vážný problém</li>
+    <li><strong>Content tvorba (q32+q33)</strong> — pool ambasadorů</li>
+  </ol>
+
+  <h3>Kolik respondentů</h3>
+  <ul>
+    <li><strong>Minimum:</strong> 10–15 testerů</li>
+    <li><strong>Solidní:</strong> 25–30 testerů</li>
+    <li><strong>Top:</strong> 50+ (kvalitní data pro výrobce)</li>
+  </ul>
+
+  <h3>Praktický postup</h3>
+  <ol>
+    <li>Překlop do <strong>Google Forms</strong> (zdarma, ~45 min — víc otázek)</li>
+    <li>Pošli odkaz testerům osobně + krátká zpráva</li>
+    <li>Po 1 týdnu follow-up všem, kdo nevyplnili</li>
+    <li>Vyhodnoť do týdne, sepiš 3–5 změn pro výrobce</li>
+    <li>Zveřejni testerům, co jsi z toho vzal — community building</li>
+  </ol>
+
+  <div class="callout">
+    <strong>Pro budoucnost:</strong> Po doplnění kapsy do produktu udělej <strong>druhou vlnu dotazníku</strong> (Q2) s otázkami na konkrétní kapsu (držela chránič?, kompatibilita, vliv na sezení).
+  </div>
+</section>
+
+<!-- KAPITOLA 6: MARKETING -->
+<section class="chapter" id="kap6-marketing">
+  <h2>Kapitola 6: Marketing & content</h2>
+  <p class="chapter-meta">Schváleno 15. 5. 2026 · 5 bloků · Strategie C (Hybrid + Community) · 5-7 hod/týden kapacita</p>
+
+  <h3>Blok 1: Strategický rámec</h3>
+
+  <h4>Tón hlasu</h4>
+  <ul>
+    <li>Drzý, sebevědomý, vtipný, nikdy se neomlouvá</li>
+    <li>Premium produkt × irreverentní marketing (Liquid Death, Surreal, Duolingo)</li>
+    <li>Mix čeština + anglické výrazy (Holy Socks, let it bleed, protected & vented)</li>
+    <li>Self-aware: „Jo, všichni dělají memy. Naše fakt fungují."</li>
+  </ul>
+
+  <h4>Kanály a kadence</h4>
+  <div class="table-wrap"><table>
+    <tr><th>Kanál</th><th>Role</th><th>Frekvence</th></tr>
+    <tr><td><strong>TikTok</strong></td><td>Primární — 10-19 yo</td><td>3 videa / týden</td></tr>
+    <tr><td><strong>Instagram Reels</strong></td><td>Zrcadlí TikTok</td><td>3 videa / týden</td></tr>
+    <tr><td><strong>Instagram Grid</strong></td><td>Premium produkt</td><td>2 fotky / týden</td></tr>
+    <tr><td><strong>Instagram Stories</strong></td><td>BTS, community</td><td>Denně</td></tr>
+    <tr><td><strong>YouTube Shorts</strong></td><td>Recyklace</td><td>1 / týden</td></tr>
+    <tr><td><strong>Facebook</strong></td><td>Pro rodiče a kluby</td><td>1 / týden</td></tr>
+  </table></div>
+
+  <blockquote><strong>Recyklace je svatá:</strong> 1 nafilmovaný klip = 5 platforem.</blockquote>
+
+  <h4>Content Pillars (4 sloupy)</h4>
+  <div class="table-wrap"><table>
+    <tr><th>Pillar</th><th>% obsahu</th><th>O čem to je</th></tr>
+    <tr><td>Holy Socks Comedy</td><td>40 %</td><td>Memy, parodie, „amateur vs eldee"</td></tr>
+    <tr><td>Player Hype</td><td>30 %</td><td>Sponzorovaní hráči v akci</td></tr>
+    <tr><td>Product Feature</td><td>20 %</td><td>Detaily průmyslových vzorů</td></tr>
+    <tr><td>Founder & Community</td><td>10 %</td><td>Tvoje story, partneři, BTS</td></tr>
+  </table></div>
+
+  <h4>KPI cíle (90 dní)</h4>
+  <ul>
+    <li>5 000 TikTok followerů</li>
+    <li>2 000 Instagram followerů</li>
+    <li>50 000 views/měsíc (kumulovaně)</li>
+    <li>200 signupů do newsletteru</li>
+    <li>5 podepsaných licenčních smluv s kluby</li>
+    <li>100 prvních objednávek</li>
+  </ul>
+
+  <h3>Blok 2: Holy Socks Campaign Concept</h3>
+
+  <h4>Slogany</h4>
+  <div class="table-wrap"><table>
+    <tr><th>Použití</th><th>Slogan</th></tr>
+    <tr><td>Hlavní</td><td><strong>„Holy Socks. No, just socks with holes."</strong></td></tr>
+    <tr><td>Sekundární</td><td>„Holier than thou."</td></tr>
+    <tr><td>Produktové</td><td>„Engineered to bleed."</td></tr>
+    <tr><td>Anti-amateur</td><td>„If you cut them, you missed the point."</td></tr>
+    <tr><td>B2B kluby</td><td>„Made holy. Made for the team."</td></tr>
+    <tr><td>Český bonus</td><td>„Děravé. Záměrně."</td></tr>
+  </table></div>
+
+  <h4>Vizuální kódy</h4>
+  <ol>
+    <li>Oválné díry jako logo motiv (všude)</li>
+    <li>Stencil/punched typografie</li>
+    <li>Černá + bílá + jeden akcent</li>
+    <li>Světlo skrz díry (stínový vzor)</li>
+    <li>Halo / svatozář ironicky (ne náboženský symbol)</li>
+    <li>eldee monogram jako vodoznak</li>
+  </ol>
+
+  <h4>8 formátů recurring sérií</h4>
+  <ol>
+    <li><strong>Amateur vs eldee</strong> — split-screen, nůžky vs precizní díry</li>
+    <li><strong>Confessional</strong> — zpovědnice, hráč přiznává amatérský střih</li>
+    <li><strong>The Holy Test</strong> — 50 praní, tahání, drápy, díry vydrží</li>
+    <li><strong>Are these holy enough?</strong> — slunce skrz díry, ASMR</li>
+    <li><strong>Hole Story</strong> — origin, founder authenticity</li>
+    <li><strong>Pocket Confession</strong> — vnitřní kapsa reveal</li>
+    <li><strong>Holy Squad</strong> — gang shot sponzorovaných hráčů</li>
+    <li><strong>Coach POV</strong> — Lukáš coby trenér, mic drop</li>
+  </ol>
+
+  <h4>Hashtagy</h4>
+  <p><code>#HolySocks #eldee #eLDee #HoleyOrHoly #StaySanctified #HolySquad #SocksWithPurpose #fotbal #fotbalovystulpny #stulpny #fotbalmladez</code></p>
+
+  <h4>Audio direction</h4>
+  <ul>
+    <li>Trap beats + church organ samply = signature zvuk eldee</li>
+    <li>Gregorian chant remixy (TikTok trend)</li>
+    <li>Vlastní 3sec brand jingle (na konci každého videa)</li>
+  </ul>
+
+  <div class="callout warning">
+    <strong>NEDĚLAT:</strong> reálné náboženské symboly (kříž, růženec), urážet amatéry shora, zapomenout produkt ukázat
+  </div>
+
+  <h3>Blok 3: 30 témat videí + kalendář</h3>
+
+  <h4>Holy Socks Comedy (40 %) — vybrané z 12 témat</h4>
+  <ul>
+    <li>Confessional E1: The Cut (15s) — „Otče, posekal jsem si Nike..."</li>
+    <li>Amateur vs eldee: The Cut (9s) — split-screen</li>
+    <li>5 amateur sins (30s) — list 5 věcí, co dělají amateuři</li>
+    <li>Red card for what? (9s) — rozhodčí + amateurský střih</li>
+    <li>Generations (20s) — děda → táta → ty: eldee</li>
+  </ul>
+
+  <h4>Player Hype (30 %) — vybrané z 9 témat</h4>
+  <ul>
+    <li>Game-day fit check (15s)</li>
+    <li>Slow-mo boot kick (9s)</li>
+    <li>Pre-game ritual (20s)</li>
+    <li>Squad walkout (15s) — slow-mo</li>
+    <li>Captain's choice (30s) — kapitán mládeže</li>
+  </ul>
+
+  <h4>Product Feature (20 %) — vybrané z 6 témat</h4>
+  <ul>
+    <li>What's inside? (12s) — kapsa reveal</li>
+    <li>Material test (15s) — roztahování</li>
+    <li>Wash 50× (20s) — time-lapse</li>
+    <li>How they're made (30s) — BTS u výrobce</li>
+  </ul>
+
+  <h4>Founder & Community (10 %)</h4>
+  <ul>
+    <li>Why I started eldee (45s) — origin</li>
+    <li>Coach trainer life (30s) — den v životě</li>
+    <li>Club spotlight (30s) — feature klubu</li>
+  </ul>
+
+  <h4>Quick-start: prvních 5 videí pro start kanálu</h4>
+  <ol>
+    <li>Hole Story (origin) — kdo jsi a proč</li>
+    <li>Amateur vs eldee: The Cut — vizuální „aha"</li>
+    <li>What's inside? — kapsa reveal</li>
+    <li>Confessional E1 — viral potenciál</li>
+    <li>Squad walkout — sociální proof</li>
+  </ol>
+  <blockquote>Publikuj všech 5 v rozmezí 2 týdnů, ne najednou — TikTok algoritmus tě potřebuje pochopit.</blockquote>
+
+  <h3>Blok 4: Community-Content Engine</h3>
+
+  <h4>3 tiery tvůrců + bonus</h4>
+  <pre><code>TIER 1: Ambassador Squad (5-10 hráčů)
+TIER 2: Licencované kluby (5-10)
+TIER 3: Běžní zákazníci (UGC)
+BONUS:  Micro-influenceři (1k-10k followers)</code></pre>
+
+  <h4>Tier 1: Ambassador Squad</h4>
+  <ul>
+    <li><strong>Dostanou:</strong> 3 páry/sezónu + první kus nové kolekce + 10 % komise z prodejů pod osobním kódem</li>
+    <li><strong>Dají:</strong> 2 videa/měsíc + 4 stories/měsíc + tag @eldee.cz + smlouva 6 měsíců</li>
+  </ul>
+
+  <h4>Tier 2: Licencované kluby</h4>
+  <ul>
+    <li><strong>Klub povolí</strong> použití názvu a loga</li>
+    <li><strong>Klub dostane</strong> unikátní slevový kód + <strong>10 % z obratu</strong> pod kódem jako odměnu (vystavuje fakturu eldee)</li>
+    <li><strong>Klub dá zpět:</strong> 1 post/měsíc + sdílení kódu + 2 týmové fotky/sezónu</li>
+  </ul>
+
+  <h4>Tier 3: UGC karta v krabičce</h4>
+  <pre><code>HOLY SOCKS DOSTALY KOUSEK MĚSTA
+
+Foť. Otaguj @eldee.cz.
+Repostneme = -15% slevy na další nákup.
+
+[QR kód]
+#HolySocks #eldee</code></pre>
+
+  <h4>Matematika community</h4>
+  <div class="table-wrap"><table>
+    <tr><th>Zdroj</th><th>Obsahů/měsíc</th><th>Tvůj čas</th></tr>
+    <tr><td>Vlastní tvorba</td><td>8 videí + 12 stories</td><td>3 hod/týden</td></tr>
+    <tr><td>10× Ambassadors</td><td>20 videí + 40 stories</td><td>1 hod/týden</td></tr>
+    <tr><td>5× kluby</td><td>5 postů</td><td>0,5 hod/týden</td></tr>
+    <tr><td>UGC zákazníci</td><td>30 příchozích, 10 repost</td><td>0,5 hod/týden</td></tr>
+    <tr><td>Micro-influenceři</td><td>2-5 videí</td><td>0,5 hod/týden</td></tr>
+    <tr><td><strong>CELKEM</strong></td><td><strong>~70 obsahů</strong></td><td><strong>~5,5 hod/týden</strong></td></tr>
+  </table></div>
+
+  <blockquote><strong>Bez community: 8 videí za 6 hod. S community: 70 obsahů za stejný čas.</strong></blockquote>
+
+  <h3>Blok 5: Launch Roadmap 90 dní</h3>
+
+  <h4>Pre-launch checklist (DŘÍV než Týden 1)</h4>
+  <div class="checklist">
+    <div>[ ] IČO + bankovní účet</div>
+    <div>[ ] Cenotvorba nastavena</div>
+    <div>[ ] Logo, font, barvy, packaging hotové</div>
+    <div>[ ] Smlouva s výrobcem + first batch ordered</div>
+    <div>[ ] First batch dodán</div>
+    <div>[ ] Shoptet eshop funkční, testovací nákup OK</div>
+    <div>[ ] Smluvní šablony (klub + hráč)</div>
+    <div>[ ] 5 quick-start videí v zásobě</div>
+    <div>[ ] Sociální profily LIVE (TikTok, IG, FB, YT)</div>
+    <div>[ ] UGC karty natištěné (50 ks na první batch)</div>
+    <div>[ ] Doména eldee.cz na Shoptet</div>
+  </div>
+
+  <h4>12 týdnů sequence — milníky</h4>
+  <div class="table-wrap"><table>
+    <tr><th>Týden</th><th>Fáze</th><th>Cíl</th></tr>
+    <tr><td>0</td><td>Final prep</td><td>Profily LIVE, teaser video</td></tr>
+    <tr><td>1</td><td>Soft launch</td><td>10–20 prodejů, early access</td></tr>
+    <tr><td>2</td><td>Public launch</td><td>30–50 prodejů, hard launch</td></tr>
+    <tr><td>3–4</td><td>Build community</td><td>1 000 TikTok, 80 prodejů</td></tr>
+    <tr><td>5–6</td><td>Activate clubs</td><td>2 000 TikTok, 150 prodejů, 2 kluby</td></tr>
+    <tr><td>7–8</td><td>Scale</td><td>3 500 TikTok, 250 prodejů, druhá várka</td></tr>
+    <tr><td>9–10</td><td>Optimize</td><td>4 500 TikTok, 350 prodejů</td></tr>
+    <tr><td>11–12</td><td>Plan Q2</td><td>5 000+ TikTok, 450+ prodejů</td></tr>
+  </table></div>
+</section>
+
+<!-- KAPITOLA 1: PRÁVO -->
+<section class="chapter" id="kap1-pravo">
+  <h2>Kapitola 1: Právní a daňový rámec</h2>
+  <p class="chapter-meta">Schváleno 15. 5. 2026 · Pro start s nízkým rozpočtem</p>
+
+  <div class="callout warning">
+    <strong>⚠️ Disclaimer:</strong> Obecné informace pro start. Před prvním daňovým přiznáním → 1-2 hodiny konzultace s účetní (1 000–2 000 Kč).
+  </div>
+
+  <h3>Forma podnikání: OSVČ vedlejší činnost</h3>
+
+  <p><strong>Doporučení pro tebe:</strong> OSVČ jako vedlejší činnost (vedle zaměstnání v Iveco).</p>
+
+  <h4>Proč</h4>
+  <ul>
+    <li><strong>Zdravotka zdarma</strong> — Iveco platí, z OSVČ vedlejší činnosti nic navíc</li>
+    <li><strong>Sociálka zdarma do limitu</strong> — pokud roční zisk < ~115 tis. Kč (2026, ověř), neplatíš sociální</li>
+    <li><strong>Jednoduché účetnictví</strong> (daňová evidence)</li>
+    <li><strong>Daň 15 %</strong> ze zisku</li>
+    <li><strong>Levné:</strong> živnostenský list 1 000 Kč, žádné měsíční náklady</li>
+    <li>Můžeš kdykoliv přejít na s.r.o.</li>
+  </ul>
+
+  <h4>Kdy přejít na s.r.o.</h4>
+  <ul>
+    <li>Obrat > 500 tis. Kč/rok stabilně</li>
+    <li>Riziko škod / žaloby</li>
+    <li>Plán prodeje firmy nebo přibírání společníka</li>
+  </ul>
+
+  <h3>Postup založení OSVČ</h3>
+
+  <ol>
+    <li><strong>Vybrat živnost:</strong> „Výroba, obchod a služby neuvedené v přílohách 1 až 3 ŽZ" (volná)</li>
+    <li><strong>Jednotný registrační formulář (JRF):</strong> rzp.cz nebo ŽÚ. Zaškrtni vedlejší činnost ✅</li>
+    <li><strong>Poplatek:</strong> 1 000 Kč</li>
+    <li><strong>Automatická registrace:</strong> FÚ, OSSZ, ZP</li>
+    <li><strong>Bankovní účet:</strong> Fio Banka (0 Kč), Air Bank, Revolut Business</li>
+    <li><strong>Datová schránka:</strong> zdarma na datovaschranka.cz (povinná od 2023)</li>
+  </ol>
+
+  <h3>Daňový režim — DOPORUČENO: skutečné výdaje</h3>
+
+  <div class="table-wrap"><table>
+    <tr><th>Varianta</th><th>Pro koho</th><th>Výhody</th><th>Nevýhody</th></tr>
+    <tr><td><strong>Skutečné výdaje</strong> ⭐</td><td>Vysoké COGS (dropshipping)</td><td>Nejnižší daň</td><td>Daňová evidence</td></tr>
+    <tr><td>40% paušál</td><td>Nízké náklady</td><td>Jednoduché</td><td>Vyšší daň</td></tr>
+    <tr><td>Paušální daň</td><td>Vyšší obrat, hl. činnost</td><td>1 platba</td><td>Drahé pro vedlejší</td></tr>
+  </table></div>
+
+  <h4>Příklad pro eldee (rok 1, skutečné výdaje)</h4>
+  <pre><code>Příjem:               200 000 Kč
+Výdaje (COGS+provoz): 140 000 Kč
+Sleva poplatníka:    -30 840 Kč
+─────────────────────────────────
+Základ daně:           29 160 Kč
+Daň 15 %:               4 374 Kč/rok</code></pre>
+
+  <h3>DPH</h3>
+  <ul>
+    <li><strong>Plátce DPH od 2 mil. Kč/12 měsíců</strong> — netýká se tě roky</li>
+    <li><strong>Identifikovaná osoba</strong> — pokud nakupuješ digitální služby z EU (Meta Ads, Google Ads) nad limit. Aktivuj, jakmile spustíš placené reklamy.</li>
+  </ul>
+
+  <h3>GDPR — povinnosti eshopu</h3>
+  <div class="table-wrap"><table>
+    <tr><th>Povinnost</th><th>Jak řešit</th></tr>
+    <tr><td>Privacy policy</td><td>Shoptet šablona</td></tr>
+    <tr><td>Cookie banner</td><td>Shoptet zabudoval</td></tr>
+    <tr><td>Newsletter souhlas</td><td>Double opt-in</td></tr>
+    <tr><td>HTTPS / SSL</td><td>Shoptet zdarma</td></tr>
+    <tr><td>Právo na smazání</td><td>30 dní</td></tr>
+  </table></div>
+
+  <p><strong>Pro UGC v obchodních podmínkách:</strong></p>
+  <blockquote>„Při označení @eldee.cz na sociálních sítích souhlasíte s případným repostnutím vašeho obsahu na našich profilech."</blockquote>
+
+  <h3>Spotřebitelská práva (B2C)</h3>
+  <ol>
+    <li>14 dní na odstoupení od smlouvy</li>
+    <li>Záruka 24 měsíců</li>
+    <li>Cena včetně všech daní</li>
+    <li>Reklamace do 30 dnů</li>
+    <li>Odpovědnost za přepravu od předání</li>
+  </ol>
+
+  <h3>Sponzoring s klubem — DOPORUČENO: reklamní spolupráce</h3>
+  <p>Klub vystaví eldee fakturu za „reklamní spolupráci". Pro eldee 100 % daňový výdaj. Čistá daňová stopa.</p>
+
+  <h3>Ambasadoři — daňové ošetření</h3>
+  <ul>
+    <li><strong>Plnoletý:</strong> Smlouva o reklamní spolupráci, ambasador OSVČ → vystaví fakturu</li>
+    <li><strong>Nezletilý (10-17):</strong> Trojstranná smlouva s rodičem, dar do 500 Kč/rok osvobozený, zbytek přes 50% slevu</li>
+  </ul>
+
+  <div class="callout tip">
+    <strong>💡 Tip:</strong> Před prvními ambasadory zaplať 1 hod účetní konzultace (1 500–2 000 Kč). Ušetří budoucí komplikace.
+  </div>
+
+  <h3>Daňový kalendář</h3>
+  <div class="table-wrap"><table>
+    <tr><th>Termín</th><th>Co</th></tr>
+    <tr><td>Měsíčně</td><td>Daňová evidence (30 min/měsíc)</td></tr>
+    <tr><td>31. března</td><td><strong>Daňové přiznání FO</strong></td></tr>
+    <tr><td>30. dubna</td><td>Přehled OSSZ (i nulový)</td></tr>
+    <tr><td>30. května</td><td>Přehled zdr. pojišťovny</td></tr>
+  </table></div>
+
+  <h3>Nástroje (zdarma)</h3>
+  <ul>
+    <li><strong>Pohoda Free</strong> — daňová evidence, do 200 dokladů/rok</li>
+    <li><strong>Money S3 Start</strong> — účetní, do 100 dokladů/rok</li>
+    <li><strong>iDoklad / Doklad.io</strong> — online fakturace</li>
+    <li><strong>Shoptet</strong> — generuje faktury zákazníkům</li>
+    <li><strong>Daňový portál FÚ</strong> — přiznání online</li>
+  </ul>
+
+  <h3>Checklist před prvním prodejem</h3>
+  <div class="checklist">
+    <div>[ ] Založit OSVČ vedlejší činnost (1 000 Kč)</div>
+    <div>[ ] Aktivovat datovou schránku</div>
+    <div>[ ] Bankovní účet Fio Banka</div>
+    <div>[ ] Vybrat daňový režim: skutečné výdaje</div>
+    <div>[ ] Pohoda Free / Excel</div>
+    <div>[ ] Obchodní podmínky (Shoptet)</div>
+    <div>[ ] Privacy policy + cookie banner</div>
+    <div>[ ] Smlouva o reklamní spolupráci (vzor v K4)</div>
+    <div>[ ] 1× ročně konzultace s účetní</div>
+  </div>
+</section>
+
+<!-- KAPITOLA 2: FINANCE -->
+<section class="chapter" id="kap2-finance">
+  <h2>Kapitola 2: Finanční model</h2>
+  <p class="chapter-meta">Schváleno 15. 5. 2026 · Cena 599 Kč · Cíl 80 000 Kč zisku/měsíc za 18-24 měsíců</p>
+
+  <h3>Per-unit cost breakdown</h3>
+  <div class="table-wrap"><table>
+    <tr><th>Položka</th><th>Kč/kus</th></tr>
+    <tr><td>Výroba (český výrobce)</td><td>230</td></tr>
+    <tr><td>Krabička papírová s průhledem</td><td>25</td></tr>
+    <tr><td>UGC karta + vizitka</td><td>2</td></tr>
+    <tr><td><strong>COGS celkem</strong></td><td><strong>257</strong></td></tr>
+  </table></div>
+
+  <h3>Variabilní per prodej</h3>
+  <div class="table-wrap"><table>
+    <tr><th>Položka</th><th>Kč/prodej</th></tr>
+    <tr><td>Platební brána (~2,5 % + 5 Kč)</td><td>17</td></tr>
+    <tr><td>Marketing variable alokace</td><td>30</td></tr>
+    <tr><td>Doprava</td><td>0 (platí zákazník)</td></tr>
+    <tr><td><strong>Var. celkem</strong></td><td><strong>47</strong></td></tr>
+  </table></div>
+
+  <h3>Cenová strategie</h3>
+  <div class="table-wrap"><table>
+    <tr><th>Cenová úroveň</th><th>Cena</th><th>Použití</th></tr>
+    <tr><td><strong>Standard MSRP</strong></td><td><strong>599 Kč</strong></td><td>Hlavní cena</td></tr>
+    <tr><td>Launch price (3 měs)</td><td>499 Kč</td><td>Early adopter</td></tr>
+    <tr><td>Klubový kód</td><td>-15 % (509)</td><td>Fanoušci klubů</td></tr>
+    <tr><td>Ambassador kód</td><td>-20 % (479)</td><td>UGC kreátoři</td></tr>
+    <tr><td>Premium edition</td><td>749 Kč</td><td>Limitované barvy</td></tr>
+    <tr><td>Bulk wholesale (20+)</td><td>-30 % (419)</td><td>B2B kluby</td></tr>
+  </table></div>
+
+  <h3>Marže per prodej</h3>
+  <p><strong>599 Kč standard:</strong></p>
+  <pre><code>599 - 257 (COGS) - 47 (var) = 295 Kč marže (49 %)</code></pre>
+  <p><strong>509 Kč klubový kód:</strong></p>
+  <pre><code>509 - 257 - 47 = 205 Kč - 25 Kč klubu (5 %) = 180 Kč netto</code></pre>
+
+  <h3>Fixní měsíční náklady</h3>
+  <div class="table-wrap"><table>
+    <tr><th>Položka</th><th>Kč/měs</th></tr>
+    <tr><td>Shoptet Basic</td><td>590</td></tr>
+    <tr><td>Doména</td><td>17</td></tr>
+    <tr><td>Google Workspace Basic</td><td>150</td></tr>
+    <tr><td>Marketing subscriptions</td><td>200</td></tr>
+    <tr><td><strong>Celkem</strong></td><td><strong>~957 Kč</strong></td></tr>
+  </table></div>
+
+  <p><strong>Break-even:</strong> 957 / 295 = <strong>3,3 ks/měsíc</strong> → nulová zátěž.</p>
+
+  <h3>Cesta k 80 000 Kč čistého/měsíc</h3>
+  <pre><code>Hrubý zisk před daní + soc/zdrav: ~110 000 Kč/měs
+Měsíční zisk + fixy = 111 000 Kč
+÷ marže 295 Kč = ~377 prodejů/měs
+= ~12-13 prodejů/den
+= obrat ~225 000 Kč/měs
+= ~2 700 000 Kč/rok</code></pre>
+
+  <div class="callout warning">
+    <strong>⚠️ POZOR:</strong> Při ~2 mil. ročního obratu → povinný plátce DPH (přepočítat marže).
+  </div>
+
+  <h3>Realistický růstový plán</h3>
+  <div class="table-wrap"><table>
+    <tr><th>Období</th><th>Prodej/měs</th><th>Obrat/měs</th><th>Zisk před daní</th><th>Status</th></tr>
+    <tr><td>M1-3 (launch)</td><td>30</td><td>~18k</td><td>~5k</td><td>Iveco hlavní</td></tr>
+    <tr><td>M4-6</td><td>80</td><td>~48k</td><td>~22k</td><td>OSVČ vedlejší</td></tr>
+    <tr><td>M7-12</td><td>150</td><td>~90k</td><td>~44k</td><td>Pořád vedlejší</td></tr>
+    <tr><td>M13-18</td><td>250</td><td>~150k</td><td>~72k</td><td>Zvážit přechod</td></tr>
+    <tr><td>M19-24</td><td>380</td><td>~225k</td><td>~110k = 80k čistý</td><td><strong>Výpověď ✅</strong></td></tr>
+  </table></div>
+
+  <h3>Startup rozpočet 100 000 Kč</h3>
+  <div class="table-wrap"><table>
+    <tr><th>Položka</th><th>Kč</th></tr>
+    <tr><td>První várka 100 ks × 230</td><td>23 000</td></tr>
+    <tr><td>Krabičky 100 ks × 25</td><td>2 500</td></tr>
+    <tr><td>Vizitky + UGC karty</td><td>500</td></tr>
+    <tr><td>Shoptet 12 měs předplatné</td><td>6 000</td></tr>
+    <tr><td>Doména + email rok</td><td>2 000</td></tr>
+    <tr><td>Brand design</td><td>5 000</td></tr>
+    <tr><td>Foto/video pack</td><td>3 000</td></tr>
+    <tr><td>Účetní konzultace</td><td>2 000</td></tr>
+    <tr><td>Právní šablony</td><td>3 000</td></tr>
+    <tr><td>První ads test</td><td>5 000</td></tr>
+    <tr><td><strong>Rezerva (polštář)</strong></td><td><strong>48 000</strong></td></tr>
+    <tr><td><strong>CELKEM</strong></td><td><strong>100 000</strong></td></tr>
+  </table></div>
+
+  <blockquote>48 % rezerva → low-cost organický přístup. Druhou várku z příjmů + polštáře v měsíci 4-6.</blockquote>
+</section>
+
+<!-- KAPITOLA 3: BRAND -->
+<section class="chapter" id="kap3-brand">
+  <h2>Kapitola 3: Brand & vizuál</h2>
+  <p class="chapter-meta">Schváleno jako rámec 15. 5. 2026 · Detaily a brand manual dořešíme později</p>
+
+  <h3>Brand DNA</h3>
+  <div class="table-wrap"><table>
+    <tr><th>Atribut</th><th>Hodnota</th></tr>
+    <tr><td>One-liner</td><td>„Holy Socks. No, just socks with holes."</td></tr>
+    <tr><td>Personality</td><td>Drzý, sebevědomý, premium, self-aware</td></tr>
+    <tr><td>Hodnoty</td><td>Kvalita, originalita, komunita, férovost</td></tr>
+    <tr><td>Hlavní napětí</td><td>Premium produkt × irreverentní marketing</td></tr>
+  </table></div>
+
+  <h3>Logo systém — 3 vrstvy</h3>
+  <ol>
+    <li><strong>Wordmark „eldee"</strong> s dvěma kruhovými dírami ve dvou „e" — web, fotky, krabička</li>
+    <li><strong>Logomark LD</strong> (registrovaná ochranná známka) — oficiální dokumenty, vyšívání</li>
+    <li><strong>Hole Pattern</strong> (chráněný průmyslovým vzorem) — primární vizuální podpis</li>
+  </ol>
+
+  <div class="callout tip">
+    <strong>Strategie:</strong> Pattern mark = primární vyšívaný motiv na produktu (geometrie vyšívá perfektně). LD wordmark/logomark pro printed aplikace.
+  </div>
+
+  <h3>Řešení pixelovosti vyšívaného LD</h3>
+  <ol>
+    <li>Profesionální vektorizace pro embroidery digitizer (~500 Kč jednorázově)</li>
+    <li>Vyšívat jen Hole Pattern (geometrie embroideruje čistě)</li>
+    <li>Heat-transfer / sublimace pro detaily</li>
+  </ol>
+
+  <h3>Barvy — 2 varianty (rozhodnutí odloženo)</h3>
+  <div class="table-wrap"><table>
+    <tr><th>Varianta</th><th>Barva</th><th>HEX</th><th>Charakter</th></tr>
+    <tr><td rowspan="3"><strong>A: Holy Red ⭐</strong></td><td>Carbon Black</td><td>#0A0A0A</td><td>Pozadí</td></tr>
+    <tr><td>Off-white</td><td>#F5F5F0</td><td>Kontrast</td></tr>
+    <tr><td>Holy Red</td><td>#DC2626</td><td>Akcent (echo „Holy" tématu, energická)</td></tr>
+    <tr><td rowspan="3">B: Electric Blue</td><td>Carbon Black</td><td>#0A0A0A</td><td>Pozadí</td></tr>
+    <tr><td>Off-white</td><td>#F5F5F0</td><td>Kontrast</td></tr>
+    <tr><td>Sport Blue</td><td>#2563EB</td><td>Akcent (mladší, sportovní)</td></tr>
+  </table></div>
+
+  <h3>Typografie (Google Fonts, zdarma)</h3>
+  <div class="table-wrap"><table>
+    <tr><th>Použití</th><th>Font</th></tr>
+    <tr><td>Display (hlavičky, slogany)</td><td><strong>Anton</strong></td></tr>
+    <tr><td>Body (text, eshop)</td><td><strong>Inter</strong></td></tr>
+    <tr><td>Stencil (kampaně Holy Socks)</td><td>Allerta Stencil</td></tr>
+  </table></div>
+
+  <h3>Vizitka (85×55mm, matte black 350g)</h3>
+  <pre><code>   eldee  ○○
+          ○○
+
+   ─────────────────
+
+   LUKÁŠ HLEDÍK
+   Founder & Coach</code></pre>
+  <p>Pozadí matte black, text off-white, ○○ = fyzicky vyseknuté oválné díry (die-cut). Cena ~3-5 Kč/ks × 100 ks.</p>
+
+  <h3>Krabička</h3>
+  <ul>
+    <li><strong>Materiál:</strong> kraft brown (eco) NEBO matte black (premium)</li>
+    <li><strong>Velikost:</strong> ~18×12×5 cm</li>
+    <li><strong>Víko:</strong> transparent PVC/PET window</li>
+    <li><strong>Vnitřek:</strong> hedvábný papír + UGC karta + „thank you" karta</li>
+    <li><strong>Cena:</strong> 25-35 Kč/ks při 100 ks (printo.cz, packaly.cz)</li>
+  </ul>
+
+  <h3>Cena celé brand vize</h3>
+  <div class="table-wrap"><table>
+    <tr><th>Položka</th><th>Cena</th></tr>
+    <tr><td>Vektorizace LD pro embroidery</td><td>500–1 000 Kč</td></tr>
+    <tr><td>Brand book PDF (DIY/Fiverr)</td><td>0–1 500 Kč</td></tr>
+    <tr><td>Vizitky 100 ks s die-cut</td><td>500 Kč</td></tr>
+    <tr><td>UGC karty 300 ks</td><td>300 Kč</td></tr>
+    <tr><td>Krabičky 100 ks</td><td>2 500 Kč</td></tr>
+    <tr><td>Hedvábný papír 200 listů</td><td>200 Kč</td></tr>
+    <tr><td>Stickers 3× 100 ks</td><td>800 Kč</td></tr>
+    <tr><td><strong>CELKEM</strong></td><td><strong>~5 000–6 500 Kč</strong></td></tr>
+  </table></div>
+</section>
+
+<!-- KAPITOLA 4: SMLOUVY -->
+<section class="chapter" id="kap4-smlouvy">
+  <h2>Kapitola 4: Smluvní šablony</h2>
+  <p class="chapter-meta">Šablony hotové 15. 5. 2026 · Před prvním podpisem dej právníkovi 1 hodinu (~2 500 Kč)</p>
+
+  <div class="callout warning">
+    <strong>⚠️ DŮLEŽITÉ:</strong> Tohle jsou šablony pro start. Před prvním podpisem dej právníkovi 1 hodinu (~2 500 Kč) na kontrolu. Pak používáš opakovaně.
+  </div>
+
+  <h3>Co budeš podepisovat</h3>
+  <div class="table-wrap"><table>
+    <tr><th>#</th><th>Smlouva</th><th>S kým</th></tr>
+    <tr><td>1</td><td>Reklamní spolupráce — klub</td><td>Spolek/klub</td></tr>
+    <tr><td>2</td><td>Reklamní spolupráce — plnoletý ambasador</td><td>OSVČ 18+</td></tr>
+    <tr><td>3</td><td>Trojstranná — nezletilý ambasador</td><td>Rodič + nezletilý</td></tr>
+    <tr><td>4</td><td>GDPR doložka</td><td>Příloha k 1-3</td></tr>
+  </table></div>
+
+  <h3>Smlouva s klubem — klíčové body</h3>
+  <ul>
+    <li><strong>Klub poskytne licenci</strong> k použití svého názvu a loga</li>
+    <li><strong>Klub propaguje eldee</strong> (1 post/měsíc minimálně)</li>
+    <li><strong>eldee dává unikátní kód</strong> + <strong>10 % z obratu</strong> pod kódem</li>
+    <li>Doba: 12 měsíců, auto-renew, výpovědní lhůta 1 měsíc</li>
+    <li>Vyúčtování kvartálně</li>
+    <li>Klub vystavuje fakturu eldee „za reklamní službu"</li>
+  </ul>
+
+  <h3>Smlouva s plnoletým ambasadorem — klíčové body</h3>
+  <ul>
+    <li><strong>Ambasador:</strong> 2 videa/měsíc + 4 stories/měsíc + tagy</li>
+    <li><strong>eldee dává:</strong> 3 páry/sezónu + první kus nové kolekce + 10 % komise + slevový kód</li>
+    <li>Doba: 6 měsíců, auto-renew</li>
+    <li>Ambasador OSVČ → vystavuje fakturu</li>
+    <li>Neaktivita 2 měsíce → ukončení + vrácení produktů</li>
+  </ul>
+
+  <h3>Smlouva s nezletilým ambasadorem — klíčové body</h3>
+  <ul>
+    <li><strong>Trojstranná:</strong> eldee + nezletilý + rodič</li>
+    <li><strong>Nezletilý:</strong> 1 video/měsíc + 2 stories/měsíc</li>
+    <li><strong>eldee dává:</strong> 1 pár/sezónu (do 500 Kč = osvobozený dar) + 50% sleva na další páry + 10 % komise vyplacena rodiči</li>
+    <li><strong>Rodič schvaluje obsah</strong> před publikací (do 15 let věku)</li>
+    <li><strong>Zakázaný obsah:</strong> politické, sexuální, nebezpečné, konkurenční značky</li>
+    <li>Rodič může kdykoliv ukončit bez sankce</li>
+  </ul>
+
+  <h3>GDPR doložka — co obsahuje</h3>
+  <ul>
+    <li>Identifikaci Správce (eldee)</li>
+    <li>Kategorie zpracovávaných dat</li>
+    <li>Účel, doba uchování, právní základ</li>
+    <li>Práva subjektu (přístup, výmaz, oprava)</li>
+    <li>Souhlas s marketingovým využitím obrazu</li>
+    <li>Pro nezletilé: souhlas rodiče</li>
+  </ul>
+
+  <h3>Postup uzavírání</h3>
+  <ol>
+    <li>Vyplnit šablonu osobními údaji ve Wordu/Google Docs</li>
+    <li>Zkontrolovat právníkem (jednou pro každý typ smlouvy)</li>
+    <li>Vytisknout 2 nebo 3 stejnopisy</li>
+    <li>Osobně nebo přes datovou schránku podepsat</li>
+    <li>Uložit do <code>smlouvy/podepsane/[KLUB-XYZ]/</code></li>
+    <li>Nastavit slevový kód v Shoptetu</li>
+    <li>Naplánovat kvartální vyúčtování (Google Calendar)</li>
+  </ol>
+
+  <div class="callout tip">
+    <strong>💡 Plné texty smluv</strong> jsou v projektové složce <code>smlouvy/</code> — 4 markdown soubory, připravené k vyplnění.
+  </div>
+</section>
+
+<!-- KAPITOLA 5: ESHOP -->
+<section class="chapter" id="kap5-eshop">
+  <h2>Kapitola 5: E-shop na Shoptet</h2>
+  <p class="chapter-meta">Schváleno 15. 5. 2026 · Shoptet Basic (590 Kč/měs) · Mobile-first · ~757 Kč fixed/měsíc</p>
+
+  <h3>Cílový stav</h3>
+  <ul>
+    <li>Platforma: <strong>Shoptet Basic</strong> (upgrade na Profi až při 200+ prodejích/měsíc)</li>
+    <li>Doména: eldee.cz</li>
+    <li>Mobile-first, premium minimalistický, černo-bílá + akcent</li>
+    <li>Cíl: 2–3 % conversion rate, LCP <2 s na mobil</li>
+  </ul>
+
+  <h3>Struktura eshopu</h3>
+  <h4>Home page</h4>
+  <ul>
+    <li>Hero banner (Holy Socks hlavní hláška + video + CTA)</li>
+    <li>Klíčové vlastnosti (3 ikonky)</li>
+    <li>Best sellers (top 3 produkty)</li>
+    <li>Náš příběh (link)</li>
+    <li>Holy Squad (sociální proof)</li>
+    <li>Instagram feed</li>
+    <li>Newsletter signup („Sleva 50 Kč")</li>
+  </ul>
+
+  <h4>Top menu</h4>
+  <ul>
+    <li>Štulpny (kategorie)</li>
+    <li>Holy Squad (ambasadoři + kluby)</li>
+    <li>Náš příběh</li>
+    <li>Blog (volitelné)</li>
+    <li>Kontakt</li>
+  </ul>
+
+  <h3>Mobile-first pravidla</h3>
+  <div class="table-wrap"><table>
+    <tr><th>Prvek</th><th>Pravidlo</th></tr>
+    <tr><td>Hero</td><td>Nadpis + CTA bez scrollu</td></tr>
+    <tr><td>Tlačítka</td><td>Min 44×44 px</td></tr>
+    <tr><td>Sticky CTA</td><td>„Přidat do košíku" pinován na spodu</td></tr>
+    <tr><td>Obrázky</td><td>WebP, lazy load, max 200 KB</td></tr>
+    <tr><td>Loading</td><td>LCP <2 s, FID <100 ms</td></tr>
+    <tr><td>Font size</td><td>Min 16 px body</td></tr>
+  </table></div>
+
+  <h3>Platební brány</h3>
+  <div class="table-wrap"><table>
+    <tr><th>Brána</th><th>Provize</th><th>Doporučení</th></tr>
+    <tr><td><strong>GoPay</strong> ⭐</td><td>1,5–2,5 % + 5 Kč</td><td>Hlavní volba</td></tr>
+    <tr><td>Comgate</td><td>1,9 % + 5 Kč</td><td>Alternativa</td></tr>
+    <tr><td>ČSOB Pay</td><td>dle účtu</td><td>Pokud máš ČSOB</td></tr>
+  </table></div>
+
+  <h3>Doprava</h3>
+  <div class="table-wrap"><table>
+    <tr><th>Dopravce</th><th>Cena</th><th>Doba</th></tr>
+    <tr><td><strong>Zásilkovna Z-BOX</strong> ⭐</td><td>79 Kč</td><td>1-2 dny</td></tr>
+    <tr><td>Česká pošta NEXT</td><td>99 Kč</td><td>2-3 dny</td></tr>
+    <tr><td>PPL Parcelshop</td><td>89 Kč</td><td>1-2 dny</td></tr>
+  </table></div>
+  <p><strong>Akce „doprava zdarma od 1 000 Kč"</strong> = stimul ke 2+ párům.</p>
+
+  <h3>Slevové kódy</h3>
+  <div class="table-wrap"><table>
+    <tr><th>Kód</th><th>Sleva</th><th>Účel</th></tr>
+    <tr><td><code>LAUNCH50</code></td><td>50 Kč</td><td>Newsletter</td></tr>
+    <tr><td><code>WELCOME10</code></td><td>10 %</td><td>First-time</td></tr>
+    <tr><td><code>PARTA15</code></td><td>15 %</td><td>3+ ks v objednávce</td></tr>
+    <tr><td><code>KLUB-XXX</code></td><td>15 %</td><td>Klubové smlouvy</td></tr>
+    <tr><td><code>HOLY-XXX</code></td><td>20 %</td><td>Ambassadors</td></tr>
+  </table></div>
+
+  <h3>Doporučené pluginy</h3>
+  <div class="table-wrap"><table>
+    <tr><th>Plugin</th><th>K čemu</th><th>Cena</th></tr>
+    <tr><td>Smartsupp Chat</td><td>Chat se zákazníky</td><td>0 Kč free</td></tr>
+    <tr><td>Heureka Ověřeno zákazníky</td><td>Recenze + SEO</td><td>Zdarma</td></tr>
+    <tr><td>Zboží.cz</td><td>Cenový srovnávač</td><td>Zdarma</td></tr>
+    <tr><td>GA4 + Tag Manager</td><td>Analytika</td><td>Zdarma</td></tr>
+    <tr><td>Meta Pixel + CAPI</td><td>Pro budoucí ads</td><td>Zdarma</td></tr>
+    <tr><td>MailerLite</td><td>Newsletter</td><td>0 Kč do 1k kontaktů</td></tr>
+  </table></div>
+
+  <h3>Testovací checklist před launch</h3>
+  <div class="checklist">
+    <div>[ ] Test nákupu 5× (různé velikosti, platby, dopravy)</div>
+    <div>[ ] Test mobilního zobrazení (iOS Safari, Android Chrome)</div>
+    <div>[ ] PageSpeed >85 mobile</div>
+    <div>[ ] Test slevových kódů</div>
+    <div>[ ] Test newsletter + welcome série</div>
+    <div>[ ] Test abandoned cart</div>
+    <div>[ ] Test GDPR banner</div>
+    <div>[ ] Test 404 stránky</div>
+    <div>[ ] Test vyhledávání</div>
+    <div>[ ] Test exportu do Pohoda</div>
+    <div>[ ] Test responsiveness</div>
+  </div>
+
+  <h3>Měsíční náklady eshopu</h3>
+  <div class="table-wrap"><table>
+    <tr><th>Položka</th><th>Kč/měs</th></tr>
+    <tr><td>Shoptet Basic</td><td>590</td></tr>
+    <tr><td>Doména</td><td>17</td></tr>
+    <tr><td>Google Workspace</td><td>150</td></tr>
+    <tr><td>MailerLite</td><td>0</td></tr>
+    <tr><td>GoPay (variable)</td><td>~2,5 % z prodejů</td></tr>
+    <tr><td><strong>Fix CELKEM</strong></td><td><strong>~757 Kč/měs</strong></td></tr>
+  </table></div>
+</section>
+
+<!-- KAPITOLA 7: AKVIZICE KLUBŮ -->
+<section class="chapter" id="kap7-akvizice">
+  <h2>Kapitola 7: Akvizice klubů</h2>
+  <p class="chapter-meta">Schváleno 19. 5. 2026 · Strategie + 6 šablon mailů + 90-denní akviziční sprint</p>
+
+  <h3>Strategie & cíl</h3>
+  <p><strong>Cíl:</strong> 5 podepsaných licenčních smluv s amatérskými kluby během 90 dní.</p>
+  <p><strong>Konverzní funnel:</strong> 50 oslovených → 20 reakcí → 10 meetingů → <strong>5 smluv</strong> (10 %).</p>
+
+  <h3>Ideální profil klubu (ICP)</h3>
+  <div class="table-wrap"><table>
+    <tr><th>Kritérium</th><th>Co hledat</th></tr>
+    <tr><td>Kategorie</td><td>U13 / U15 / U17 / U19</td></tr>
+    <tr><td>Velikost</td><td>50–300 hráčů</td></tr>
+    <tr><td>Dresy</td><td>Bílo-černé / černo-bílé</td></tr>
+    <tr><td>SS aktivita</td><td>FB/IG &gt;500 followerů, posty 4×/měsíc</td></tr>
+    <tr><td>Právní forma</td><td>Spolek (z.s.)</td></tr>
+    <tr><td>Region</td><td>Celá ČR, prioritně Středočeský + Praha</td></tr>
+  </table></div>
+
+  <h3>Zdroje dat — 5 kanálů</h3>
+  <ol>
+    <li><strong>FAČR databáze</strong> (fotbal.cz) — oficiální</li>
+    <li><strong>Facebook Pages search</strong> — Messenger funguje líp než mail</li>
+    <li><strong>Instagram hashtag search</strong> — #fotbalovamladez #nasimladez</li>
+    <li><strong>Tvoje trenérská síť</strong> — warm intro = nejvyšší konverze</li>
+    <li><strong>Justice.cz / spolky.cz</strong> — ověření IČO + právní formy</li>
+  </ol>
+
+  <h3>Databáze v Google Sheets — schema</h3>
+  <p>27 sloupců: ID, Klub, Kategorie, Velikost, Kraj, Město, Barva dresů, IČO, Web, FB, IG, FB followers, IG followers, Aktivita SS, Email, Telefon, Předseda, Priorita (1-3), Status (new/oslovo/odpoveď/meeting/smlouva/odmítnuto), datumy kontaktů, slevový kód, datum podpisu, poznámky.</p>
+
+  <h3>Šablony — přehled</h3>
+  <div class="table-wrap"><table>
+    <tr><th>Šablona</th><th>Kdy</th><th>Předmět</th></tr>
+    <tr><td>1. Oslovovací mail</td><td>Den 0</td><td>Krátká nabídka pro [Klub] — eldee</td></tr>
+    <tr><td>2. Follow-up #1</td><td>Den 3</td><td>Re: [původní]</td></tr>
+    <tr><td>3. Follow-up #2</td><td>Den 7</td><td>Vzorek štulpen eldee pro [Klub]</td></tr>
+    <tr><td>4. Poslední pokus</td><td>Den 14</td><td>Posledně, [jméno]</td></tr>
+    <tr><td>5. Instagram/FB DM</td><td>Paralelně</td><td>—</td></tr>
+    <tr><td>6. Telefon scénář</td><td>Po dni 14</td><td>—</td></tr>
+  </table></div>
+
+  <div class="callout tip">
+    <strong>💡 Klíčový tip:</strong> Předmět mailu rozhoduje, jestli ho vůbec otevřou. „Krátká nabídka pro [Klub] — eldee" funguje. „Spolupráce", „Obchodní nabídka" působí spam.
+  </div>
+
+  <h3>Princip „1 slovo ne" (šablona 4)</h3>
+  <p>U posledního follow-upu nabídneš: „Stačí 1 slovo ‚ne' a smažu váš kontakt." Často odpoví právě proto, že nemusí psát dlouhou omluvu. Některé pak řeknou „naopak, mám zájem, jen jsem neměl čas".</p>
+
+  <h3>Tracking metriky — benchmarky</h3>
+  <ul>
+    <li>Open rate &lt; 30 % → <strong>špatný předmět mailu</strong></li>
+    <li>Response rate &lt; 15 % → nudný mail / špatná cílovka</li>
+    <li>Konverze pod 5 % → potřebuješ víc FU mailů nebo lepší nabídku</li>
+  </ul>
+
+  <h3>90-denní akviziční sprint</h3>
+  <div class="table-wrap"><table>
+    <tr><th>Týden</th><th>Aktivita</th></tr>
+    <tr><td>W1</td><td>Sestavit databázi (50 klubů), priority 1-3</td></tr>
+    <tr><td>W2</td><td>První vlna mailů (P1 — 20 klubů) + 5 IG DM</td></tr>
+    <tr><td>W3</td><td>Follow-up + druhá vlna (P2 — 20 klubů)</td></tr>
+    <tr><td>W4</td><td>Meetingy + třetí vlna (P3 — 10 klubů)</td></tr>
+    <tr><td>W5-6</td><td>Follow-up 7-day + posílání vzorků</td></tr>
+    <tr><td>W7-8</td><td>Meetingy + 5 podpisů smluv</td></tr>
+    <tr><td>W9-10</td><td>Setup slevových kódů + welcome pack</td></tr>
+    <tr><td>W11-12</td><td>První kvartální vyúčtování</td></tr>
+  </table></div>
+
+  <h3>Welcome pack pro podepsaný klub</h3>
+  <pre><code>Vítáme [Klub] v eldee partnerské síti! 🤝
+
+VÁŠ SLEVOVÝ KÓD: KLUB-[NÁZEV]
+Sleva: -15 % · Vaše odměna: 5 % z čisté tržby
+
+CO TEĎ:
+1. Sdílejte kód s rodiči (grafika přiložena)
+2. Postujete 1× měsíčně
+3. Kvartálně přehled prodejů + sponzorský dar</code></pre>
+
+  <div class="callout">
+    <strong>📄 Plný text kapitoly</strong> v <code>kniha/07-akvizice.md</code> — všech 6 šablon kompletně, telefonní scénář, onboarding postup.
+  </div>
+</section>
+
+<!-- BONUS: DATABÁZE KLUBŮ -->
+<section class="chapter" id="bonus-databaze">
+  <h2>Bonus: Databáze klubů — ~950 klubů z celé ČR <span class="badge badge-done">Hotovo</span></h2>
+  <p class="chapter-meta">18. 5. 2026 · v3 — krajské + okresní soutěže, všech 14 krajů, ~950 klubů s mládeží a s bílou/černou v dresech</p>
+
+  <div class="callout tip" style="background: linear-gradient(135deg, #1a1a1a, #2a2a2a); border-left: 4px solid #fff; padding: 20px;">
+    <strong style="font-size: 18px;">🔍 Interaktivní vyhledávač klubů</strong><br><br>
+    Filtruj podle <strong>kraje, barev dresů, soutěže, priority</strong>. Hledej fulltextem. Exportuj výsledky do CSV pro Google Sheets / CRM.<br><br>
+    <a href="kluby-vyhledavac.html" target="_blank" style="display: inline-block; background: #fff; color: #000; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: 700; margin-top: 8px;">→ Otevřít hledač klubů</a>
+  </div>
+
+  <h3>Co je v databázi</h3>
+  <div class="table-wrap"><table>
+    <tr><th>Verze</th><th>Co obsahuje</th><th>Soubor</th></tr>
+    <tr><td><strong>v1</strong></td><td>16 klubů (Královéhradecký + bonusy)</td><td><code>databaze/01-databaze-klubu-v1.md</code></td></tr>
+    <tr><td><strong>v2</strong></td><td>~430 klubů z krajských soutěží (KP + I.A + I.B) všech 14 krajů</td><td><code>databaze/02-databaze-klubu-v2.md/.csv</code></td></tr>
+    <tr><td><strong>v3</strong></td><td>+ okresní přebory (II., III. třída) — celkem ~950 klubů</td><td><code>kluby-vyhledavac.html</code> (interaktivní)</td></tr>
+  </table></div>
+
+  <div class="callout tip">
+    <strong>🎯 Filtr databáze:</strong> Mládež U13-U19 + <strong>bílá NEBO černá</strong> v dresech (libovolná kombinace — černo-červení, bílo-modří, atd.). Vyřazeny jen kluby BEZ bílé/černé.
+  </div>
+
+  <h3>TOP 14 picků pro první vlnu — jeden klub per kraj</h3>
+  <div class="table-wrap"><table>
+    <tr><th>Kraj</th><th>Klub</th><th>Proč TOP</th></tr>
+    <tr><td>Praha</td><td><strong>FK Admira Praha</strong></td><td>ČFL, 13 mládež. týmů, bílo-černé tradiční</td></tr>
+    <tr><td>Středočeský</td><td><strong>MFK Dobříš</strong></td><td>Klasické černo-bílé pruhy, kompletní U13-U19</td></tr>
+    <tr><td>Královéhradecký</td><td>FC Spartak Rychnov n/K</td><td>U15+U17 přímo v cílovce</td></tr>
+    <tr><td>Jihočeský</td><td>FK Junior Strakonice</td><td>Čistě mládežnický klub U13-U19</td></tr>
+    <tr><td>Plzeňský</td><td>SK Klatovy 1898</td><td>Akademie FAČR 2026-27, masivní mládež</td></tr>
+    <tr><td>Karlovarský</td><td>FK Baník Sokolov</td><td>Černo-modré, profi sekretariát</td></tr>
+    <tr><td>Ústecký</td><td>FK Litvínov</td><td>U5-U19 kompletní „Fotbalová škola"</td></tr>
+    <tr><td>Liberecký</td><td>FK Arsenal Česká Lípa</td><td>9+ mládež. kategorií, kontakt na šéftrenéra</td></tr>
+    <tr><td>Pardubický</td><td>SK Holice</td><td>Čistě černé dresy, tradice 1906</td></tr>
+    <tr><td>Vysočina</td><td>FC Velké Meziříčí</td><td>Mládež U7-U19, sekretář s mailem</td></tr>
+    <tr><td>Jihomoravský</td><td>FK SK Bosonohy</td><td>Černá-bílá-modrá, kompletní mládež</td></tr>
+    <tr><td>Olomoucký</td><td>1. HFK Olomouc</td><td>Bílo-černé Adidas dresy, akademie</td></tr>
+    <tr><td>Zlínský</td><td>FC Velké Karlovice</td><td>Černo-bílé potvrzené, plná mládež</td></tr>
+    <tr><td>Moravskoslezský</td><td>FC Heřmanice Slezská</td><td>Bílo-černá, fotbalová školka, Ostrava</td></tr>
+  </table></div>
+
+  <h3>Statistika — pokrytí celé ČR</h3>
+  <div class="table-wrap"><table>
+    <tr><th>Úroveň</th><th>Počet klubů</th><th>Pokryté kraje</th></tr>
+    <tr><td><strong>Krajské soutěže</strong> (KP + I.A + I.B)</td><td>~430</td><td>14/14</td></tr>
+    <tr><td><strong>Okresní přebory</strong> (II., III. tř.)</td><td>~520</td><td>14/14, 76 okresů</td></tr>
+    <tr><td><strong>CELKEM</strong></td><td>~950 klubů</td><td>celá ČR</td></tr>
+  </table></div>
+
+  <div class="callout tip">
+    <strong>💡 Jak používat hledač:</strong>
+    <ol style="margin-top: 10px;">
+      <li>Otevři <a href="kluby-vyhledavac.html" target="_blank">hledač</a> v novém panelu</li>
+      <li>Vyber barvy, které tě zajímají (např. ⚫ černá + ⚪ bílá)</li>
+      <li>Zúžit krajem nebo prioritou (P1 = top picky)</li>
+      <li>Export do CSV → import do Google Sheets / Excelu</li>
+    </ol>
+  </div>
+
+  <div class="callout warning">
+    <strong>⚠️ Limit dat:</strong> ~25 % klubů má barvy označené „k ověření" — agenti neměli dost veřejných zdrojů. Před oslovením těchto klubů projdi FB galerii zápasů (5 min/klub).
+  </div>
+</section>
+
+<!-- KAPITOLA 8: FINALIZACE -->
+<section class="chapter" id="kap8-finalni">
+  <h2>Kapitola 8: Finalizace <span class="badge badge-done">Hotovo</span></h2>
+  <p class="chapter-meta">Od vzorků k Drop 001 — kalkulačka, brány go/no-go, 90denní plán · plný text: <code>kniha/08-finalizace.md</code></p>
+
+  <h3>💰 Interaktivní finanční kalkulačka</h3>
+  <p><a href="kalkulacka.html"><strong>→ Otevřít kalkulačku</strong></a> — 4 produkty + bundle (návlek, tréninková ponožka, nízká/vysoká štulpna), mix prodejů, klubové kódy (15 % sleva + 10 % odvod), koeficient daně a odvodů, hlídač DPH, rozpočet první výroby vs. kapitál. Tři scénáře: <em>Start (launch ceny)</em> · <em>Realistický cíl 80k</em> · <em>Jen štulpny</em> (validace proti kapitole 2: ~382 prodejů/měs, 12,7/den).</p>
+  <p><strong>Hlavní poznatek:</strong> cíl 80 000 Kč čistého ⇒ roční obrat ~2,7–2,9 mil. ⇒ <strong>DPH registrace prakticky jistá</strong> — zapracovat do plánu roku 2.</p>
+
+  <h3>🚦 Fáze a brány (go/no-go)</h3>
+  <ul>
+    <li><strong>Fáze 0 — vzorkování (běží):</strong> dlouhá štulpna v2 s logem → 5 testerů → dotazník → zadání v3. Brána: fit ≥ 4/5, sjíždění ≥ 4/5, výšivka nevadí.</li>
+    <li><strong>Fáze 1 — odvozené produkty:</strong> nízká štulpna + návlek z mateřského střihu, ponožka vlastní vývoj (protiskluz). Brána: 4 finální produkty potvrzené testery.</li>
+    <li><strong>Fáze 2 — výroba:</strong> MOQ/mix s výrobcem, objednávka dle kalkulačky (≤ 90 % kapitálu), sew-out každé výšivky. Brána: zboží + IČO + e-shop živý.</li>
+    <li><strong>Fáze 3 — Drop 001:</strong> launch ceny, kapsa = hero, díry = statement. Klubové kódy až po prvních organických prodejích.</li>
+  </ul>
+
+  <h3>📅 90denní plán od finálních produktů</h3>
+  <ul>
+    <li><strong>T1–2:</strong> objednávka výroby · IČO/OSVČ · Shoptet + GoPay + Zásilkovna</li>
+    <li><strong>T3–4:</strong> produktové fotky (prototyp) · e-shop texty z knihy · testovací objednávka</li>
+    <li><strong>T5–6:</strong> pre-launch teaser · seznam čekatelů · ambasadoři z testerů</li>
+    <li><strong>T7–8:</strong> <strong>DROP 001</strong> — launch ceny 3 měsíce, UGC karta v balíku</li>
+    <li><strong>T9–10:</strong> vyhodnocení reálného mixu → kalkulačka · feedback → výrobce</li>
+    <li><strong>T11–13:</strong> akvizice klubů — první vlna 14 TOP (databáze + šablony ready)</li>
+  </ul>
+
+  <p style="margin-top:12px"><em>Pozn.: část původního plánu kapitoly se vyřešila jinde — brand book PDF je součást živého brand booku (v1.9), mockupy čekají na prototyp, kniha zůstává lokální (citlivá čísla).</em></p>
+</section>
+
+</main>
+
+<footer style="background: var(--gray-soft); border-top: 1px solid var(--gray-border); padding: 32px 20px; text-align: center; color: var(--gray-text); font-size: 13px;">
+  <p style="margin-bottom: 8px;"><strong style="color: var(--off-white);">eldee — Business Book v1.0</strong></p>
+  <p>Aktualizováno 6. 6. 2026 · <strong>8 z 8 kapitol KOMPLETNÍ</strong> + kalkulačka + bonusy (dotazníky + databáze 940 klubů)</p>
+  <p style="margin-top: 16px;">Holy Socks. No, just socks with holes.</p>
+  <p style="margin-top: 16px; font-size: 11px;">Vytvořeno spolu s Jarvis 🤖</p>
+</footer>
+
+<script>
+  function toggleMenu() {
+    document.getElementById('toc').classList.toggle('open');
+    document.querySelector('.overlay').classList.toggle('show');
+  }
+
+  // Active link tracking on scroll
+  const sections = document.querySelectorAll('section');
+  const navLinks = document.querySelectorAll('nav.toc a');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        navLinks.forEach(link => {
+          link.classList.remove('active');
+          if (link.getAttribute('href') === '#' + id) {
+            link.classList.add('active');
+          }
+        });
+      }
+    });
+  }, { rootMargin: '-30% 0% -60% 0%' });
+
+  sections.forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>

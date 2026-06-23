@@ -59,7 +59,7 @@
   <div class="sep"></div>
   <button class="btn" id="loadImg">📂 Obrázek</button>
   <input type="file" id="fileInput" accept="image/*" class="filehidden">
-  <div class="zoomwrap">🔍 <input type="range" id="zoom" min="1" max="10" step="0.5" value="3"> <span id="zoomVal">3×</span></div>
+  <div class="zoomwrap">🔍 <input type="range" id="zoom" min="0.1" max="10" step="0.1" value="1"> <span id="zoomVal">1×</span></div>
   <button class="btn solid" id="export">⬇ Uložit PNG</button>
 </div>
 
@@ -104,9 +104,16 @@
   const svgUrl = s => 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(s);
 
   const stage=document.getElementById('stage'), bg=document.getElementById('bg'), area=document.getElementById('area'), rubber=document.getElementById('rubber');
-  let nat={w:300,h:400}, zoom=3, objs=[], sel=null, uid=0, cloneMode=false;
+  let nat={w:300,h:400}, zoom=1, objs=[], sel=null, uid=0, cloneMode=false;
 
-  function init(){ nat.w=bg.naturalWidth||300; nat.h=bg.naturalHeight||400; applyZoom(); }
+  function fitZoom(){
+    const pad=56;
+    const aw=area.clientWidth-pad, ah=area.clientHeight-pad;
+    let z=Math.min(aw/nat.w, ah/nat.h);
+    return Math.max(0.1, Math.min(10, Math.floor(z*10)/10));   // dolů na krok 0.1, ať se vejde celý
+  }
+  function setZoom(z){ zoom=z; const zs=document.getElementById('zoom'); zs.value=z; document.getElementById('zoomVal').textContent=z+'×'; applyZoom(); }
+  function init(){ nat.w=bg.naturalWidth||300; nat.h=bg.naturalHeight||400; setZoom(fitZoom()); }
   bg.addEventListener('load', ()=>{ objs.forEach(o=>o.el.remove()); objs=[]; select(null); init(); });
   if(bg.complete && bg.naturalWidth) init();
 

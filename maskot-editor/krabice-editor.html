@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>eldee — editor krabice (klonování + razítka)</title>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#0A0A0A;--ink-soft:#141414;--ink-card:#1c1c1c;--bone:#F5F5F0;--ash:#9a9a92;--blood:#B91C1C;--gold:#C9A227;--line:rgba(245,245,240,.14)}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--ink);color:var(--bone);font-family:'Space Grotesk',system-ui,sans-serif;height:100vh;display:flex;flex-direction:column;overflow:hidden}
+  h1{font-family:'Big Shoulders Display';font-weight:900;text-transform:uppercase;font-size:19px;letter-spacing:.02em;white-space:nowrap}
+  .gold{color:var(--gold)}
+
+  .topbar{background:var(--ink-soft);border-bottom:1.5px solid var(--gold);padding:9px 16px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;flex:0 0 auto}
+  .btn{display:inline-flex;align-items:center;gap:6px;font-family:inherit;font-weight:700;font-size:13.5px;padding:10px 14px;border-radius:40px;cursor:pointer;border:1.5px solid var(--gold);background:transparent;color:var(--gold);transition:.15s;white-space:nowrap}
+  .btn:hover{background:rgba(201,162,39,.14)}
+  .btn.on{background:var(--gold);color:var(--ink)}
+  .btn.red{border-color:var(--blood);color:#fff;background:var(--blood)}
+  .btn.solid{background:var(--gold);color:var(--ink)}
+  .sep{width:1px;height:26px;background:var(--line);margin:0 2px}
+  .zoomwrap{display:flex;align-items:center;gap:7px;font-size:13px;color:var(--ash)}
+  .zoomwrap input{width:120px;accent-color:var(--gold)}
+
+  .main{flex:1;display:flex;min-height:0}
+  .canvas-area{flex:1;overflow:auto;background:repeating-conic-gradient(#171717 0% 25%, #121212 0% 50%) 50% / 28px 28px;display:grid;place-items:center;padding:30px}
+  .stage{position:relative;transform-origin:top left;box-shadow:0 20px 60px rgba(0,0,0,.6)}
+  .stage.clone{cursor:crosshair}
+  .stage img.bg{display:block;width:100%;height:100%;pointer-events:none;user-select:none}
+  .obj{position:absolute;cursor:grab;transform-origin:center center;touch-action:none}
+  .obj.sel{outline:2px dashed var(--gold);outline-offset:3px}
+  .obj img{display:block;width:100%;height:100%;pointer-events:none;user-select:none}
+  .obj:active{cursor:grabbing}
+  .rubber{position:absolute;border:2px dashed var(--gold);background:rgba(201,162,39,.12);pointer-events:none;display:none;z-index:99}
+
+  .side{width:248px;flex:0 0 auto;background:var(--ink-soft);border-left:1.5px solid var(--line);padding:16px;overflow:auto}
+  .side h2{font-family:'Big Shoulders Display';font-weight:700;text-transform:uppercase;font-size:15px;color:var(--gold);margin-bottom:10px}
+  .side .empty{color:var(--ash);font-size:13px;line-height:1.6}
+  .ctrl{margin-bottom:14px;display:none}
+  .ctrl label{display:block;font-size:12px;color:var(--ash);margin-bottom:5px}
+  .ctrl input[type=range]{width:100%;accent-color:var(--gold)}
+  .row{display:flex;gap:7px;flex-wrap:wrap}
+  .row .btn{flex:1;justify-content:center;padding:9px 6px;font-size:12px}
+  .steps{font-size:11.5px;color:var(--ash);line-height:1.7;margin-top:8px;border-top:1px solid var(--line);padding-top:10px}
+  .steps b{color:var(--bone)}
+  .steps .hl{color:var(--gold)}
+  .filehidden{display:none}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <h1>🦥 Editor krabice</h1>
+  <button class="btn" id="clone">✂ Klonovat z obrázku</button>
+  <div class="sep"></div>
+  <button class="btn" id="addHole">+ Čistá díra</button>
+  <button class="btn" id="addLogo">+ Čisté LD logo</button>
+  <button class="btn" id="addPatch">+ Záplata</button>
+  <div class="sep"></div>
+  <button class="btn" id="loadImg">📂 Obrázek</button>
+  <input type="file" id="fileInput" accept="image/*" class="filehidden">
+  <div class="zoomwrap">🔍 <input type="range" id="zoom" min="1" max="10" step="0.5" value="3"> <span id="zoomVal">3×</span></div>
+  <button class="btn solid" id="export">⬇ Uložit PNG</button>
+</div>
+
+<div class="main">
+  <div class="canvas-area" id="area">
+    <div class="stage" id="stage">
+      <img class="bg" id="bg" src="eldee-prodejce-transparent.png" alt="podklad" crossorigin="anonymous">
+      <div class="rubber" id="rubber"></div>
+    </div>
+  </div>
+
+  <div class="side">
+    <h2>Vybraný objekt</h2>
+    <div class="empty" id="emptyMsg">Klikni na objekt a uprav ho tady. Nebo nahoře <b class="gold">✂ Klonovat z obrázku</b> a táhni rámeček přes díru.</div>
+    <div class="ctrl" id="ctrlSize"><label>Velikost: <span id="sizeVal"></span></label><input type="range" id="size" min="6" max="240" step="1"></div>
+    <div class="ctrl" id="ctrlRot"><label>Otočení: <span id="rotVal"></span>°</label><input type="range" id="rot" min="-180" max="180" step="1"></div>
+    <div class="ctrl" id="ctrlBtns">
+      <div class="row"><button class="btn" id="flip">↔ Zrcadlit</button><button class="btn" id="dup">⧉ Duplikovat</button></div>
+      <div class="row" style="margin-top:7px"><button class="btn" id="front">⬆ Dopředu</button><button class="btn red" id="del">🗑 Smazat</button></div>
+    </div>
+    <div class="steps">
+      <b>Tvůj případ — zkopírovat díru:</b><br>
+      1. <b class="hl">✂ Klonovat z obrázku</b><br>
+      2. Táhni rámeček <b>přesně přes půlměsíc</b> ve štulpně<br>
+      3. Pustíš → vznikne <b>kopie přes originál</b><br>
+      4. <b>Táhni ji</b> nad stávající + uprav velikost<br>
+      <br><b>Posunout logo:</b><br>
+      1. <b class="hl">✂</b> orámuj logo → kopii táhni na nové místo<br>
+      2. <b>+ Záplata</b> přes staré logo (zakryje ho)<br>
+      <br>🔍 Přibliž si krabici. Šipky = jemný posun. Delete = smazat.
+    </div>
+  </div>
+</div>
+
+<script>
+  const SVG = {
+    dira: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 56"><ellipse cx="20" cy="28" rx="12" ry="20" fill="#F5F5F0" stroke="#B91C1C" stroke-width="5"/></svg>`,
+    logo: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="3.2 46 301.5 301.5" fill="none" color="#C9A227"><defs><mask id="k" maskUnits="userSpaceOnUse" x="3.2" y="46" width="301.5" height="301.5"><rect x="3.2" y="46" width="301.5" height="301.5" fill="white"/><path d="M56.32 285V78.6H95.02V250.94H145.85V285Z" fill="black" stroke="black" stroke-width="25" stroke-linejoin="round"/></mask></defs><path d="M128.32 318V111.6H180.69Q209.72 111.6 222.68 123.92Q235.65 136.24 236.16 164.49Q236.55 182.42 236.68 198.55Q236.81 214.67 236.68 230.8Q236.55 246.92 236.16 264.85Q235.65 293.23 222.68 305.62Q209.72 318 180.69 318ZM167.02 283.94H180.69Q188.82 283.94 193.08 280.2Q197.34 276.46 197.46 269.5Q197.85 255.69 198.04 242.02Q198.24 228.34 198.24 214.67Q198.24 201 198.04 187.26Q197.85 173.52 197.46 159.85Q197.34 153.01 193.08 149.33Q188.82 145.66 180.69 145.66H167.02Z" fill="currentColor" mask="url(#k)"/><path d="M56.32 285V78.6H95.02V250.94H145.85V285Z" fill="currentColor"/><ellipse cx="182.3" cy="77" rx="66" ry="13" stroke="#C9A227" stroke-width="11"/></svg>`,
+    patch: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40"><rect width="40" height="40" rx="3" fill="#F5F5F0"/></svg>`
+  };
+  const PRESET = { dira:{w:28,asp:56/40}, logo:{w:46,asp:1}, patch:{w:40,asp:1} };
+  const svgUrl = s => 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(s);
+
+  const stage=document.getElementById('stage'), bg=document.getElementById('bg'), area=document.getElementById('area'), rubber=document.getElementById('rubber');
+  let nat={w:300,h:400}, zoom=3, objs=[], sel=null, uid=0, cloneMode=false;
+
+  function init(){ nat.w=bg.naturalWidth||300; nat.h=bg.naturalHeight||400; applyZoom(); }
+  bg.addEventListener('load', ()=>{ objs.forEach(o=>o.el.remove()); objs=[]; select(null); init(); });
+  if(bg.complete && bg.naturalWidth) init();
+
+  function applyZoom(){ stage.style.width=(nat.w*zoom)+'px'; stage.style.height=(nat.h*zoom)+'px'; objs.forEach(renderObj); }
+  document.getElementById('zoom').addEventListener('input', e=>{ zoom=+e.target.value; document.getElementById('zoomVal').textContent=zoom+'×'; applyZoom(); });
+
+  function addObj(src, w, asp, x, y){
+    const o={id:++uid, src, x:x??nat.w/2, y:y??nat.h/2, w, asp, rot:0, flip:1};
+    const el=document.createElement('div'); el.className='obj'; el.dataset.id=o.id;
+    el.innerHTML=`<img src="${src}" draggable="false">`;
+    stage.appendChild(el); o.el=el; objs.push(o); attachDrag(o); renderObj(o); select(o);
+    return o;
+  }
+  function addStamp(type){ const p=PRESET[type]; return addObj(svgUrl(SVG[type]), p.w, p.asp); }
+
+  function renderObj(o){
+    const w=o.w*zoom, h=o.w*o.asp*zoom;
+    o.el.style.width=w+'px'; o.el.style.height=h+'px';
+    o.el.style.left=(o.x*zoom-w/2)+'px'; o.el.style.top=(o.y*zoom-h/2)+'px';
+    o.el.style.transform=`rotate(${o.rot}deg) scaleX(${o.flip})`;
+  }
+  function select(o){
+    sel=o; objs.forEach(x=>x.el.classList.toggle('sel', x===o));
+    document.getElementById('emptyMsg').style.display=o?'none':'block';
+    ['ctrlSize','ctrlRot','ctrlBtns'].forEach(id=>document.getElementById(id).style.display=o?'block':'none');
+    if(o){ document.getElementById('size').value=o.w; document.getElementById('sizeVal').textContent=Math.round(o.w);
+      document.getElementById('rot').value=o.rot; document.getElementById('rotVal').textContent=o.rot; }
+  }
+  function attachDrag(o){
+    o.el.addEventListener('pointerdown', e=>{
+      if(cloneMode) return;
+      e.preventDefault(); e.stopPropagation(); select(o);
+      const sx=e.clientX, sy=e.clientY, ox=o.x, oy=o.y;
+      o.el.setPointerCapture(e.pointerId);
+      const mv=ev=>{ o.x=ox+(ev.clientX-sx)/zoom; o.y=oy+(ev.clientY-sy)/zoom; renderObj(o); };
+      const up=()=>{ o.el.releasePointerCapture(e.pointerId); o.el.removeEventListener('pointermove',mv); o.el.removeEventListener('pointerup',up); };
+      o.el.addEventListener('pointermove',mv); o.el.addEventListener('pointerup',up);
+    });
+  }
+
+  // panel
+  document.getElementById('size').addEventListener('input', e=>{ if(sel){ sel.w=+e.target.value; document.getElementById('sizeVal').textContent=Math.round(sel.w); renderObj(sel);} });
+  document.getElementById('rot').addEventListener('input', e=>{ if(sel){ sel.rot=+e.target.value; document.getElementById('rotVal').textContent=sel.rot; renderObj(sel);} });
+  document.getElementById('flip').addEventListener('click', ()=>{ if(sel){ sel.flip*=-1; renderObj(sel);} });
+  document.getElementById('dup').addEventListener('click', ()=>{ if(sel){ const n=addObj(sel.src, sel.w, sel.asp, sel.x+12, sel.y+12); n.rot=sel.rot; n.flip=sel.flip; renderObj(n);} });
+  document.getElementById('front').addEventListener('click', ()=>{ if(sel){ stage.appendChild(sel.el); } });
+  document.getElementById('del').addEventListener('click', ()=>{ if(sel){ sel.el.remove(); objs=objs.filter(x=>x!==sel); select(null);} });
+  document.getElementById('addHole').addEventListener('click', ()=>addStamp('dira'));
+  document.getElementById('addLogo').addEventListener('click', ()=>addStamp('logo'));
+  document.getElementById('addPatch').addEventListener('click', ()=>addStamp('patch'));
+
+  // KLONOVÁNÍ Z OBRÁZKU (rubber-band výběr → crop → objekt)
+  const cloneBtn=document.getElementById('clone');
+  cloneBtn.addEventListener('click', ()=>{ cloneMode=!cloneMode; cloneBtn.classList.toggle('on',cloneMode); stage.classList.toggle('clone',cloneMode); select(null); });
+
+  let rb=null;
+  stage.addEventListener('pointerdown', e=>{
+    if(!cloneMode) return;
+    e.preventDefault();
+    const r=stage.getBoundingClientRect();
+    const x0=(e.clientX-r.left)/zoom, y0=(e.clientY-r.top)/zoom;
+    rb={x0,y0,x1:x0,y1:y0}; stage.setPointerCapture(e.pointerId);
+    rubber.style.display='block';
+    const mv=ev=>{ const rr=stage.getBoundingClientRect(); rb.x1=(ev.clientX-rr.left)/zoom; rb.y1=(ev.clientY-rr.top)/zoom;
+      const x=Math.min(rb.x0,rb.x1),y=Math.min(rb.y0,rb.y1),w=Math.abs(rb.x1-rb.x0),h=Math.abs(rb.y1-rb.y0);
+      rubber.style.left=x*zoom+'px'; rubber.style.top=y*zoom+'px'; rubber.style.width=w*zoom+'px'; rubber.style.height=h*zoom+'px'; };
+    const up=()=>{ stage.releasePointerCapture(e.pointerId); stage.removeEventListener('pointermove',mv); stage.removeEventListener('pointerup',up);
+      rubber.style.display='none';
+      const sx=Math.round(Math.min(rb.x0,rb.x1)), sy=Math.round(Math.min(rb.y0,rb.y1)), sw=Math.round(Math.abs(rb.x1-rb.x0)), sh=Math.round(Math.abs(rb.y1-rb.y0));
+      cloneMode=false; cloneBtn.classList.remove('on'); stage.classList.remove('clone');
+      if(sw<4||sh<4) return;
+      const c=document.createElement('canvas'); c.width=sw; c.height=sh;
+      c.getContext('2d').drawImage(bg, sx,sy,sw,sh, 0,0,sw,sh);
+      const src=c.toDataURL('image/png');
+      addObj(src, sw, sh/sw, sx+sw/2, sy+sh/2);   // kopie přesně přes originál
+    };
+    stage.addEventListener('pointermove',mv); stage.addEventListener('pointerup',up);
+  });
+
+  area.addEventListener('pointerdown', e=>{ if(e.target===area) select(null); });
+  document.addEventListener('keydown', e=>{
+    if(!sel) return;
+    if(e.key==='Delete'||e.key==='Backspace'){ sel.el.remove(); objs=objs.filter(x=>x!==sel); select(null); return; }
+    const s=e.shiftKey?5:1;
+    if(e.key==='ArrowLeft'){sel.x-=s;renderObj(sel);} if(e.key==='ArrowRight'){sel.x+=s;renderObj(sel);}
+    if(e.key==='ArrowUp'){sel.y-=s;renderObj(sel);} if(e.key==='ArrowDown'){sel.y+=s;renderObj(sel);}
+  });
+
+  document.getElementById('loadImg').addEventListener('click', ()=>document.getElementById('fileInput').click());
+  document.getElementById('fileInput').addEventListener('change', e=>{ const f=e.target.files[0]; if(f) bg.src=URL.createObjectURL(f); });
+
+  document.getElementById('export').addEventListener('click', async ()=>{
+    const cv=document.createElement('canvas'); cv.width=nat.w; cv.height=nat.h;
+    const ctx=cv.getContext('2d'); ctx.drawImage(bg,0,0,nat.w,nat.h);
+    for(const o of objs){
+      const img=new Image(); const w=o.w, h=o.w*o.asp;
+      await new Promise(res=>{ img.onload=res; img.onerror=res; img.src=o.src; });
+      ctx.save(); ctx.translate(o.x,o.y); ctx.rotate(o.rot*Math.PI/180); ctx.scale(o.flip,1);
+      ctx.drawImage(img,-w/2,-h/2,w,h); ctx.restore();
+    }
+    cv.toBlob(b=>{ const a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download='krabice-upraveno.png'; a.click(); }, 'image/png');
+  });
+</script>
+</body>
+</html>

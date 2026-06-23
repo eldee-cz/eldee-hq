@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>eldee HQ — průzkum cílovky 06/2026</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Space+Grotesk:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0A0A0A; --ink2:#121211; --line:#262624;
+    --bone:#F5F5F0; --muted:#8d8a81; --dim:#cfcdc4;
+    --gold:#C9A227; --blood:#B91C1C; --blood-l:#DC2626; --green:#3f9e58;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+  body{background:var(--ink);color:var(--bone);font-family:'Space Grotesk',system-ui,sans-serif;line-height:1.55}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 28px}
+  a{color:var(--gold);text-decoration:none}
+  a:hover{color:var(--bone)}
+
+  /* topbar */
+  .topbar{position:sticky;top:0;z-index:50;background:rgba(10,10,10,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  .topbar .in{display:flex;align-items:center;justify-content:space-between;padding:14px 28px;max-width:1080px;margin:0 auto}
+  .tb-brand{display:flex;align-items:center;gap:12px}
+  .tb-brand svg{width:30px;height:30px}
+  .tb-brand .n{font-family:'Big Shoulders Display';font-weight:900;font-size:19px;letter-spacing:.05em}
+  .tb-brand .n b{color:var(--gold)}
+  .tb-back{font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);padding:8px 4px}
+  .tb-back:hover{color:var(--gold)}
+
+  /* hero */
+  .hero{padding:64px 0 48px;border-bottom:1px solid var(--line)}
+  .hero .kick{font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.3em;color:var(--gold);text-transform:uppercase;margin-bottom:16px}
+  .hero h1{font-family:'Big Shoulders Display';font-weight:900;font-size:clamp(40px,7vw,76px);line-height:.92;text-transform:uppercase;letter-spacing:-.01em}
+  .hero p{margin-top:18px;max-width:62ch;color:var(--dim);font-size:17px}
+  .stamp{display:flex;gap:12px;flex-wrap:wrap;margin-top:26px;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.08em;color:var(--muted)}
+  .stamp .pill{border:1px solid var(--line);padding:7px 13px;border-radius:999px}
+  .stamp .pill b{color:var(--gold);font-weight:400}
+
+  /* sections */
+  section{padding:56px 0;border-bottom:1px solid var(--line)}
+  .sec-head{display:flex;align-items:baseline;gap:16px;margin-bottom:30px}
+  .sec-head .no{font-family:'Space Mono',monospace;color:var(--gold);font-size:13px;letter-spacing:.2em}
+  .sec-head h2{font-family:'Big Shoulders Display';font-weight:900;font-size:clamp(26px,4vw,40px);text-transform:uppercase;letter-spacing:.01em}
+
+  /* meta + limity */
+  .meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-bottom:22px}
+  .meta .box{background:var(--ink2);border:1px solid var(--line);padding:18px 20px}
+  .meta .box .l{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+  .meta .box .v{font-size:15px;color:var(--dim)}
+  .meta .box .v strong{color:var(--bone)}
+  .limit{background:rgba(201,162,39,.07);border:1px solid rgba(201,162,39,.32);border-radius:8px;padding:14px 18px;font-size:14px;color:var(--dim)}
+  .limit b{color:var(--gold);font-weight:400;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;display:block;margin-bottom:5px}
+
+  /* findings */
+  .finds{display:flex;flex-direction:column;gap:16px}
+  .finding{background:var(--ink2);border:1px solid var(--line);border-left:3px solid var(--gold);padding:22px 24px}
+  .finding .top{display:flex;align-items:baseline;gap:14px;margin-bottom:8px}
+  .finding .fno{font-family:'Space Mono',monospace;font-size:13px;color:var(--gold);letter-spacing:.1em;flex:none}
+  .finding h3{font-family:'Big Shoulders Display';font-weight:800;font-size:clamp(20px,2.6vw,26px);text-transform:uppercase;line-height:1.04;letter-spacing:.01em}
+  .finding .body{font-size:14.5px;color:var(--dim);margin-left:0}
+  .finding .body strong{color:var(--bone);font-weight:700}
+  .finding .impact{margin-top:12px;background:rgba(63,158,88,.08);border:1px solid rgba(63,158,88,.28);border-radius:8px;padding:11px 15px;font-size:14px;color:var(--dim)}
+  .finding .impact b{color:#5fbf7a;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase}
+  .finding .impact strong{color:var(--bone)}
+
+  /* quotes */
+  .quotes{display:flex;flex-direction:column;gap:14px}
+  blockquote{background:var(--ink2);border:1px solid var(--line);border-left:3px solid var(--blood-l);padding:16px 20px;font-size:15px;color:var(--dim);font-style:italic}
+  blockquote .src{display:block;margin-top:8px;font-style:normal;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.06em;color:var(--muted)}
+
+  /* tables */
+  table{width:100%;border-collapse:collapse;font-size:14px}
+  th{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);text-align:left;padding:10px 14px;border-bottom:1px solid var(--line)}
+  td{padding:13px 14px;border-bottom:1px solid var(--line);vertical-align:top;color:var(--dim)}
+  td:first-child{color:var(--bone);font-weight:500}
+  tr:hover td{background:var(--ink2)}
+  .v-ok{color:#5fbf7a;font-family:'Space Mono',monospace;font-size:12px;white-space:nowrap}
+  .v-warn{color:var(--gold);font-family:'Space Mono',monospace;font-size:12px;white-space:nowrap}
+  .when{font-family:'Space Mono',monospace;font-size:11.5px;color:var(--muted)}
+  @media(max-width:680px){
+    table.resp,table.resp thead,table.resp tbody,table.resp tr,table.resp td,table.resp th{display:block}
+    table.resp thead{display:none}
+    table.resp td{border:none;padding:3px 0}
+    table.resp tr{padding:14px 0;border-bottom:1px solid var(--line)}
+  }
+
+  footer{padding:34px 0 56px;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;font-family:'Space Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:.06em}
+</style>
+</head>
+<body>
+
+<div class="topbar"><div class="in">
+  <div class="tb-brand">
+    <svg viewBox="3.2 46.0 301.5 301.5" aria-hidden="true"><defs><mask id="ldk-a" maskUnits="userSpaceOnUse" x="3.2" y="46" width="301.5" height="301.5"><rect x="3.2" y="46" width="301.5" height="301.5" fill="white"/><path d="M56.32 285.00V78.60H95.02V250.94H145.85V285.00Z" fill="black" stroke="black" stroke-width="25" stroke-linejoin="round"/></mask></defs><path d="M128.32 318.00V111.60H180.69Q209.72 111.60 222.68 123.92Q235.65 136.24 236.16 164.49Q236.55 182.42 236.68 198.55Q236.81 214.67 236.68 230.80Q236.55 246.92 236.16 264.85Q235.65 293.23 222.68 305.62Q209.72 318.00 180.69 318.00ZM167.02 283.94H180.69Q188.82 283.94 193.08 280.20Q197.34 276.46 197.46 269.50Q197.85 255.69 198.04 242.02Q198.24 228.34 198.24 214.67Q198.24 201.00 198.04 187.26Q197.85 173.52 197.46 159.85Q197.34 153.01 193.08 149.33Q188.82 145.66 180.69 145.66H167.02Z" fill="#F5F5F0" mask="url(#ldk-a)"/><path d="M56.32 285.00V78.60H95.02V250.94H145.85V285.00Z" fill="#F5F5F0"/><ellipse cx="182.3" cy="77" rx="66" ry="13" fill="none" stroke="#C9A227" stroke-width="11"/></svg>
+    <span class="n"><b>eldee</b> HQ</span>
+  </div>
+  <a class="tb-back" href="index.html">← zpět na HQ</a>
+</div></div>
+
+<header class="hero"><div class="wrap">
+  <div class="kick">Validace cílovky · Google Forms · červen 2026</div>
+  <h1>Průzkum<br>cílovky.</h1>
+  <p>27 hráčů z primární cílovky (žáci až dorost, soutěžně registrovaní) odpovědělo na 17 otázek o tom, co reálně nosí, co je štve a kolik jsou ochotni zaplatit. Tohle jsou agregovaná zjištění — silný směr pro Drop 001.</p>
+  <div class="stamp">
+    <span class="pill">Vzorek <b>27 respondentů</b></span>
+    <span class="pill">Sběr <b>06/2026</b></span>
+    <span class="pill">Otázek <b>17</b></span>
+    <span class="pill"><b>Primární cílovka eldee</b></span>
+  </div>
+</div></header>
+
+<section id="vzorek"><div class="wrap">
+  <div class="sec-head"><span class="no">01</span><h2>Vzorek &amp; metoda</h2></div>
+  <div class="meta">
+    <div class="box"><div class="l">Sběr</div><div class="v"><strong>Google Forms</strong>, červen 2026 — fotbaloví svěřenci + okolí</div></div>
+    <div class="box"><div class="l">Složení vzorku</div><div class="v"><strong>27 respondentů</strong> — 10 starší žák · 4 mladší dorost · 9 starší dorost · 4 dospělí</div></div>
+    <div class="box"><div class="l">Kvalita</div><div class="v"><strong>25/27</strong> soutěžně registrovaní · <strong>24/27</strong> trénují 4×+ týdně</div></div>
+    <div class="box"><div class="l">Trefa do cílovky</div><div class="v">Profil vzorku = <strong>přesně primární cílovka eldee</strong></div></div>
+  </div>
+  <div class="limit"><b>Limity — číst jako směr, ne důkaz</b>Jeden klub/region, malý vzorek, trenér se ptá svěřenců (možný bias u otázek typu „ocenil bys design"). Bereme jako silný signál, ne tvrdý důkaz.</div>
+</div></section>
+
+<section id="zjisteni"><div class="wrap">
+  <div class="sec-head"><span class="no">02</span><h2>Klíčová zjištění</h2></div>
+  <div class="finds">
+
+    <div class="finding">
+      <div class="top"><span class="fno">01</span><h3>Návlek drtivě vítězí — 93 % nosí tube návlek bez chodidla</h3></div>
+      <div class="body">25/27 hráčů. Jen 2 nosí klasickou štulpnu s ponožkou. Hlavní důvod: <strong>„používám vlastní tréninkové ponožky, co mi sedí" (14×)</strong>. I s protiskluzem na klasické štulpně by u návleku zůstalo 11/25 — návlek není nouzovka, je to preference.</div>
+      <div class="impact"><b>→ Dopad:</b> Drop 001 by měl být primárně <strong>tube návlek</strong> (bez chodidla). Díry i kapsa jsou s návlekem plně kompatibilní. Ověřit s výrobcem, co přesně je prototyp.</div>
+    </div>
+
+    <div class="finding">
+      <div class="top"><span class="fno">02</span><h3>Kapsa na chránič — nejsilněji validovaná feature</h3></div>
+      <div class="body">17/27 ano (63 %), jen 2 ne. Plus pain „nedrží chrániče" 6× + opakovaně v otevřených odpovědích („aby držely chránič", „vypadává chránič", „vnitřní návlek na chrániče by byl super").</div>
+      <div class="impact"><b>→ Dopad:</b> kapsa = <strong>hlavní prodejní argument</strong> (hero feature v komunikaci). Chráněný vzor #2 potvrzen trhem.</div>
+    </div>
+
+    <div class="finding">
+      <div class="top"><span class="fno">03</span><h3>Cena 599 Kč potvrzena — a je prostor i výš</h3></div>
+      <div class="body">15× pásmo 400–599 Kč · <strong>12× (44 %!) pásmo 600–799 Kč</strong> · nikdo méně.</div>
+      <div class="impact"><b>→ Dopad:</b> MSRP <strong>599 sedí pro 100 % vzorku</strong>. Premium/merino edice 699–799 Kč má reálný segment. Launch 499 = jistota.</div>
+    </div>
+
+    <div class="finding">
+      <div class="top"><span class="fno">04</span><h3>Díry na lýtku — polarizované</h3></div>
+      <div class="body">10 ano / 10 nevím / 7 ne. Hero brand-feature má 37 % jasných fanoušků; „nevím" = neviděli vizuál.</div>
+      <div class="impact"><b>→ Dopad:</b> díry nejsou mass-market, jsou <strong>statement</strong> — positioning „pro ty, kdo se nebojí vyjít z davu". Drop 001 ideálně mix: Signature (s dírami) + Clean (bez děr). Prodávat i funkčně: prodyšnost.</div>
+    </div>
+
+    <div class="finding">
+      <div class="top"><span class="fno">05</span><h3>Střih: nízké — 17/27 preferuje nízké, jen 7 vysoké</h3></div>
+      <div class="body">Plus „jsou moc vysoké" 6× jako důvod, proč je nenosí na trénink. Jen 1 hlas pro „nad kolena".</div>
+      <div class="impact"><b>→ Dopad:</b> parametr pro výrobce — <strong>nižší/crew střih</strong> nebo aspoň nízká varianta. Nedělat jen vysoké nad kolena.</div>
+    </div>
+
+    <div class="finding">
+      <div class="top"><span class="fno">06</span><h3>Na trénink je nenosí nikdo (26/27)</h3></div>
+      <div class="body">Důvody: „v klasické ponožce se mi trénuje lépe" (19×), <strong>teplo (8×)</strong>, moc vysoké (6×).</div>
+      <div class="impact"><b>→ Dopad:</b> use-case = <strong>zápas + lifestyle</strong>. Content točit kolem zápasových momentů. Teplo = funkční argument pro díry („v létě se v nich nevaříš").</div>
+    </div>
+
+    <div class="finding">
+      <div class="top"><span class="fno">07</span><h3>Protiskluz: důležitý pro 15/27</h3></div>
+      <div class="body">8× velmi + 7× spíše; opakovaně i v otevřených odpovědích („protiskluz na ponožce").</div>
+      <div class="impact"><b>→ Dopad:</b> budoucí feature / doplňkový produkt (gripová ponožka jako bundle k návleku?). Do Drop 001 ne nutně, <strong>do roadmapy ano</strong>.</div>
+    </div>
+
+    <div class="finding">
+      <div class="top"><span class="fno">08</span><h3>Brand loajalita v kategorii neexistuje</h3></div>
+      <div class="body">„Jako" (= týmový dodavatel klubu) 11× · „neřeším značku" 8× · Foul ponožky 1× (český konkurent — sledovat).</div>
+      <div class="impact"><b>→ Dopad:</b> kategorie bez milované značky = <strong>otevřené dveře pro eldee</strong>.</div>
+    </div>
+
+  </div>
+</div></section>
+
+<section id="perly"><div class="wrap">
+  <div class="sec-head"><span class="no">03</span><h2>Perly z odpovědí</h2></div>
+  <div class="quotes">
+    <blockquote>„Pohodlné, s dírami na lýtku, velice prodyšné, aby zadržely chránič… v tom případě mi je cena jedno."<span class="src">→ ideální zákazník existuje</span></blockquote>
+    <blockquote>Příběh o křečích z „betonových" chráničů a volném lýtku.<span class="src">→ přesně narativ z brand booku, řečený hráčem spontánně</span></blockquote>
+    <blockquote>„Materiál: syntetické a přírodní vlákno" (2×)<span class="src">→ merino fit</span></blockquote>
+    <blockquote>„Logo teamu"<span class="src">→ validace B2B klubové personalizace (akviziční model)</span></blockquote>
+    <blockquote>„Ve všech barvách"<span class="src">→ drop barevné edice</span></blockquote>
+  </div>
+</div></section>
+
+<section id="akce"><div class="wrap">
+  <div class="sec-head"><span class="no">04</span><h2>Akční doporučení</h2></div>
+  <table class="resp">
+    <thead><tr><th>#</th><th>Akce</th><th>Kdy</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td><strong>Schůzka s výrobcem: vyjasnit formu produktu</strong> — tube návlek vs. klasická štulpna, nízký střih, kapsa priorita</td><td class="when">týden od 8. 6.</td></tr>
+      <tr><td>2</td><td><strong>Rozhodnout mix Drop 001</strong>: Signature (díry) + Clean (bez děr)?</td><td class="when">po prototypu</td></tr>
+      <tr><td>3</td><td><strong>Cenová strategie</strong>: potvrdit 599 / launch 499; zvážit merino premium 699–799</td><td class="when">s kapitolou 8 / kalkulačkou</td></tr>
+      <tr><td>4</td><td><strong>Marketing pains podle dat</strong>: padající chránič + tejpování, sjíždění, teplo, „moc vysoké"</td><td class="when">content přípravná fáze</td></tr>
+      <tr><td>5</td><td><strong>Rozšířit průzkum</strong>: stejný formulář do 2–3 dalších klubů → větší vzorek, regionální rozptyl</td><td class="when">průběžně</td></tr>
+      <tr><td>6</td><td>Sledovat <strong>Foul ponožky</strong> (CZ konkurent zmíněný hráčem)</td><td class="when">průběžně</td></tr>
+    </tbody>
+  </table>
+</div></section>
+
+<section id="srovnani" style="border-bottom:none"><div class="wrap">
+  <div class="sec-head"><span class="no">05</span><h2>Srovnání s předpoklady projektu</h2></div>
+  <table class="resp">
+    <thead><tr><th>Předpoklad (kniha / brand book)</th><th>Data říkají</th><th>Verdikt</th></tr></thead>
+    <tbody>
+      <tr><td>Cílovka chce originální design</td><td>25/27 ano / spíše ano</td><td><span class="v-ok">✅ potvrzeno</span></td></tr>
+      <tr><td>Kapsa na chránič jako feature</td><td>63 % ano, top pain</td><td><span class="v-ok">✅ povýšit na hero</span></td></tr>
+      <tr><td>Díry = hlavní lákadlo</td><td>37 % ano, 37 % neví</td><td><span class="v-warn">⚠️ statement, ne mass — mix variant</span></td></tr>
+      <tr><td>MSRP 599 Kč</td><td>100 % v pásmu, 44 % i 600–799</td><td><span class="v-ok">✅ potvrzeno + prostor výš</span></td></tr>
+      <tr><td>Produkt = štulpna</td><td>93 % nosí tube návlek</td><td><span class="v-warn">⚠️ ověřit formu — návlek first</span></td></tr>
+      <tr><td>Křeče / lýtko narativ</td><td>spontánně potvrzen hráčem</td><td><span class="v-ok">✅ autentický</span></td></tr>
+    </tbody>
+  </table>
+</div></section>
+
+<footer><div class="wrap" style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;padding:0">
+  <span>eldee — Holy Socks. No, just socks with holes.</span>
+  <span>Průzkum cílovky · sběr 06/2026 · n=27 · interní · surová data jen lokálně</span>
+</div></footer>
+
+</body>
+</html>

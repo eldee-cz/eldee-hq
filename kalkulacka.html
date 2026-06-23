@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex, nofollow">
 <title>eldee · finanční kalkulačka</title>
 <style>
-  :root { --ink:#0A0A0A; --bone:#F5F5F0; --ash:#3A3A3A; --blood:#B91C1C; --gold:#C9A227; --card:#141414; --muted:#8a8a86; }
+  :root { --ink:#0A0A0A; --bone:#F5F5F0; --ash:#3A3A3A; --blood:#B91C1C; --gold:#C9A227; --card:#141414; --muted:#8a8a86; --coach:#6fb3a0; }
   * { box-sizing: border-box; }
   body { margin:0; background:var(--ink); color:var(--bone); font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; line-height:1.5; }
   .wrap { max-width:1060px; margin:0 auto; padding:34px 20px 90px; }
@@ -25,10 +25,17 @@
   table.prod { width:100%; border-collapse:collapse; font-size:13.5px; }
   table.prod th { text-align:left; color:var(--muted); font-weight:500; font-size:11.5px; text-transform:uppercase; letter-spacing:0.5px; padding:4px 6px; }
   table.prod td { padding:5px 6px; border-top:1px solid #222; }
-  table.prod input { width:64px; background:var(--ink); border:1px solid #2c2c2c; color:var(--bone); border-radius:6px; padding:5px 7px; font-size:13px; text-align:right; font-family:ui-monospace,monospace; }
+  table.prod input { width:62px; background:var(--ink); border:1px solid #2c2c2c; color:var(--bone); border-radius:6px; padding:5px 7px; font-size:13px; text-align:right; font-family:ui-monospace,monospace; }
   table.prod input:focus { outline:none; border-color:var(--gold); }
   .pname { font-weight:700; }
   .margin-cell { font-family:ui-monospace,monospace; color:var(--gold); text-align:right; white-space:nowrap; }
+  .cogs-cell { font-family:ui-monospace,monospace; color:var(--muted); text-align:right; white-space:nowrap; }
+  .chips { display:flex; gap:4px; flex-wrap:wrap; }
+  .chip { font-size:11px; padding:2px 8px; border:1px solid #2c2c2c; border-radius:20px; color:var(--muted); cursor:pointer; user-select:none; font-family:ui-monospace,monospace; white-space:nowrap; }
+  .chip:hover { border-color:var(--gold); }
+  .chip.on { border-color:var(--gold); color:var(--gold); background:rgba(201,162,39,.12); }
+  .coach-row td { border-top:none !important; padding-top:0 !important; padding-bottom:8px !important; }
+  .coach { color:var(--coach); font-size:11px; line-height:1.45; display:block; }
   .row { display:flex; justify-content:space-between; align-items:center; gap:12px; padding:7px 0; border-top:1px solid #222; font-size:14px; }
   .row:first-of-type { border-top:none; }
   .row label { color:var(--bone); }
@@ -40,6 +47,7 @@
   .kpi .box .v { font-size:25px; font-weight:900; font-family:ui-monospace,monospace; color:var(--bone); }
   .kpi .box .v.gold { color:var(--gold); }
   .kpi .box .l { color:var(--muted); font-size:11.5px; text-transform:uppercase; letter-spacing:0.6px; margin-top:3px; }
+  .kpi .box .coach { margin-top:7px; }
   .bar { height:9px; background:#222; border-radius:5px; overflow:hidden; margin-top:8px; }
   .bar i { display:block; height:100%; background:var(--gold); border-radius:5px; transition:width .25s; }
   .warn { display:none; background:rgba(185,28,28,.12); border:1px solid rgba(185,28,28,.5); color:#f0b1b1; border-radius:10px; padding:10px 14px; font-size:13px; margin-top:14px; }
@@ -47,6 +55,64 @@
   .note { color:var(--muted); font-size:12px; margin-top:14px; line-height:1.55; }
   .mixwarn { color:var(--blood); font-size:12px; display:none; margin-top:6px; }
   .mixwarn.show { display:block; }
+  /* výroba & sklad */
+  .prodblock { border-top:1px solid #222; padding:11px 0; }
+  .prodblock:first-child { border-top:none; padding-top:2px; }
+  .pbname { font-weight:700; font-size:13.5px; margin-bottom:6px; display:flex; justify-content:space-between; align-items:baseline; gap:10px; flex-wrap:wrap; }
+  .cppk { color:var(--gold); font-family:ui-monospace,monospace; font-size:12.5px; font-weight:600; }
+  .tiers { font-size:12px; color:var(--muted); display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-bottom:7px; }
+  .tier { white-space:nowrap; }
+  .tier input { width:52px; }
+  .orderline { font-size:12.5px; color:var(--muted); display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin-bottom:6px; }
+  .tiers input, .orderline input { background:var(--ink); border:1px solid #2c2c2c; color:var(--bone); border-radius:6px; padding:4px 6px; text-align:right; font-family:ui-monospace,monospace; font-size:12px; width:62px; }
+  .tiers input:focus, .orderline input:focus { outline:none; border-color:var(--gold); }
+  /* události */
+  .evrow { display:flex; gap:8px; align-items:center; padding:6px 0; border-top:1px solid #222; }
+  .evrow:first-child { border-top:none; }
+  .evrow input[type=date] { width:128px; background:var(--ink); border:1px solid #2c2c2c; color:var(--bone); border-radius:6px; padding:5px 7px; font-family:ui-monospace,monospace; font-size:12.5px; color-scheme:dark; }
+  .evrow input[type=text] { flex:1; min-width:80px; background:var(--ink); border:1px solid #2c2c2c; color:var(--bone); border-radius:6px; padding:5px 8px; font-size:13px; }
+  .evrow input:focus { outline:none; border-color:var(--gold); }
+  .evdays { font-family:ui-monospace,monospace; font-size:11.5px; white-space:nowrap; min-width:70px; text-align:right; color:var(--muted); }
+  /* příjem zboží — tlačítko + modal */
+  .toolbar { display:flex; gap:12px; align-items:center; flex-wrap:wrap; margin:0 0 26px; }
+  .receipt-btn { background:rgba(201,162,39,.12); color:var(--gold); border:1px solid var(--gold); border-radius:8px; padding:9px 16px; font-size:13px; font-weight:700; cursor:pointer; display:inline-flex; align-items:center; gap:8px; }
+  .receipt-btn:hover { background:rgba(201,162,39,.22); }
+  .badge { font-family:ui-monospace,monospace; font-size:11px; font-weight:600; padding:1px 8px; border-radius:20px; background:#222; color:var(--muted); }
+  .badge.due { background:rgba(201,162,39,.2); color:var(--gold); }
+  .badge.over { background:rgba(185,28,28,.28); color:#f0b1b1; }
+  .overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,.66); z-index:50; padding:24px; overflow:auto; }
+  .overlay.show { display:flex; align-items:flex-start; justify-content:center; }
+  .modal { background:var(--card); border:1px solid #2c2c2c; border-radius:14px; width:100%; max-width:1140px; padding:22px 24px 24px; margin:auto; }
+  .modal-head { display:flex; justify-content:space-between; align-items:flex-start; gap:16px; }
+  .modal-head h2 { color:var(--gold); font-family:ui-monospace,monospace; text-transform:uppercase; letter-spacing:1px; font-size:15px; margin:0; }
+  .modal-x { background:none; border:none; color:var(--muted); font-size:26px; cursor:pointer; line-height:1; padding:0 4px; }
+  .modal-x:hover { color:var(--bone); }
+  .modal-sum { font-size:12.5px; color:var(--muted); margin:8px 0 16px; line-height:1.7; }
+  .modal-sum strong { color:var(--bone); }
+  .modal-sum .bad { color:#f0b1b1; }
+  table.inv { width:100%; border-collapse:collapse; font-size:13px; }
+  table.inv th { text-align:left; color:var(--muted); font-weight:500; font-size:10.5px; text-transform:uppercase; letter-spacing:0.3px; padding:4px 6px; white-space:nowrap; }
+  table.inv td { padding:5px 6px; border-top:1px solid #222; }
+  table.inv input[type=text], table.inv input[type=number], table.inv input[type=date] { background:var(--ink); border:1px solid #2c2c2c; color:var(--bone); border-radius:6px; padding:5px 7px; font-size:12.5px; font-family:ui-monospace,monospace; }
+  table.inv input[type=number] { width:80px; text-align:right; }
+  table.inv input[type=text] { width:98px; }
+  table.inv input[type=date] { width:124px; color-scheme:dark; }
+  table.inv select { background:var(--ink); border:1px solid #2c2c2c; color:var(--bone); border-radius:6px; padding:5px 6px; font-size:12.5px; font-family:inherit; max-width:140px; }
+  table.inv select:focus { outline:none; border-color:var(--gold); }
+  table.inv input:focus { outline:none; border-color:var(--gold); }
+  table.inv input.bad { border-color:var(--blood); background:rgba(185,28,28,.08); }
+  .inv-calc { font-family:ui-monospace,monospace; color:var(--bone); text-align:right; white-space:nowrap; }
+  .inv-total { color:var(--gold); font-weight:600; }
+  .inv-del { background:none; border:none; color:#666; cursor:pointer; font-size:15px; }
+  .inv-del:hover { color:var(--blood); }
+  .modal-actions { display:flex; gap:10px; margin-top:18px; flex-wrap:wrap; align-items:center; }
+  .btn { border-radius:8px; padding:9px 16px; font-size:13px; font-weight:600; cursor:pointer; border:1px solid #2c2c2c; background:var(--ink); color:var(--bone); }
+  .btn:hover { border-color:var(--gold); }
+  .btn.primary { background:var(--gold); color:#1a1400; border-color:var(--gold); }
+  /* faktury vepředu */
+  .inv-ev-head { color:var(--muted); font-size:11px; text-transform:uppercase; letter-spacing:0.5px; margin:12px 0 2px; }
+  .inv-ev { display:flex; align-items:center; gap:8px; padding:6px 0; border-top:1px dashed #2a2a2a; font-size:12.5px; }
+  .inv-ev .lbl { flex:1; color:var(--bone); }
   footer { margin-top:46px; color:#555; font-size:12px; font-family:ui-monospace,monospace; }
   a { color:var(--gold); }
 </style>
@@ -56,31 +122,56 @@
   <header>
     <a href="index.html" style="color:var(--muted);text-decoration:none;font-size:13px;font-weight:600">← HQ</a>
     <h1>eldee · <em>finanční kalkulačka</em></h1>
-    <p>Kapitola 8 — interaktivní model: 4 produkty + bundle · mix prodejů · klubové kódy · cesta k cíli. Všechna čísla jsou editovatelná — ceny COGS u nových produktů jsou <strong>odhady k doladění s výrobcem</strong>.</p>
+    <p>Kapitola 8 — interaktivní model: produkty + prvky (grip/kapsa/díra) · MOQ ceník &amp; sklad · mix prodejů · klubové kódy · cíle. Všechna čísla jsou editovatelná — ceny jsou <strong>odhady k doladění s výrobcem</strong>. <span style="color:var(--coach)">Zeleně</span> = ideální stav a rada, jak ho dosáhnout.</p>
   </header>
 
   <div class="scenarios" id="scenarios"></div>
 
+  <div class="toolbar">
+    <button id="receiptBtn" class="receipt-btn">📦 Příjem zboží <span class="badge" id="receiptBadge">0</span></button>
+    <span class="note" style="margin:0">Zapiš přijaté faktury — splatnosti tě pak samy hlídají vepředu v „Nejbližší události".</span>
+  </div>
+
   <div class="grid">
     <div>
       <div class="card">
-        <h2>Produkty · ceny · mix prodejů</h2>
+        <h2>Produkty · ceny · prvky · mix</h2>
         <table class="prod">
-          <thead><tr><th>Produkt</th><th>Cena Kč</th><th>COGS Kč</th><th>Mix %</th><th style="text-align:right">Marže/ks</th></tr></thead>
+          <thead><tr><th>Produkt</th><th>Cena Kč</th><th>COGS/ks</th><th>Mix %</th><th>Prvky</th><th style="text-align:right">Marže/ks</th></tr></thead>
           <tbody id="prodRows"></tbody>
         </table>
         <div class="mixwarn" id="mixWarn">⚠ Mix prodejů nedává 100 % — výsledky se normalizují.</div>
-        <p class="note">Marže/ks = cena − COGS − brána (2,5 % + 5 Kč) − marketing/prodej. COGS = výroba + krabička 25 Kč + UGC karta 2 Kč (u ponožky a bundlu uprav podle reality).</p>
+        <p class="note">Marže/ks = cena − COGS − brána (2,5 % + 5 Kč) − marketing/prodej. COGS/ks = cena z MOQ ceníku + krabička 25 Kč + UGC karta 2 Kč + zapnuté prvky. Klikni na <strong>Prvky</strong> (Grip/Kapsa/Díra) — promítnou se do ceny i COGS.</p>
       </div>
 
       <div class="card" style="margin-top:18px">
-        <h2>Globální parametry</h2>
-        <div class="row"><label>Cíl čistého / měsíc</label><input type="number" id="goal" value="80000" step="5000"></div>
-        <div class="row"><label>Koeficient daň + odvody <span class="hint">čistý × koef = potřebný hrubý (OSVČ vedlejší ≈ 1,38)</span></label><input type="number" id="taxk" value="1.38" step="0.02"></div>
-        <div class="row"><label>Fixní náklady / měsíc <span class="hint">Shoptet, doména, workspace, nástroje</span></label><input type="number" id="fix" value="957" step="50"></div>
-        <div class="row"><label>Marketing / prodej (variabilní)</label><input type="number" id="mkt" value="30" step="5"></div>
-        <div class="row"><label>Podíl prodejů přes klubový kód % <span class="hint">sleva 15 % + odvod 10 % klubu</span></label><input type="number" id="club" value="20" min="0" max="100" step="5"></div>
-        <div class="row"><label>Startovní kapitál Kč</label><input type="number" id="capital" value="100000" step="10000"></div>
+        <h2>Výroba &amp; sklad — MOQ ceník</h2>
+        <div id="stockRows"></div>
+        <div class="kpi" style="margin-top:6px">
+          <div class="box"><div class="v" id="kProdCost">—</div><div class="l">náklad na výrobu (objednané)</div></div>
+          <div class="box"><div class="v" id="kCapLeft">—</div><div class="l">zbyde z kapitálu</div></div>
+          <div class="box"><div class="v" id="kStockVal">—</div><div class="l">hodnota skladu (ve výrobní ceně)</div><div class="coach" id="cStockVal"></div></div>
+          <div class="box"><div class="v gold" id="kStockProfit">—</div><div class="l">potenciální zisk ze skladu</div><div class="coach" id="cStockProfit"></div></div>
+        </div>
+        <div class="bar"><i id="capBar" style="width:0%"></i></div>
+        <div class="warn" id="capWarn">⚠ Výroba přesahuje startovní kapitál — zmenši objednané množství, nebo uprav mix.</div>
+        <p class="note">Větší MOQ = nižší cena/ks → vyšší marže, ale váže víc kapitálu. Sklad je naceněný cenou té šarže, za kterou se koupil — na různém MOQ vyděláš různě.</p>
+      </div>
+
+      <div class="card" style="margin-top:18px">
+        <h2>Prvky / příplatky</h2>
+        <table class="prod">
+          <thead><tr><th>Prvek</th><th>+COGS Kč</th><th>+Cena Kč</th><th style="text-align:right">Marže navíc/ks</th></tr></thead>
+          <tbody id="addonRows"></tbody>
+        </table>
+        <p class="note">+COGS = kolik prvek stojí navíc ve výrobě · +Cena = kolik si za něj účtuješ navíc. Reálné ceny doladíme s výrobcem.</p>
+      </div>
+
+      <div class="card" style="margin-top:18px">
+        <h2>Skladem podle variant</h2>
+        <div id="variantStock"></div>
+        <div style="margin-top:12px"><button class="btn" id="shoptetExport">⬇ Export pro Shoptet (CSV)</button></div>
+        <p class="note">Naplní se automaticky z „Příjmu zboží" (📦 nahoře) — vidíš reálný počet kusů v každé variantě (barva + provedení + velikost) i <strong>SKU kód</strong>. SKU + export jsou připravené pro Shoptet, živé API doplníme s tvými přístupy. <span style="color:var(--coach)">Co nemáš skladem, se na Shoptetu nemusí nabízet.</span></p>
       </div>
     </div>
 
@@ -88,9 +179,9 @@
       <div class="card">
         <h2>Výsledky</h2>
         <div class="kpi">
-          <div class="box"><div class="v gold" id="kMargin">—</div><div class="l">vážená marže / ks</div></div>
+          <div class="box"><div class="v gold" id="kMargin">—</div><div class="l">vážená marže / ks</div><div class="coach" id="cMargin"></div></div>
           <div class="box"><div class="v" id="kBreakeven">—</div><div class="l">break-even ks / měs</div></div>
-          <div class="box"><div class="v gold" id="kUnits">—</div><div class="l">prodejů / měs na cíl</div></div>
+          <div class="box"><div class="v gold" id="kUnits">—</div><div class="l">prodejů / měs na cíl</div><div class="coach" id="cUnits"></div></div>
           <div class="box"><div class="v" id="kDaily">—</div><div class="l">prodejů / den</div></div>
           <div class="box"><div class="v" id="kRevenue">—</div><div class="l">obrat / měs</div></div>
           <div class="box"><div class="v" id="kYearly">—</div><div class="l">obrat / rok</div></div>
@@ -100,20 +191,57 @@
       </div>
 
       <div class="card" style="margin-top:18px">
-        <h2>První výroba — kapitál</h2>
-        <div class="row"><label>Kusů v první výrobě celkem <span class="hint">MOQ 100/produkt — mix dle dohody s výrobcem</span></label><input type="number" id="firstRun" value="400" step="50"></div>
-        <div class="row" style="border-top:none"><span class="hint" style="font-size:12.5px">Rozpočet výroby dle mixu (jen výrobní COGS):</span></div>
-        <div class="kpi" style="margin-top:4px">
-          <div class="box"><div class="v" id="kProdCost">—</div><div class="l">náklad na výrobu</div></div>
-          <div class="box"><div class="v" id="kCapLeft">—</div><div class="l">zbyde z kapitálu</div></div>
-        </div>
-        <div class="bar"><i id="capBar" style="width:0%"></i></div>
-        <div class="warn" id="capWarn">⚠ Výroba přesahuje startovní kapitál — zmenši první běh, nebo uprav mix.</div>
+        <h2>Cíle — kam mířím</h2>
+        <div class="row"><label>Cíl čistého / měsíc <span class="hint">kolik chci vydělat čistého</span></label><input type="number" id="goal" value="80000" step="5000"></div>
+        <div class="row"><label>Cílová marže / ks <span class="hint">kolik chci čistého na jednom kuse</span></label><input type="number" id="tMargin" value="200" step="10"></div>
+        <div class="row"><label>Cílová zásoba skladem <span class="hint">na kolik měsíců prodeje chci mít zásobu</span></label><input type="number" id="tStock" value="2" step="0.5"></div>
+      </div>
+
+      <div class="card" style="margin-top:18px">
+        <h2>Globální parametry</h2>
+        <div class="row"><label>Koeficient daň + odvody <span class="hint">čistý × koef = potřebný hrubý (OSVČ vedlejší ≈ 1,38)</span></label><input type="number" id="taxk" value="1.38" step="0.02"></div>
+        <div class="row"><label>Fixní náklady / měsíc <span class="hint">Shoptet, doména, workspace, nástroje</span></label><input type="number" id="fix" value="957" step="50"></div>
+        <div class="row"><label>Marketing / prodej (variabilní)</label><input type="number" id="mkt" value="30" step="5"></div>
+        <div class="row"><label>Podíl prodejů přes klubový kód % <span class="hint">sleva 15 % + odvod 10 % klubu</span></label><input type="number" id="club" value="20" min="0" max="100" step="5"></div>
+        <div class="row"><label>Startovní kapitál Kč</label><input type="number" id="capital" value="100000" step="10000"></div>
+      </div>
+
+      <div class="card" style="margin-top:18px">
+        <h2>Nejbližší události — termíny eldee</h2>
+        <div id="eventRows"></div>
+        <div id="invoiceEvents"></div>
+        <p class="note">5 ručních termínů (DPH, daňové přiznání…) + automatické <span style="color:var(--coach)">splatnosti faktur z „Příjmu zboží"</span>. Do budoucna se propojí s rodinným kalendářem, odkud se budou plnit samy.</p>
       </div>
     </div>
   </div>
 
-  <footer>eldee · kniha kap. 8 · kalkulačka v1.0 · 2026-06 · config v JS objektu CONFIG (plug-in ready) · <a href="../eldee-book.html">← zpět do knihy</a></footer>
+  <footer>eldee · kniha kap. 8 · kalkulačka v3.0 · 2026-06 · prvky + MOQ/sklad + cíle + příjem zboží · config v JS objektu CONFIG (plug-in ready) · <a href="../eldee-book.html">← zpět do knihy</a></footer>
+</div>
+
+<!-- ───────── PŘÍJEM ZBOŽÍ — okno přes kalkulačku -->
+<div class="overlay" id="receiptOverlay">
+  <div class="modal">
+    <div class="modal-head">
+      <h2>📦 Příjem zboží — faktury</h2>
+      <button class="modal-x" id="receiptClose" title="Zavřít">×</button>
+    </div>
+    <div class="modal-sum" id="invSummary"></div>
+    <div style="overflow-x:auto">
+      <table class="inv">
+        <thead><tr>
+          <th>Č. faktury</th><th>Produkt</th><th>Barva</th><th>Provedení</th><th>Velikost</th>
+          <th>Množství</th><th>Cena bez DPH/ks</th><th>Cena s DPH</th><th>Celkem</th><th>Splatnost</th><th>Zapl.</th><th></th>
+        </tr></thead>
+        <tbody id="invoiceRows"></tbody>
+      </table>
+    </div>
+    <div class="modal-actions">
+      <button class="btn" id="invAdd">+ Přidat fakturu</button>
+      <button class="btn primary" id="invDone">Hotovo — uložit a zavřít</button>
+      <span class="note" style="margin:0;align-self:center">DPH <input type="number" id="vatRate" value="21" step="1" style="width:54px;background:var(--ink);border:1px solid #2c2c2c;color:var(--bone);border-radius:6px;padding:4px 6px;text-align:right;font-family:ui-monospace,monospace;font-size:12.5px"> %</span>
+    </div>
+    <p class="note">Každý řádek = jedna varianta (produkt + barva + provedení + velikost). <span style="color:var(--coach)">Cena s DPH i celková částka se počítají samy</span>. Co svítí <span style="color:#f0b1b1">červeně</span>, ještě není hotové (chybí číslo, množství, cena nebo splatnost). Po uložení se kusy <span style="color:var(--coach)">sečtou vepředu do „Skladem podle variant"</span> a splatnosti tě hlídají v „Nejbližší události".</p>
+  </div>
 </div>
 
 <script>
@@ -121,13 +249,36 @@
 const CONFIG = {
   gateway: { pct: 0.025, flat: 5 },
   clubDiscount: 0.15, clubFee: 0.10,
+  packaging: 27,            // krabička 25 + UGC karta 2 — přičítá se k výrobní ceně
+  targets: { marginPerUnit: 200, stockMonths: 2 },
+  // prvky/příplatky: cogs = výroba navíc, price = příplatek k ceně (ODHADY)
+  addons: [
+    { id: 'grip',  name: 'Grip (protiskluz)', short: 'Grip',  cogs: 35, price: 50 },
+    { id: 'kapsa', name: 'Kapsa',             short: 'Kapsa', cogs: 20, price: 40 },
+    { id: 'dira',  name: 'Díra / otvor',      short: 'Díra',  cogs: 10, price: 30 },
+  ],
+  // tiers = MOQ ceník: množství → výrobní cena/ks (ODHAD); ordered = objednaná šarže; stock = skladem; addons = zapnuté prvky
   products: [
-    // cogs = výroba + 27 (krabička+karta); výroba u nových produktů = ODHAD
-    { id: 'navlek',  name: 'Návlek / tube',        price: 499, cogs: 227, mix: 35 },
-    { id: 'ponozka', name: 'Tréninková ponožka',   price: 299, cogs: 147, mix: 20 },
-    { id: 'nizka',   name: 'Nízká štulpna',        price: 599, cogs: 257, mix: 20 },
-    { id: 'vysoka',  name: 'Vysoká štulpna',       price: 599, cogs: 257, mix: 15 },
-    { id: 'bundle',  name: 'Bundle návlek+ponožka', price: 749, cogs: 374, mix: 10 },
+    { id: 'navlek',  name: 'Návlek / tube',         price: 499, mix: 35, tiers: [{qty:100,price:210},{qty:300,price:200},{qty:500,price:185}], ordered: 300, stock: 300, addons: [] },
+    { id: 'ponozka', name: 'Tréninková ponožka',    price: 299, mix: 20, tiers: [{qty:100,price:130},{qty:300,price:120},{qty:500,price:110}], ordered: 200, stock: 200, addons: [] },
+    { id: 'nizka',   name: 'Nízká štulpna',         price: 599, mix: 20, tiers: [{qty:100,price:245},{qty:300,price:230},{qty:500,price:215}], ordered: 200, stock: 200, addons: [] },
+    { id: 'vysoka',  name: 'Vysoká štulpna',        price: 599, mix: 15, tiers: [{qty:100,price:245},{qty:300,price:230},{qty:500,price:215}], ordered: 150, stock: 150, addons: [] },
+    { id: 'bundle',  name: 'Bundle návlek+ponožka', price: 749, mix: 10, tiers: [{qty:100,price:360},{qty:300,price:347},{qty:500,price:330}], ordered: 100, stock: 100, addons: [] },
+  ],
+  // nejbližší události / termíny eldee — zatím ručně, do budoucna napojení na rodinný kalendář (příklady, přepiš)
+  events: [
+    { date: '2026-06-25', label: 'DPH — přiznání + platba (měsíční)' },
+    { date: '2026-07-15', label: 'Splatnost faktury výrobci' },
+    { date: '2026-07-20', label: 'Zálohy OSVČ (soc. + zdrav.)' },
+    { date: '2026-08-01', label: 'Objednávka další šarže (MOQ)' },
+    { date: '2027-04-01', label: 'Daňové přiznání za 2026' },
+  ],
+  vatRate: 21,              // DPH % pro příjem zboží
+  colors: ['Černá', 'Bílá'],                              // barvy do rozbalovačky (+ lze přidat novou)
+  sizes: ['31-34', '35-38', '39-42', '43-46', '47-50'],  // řady velikostí (bot)
+  // příjem zboží — řádek = jedna přijatá varianta (produkt+barva+provedení+velikost); celková částka a cena s DPH se počítají
+  invoices: [
+    { num: '', product: 'navlek', color: 'Černá', feat: [], size: '39-42', qty: 0, net: 0, due: '', paid: false },
   ],
   scenarios: {
     'Start (launch ceny)': { goal: 20000, club: 10, prices: { navlek: 449, ponozka: 269, nizka: 499, vysoka: 499, bundle: 649 }, mix: { navlek: 40, ponozka: 20, nizka: 15, vysoka: 10, bundle: 15 } },
@@ -136,41 +287,293 @@ const CONFIG = {
   },
 };
 
-// ───────── UI
+// ───────── helpers
 const $ = (id) => document.getElementById(id);
 const fmt = (n, suf = ' Kč') => isFinite(n) ? Math.round(n).toLocaleString('cs-CZ') + suf : '—';
+const addonById = (id) => CONFIG.addons.find(a => a.id === id);
 
-function buildRows() {
-  $('prodRows').innerHTML = CONFIG.products.map((p, i) => `
-    <tr>
-      <td class="pname">${p.name}${['ponozka','bundle','navlek'].includes(p.id) ? ' <span title="COGS je odhad" style="color:var(--muted)">≈</span>' : ''}</td>
-      <td><input data-i="${i}" data-k="price" type="number" value="${p.price}" step="10"></td>
-      <td><input data-i="${i}" data-k="cogs" type="number" value="${p.cogs}" step="5"></td>
-      <td><input data-i="${i}" data-k="mix" type="number" value="${p.mix}" step="5" min="0" max="100"></td>
-      <td class="margin-cell" id="m-${p.id}">—</td>
-    </tr>`).join('');
+function activeTier(p) {
+  const sorted = [...p.tiers].sort((a, b) => a.qty - b.qty);
+  let chosen = sorted[0];
+  for (const t of sorted) { if ((+p.ordered || 0) >= t.qty) chosen = t; }
+  return chosen;
 }
+const tierPrice = (p) => activeTier(p).price;
+const addonCogs = (p) => p.addons.reduce((s, id) => s + (addonById(id)?.cogs || 0), 0);
+const addonPrice = (p) => p.addons.reduce((s, id) => s + (addonById(id)?.price || 0), 0);
+const effCogs = (p) => tierPrice(p) + CONFIG.packaging + addonCogs(p);
+const effPrice = (p) => p.price + addonPrice(p);
 
 function marginOf(p, clubShare) {
-  const varCost = (price) => price * CONFIG.gateway.pct + CONFIG.gateway.flat + (+$('mkt').value || 0);
-  const full = p.price - p.cogs - varCost(p.price);
-  const cPrice = p.price * (1 - CONFIG.clubDiscount);
-  const clubM = cPrice - p.cogs - varCost(cPrice) - cPrice * CONFIG.clubFee;
+  const price = effPrice(p), cogs = effCogs(p);
+  const varCost = (pr) => pr * CONFIG.gateway.pct + CONFIG.gateway.flat + (+$('mkt').value || 0);
+  const full = price - cogs - varCost(price);
+  const cPrice = price * (1 - CONFIG.clubDiscount);
+  const clubM = cPrice - cogs - varCost(cPrice) - cPrice * CONFIG.clubFee;
   return (1 - clubShare) * full + clubShare * clubM;
 }
 
+// ───────── build UI
+function buildRows() {
+  $('prodRows').innerHTML = CONFIG.products.map((p, i) => {
+    const chips = CONFIG.addons.map(a => `<span class="chip${p.addons.includes(a.id) ? ' on' : ''}" data-pi="${i}" data-aid="${a.id}">${a.short}</span>`).join('');
+    return `
+    <tr>
+      <td class="pname">${p.name}</td>
+      <td><input data-i="${i}" data-k="price" type="number" value="${p.price}" step="10"></td>
+      <td class="cogs-cell" id="cogs-${p.id}">—</td>
+      <td><input data-i="${i}" data-k="mix" type="number" value="${p.mix}" step="5" min="0" max="100"></td>
+      <td><div class="chips">${chips}</div></td>
+      <td class="margin-cell" id="m-${p.id}">—</td>
+    </tr>
+    <tr class="coach-row"><td colspan="6"><span class="coach" id="coach-${p.id}"></span></td></tr>`;
+  }).join('');
+}
+
+function buildStock() {
+  $('stockRows').innerHTML = CONFIG.products.map((p, i) => {
+    const tiers = p.tiers.map((t, ti) => `<span class="tier"><input data-i="${i}" data-ti="${ti}" data-tk="qty" type="number" value="${t.qty}" step="50">→<input data-i="${i}" data-ti="${ti}" data-tk="price" type="number" value="${t.price}" step="5"> Kč</span>`).join('');
+    return `
+    <div class="prodblock">
+      <div class="pbname"><span>${p.name}</span><span class="cppk" id="cppk-${p.id}"></span></div>
+      <div class="tiers">MOQ ceník: ${tiers}</div>
+      <div class="orderline">objednáno <input data-i="${i}" data-k="ordered" type="number" value="${p.ordered}" step="50"> ks · skladem <input data-i="${i}" data-k="stock" type="number" value="${p.stock}" step="50"> ks · <span id="stockval-${p.id}"></span></div>
+      <div class="coach" id="scoach-${p.id}"></div>
+    </div>`;
+  }).join('');
+}
+
+function buildAddons() {
+  $('addonRows').innerHTML = CONFIG.addons.map((a, i) => `
+    <tr>
+      <td class="pname">${a.name}</td>
+      <td><input data-ai="${i}" data-ak="cogs" type="number" value="${a.cogs}" step="5"></td>
+      <td><input data-ai="${i}" data-ak="price" type="number" value="${a.price}" step="5"></td>
+      <td class="margin-cell" id="am-${a.id}">—</td>
+    </tr>`).join('');
+}
+
+function buildEvents() {
+  $('eventRows').innerHTML = CONFIG.events.map((ev, i) => `
+    <div class="evrow">
+      <input type="date" data-evi="${i}" data-evk="date" value="${ev.date}">
+      <input type="text" data-evi="${i}" data-evk="label" value="${ev.label}" placeholder="popis události">
+      <span class="evdays" id="evd-${i}"></span>
+    </div>`).join('');
+}
+
+function recalcEvents() {
+  const today = new Date(); today.setHours(0, 0, 0, 0);
+  CONFIG.events.forEach((ev, i) => {
+    const el = $('evd-' + i); if (!el) return;
+    if (!ev.date) { el.textContent = ''; el.style.color = 'var(--muted)'; return; }
+    const d = new Date(ev.date + 'T00:00:00');
+    const days = Math.round((d - today) / 86400000);
+    if (days < 0) { el.textContent = `prošlé (${-days} d)`; el.style.color = 'var(--blood)'; }
+    else if (days === 0) { el.textContent = 'dnes!'; el.style.color = 'var(--gold)'; }
+    else if (days <= 14) { el.textContent = `za ${days} dní`; el.style.color = 'var(--gold)'; }
+    else { el.textContent = `za ${days} dní`; el.style.color = 'var(--muted)'; }
+  });
+}
+
+// ───────── příjem zboží — faktury + skladové varianty (Shoptet-ready)
+const FEAT_LABEL = { grip: 'Grip', kapsa: 'Kapsa', dira: 'Díra' };
+const FEAT_CODE = { grip: 'G', kapsa: 'K', dira: 'D' };
+const PROD_CODE = { navlek: 'NAV', ponozka: 'PON', nizka: 'NIZ', vysoka: 'VYS', bundle: 'BND' };
+
+function featSubsets() {                      // všechny kombinace prvků pro rozbalovačku
+  const ids = CONFIG.addons.map(a => a.id);
+  const out = [[]];
+  for (const id of ids) { const len = out.length; for (let j = 0; j < len; j++) out.push([...out[j], id]); }
+  return out;
+}
+const featKey = (arr) => (arr || []).slice().sort().join(',');
+const featText = (arr) => (arr && arr.length) ? arr.map(f => FEAT_LABEL[f] || f).join('+') : 'Základní';
+const prodName = (id) => { const p = CONFIG.products.find(x => x.id === id); return p ? p.name : id; };
+const noDia = (s) => (s || '').normalize('NFD').split('').filter(c => { const n = c.charCodeAt(0); return n < 768 || n > 879; }).join('');
+
+function vat() { return (+($('vatRate') && $('vatRate').value) || CONFIG.vatRate) / 100; }
+function invGross(inv) { return (+inv.net || 0) * (1 + vat()); }
+function invTotal(inv) { return invGross(inv) * (+inv.qty || 0); }
+const hasGoods = (inv) => inv.product && inv.color && inv.size && (+inv.qty || 0) > 0;
+const invComplete = (inv) => hasGoods(inv) && inv.num.trim() !== '' && inv.due !== '' && (+inv.net || 0) > 0;
+
+function sku(inv) {                           // SKU kód varianty pro Shoptet
+  const pc = PROD_CODE[inv.product] || 'XXX';
+  const cc = (noDia(inv.color).substring(0, 3).toUpperCase()) || 'XXX';
+  const fc = (inv.feat && inv.feat.length) ? inv.feat.map(f => FEAT_CODE[f]).join('') : '0';
+  const sz = (inv.size || '').replace(/[^0-9]/g, '') || '00';
+  return `${pc}-${cc}-${fc}-${sz}`;
+}
+
+function selOpts(list, val, mv, ml) {
+  return list.map(x => { const v = mv ? mv(x) : x, l = ml ? ml(x) : x; return `<option value="${v}"${v === val ? ' selected' : ''}>${l}</option>`; }).join('');
+}
+
+function buildInvoices() {
+  const subs = featSubsets();
+  $('invoiceRows').innerHTML = CONFIG.invoices.map((inv, i) => {
+    const prodOpts = selOpts(CONFIG.products, inv.product, p => p.id, p => p.name);
+    const colorOpts = selOpts(CONFIG.colors, inv.color) + `<option value="__new__">➕ nová barva…</option>`;
+    const featOpts = subs.map(s => `<option value="${featKey(s)}"${featKey(s) === featKey(inv.feat) ? ' selected' : ''}>${featText(s)}</option>`).join('');
+    const sizeOpts = selOpts(CONFIG.sizes, inv.size);
+    return `
+    <tr>
+      <td><input type="text" data-ini="${i}" data-ink="num" value="${inv.num}" placeholder="2026-001"></td>
+      <td><select data-ini="${i}" data-ink="product">${prodOpts}</select></td>
+      <td><select data-ini="${i}" data-ink="color">${colorOpts}</select></td>
+      <td><select data-ini="${i}" data-ink="feat">${featOpts}</select></td>
+      <td><select data-ini="${i}" data-ink="size">${sizeOpts}</select></td>
+      <td><input type="number" data-ini="${i}" data-ink="qty" value="${inv.qty}" step="10"></td>
+      <td><input type="number" data-ini="${i}" data-ink="net" value="${inv.net}" step="50"></td>
+      <td class="inv-calc" id="ig-${i}">—</td>
+      <td class="inv-calc inv-total" id="it-${i}">—</td>
+      <td><input type="date" data-ini="${i}" data-ink="due" value="${inv.due}"></td>
+      <td style="text-align:center"><input type="checkbox" data-ini="${i}" data-ink="paid" ${inv.paid ? 'checked' : ''}></td>
+      <td><button class="inv-del" data-del="${i}" title="Smazat řádek">🗑</button></td>
+    </tr>`;
+  }).join('');
+}
+
+function recalcInvoices() {
+  const today = new Date(); today.setHours(0, 0, 0, 0);
+  let totalDue = 0, incomplete = 0, nearest = Infinity;
+  CONFIG.invoices.forEach((inv, i) => {
+    if ($('ig-' + i)) $('ig-' + i).textContent = fmt(invGross(inv));
+    if ($('it-' + i)) $('it-' + i).textContent = fmt(invTotal(inv));
+    document.querySelectorAll('[data-ini="' + i + '"]').forEach(el => {
+      const k = el.dataset.ink;
+      if (k === 'num') el.classList.toggle('bad', inv.num.trim() === '');
+      if (k === 'due') el.classList.toggle('bad', inv.due === '');
+      if (k === 'net') el.classList.toggle('bad', (+inv.net || 0) <= 0);
+      if (k === 'qty') el.classList.toggle('bad', (+inv.qty || 0) <= 0);
+    });
+    if (!invComplete(inv)) incomplete++;
+    if (!inv.paid && invComplete(inv)) {
+      totalDue += invTotal(inv);
+      const days = Math.round((new Date(inv.due + 'T00:00:00') - today) / 86400000);
+      if (days < nearest) nearest = days;
+    }
+  });
+  let s = `<strong>${CONFIG.invoices.length}</strong> řádků · k zaplacení <strong>${fmt(totalDue)}</strong>`;
+  if (isFinite(nearest)) s += ` · nejbližší splatnost ${nearest < 0 ? `<span class="bad">po termínu ${-nearest} d</span>` : (nearest === 0 ? '<span class="bad">dnes!</span>' : `za ${nearest} dní`)}`;
+  if (incomplete) s += ` · <span class="bad">⚠ ${incomplete} nedokončených (červené)</span>`;
+  $('invSummary').innerHTML = s;
+
+  const badge = $('receiptBadge');
+  const unpaid = CONFIG.invoices.filter(x => !x.paid && invComplete(x));
+  const overdue = unpaid.filter(x => (new Date(x.due + 'T00:00:00') - today) < 0).length;
+  badge.className = 'badge';
+  badge.textContent = String(unpaid.length);
+  if (overdue) { badge.classList.add('over'); badge.textContent = `⚠ ${overdue} po splatnosti`; }
+  else if (isFinite(nearest) && nearest <= 14) { badge.classList.add('due'); badge.textContent = `${unpaid.length} · za ${nearest} d`; }
+}
+
+function renderInvoiceEvents() {
+  const today = new Date(); today.setHours(0, 0, 0, 0);
+  const byNum = {};
+  CONFIG.invoices.forEach(inv => {
+    if (inv.paid || !invComplete(inv)) return;
+    const k = inv.num.trim();
+    if (!byNum[k]) byNum[k] = { num: k, due: inv.due, total: 0 };
+    byNum[k].total += invTotal(inv);
+    if (inv.due < byNum[k].due) byNum[k].due = inv.due;
+  });
+  const list = Object.values(byNum).sort((a, b) => new Date(a.due) - new Date(b.due));
+  if (!list.length) { $('invoiceEvents').innerHTML = ''; return; }
+  $('invoiceEvents').innerHTML = '<div class="inv-ev-head">📄 splatnosti faktur (z příjmu zboží)</div>' + list.map(o => {
+    const days = Math.round((new Date(o.due + 'T00:00:00') - today) / 86400000);
+    let col = 'var(--muted)', txt = `za ${days} dní`;
+    if (days < 0) { col = 'var(--blood)'; txt = `po termínu ${-days} d`; }
+    else if (days === 0) { col = 'var(--gold)'; txt = 'dnes!'; }
+    else if (days <= 14) { col = 'var(--gold)'; }
+    return `<div class="inv-ev">
+      <span class="lbl">Faktura č. ${o.num} — <strong>${fmt(o.total)}</strong></span>
+      <span class="evdays" style="color:${col}">${txt}</span>
+      <button class="inv-del" data-paynum="${o.num}" title="Označit fakturu jako zaplacenou" style="color:var(--coach)">✓</button>
+    </div>`;
+  }).join('');
+}
+
+// ───────── sklad podle variant + Shoptet export
+function variantStock() {
+  const map = {};
+  CONFIG.invoices.forEach(inv => {
+    if (!hasGoods(inv)) return;
+    const key = sku(inv);
+    if (!map[key]) map[key] = { sku: key, product: inv.product, color: inv.color, feat: (inv.feat || []).slice(), size: inv.size, qty: 0 };
+    map[key].qty += (+inv.qty || 0);
+  });
+  return Object.values(map);
+}
+
+function renderVariantStock() {
+  const rows = variantStock().sort((a, b) => a.sku.localeCompare(b.sku));
+  if (!rows.length) { $('variantStock').innerHTML = '<p class="note" style="margin:0">Zatím prázdné — přidej příjem zboží (📦 nahoře) a sklad se naplní sám.</p>'; return; }
+  const total = rows.reduce((s, r) => s + r.qty, 0);
+  $('variantStock').innerHTML = `
+    <table class="prod">
+      <thead><tr><th>Produkt</th><th>Barva</th><th>Provedení</th><th>Vel.</th><th>SKU</th><th style="text-align:right">Skladem</th></tr></thead>
+      <tbody>${rows.map(r => `<tr>
+        <td class="pname">${prodName(r.product)}</td>
+        <td>${r.color}</td>
+        <td>${featText(r.feat)}</td>
+        <td>${r.size}</td>
+        <td class="cogs-cell" style="text-align:left">${r.sku}</td>
+        <td class="margin-cell">${r.qty} ks</td>
+      </tr>`).join('')}</tbody>
+      <tfoot><tr><td colspan="5" class="pname" style="border-top:2px solid #333">Celkem skladem</td><td class="margin-cell" style="border-top:2px solid #333">${total} ks</td></tr></tfoot>
+    </table>`;
+}
+
+function shoptetExport() {
+  const rows = variantStock();
+  if (!rows.length) { alert('Sklad je prázdný — není co exportovat. Přidej příjem zboží.'); return; }
+  const head = ['kod', 'nazev', 'produkt', 'barva', 'provedeni', 'velikost', 'skladem'];
+  const lines = [head.join(';')];
+  rows.forEach(r => lines.push([
+    r.sku,
+    `${prodName(r.product)} ${r.color} ${featText(r.feat)} ${r.size}`,
+    prodName(r.product), r.color, featText(r.feat), r.size, r.qty
+  ].join(';')));
+  const csv = String.fromCharCode(0xFEFF) + lines.join('\r\n');
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'eldee-sklad-shoptet.csv';
+  document.body.appendChild(a); a.click(); a.remove();
+  URL.revokeObjectURL(url);
+}
+
+// ───────── recalc
 function recalc() {
   const clubShare = Math.min(100, Math.max(0, +$('club').value || 0)) / 100;
+  const tMargin = +$('tMargin').value || 0;
+  const tStock = +$('tStock').value || 0;
   const mixSum = CONFIG.products.reduce((a, p) => a + (+p.mix || 0), 0);
   $('mixWarn').classList.toggle('show', Math.round(mixSum) !== 100 && mixSum > 0);
 
+  // prvky — marže navíc/ks
+  CONFIG.addons.forEach(a => {
+    const extra = a.price * (1 - CONFIG.gateway.pct) - a.cogs;
+    $('am-' + a.id).textContent = fmt(extra);
+  });
+
   let wMargin = 0, wPrice = 0;
+  const margins = {};
   for (const p of CONFIG.products) {
     const m = marginOf(p, clubShare);
+    margins[p.id] = m;
     $('m-' + p.id).textContent = fmt(m);
+    $('cogs-' + p.id).textContent = fmt(effCogs(p));
     const w = mixSum ? (+p.mix || 0) / mixSum : 0;
     wMargin += w * m;
-    wPrice += w * (p.price * (1 - clubShare * CONFIG.clubDiscount));
+    wPrice += w * (effPrice(p) * (1 - clubShare * CONFIG.clubDiscount));
+    // našeptávač u produktu
+    const c = $('coach-' + p.id);
+    const onTxt = p.addons.length ? ' (s: ' + p.addons.map(id => addonById(id).short).join('+') + ')' : '';
+    if (m >= tMargin) c.textContent = `✓ marže ${fmt(m)}${onTxt} ≥ cíl ${fmt(tMargin)}. Je prostor přidat prvek za příplatek, nebo srovnat cenu pro klub.`;
+    else c.textContent = `marže ${fmt(m)}${onTxt} < cíl ${fmt(tMargin)} — chybí ${fmt(tMargin - m)}: zvedni cenu, nebo objednej větší MOQ (nižší cena/ks).`;
   }
 
   const fix = +$('fix').value || 0, goal = +$('goal').value || 0;
@@ -190,21 +593,56 @@ function recalc() {
     ? `Čistý cíl ${fmt(goal)}/měs = hrubý zisk ≈ ${fmt(gross)}/měs → ~${Math.ceil(units)} prodejů měsíčně (${(units / 30).toFixed(1)}/den).`
     : 'Vážená marže je záporná — uprav ceny/COGS.';
 
-  // první výroba — výrobní COGS = cogs − 27 (krabička+karta jdou až s prodejem)
-  const runUnits = +$('firstRun').value || 0;
-  let prodCost = 0;
-  for (const p of CONFIG.products) {
-    const w = mixSum ? (+p.mix || 0) / mixSum : 0;
-    prodCost += runUnits * w * Math.max(0, p.cogs - 27);
-  }
+  // našeptávač u výsledků
+  $('cMargin').textContent = wMargin >= tMargin
+    ? `✓ ideál ≥ ${fmt(tMargin)}. Sedí — drž ceny a hlídej COGS přes MOQ.`
+    : `ideál ≥ ${fmt(tMargin)}. Zvedni cenu nebo objednej větší šarži (nižší cena/ks).`;
+  $('cUnits').textContent = wMargin > 0
+    ? `ideál = co reálně zvládneš prodat. Když je číslo vysoké, zvyš marži (cena/MOQ) → potřebuješ míň ks na stejný cíl.`
+    : '';
+
+  // ───────── výroba & sklad
   const capital = +$('capital').value || 0;
+  let prodCost = 0, stockVal = 0, stockProfit = 0, stockUnits = 0;
+  for (const p of CONFIG.products) {
+    const t = tierPrice(p);
+    const ordered = +p.ordered || 0, stock = +p.stock || 0;
+    prodCost += ordered * t;
+    stockVal += stock * t;
+    stockProfit += stock * margins[p.id];
+    stockUnits += stock;
+    // měsíční prodeje tohoto produktu dle mixu
+    const w = mixSum ? (+p.mix || 0) / mixSum : 0;
+    const monthly = (wMargin > 0 ? units : 0) * w;
+    const cover = monthly > 0 ? stock / monthly : Infinity;
+    $('cppk-' + p.id).textContent = `cena/ks ${fmt(t)} (MOQ ${activeTier(p).qty}+)`;
+    $('stockval-' + p.id).innerHTML = `hodnota <strong style="color:var(--bone)">${fmt(stock * t)}</strong>`;
+    const sc = $('scoach-' + p.id);
+    if (monthly <= 0) sc.textContent = `tento produkt se teď neprodává (mix 0 %).`;
+    else if (cover < tStock) sc.textContent = `zásoba vydrží ~${cover.toFixed(1)} měs (cíl ${tStock}) — doobjednej, ideálně větší MOQ pro nižší cenu/ks.`;
+    else sc.textContent = `✓ zásoba ~${cover.toFixed(1)} měs (cíl ${tStock}). Sklad nacenený na ${fmt(t)}/ks → zisk ${fmt(margins[p.id])}/ks.`;
+  }
+
   $('kProdCost').textContent = fmt(prodCost);
   $('kCapLeft').textContent = fmt(capital - prodCost);
+  $('kStockVal').textContent = fmt(stockVal);
+  $('kStockProfit').textContent = fmt(stockProfit);
   $('capBar').style.width = capital > 0 ? Math.min(100, prodCost / capital * 100) + '%' : '0%';
   $('capBar').style.background = prodCost > capital ? 'var(--blood)' : 'var(--gold)';
   $('capWarn').classList.toggle('show', prodCost > capital);
+
+  // našeptávač u skladu
+  const coverAll = (wMargin > 0 && units > 0) ? stockUnits / units : Infinity;
+  $('cStockVal').textContent = `ideál: zásoba ~${tStock} měs prodeje. Teď sklad vydrží ~${isFinite(coverAll) ? coverAll.toFixed(1) : '∞'} měs.`;
+  $('cStockProfit').textContent = `tolik vyděláš, než dojde sklad. Větší MOQ sníží cenu/ks → stejný sklad = vyšší zisk.`;
+
+  recalcEvents();
+  recalcInvoices();
+  renderInvoiceEvents();
+  renderVariantStock();
 }
 
+// ───────── scénáře + události
 function applyScenario(name, btn) {
   const s = CONFIG.scenarios[name];
   if (s.goal != null) $('goal').value = s.goal;
@@ -223,11 +661,59 @@ document.querySelectorAll('#scenarios button').forEach((b) => b.addEventListener
 
 document.addEventListener('input', (e) => {
   const t = e.target;
-  if (t.dataset.i != null) CONFIG.products[+t.dataset.i][t.dataset.k] = +t.value || 0;
+  if (t.id === 'vatRate') {                          // změna sazby DPH → překreslit faktury
+    CONFIG.vatRate = +t.value || 0;
+    buildInvoices(); recalc(); return;
+  }
+  if (t.dataset.ti != null) {                        // MOQ ceník
+    CONFIG.products[+t.dataset.i].tiers[+t.dataset.ti][t.dataset.tk] = +t.value || 0;
+  } else if (t.dataset.ai != null) {                 // prvky/příplatky
+    CONFIG.addons[+t.dataset.ai][t.dataset.ak] = +t.value || 0;
+  } else if (t.dataset.ini != null) {                // faktura — příjem zboží (varianta)
+    const inv = CONFIG.invoices[+t.dataset.ini], k = t.dataset.ink;
+    if (k === 'paid') inv.paid = t.checked;
+    else if (k === 'qty' || k === 'net') inv[k] = +t.value || 0;
+    else if (k === 'feat') inv.feat = t.value ? t.value.split(',') : [];
+    else if (k === 'color') {
+      if (t.value === '__new__') {
+        const nv = (prompt('Název nové barvy:') || '').trim();
+        if (nv && !CONFIG.colors.includes(nv)) CONFIG.colors.push(nv);
+        inv.color = nv || CONFIG.colors[0];
+        buildInvoices();
+      } else inv.color = t.value;
+    }
+    else inv[k] = t.value;                            // num, product, size, due (text)
+  } else if (t.dataset.evi != null) {                // události — datum/popis (text, ne číslo)
+    CONFIG.events[+t.dataset.evi][t.dataset.evk] = t.value;
+  } else if (t.dataset.i != null) {                  // produkt (price/mix/ordered/stock)
+    CONFIG.products[+t.dataset.i][t.dataset.k] = +t.value || 0;
+  }
   recalc();
 });
 
+document.addEventListener('click', (e) => {
+  const t = e.target;
+  if (t.classList.contains('chip')) {               // zapnutí/vypnutí prvku u produktu
+    const p = CONFIG.products[+t.dataset.pi];
+    const id = t.dataset.aid;
+    const idx = p.addons.indexOf(id);
+    if (idx >= 0) p.addons.splice(idx, 1); else p.addons.push(id);
+    t.classList.toggle('on');
+    recalc();
+  }
+  else if (t.id === 'receiptBtn') { $('receiptOverlay').classList.add('show'); }
+  else if (t.id === 'receiptClose' || t.id === 'invDone' || t.id === 'receiptOverlay') { $('receiptOverlay').classList.remove('show'); }
+  else if (t.id === 'invAdd') { CONFIG.invoices.push({ num: '', product: CONFIG.products[0].id, color: CONFIG.colors[0], feat: [], size: CONFIG.sizes[2] || CONFIG.sizes[0], qty: 0, net: 0, due: '', paid: false }); buildInvoices(); recalc(); }
+  else if (t.id === 'shoptetExport') { shoptetExport(); }
+  else if (t.dataset.del != null) { CONFIG.invoices.splice(+t.dataset.del, 1); buildInvoices(); recalc(); }
+  else if (t.dataset.paynum != null) { CONFIG.invoices.forEach(x => { if (x.num.trim() === t.dataset.paynum) x.paid = true; }); buildInvoices(); recalc(); }
+});
+
 buildRows();
+buildStock();
+buildAddons();
+buildEvents();
+buildInvoices();
 recalc();
 </script>
 </body>

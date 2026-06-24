@@ -10,6 +10,7 @@ Nástěnka = `data/stav.json` (úkoly, milníky, stav, odkazy). Deník (příbě
 - Nový úkol → hned do `stav.json` (stav `další`, `kdo`, `vzniklo`).
 - Splněný → `stav:"hotovo"` + datum. Milník → `timeline` (+ `stavKarty`/`meta`).
 - Co je v nástěnce, krátce i v deníku. Před zápisem `git pull`. Na konci ověř, že deník a `stav.json` sedí.
+- **⚠️ Po editaci `stav.json` VŽDY ověř JSON před pushem:** `node -e "require('./data/stav.json')"`. Rozbitý JSON shodí celý board. Rovná `"` uvnitř textu řetězec ukončí — nedávej ji dovnitř (české „ a " jsou OK).
 
 Schema: `meta, stavKarty, timeline, ukoly[{id,text,stav,kdo,pozn,vzniklo,hotovo}], odkazy, tym`. Stav úkolu: `teď|další|fronta|hotovo|blokováno`. Plný postup: `eldee-business/CLAUDE.md` → „POVINNÝ WORKFLOW".
 

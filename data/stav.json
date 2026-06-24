@@ -48,6 +48,12 @@
   "timeline": [
     {
       "datum": "24. 6. 2026",
+      "nadpis": "HQ: Kalendář + Logomanual",
+      "text": "Do HQ přidána sekce <strong>Kalendář</strong> (zobrazovací — kalendářní týdny KT, zvýrazněný dnešek, procházení měsíců) + placeholder sekce Brainstorm. Tentýž den: brand book rozdělen na veřejný Logomanual (eldee-logomanual.vercel.app) + interní brandbook (klikací z HQ jako kalkulačka).",
+      "minor": false
+    },
+    {
+      "datum": "24. 6. 2026",
       "nadpis": "HQ = živá nástěnka + týmové workflow",
       "text": "HQ se vykresluje z <strong>data/stav.json</strong> — úkoly, milníky a stav se už nepíšou ručně do HTML. Zaveden POVINNÝ WORKFLOW (pravidla v repech) → platí stejně pro Hledíka i Doležala, bez instalace. Do HQ přidán náhled e-shopu, rozcestník dotazníků a odkaz na brand assety.",
       "minor": false
@@ -236,6 +242,24 @@
       "pozn": "HOTOVO: ve Vercelu přidána produkční doména eldee-logomanual.vercel.app (rename projektu neměnil .vercel.app adresu automaticky). Logomanual žije na hezké adrese, dlaždice přepnuta.",
       "vzniklo": "2026-06-24",
       "hotovo": "2026-06-24"
+    },
+    {
+      "id": "brainstorm-sekce",
+      "text": "Rozvést sekci Brainstorm na HQ (zatím jen placeholder)",
+      "stav": "fronta",
+      "kdo": "Lukáš + Jarvis",
+      "pozn": "Podobu a fungování doladíme v další session.",
+      "vzniklo": "2026-06-24",
+      "hotovo": null
+    },
+    {
+      "id": "kalendar-ficury",
+      "text": "Kalendář na HQ — doplnit fíčury (události, doplňování), zatím jen zobrazovací",
+      "stav": "fronta",
+      "kdo": "Lukáš + Jarvis",
+      "pozn": "Zobrazovací kalendář (KT týdny, dnešek, procházení měsíců) hotový; doplňování událostí = budoucí.",
+      "vzniklo": "2026-06-24",
+      "hotovo": null
     }
   ],
   "odkazy": [

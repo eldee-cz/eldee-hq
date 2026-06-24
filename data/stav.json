@@ -280,8 +280,16 @@
       "extern": false
     },
     {
-      "nadpis": "Finanční kalkulačka",
-      "text": "Interaktivní model: 4 produkty + bundle, mix prodejů, klubové kódy, cesta k cíli, hlídač DPH, rozpočet první výroby.",
+      "nadpis": "Sklad",
+      "text": "Příjem zboží → reálný stav skladu podle variant (barva · provedení · velikost) + SKU kódy. Export pro Shoptet. Data v prohlížeči.",
+      "stav": "on",
+      "stavText": "online",
+      "href": "sklad.html",
+      "extern": false
+    },
+    {
+      "nadpis": "Finance",
+      "text": "Kalkulačka: produkty, ceny, prvky, marže, MOQ ceník, mix prodejů, klubové kódy, cíle, hlídač DPH, nejbližší termíny.",
       "stav": "on",
       "stavText": "online",
       "href": "kalkulacka.html",

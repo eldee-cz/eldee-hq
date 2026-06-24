@@ -222,10 +222,10 @@
   ],
   "odkazy": [
     {
-      "nadpis": "Brand book",
-      "text": "Kompletní vizuální a verbální identita — 17 sekcí, logo systém, barvy, typografie, voice, maskot.",
+      "nadpis": "Brandbook (interní)",
+      "text": "Plný brand book = DNA firmy (manifest, příběh, positioning, voice) + celý vizuální manuál. INTERNÍ — nesdílet ven. Veřejný Logomanual (osekaná verze pro dodavatele) = příští fáze.",
       "stav": "on",
-      "stavText": "online — v2.0",
+      "stavText": "interní · nesdílet",
       "href": "https://eldee-brandbook.vercel.app",
       "extern": true
     },

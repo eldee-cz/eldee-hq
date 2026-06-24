@@ -105,6 +105,26 @@
 
   /* ---------- footer ---------- */
   footer{padding:36px 0 56px;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;font-family:'Space Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:.06em}
+
+  /* ---------- kalendář ---------- */
+  .cal{background:var(--ink2);border:1px solid var(--line);padding:24px;max-width:560px}
+  .cal-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:20px}
+  .cal-title{font-family:'Big Shoulders Display';font-weight:900;font-size:clamp(24px,4vw,32px);text-transform:uppercase;letter-spacing:.01em}
+  .cal-title b{color:var(--gold);font-weight:900}
+  .cal-nav{display:flex;gap:8px;flex-shrink:0}
+  .cal-btn{height:36px;min-width:36px;padding:0;border:1px solid var(--line);background:var(--ink);color:var(--bone);border-radius:999px;font-size:16px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:border-color .2s,color .2s}
+  .cal-btn:hover{border-color:var(--gold);color:var(--gold)}
+  .cal-today-btn{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;padding:0 14px}
+  .cal-grid{display:grid;grid-template-columns:34px repeat(7,1fr);gap:3px}
+  .cal-dow{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);text-align:center;padding:4px 0 8px}
+  .cal-dow.kt{color:var(--gold)}
+  .cal-kt{font-family:'Space Mono',monospace;font-size:11px;color:rgba(201,162,39,.5);display:flex;align-items:center;justify-content:center}
+  .cal-kt.now{color:var(--gold);font-weight:700}
+  .cal-cell{aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--bone);border-radius:999px}
+  .cal-cell.out{color:#46443d}
+  .cal-cell.we{color:var(--muted)}
+  .cal-cell.today{background:var(--gold);color:var(--ink);font-weight:700}
+  .cal-foot{margin-top:18px;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.08em;color:var(--muted);text-transform:uppercase}
 </style>
 </head>
 <body>
@@ -115,7 +135,7 @@
     <span class="n"><b>eldee</b> HQ</span>
   </div>
   <nav class="tb-nav">
-    <a href="#stav">Stav</a><a href="#timeline">Timeline</a><a href="#ukoly">Úkoly</a><a href="#data">Data &amp; odkazy</a><a href="#tym">Tým</a>
+    <a href="#stav">Stav</a><a href="#timeline">Timeline</a><a href="#ukoly">Úkoly</a><a href="#kalendar">Kalendář</a><a href="#brainstorm">Brainstorm</a><a href="#data">Data &amp; odkazy</a><a href="#tym">Tým</a>
   </nav>
 </div></div>
 
@@ -145,14 +165,40 @@
   </table>
 </div></section>
 
+<section id="kalendar"><div class="wrap">
+  <div class="sec-head"><span class="no">04</span><h2>Kalendář</h2></div>
+  <div class="cal">
+    <div class="cal-head">
+      <div class="cal-title" id="cal-title">—</div>
+      <div class="cal-nav">
+        <button class="cal-btn cal-today-btn" id="cal-today" type="button">Dnes</button>
+        <button class="cal-btn" id="cal-prev" type="button" aria-label="Předchozí měsíc">‹</button>
+        <button class="cal-btn" id="cal-next" type="button" aria-label="Další měsíc">›</button>
+      </div>
+    </div>
+    <div class="cal-grid" id="cal-grid"></div>
+    <div class="cal-foot" id="cal-foot"></div>
+  </div>
+</div></section>
+
+<section id="brainstorm"><div class="wrap">
+  <div class="sec-head"><span class="no">05</span><h2>Brainstorm</h2></div>
+  <div class="card" style="max-width:560px">
+    <span class="tag">Připravujeme</span>
+    <h3>Brainstorm — brzy</h3>
+    <span class="badge b-wait">rozvedeme příště</span>
+    <p>Tady vznikne prostor na nápady a rozpracované myšlenky k eldee. Podobu a fungování doladíme v další session.</p>
+  </div>
+</div></section>
+
 <section id="data"><div class="wrap">
-  <div class="sec-head"><span class="no">04</span><h2>Data &amp; odkazy</h2></div>
+  <div class="sec-head"><span class="no">06</span><h2>Data &amp; odkazy</h2></div>
   <div class="links"></div>
   <p style="margin-top:22px;font-family:'Space Mono',monospace;font-size:11px;color:var(--muted)">Pozn.: kniha a kalkulačka obsahují interní čísla (marže, cíle) — URL nesdílet mimo tým. Web je noindex, vyhledávače ho neindexují.</p>
 </div></section>
 
 <section id="tym" style="border-bottom:none"><div class="wrap">
-  <div class="sec-head"><span class="no">05</span><h2>Tým</h2></div>
+  <div class="sec-head"><span class="no">07</span><h2>Tým</h2></div>
   <div class="team"></div>
 </div></section>
 
@@ -213,6 +259,58 @@ fetch('data/stav.json',{cache:'no-store'})
     document.body.prepend(m);
     console.error(e);
   });
+
+/* ---------- kalendář (zobrazovací) ---------- */
+(function(){
+  const grid=document.getElementById('cal-grid'); if(!grid) return;
+  const titleEl=document.getElementById('cal-title');
+  const footEl=document.getElementById('cal-foot');
+  const MONTHS=['Leden','Únor','Březen','Duben','Květen','Červen','Červenec','Srpen','Září','Říjen','Listopad','Prosinec'];
+  const DOW=['Po','Út','St','Čt','Pá','So','Ne'];
+  const today=new Date(); today.setHours(0,0,0,0);
+  let view=new Date(today.getFullYear(), today.getMonth(), 1);
+
+  function isoWeek(d){
+    const t=new Date(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate()));
+    const day=(t.getUTCDay()+6)%7;
+    t.setUTCDate(t.getUTCDate()-day+3);
+    const firstThu=new Date(Date.UTC(t.getUTCFullYear(),0,4));
+    const fday=(firstThu.getUTCDay()+6)%7;
+    firstThu.setUTCDate(firstThu.getUTCDate()-fday+3);
+    return 1+Math.round((t-firstThu)/(7*864e5));
+  }
+  function sameDay(a,b){return a.getFullYear()===b.getFullYear()&&a.getMonth()===b.getMonth()&&a.getDate()===b.getDate();}
+
+  function render(){
+    const y=view.getFullYear(), m=view.getMonth();
+    titleEl.innerHTML=MONTHS[m].toUpperCase()+' <b>'+y+'</b>';
+    let html='<div class="cal-dow kt">KT</div>';
+    DOW.forEach((d,i)=>{ html+='<div class="cal-dow'+(i>=5?' we':'')+'">'+d+'</div>'; });
+    const first=new Date(y,m,1);
+    const offset=(first.getDay()+6)%7;
+    const start=new Date(y,m,1-offset);
+    for(let w=0; w<6; w++){
+      const rowStart=new Date(start); rowStart.setDate(start.getDate()+w*7);
+      const rowEnd=new Date(rowStart); rowEnd.setDate(rowStart.getDate()+6);
+      const nowWeek=today>=rowStart && today<=rowEnd;
+      html+='<div class="cal-kt'+(nowWeek?' now':'')+'">'+isoWeek(rowStart)+'</div>';
+      for(let i=0;i<7;i++){
+        const cur=new Date(start); cur.setDate(start.getDate()+w*7+i);
+        let cls='cal-cell';
+        if(cur.getMonth()!==m) cls+=' out';
+        if(i>=5) cls+=' we';
+        if(sameDay(cur,today)) cls+=' today';
+        html+='<div class="'+cls+'">'+cur.getDate()+'</div>';
+      }
+    }
+    grid.innerHTML=html;
+    footEl.textContent='Dnes: '+today.getDate()+'. '+(today.getMonth()+1)+'. '+today.getFullYear()+' · kalendářní týden '+isoWeek(today);
+  }
+  document.getElementById('cal-prev').onclick=()=>{ view.setMonth(view.getMonth()-1); render(); };
+  document.getElementById('cal-next').onclick=()=>{ view.setMonth(view.getMonth()+1); render(); };
+  document.getElementById('cal-today').onclick=()=>{ view=new Date(today.getFullYear(),today.getMonth(),1); render(); };
+  render();
+})();
 </script>
 </body>
 </html>

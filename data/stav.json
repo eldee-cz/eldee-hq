@@ -231,11 +231,11 @@
     {
       "id": "vercel-rename-logomanual",
       "text": "Vercel: dořešit rename Logomanualu na eldee-logomanual.vercel.app (teď běží na eldee-brandbook.vercel.app, nová adresa 404)",
-      "stav": "fronta",
+      "stav": "hotovo",
       "kdo": "Lukáš",
-      "pozn": "Rename projektu ve Vercelu nedosedl. Až se rozchodí, Jarvis přepne dlaždici Logomanual na novou adresu.",
+      "pozn": "HOTOVO: ve Vercelu přidána produkční doména eldee-logomanual.vercel.app (rename projektu neměnil .vercel.app adresu automaticky). Logomanual žije na hezké adrese, dlaždice přepnuta.",
       "vzniklo": "2026-06-24",
-      "hotovo": null
+      "hotovo": "2026-06-24"
     }
   ],
   "odkazy": [
@@ -244,7 +244,7 @@
       "text": "Osekaný brandbook pro dodavatele a partnery — logo, barvy, fonty, vzor a jak s eldee vizuálně pracovat. Tohle se sdílí ven.",
       "stav": "on",
       "stavText": "veřejné · sdílej s dodavateli",
-      "href": "https://eldee-brandbook.vercel.app",
+      "href": "https://eldee-logomanual.vercel.app",
       "extern": true
     },
     {
@@ -260,7 +260,7 @@
       "text": "Loga, monogram, wordmark, favicon a maskot ke stažení — v brand booku (kanonický zdroj, vždy aktuální).",
       "stav": "on",
       "stavText": "online — brand book",
-      "href": "https://eldee-brandbook.vercel.app/assets",
+      "href": "https://eldee-logomanual.vercel.app/assets",
       "extern": true
     },
     {

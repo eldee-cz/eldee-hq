@@ -47,6 +47,12 @@
   ],
   "timeline": [
     {
+      "datum": "24. 6. 2026",
+      "nadpis": "HQ = živá nástěnka + týmové workflow",
+      "text": "HQ se vykresluje z <strong>data/stav.json</strong> — úkoly, milníky a stav se už nepíšou ručně do HTML. Zaveden POVINNÝ WORKFLOW (pravidla v repech) → platí stejně pro Hledíka i Doležala, bez instalace. Do HQ přidán náhled e-shopu, rozcestník dotazníků a odkaz na brand assety.",
+      "minor": false
+    },
+    {
       "datum": "15. 6. 2026",
       "nadpis": "Maskot Eldee zakotven + Shoptet tahák",
       "text": "Oficiální maskot dostal jméno <strong>Eldee</strong> (shodné se značkou — pumpuje název firmy do podvědomí). Vytvořena character bible (přesná podoba + podklad pro budoucí AI videa) a vyčištěná hero verze přes AI. Vyřešena přenositelnost homepage do Shoptetu = kompletní set-up tahák.",

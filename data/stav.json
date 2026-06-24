@@ -218,6 +218,15 @@
       "pozn": "Dnes localStorage „eldee-crm-v1“ = neviditelné pro druhého. Vyřešit, až bude aktivní oslovování klubů.",
       "vzniklo": "2026-06-24",
       "hotovo": null
+    },
+    {
+      "id": "logomanual-web-split",
+      "text": "Veřejné weby: udělat z brand booku veřejný Logomanual (osekaný) + brand book interní vzadu",
+      "stav": "fronta",
+      "kdo": "Jarvis",
+      "pozn": "Fáze B. Spec: docs/superpowers/specs/2026-06-24-logomanual-brandbook-split-design.md. Audience-filtrovaná nav, veřejná adresa = Logomanual, rename logo.eldee.cz později.",
+      "vzniklo": "2026-06-24",
+      "hotovo": null
     }
   ],
   "odkazy": [

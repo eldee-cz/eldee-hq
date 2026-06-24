@@ -48,6 +48,12 @@
   "timeline": [
     {
       "datum": "24. 6. 2026",
+      "nadpis": "Finance: DPH plátce/neplátce kalkulačka",
+      "text": "Do dlaždice <strong>🧮 Finance</strong> přidána sekce <strong>DPH — vyplatí se mi být plátcem?</strong>: porovná 3 scénáře (neplátce / plátce se zdražením / plátce s držením cen), spočítá odpočet DPH z nákupů a vrátí doporučení. Napojená na roční obrat z kalkulačky (tlačítko „převzít obrat“).",
+      "minor": true
+    },
+    {
+      "datum": "24. 6. 2026",
       "nadpis": "Skladový systém — Sklad + Finance",
       "text": "Z kalkulačky vznikly dvě samostatné dlaždice: <strong>📦 Sklad</strong> (příjem zboží → sklad podle variant + SKU, Shoptet CSV export, data v prohlížeči) v data-grid stylu à la SAP, a <strong>🧮 Finance</strong> (vyčištěná kalkulačka — marže, MOQ, cíle, DPH; příjem zboží z ní přesunut do Skladu). Dělení: Sklad = zboží, Finance = peníze.",
       "minor": false
@@ -328,7 +334,7 @@
     },
     {
       "nadpis": "Finance",
-      "text": "Kalkulačka: produkty, ceny, prvky, marže, MOQ ceník, mix prodejů, klubové kódy, cíle, hlídač DPH, nejbližší termíny.",
+      "text": "Kalkulačka: produkty, ceny, prvky, marže, MOQ ceník, mix prodejů, klubové kódy, cíle, hlídač DPH, nejbližší termíny + sekce <strong>DPH: vyplatí se mi být plátcem?</strong> (3 scénáře plátce/neplátce).",
       "stav": "on",
       "stavText": "online",
       "href": "kalkulacka.html",

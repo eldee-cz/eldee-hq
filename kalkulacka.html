@@ -355,6 +355,38 @@ function recalcEvents() {
   });
 }
 
+// ───────── DPH: plátce vs neplátce
+let lastYearly = 0;
+function recalcDPH() {
+  const obrat = +$('dphObrat').value || 0;
+  const nakup = +$('dphNakup').value || 0;
+  const podil = Math.min(100, Math.max(0, +$('dphPodil').value || 0)) / 100;
+  const sazbaPct = +$('dphSazba').value || 0;
+  const s = sazbaPct / 100;
+  const A = obrat - nakup * (1 + s);                       // neplátce: DPH z nákupů neodečteš
+  const B = obrat - nakup;                                 // plátce, zdražím: vrátí se celé DPH z nákupů
+  const C = (obrat * podil + obrat * (1 - podil) / (1 + s)) - nakup; // plátce, držím ceny: u neplátců DPH ukrojí z marže
+  $('dphA').textContent = fmt(A);
+  $('dphB').textContent = fmt(B);
+  $('dphC').textContent = fmt(C);
+  const best = (A >= B && A >= C) ? 'dphA' : (B >= C ? 'dphB' : 'dphC');
+  ['dphA', 'dphB', 'dphC'].forEach(id => $(id).classList.toggle('gold', id === best));
+  const dphZNakupu = nakup * s;
+  $('dphBc').textContent = (B >= A ? '+' : '') + fmt(B - A) + ' vs neplátce · vrátí se DPH z nákupů';
+  $('dphCc').textContent = (C >= A ? '+' : '') + fmt(C - A) + ' vs neplátce';
+  $('dphLimit').classList.toggle('show', obrat > 2_000_000);
+  let v;
+  if (obrat > 2_000_000)
+    v = `Obrat nad 2 mil → plátcem musíš být tak jako tak. Když prodáváš hlavně koncovým, zdražení o DPH (B) zvedne zisk, ale může odradit zákazníky; C ukazuje, kolik tě stojí udržet ceny.`;
+  else if (best === 'dphA')
+    v = `Zůstaň neplátcem. Prodáváš hlavně koncovým zákazníkům-neplátcům a vstupy s DPH nejsou tak velké, aby ti odpočet vynahradil DPH na prodejích.`;
+  else if (best === 'dphB')
+    v = `Na papíře vyhrává B — vrátí se ti ~${fmt(dphZNakupu)} DPH z nákupů ročně. ALE jen když zvedneš ceny o ${sazbaPct} %, což koncové zákazníky zdraží → reálně hrozí nižší prodej. Dokud nemáš víc B2B klubů nebo velkou investici, počkej s plátcovstvím, dokud nemusíš.`;
+  else
+    v = `Vyhrává C — máš dost zákazníků-plátců a/nebo vysoké vstupy s DPH, takže plátcovství dává smysl i bez zdražování. Odpočet (~${fmt(dphZNakupu)}/rok) převáží nevýhodu. Zvaž dobrovolnou registraci — potvrď s účetní.`;
+  $('dphVerdict').textContent = v;
+}
+
 // ───────── recalc
 function recalc() {
   const clubShare = Math.min(100, Math.max(0, +$('club').value || 0)) / 100;
@@ -446,6 +478,8 @@ function recalc() {
   $('cStockVal').textContent = `ideál: zásoba ~${tStock} měs prodeje. Teď sklad vydrží ~${isFinite(coverAll) ? coverAll.toFixed(1) : '∞'} měs.`;
   $('cStockProfit').textContent = `tolik vyděláš, než dojde sklad. Větší MOQ sníží cenu/ks → stejný sklad = vyšší zisk.`;
 
+  lastYearly = revenue * 12;
+  recalcDPH();
   recalcEvents();
 }
 
@@ -491,6 +525,8 @@ document.addEventListener('click', (e) => {
     recalc();
   }
 });
+
+$('dphPrevzit').addEventListener('click', () => { if (lastYearly > 0) { $('dphObrat').value = Math.round(lastYearly); recalcDPH(); } });
 
 buildRows();
 buildStock();

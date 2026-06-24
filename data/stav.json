@@ -224,6 +224,14 @@
       "extern": true
     },
     {
+      "nadpis": "Brand assety",
+      "text": "Loga, monogram, wordmark, favicon a maskot ke stažení — v brand booku (kanonický zdroj, vždy aktuální).",
+      "stav": "on",
+      "stavText": "online — brand book",
+      "href": "https://eldee-brandbook.vercel.app/assets",
+      "extern": true
+    },
+    {
       "nadpis": "Editor maskota",
       "text": "Ruční editor lenochoda v krabici: klonování děr z obrázku, razítka (čistá díra / LD logo / záplata), export PNG. Nástroj na úpravu maskota.",
       "stav": "soon",

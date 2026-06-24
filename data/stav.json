@@ -1,0 +1,304 @@
+{
+  "meta": {
+    "aktualizovano": "24. 6. 2026",
+    "pilulky": [
+      { "label": "Brand book", "hodnota": "v2.0" },
+      { "label": "Kniha", "hodnota": "8/8 kapitol" },
+      { "label": "Maskot", "hodnota": "Eldee zakotven" }
+    ]
+  },
+  "stavKarty": [
+    {
+      "tag": "E-shop & brand",
+      "nadpis": "Maskot Eldee + homepage",
+      "badge": "běží",
+      "text": "Oficiální maskot <strong>Eldee</strong> (lenochod = jméno značky) zakotven v character bible včetně podkladu pro AI videa. Vyčištěná hero verze hotová. Vizualizace homepage e-shopu rozpracovaná + Shoptet set-up tahák (co je přenositelné do Shoptetu). Web bude vícejazyčný (CZ + EN/DE/ES/PL)."
+    },
+    {
+      "tag": "Produkt",
+      "nadpis": "Vzorkování — 4 produkty",
+      "badge": "běží",
+      "text": "Portfolio: návlek/tube · tréninková ponožka · nízká a vysoká štulpna. Balíček s logem odeslán výrobci (5. 6.), připravena 2. várka vzorků — <strong>dlouhá štulpna v2 s logem</strong> (mateřský střih řady). Testuje 5 lidí, MOQ/mix se řeší až po finálech všech produktů."
+    },
+    {
+      "tag": "Data",
+      "nadpis": "Průzkum cílovky",
+      "badge": "hotovo",
+      "text": "27 hráčů (žáci–dorost, soutěžně): 93 % nosí tube návlek · kapsa na chránič = nejžádanější featura (63 %) · cena 599 Kč potvrzena, 44 % dá i 600–799 · preferují nízký střih. Hotový testovací dotazník (core + moduly per produkt) pro vzorky."
+    },
+    {
+      "tag": "Brand",
+      "nadpis": "Logo v2.1 — jednotný master",
+      "badge": "hotovo",
+      "text": "Jedno logo pro všechno: digitál = výšivka (embroidery-first, „navržené jehlou“). LD monogram interlock + zlatá svatozář + nový wordmark „eldee“ s vnořeným LD. Odvozeniny jen barevné, nikdy tvarové."
+    },
+    {
+      "tag": "Brand",
+      "nadpis": "Brand book v1.9",
+      "badge": "živě",
+      "text": "16 sekcí, kompletní vizuální i verbální identita, jednotné logo i wordmark v2 propsány, misuse s reálnými příklady, construction grid, produktová řada v positioningu, aktuální PDF. Zbývá doména brand.eldee.cz."
+    },
+    {
+      "tag": "Byznys",
+      "nadpis": "Kniha projektu",
+      "badge": "8 / 8",
+      "text": "Business příručka eldee KOMPLETNÍ — 8 kapitol + interaktivní finanční kalkulačka (4 produkty, mix, klubové kódy, DPH hlídač, kapitál první výroby) + brány go/no-go a 90denní plán k Drop 001."
+    }
+  ],
+  "timeline": [
+    {
+      "datum": "15. 6. 2026",
+      "nadpis": "Maskot Eldee zakotven + Shoptet tahák",
+      "text": "Oficiální maskot dostal jméno <strong>Eldee</strong> (shodné se značkou — pumpuje název firmy do podvědomí). Vytvořena character bible (přesná podoba + podklad pro budoucí AI videa) a vyčištěná hero verze přes AI. Vyřešena přenositelnost homepage do Shoptetu = kompletní set-up tahák.",
+      "minor": false
+    },
+    {
+      "datum": "13.–14. 6. 2026",
+      "nadpis": "Homepage e-shopu + e-commerce audit",
+      "text": "Vizualizace homepage e-shopu (hero s maskotem, trust pás, produktové karty, Holy Squad, Instagram, newsletter). E-commerce audit dle Baymard/NN-g s quick-winy. Mezinárodní vize: web překládat do EN/DE/ES/PL.",
+      "minor": false
+    },
+    {
+      "datum": "12. 6. 2026",
+      "nadpis": "Druhý počítač napojen + automatika",
+      "text": "Doležalovo PC napojeno na GitHub (všechna 3 repa), auto pull/push nainstalován. Tým může pracovat z obou stran.",
+      "minor": true
+    },
+    {
+      "datum": "6. 6. 2026",
+      "nadpis": "Jedno logo pro všechno + wordmark v2",
+      "text": "Strategické rozhodnutí: logo sjednoceno na vyšitelnou geometrii (v2.1) — co je na štulpně, je i na webu. Nový wordmark „eldee“ s vnořeným LD interlockem navržen, ověřen a nasazen. Brand book → v1.7 živě (misuse příklady, aktuální PDF, úklid starých verzí).",
+      "minor": false
+    },
+    {
+      "datum": "6. 6. 2026",
+      "nadpis": "Průzkum cílovky + portfolio 4 produktů",
+      "text": "27 hráčů z cílovky: tube návlek = 93 % chování, kapsa na chránič nejžádanější, cena 599 Kč potvrzena, nízký střih preferován. Definováno portfolio: návlek, tréninková ponožka, nízká a vysoká štulpna. Postaven testovací systém dotazníků (core + moduly) pro vzorkovací smyčky.",
+      "minor": false
+    },
+    {
+      "datum": "5. 6. 2026",
+      "nadpis": "Balíček odeslán výrobci",
+      "text": "Podklady pro vyšití loga předány. Navazuje osobní schůzka (týden od 8. 6.) a 2. várka vzorků — dlouhá štulpna s logem.",
+      "minor": false
+    },
+    {
+      "datum": "4. 6. 2026",
+      "nadpis": "Balíček pro výrobce v2",
+      "text": "Kompletní podklady pro vyšití prototypu — vektory, PNG, pokyny pro digitizéra s přesnými parametry (výška 35 mm, spára 1,8 mm, prstenec 1,6 mm, barvy nití v Pantone).",
+      "minor": true
+    },
+    {
+      "datum": "3. 6. 2026",
+      "nadpis": "Logo v2.0 — interlock finál",
+      "text": "Kompletní redesign monogramu: L proniká skrz D, jedno srostlé těleso („eldee rodina drží pohromadě“). Navrženo iterativně v Claude Design, geometrie zafixovaná na milimetry. Propsáno do brand booku (→ v1.4) včetně nového faviconu.",
+      "minor": false
+    },
+    {
+      "datum": "2. 6. 2026",
+      "nadpis": "Foundation copy overhaul",
+      "text": "Texty značky přepsány podle kompasu „storytelling + výjimečnost + belonging“. Brand nemluví o sobě — show, don't tell. Brand book → v1.3.",
+      "minor": true
+    },
+    {
+      "datum": "26. 5. 2026",
+      "nadpis": "Logo v1.0 + mockupy štulpen",
+      "text": "První zafixovaný LD monogram a tři barevné varianty štulpny: 01 Signature (off-white + red), 02 Black Gold, 03 Clean.",
+      "minor": false
+    },
+    {
+      "datum": "22.–24. 5. 2026",
+      "nadpis": "Brand book v1.0 — web",
+      "text": "Profesionální brand book jako webová aplikace: 16 sekcí, auto-generované PDF, barvy, typografie, voice & tone, logo systém, mockupy. Plus wordmark eLDee a 6 logo iterací.",
+      "minor": false
+    },
+    {
+      "datum": "18.–19. 5. 2026",
+      "nadpis": "Databáze klubů + interaktivní hledač",
+      "text": "940+ amatérských klubů z celé ČR (krajské i okresní soutěže) s barvami dresů a prioritami. Interaktivní hledač s CRM trackingem, mailovými šablonami a mapou ČR se špendlíky v barvách dresů.",
+      "minor": false
+    },
+    {
+      "datum": "17. 5. 2026",
+      "nadpis": "Podcast & dotazník",
+      "text": "Podcastové materiály a dotazník v2.1 pro validaci u hráčů a trenérů.",
+      "minor": true
+    },
+    {
+      "datum": "15.–19. 5. 2026",
+      "nadpis": "Business kniha — 7 kapitol",
+      "text": "Marketing & content, právní a daňový rámec, finanční model, brand identita, smluvní šablony (4×), e-shop na Shoptetu, akviziční strategie klubů. Vše jako mobilní HTML kniha.",
+      "minor": false
+    }
+  ],
+  "ukoly": [
+    {
+      "id": "vyrobce-schuzka",
+      "text": "Výrobce: balíček odeslán (5. 6.) → osobní schůzka",
+      "stav": "teď",
+      "kdo": "Lukáš",
+      "pozn": "Schůzka v týdnu od 8. 6. — sew-out vzorek, PES/DST, termíny prototypu a výroby (Drop 001 Q3)",
+      "vzniklo": "2026-06-05",
+      "hotovo": null
+    },
+    {
+      "id": "wordmark-v2",
+      "text": "Wordmark v2 — „eldee“ s vnořeným LD interlockem",
+      "stav": "hotovo",
+      "kdo": "Lukáš + Jarvis",
+      "pozn": "Finál z Claude Design ověřen a propsán do brand booku (v1.6); logo sjednoceno na jediný master",
+      "vzniklo": "2026-06-03",
+      "hotovo": "2026-06-06"
+    },
+    {
+      "id": "domena-brand",
+      "text": "Doména brand.eldee.cz pro brand book",
+      "stav": "fronta",
+      "kdo": "Lukáš",
+      "pozn": "Web už běží na eldee-brandbook.vercel.app",
+      "vzniklo": "2026-05-24",
+      "hotovo": null
+    },
+    {
+      "id": "kniha-kap8",
+      "text": "Kniha — kapitola 8: finalizace + kalkulačka",
+      "stav": "hotovo",
+      "kdo": "Lukáš + Jarvis",
+      "pozn": "Kniha 8/8 + kalkulačka (kniha/kalkulacka.html) — brány go/no-go, 90denní plán",
+      "vzniklo": "2026-06-06",
+      "hotovo": "2026-06-07"
+    },
+    {
+      "id": "rozeslat-dotaznik",
+      "text": "Rozeslat testovací dotazník 5 testerům",
+      "stav": "další",
+      "kdo": "Lukáš",
+      "pozn": "Až dorazí vzorky v2; formulář hotový (Google Forms dle databaze/dotaznik-tester-stulpna-dlouha-v2.md)",
+      "vzniklo": "2026-06-06",
+      "hotovo": null
+    },
+    {
+      "id": "feedback-vzorky-v2",
+      "text": "Vyhodnotit feedback vzorků v2 → zadání pro v3",
+      "stav": "fronta",
+      "kdo": "Lukáš + Jarvis",
+      "pozn": "Po sběru odpovědí; výstup = konkrétní změny pro výrobce",
+      "vzniklo": "2026-06-06",
+      "hotovo": null
+    },
+    {
+      "id": "barvy-dresu-p3",
+      "text": "Ověřit barvy dresů u ~100 P3 klubů",
+      "stav": "fronta",
+      "kdo": "kdokoliv",
+      "pozn": "~8 h práce, jde delegovat a rozložit",
+      "vzniklo": "2026-05-19",
+      "hotovo": null
+    },
+    {
+      "id": "construction-grid",
+      "text": "Construction grid loga do brand booku",
+      "stav": "hotovo",
+      "kdo": "Jarvis",
+      "pozn": "/logo/construction — mřížka monogramu, osová konstrukce wordmarku, clear space, min. velikosti",
+      "vzniklo": "2026-06-06",
+      "hotovo": "2026-06-06"
+    },
+    {
+      "id": "crm-klubu-sync",
+      "text": "Přesunout CRM hledače klubů z prohlížeče (localStorage) do sdíleného souboru v repu — ať se synchronizuje mezi Hledíkem a Doležalem",
+      "stav": "fronta",
+      "kdo": "Jarvis",
+      "pozn": "Dnes localStorage „eldee-crm-v1“ = neviditelné pro druhého. Vyřešit, až bude aktivní oslovování klubů.",
+      "vzniklo": "2026-06-24",
+      "hotovo": null
+    }
+  ],
+  "odkazy": [
+    {
+      "nadpis": "Brand book",
+      "text": "Kompletní vizuální a verbální identita — 17 sekcí, logo systém, barvy, typografie, voice, maskot.",
+      "stav": "on",
+      "stavText": "online — v2.0",
+      "href": "https://eldee-brandbook.vercel.app",
+      "extern": true
+    },
+    {
+      "nadpis": "Editor maskota",
+      "text": "Ruční editor lenochoda v krabici: klonování děr z obrázku, razítka (čistá díra / LD logo / záplata), export PNG. Nástroj na úpravu maskota.",
+      "stav": "soon",
+      "stavText": "nástroj — beta",
+      "href": "maskot-editor/krabice-editor.html",
+      "extern": false
+    },
+    {
+      "nadpis": "Business kniha",
+      "text": "8/8 kapitol kompletní — právo, finance, brand, smlouvy, e-shop, marketing, akvizice, finalizace. Mobilní HTML kniha.",
+      "stav": "on",
+      "stavText": "online — v1.0",
+      "href": "kniha.html",
+      "extern": false
+    },
+    {
+      "nadpis": "Finanční kalkulačka",
+      "text": "Interaktivní model: 4 produkty + bundle, mix prodejů, klubové kódy, cesta k cíli, hlídač DPH, rozpočet první výroby.",
+      "stav": "on",
+      "stavText": "online",
+      "href": "kalkulacka.html",
+      "extern": false
+    },
+    {
+      "nadpis": "Hledač klubů",
+      "text": "940+ klubů, filtry, CRM tracking, mailové šablony, mapa ČR.",
+      "stav": "on",
+      "stavText": "online",
+      "href": "kluby-vyhledavac.html",
+      "extern": false
+    },
+    {
+      "nadpis": "Logo balíček v2",
+      "text": "Podklady pro výrobce: vektory, PNG, pokyny pro digitizéra (brand/vyrobce-balicek-v2).",
+      "stav": "on",
+      "stavText": "odesláno výrobci 5. 6.",
+      "href": null,
+      "extern": false
+    },
+    {
+      "nadpis": "Průzkum cílovky 6/2026",
+      "text": "27 hráčů: návlek 93 %, kapsa top featura, cena 599 potvrzena, nízký střih. Agregovaná zjištění + akční doporučení.",
+      "stav": "on",
+      "stavText": "online",
+      "href": "pruzkum-cilovky.html",
+      "extern": false
+    },
+    {
+      "nadpis": "Testovací systém vzorků",
+      "text": "Dotazník core + 4 produktové moduly + vzorkovací tracker (databaze/dotaznik-testeri-system.md). Aktivní: dlouhá štulpna v2.",
+      "stav": "soon",
+      "stavText": "čeká na vzorky v2",
+      "href": null,
+      "extern": false
+    },
+    {
+      "nadpis": "eldee.cz",
+      "text": "Doména koupená — e-shop vznikne na Shoptetu dle kapitoly 5.",
+      "stav": "soon",
+      "stavText": "doména připravena",
+      "href": "https://eldee.cz",
+      "extern": true
+    },
+    {
+      "nadpis": "GitHub — eldee-brandbook",
+      "text": "Zdrojový kód brand booku (privátní repo).",
+      "stav": "on",
+      "stavText": "aktivní",
+      "href": null,
+      "extern": false
+    }
+  ],
+  "tym": [
+    { "iniciuly": "LD", "jmeno": "Lukáš Doležal", "role": "Founder · vize, produkt, obchod" },
+    { "iniciuly": "LH", "jmeno": "Lukáš Hledík", "role": "CEO · strategie, data, web & AI" },
+    { "iniciuly": "?", "jmeno": "Doplnit", "role": "Role — doplníme" }
+  ]
+}

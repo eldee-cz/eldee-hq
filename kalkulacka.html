@@ -203,6 +203,30 @@
     </div>
   </div>
 
+  <div class="card" style="margin-top:18px" id="dphCard">
+    <h2>DPH — vyplatí se mi být plátcem?</h2>
+    <p class="note" style="margin-top:0;margin-bottom:14px">Porovná tři scénáře. „DPH marže" = tržby − nákupy ovlivněné DPH (slouží jen k porovnání scénářů, <strong>není</strong> to čistý zisk). Obrat = tržby <strong>bez</strong> DPH, ne zisk. <span style="color:var(--gold)">Zlatě</span> = scénář, který vychází nejlíp.</p>
+    <div class="grid" style="grid-template-columns:1fr 1fr">
+      <div>
+        <div class="row"><label>Roční obrat (tržby bez DPH) <span class="hint">kolik prodáš za rok</span></label><input type="number" id="dphObrat" value="800000" step="10000"></div>
+        <div class="row"><label>Roční nákupy s DPH <span class="hint">materiál, výroba, reklama, technika — částka bez DPH</span></label><input type="number" id="dphNakup" value="350000" step="10000"></div>
+        <div class="row"><label>Podíl tržeb od plátců % <span class="hint">B2B kluby s IČO; zbytek = koncoví neplátci</span></label><input type="number" id="dphPodil" value="10" min="0" max="100" step="5"></div>
+        <div class="row"><label>Sazba DPH % <span class="hint">štulpny = 21 %</span></label><input type="number" id="dphSazba" value="21" step="1"></div>
+        <button class="btn" id="dphPrevzit" style="margin-top:12px">↑ Převzít roční obrat z kalkulačky</button>
+      </div>
+      <div>
+        <div class="kpi" style="grid-template-columns:1fr">
+          <div class="box"><div class="v" id="dphA">—</div><div class="l">A — zůstanu neplátce</div></div>
+          <div class="box"><div class="v" id="dphB">—</div><div class="l">B — plátce, zdražím o DPH</div><div class="coach" id="dphBc"></div></div>
+          <div class="box"><div class="v" id="dphC">—</div><div class="l">C — plátce, udržím ceny</div><div class="coach" id="dphCc"></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="warn" id="dphLimit">⚠ <strong>Obrat nad 2 000 000 Kč → plátcem musíš být povinně.</strong> Pak neřešíš „jestli", ale strategii B vs C.</div>
+    <div class="note" id="dphVerdict" style="color:var(--coach);margin-top:14px;font-size:13px;line-height:1.55"></div>
+    <p class="note">Orientační model, ne daňové poradenství — finální rozhodnutí potvrď s účetní (kvůli odpočtům DPH při registraci i odhlášení).</p>
+  </div>
+
   <footer>eldee · kniha kap. 8 · finanční kalkulačka · 2026-06 · prvky + MOQ + cíle · <a href="sklad.html">Sklad →</a> · <a href="../eldee-book.html">← zpět do knihy</a></footer>
 </div>
 

@@ -48,6 +48,12 @@
   "timeline": [
     {
       "datum": "24. 6. 2026",
+      "nadpis": "Skladový systém — Sklad + Finance",
+      "text": "Z kalkulačky vznikly dvě samostatné dlaždice: <strong>📦 Sklad</strong> (příjem zboží → sklad podle variant + SKU, Shoptet CSV export, data v prohlížeči) v data-grid stylu à la SAP, a <strong>🧮 Finance</strong> (vyčištěná kalkulačka — marže, MOQ, cíle, DPH; příjem zboží z ní přesunut do Skladu). Dělení: Sklad = zboží, Finance = peníze.",
+      "minor": false
+    },
+    {
+      "datum": "24. 6. 2026",
       "nadpis": "HQ: Kalendář + Logomanual",
       "text": "Do HQ přidána sekce <strong>Kalendář</strong> (zobrazovací — kalendářní týdny KT, zvýrazněný dnešek, procházení měsíců) + placeholder sekce Brainstorm. Tentýž den: brand book rozdělen na veřejný Logomanual (eldee-logomanual.vercel.app) + interní brandbook (klikací z HQ jako kalkulačka).",
       "minor": false
@@ -144,6 +150,15 @@
     }
   ],
   "ukoly": [
+    {
+      "id": "sklad-dalsi-etapa",
+      "text": "Sklad — další etapa (až bude Shoptet živý): odpis prodejů (sklad klesá), Shoptet API propsání stavů, analýzy „co se nejvíc prodává“",
+      "stav": "fronta",
+      "kdo": "Lukáš + Jarvis",
+      "pozn": "Teď sklad eviduje jen naskladnění, data v localStorage. Sdílení s Hledíkem zatím přes Zálohu. Plné cloud/heslování až s reálným prodejem.",
+      "vzniklo": "2026-06-24",
+      "hotovo": null
+    },
     {
       "id": "vyrobce-schuzka",
       "text": "Výrobce: balíček odeslán (5. 6.) → osobní schůzka",

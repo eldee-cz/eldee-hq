@@ -127,11 +127,6 @@
 
   <div class="scenarios" id="scenarios"></div>
 
-  <div class="toolbar">
-    <button id="receiptBtn" class="receipt-btn">📦 Příjem zboží <span class="badge" id="receiptBadge">0</span></button>
-    <span class="note" style="margin:0">Zapiš přijaté faktury — splatnosti tě pak samy hlídají vepředu v „Nejbližší události".</span>
-  </div>
-
   <div class="grid">
     <div>
       <div class="card">
@@ -167,12 +162,6 @@
         <p class="note">+COGS = kolik prvek stojí navíc ve výrobě · +Cena = kolik si za něj účtuješ navíc. Reálné ceny doladíme s výrobcem.</p>
       </div>
 
-      <div class="card" style="margin-top:18px">
-        <h2>Skladem podle variant</h2>
-        <div id="variantStock"></div>
-        <div style="margin-top:12px"><button class="btn" id="shoptetExport">⬇ Export pro Shoptet (CSV)</button></div>
-        <p class="note">Naplní se automaticky z „Příjmu zboží" (📦 nahoře) — vidíš reálný počet kusů v každé variantě (barva + provedení + velikost) i <strong>SKU kód</strong>. SKU + export jsou připravené pro Shoptet, živé API doplníme s tvými přístupy. <span style="color:var(--coach)">Co nemáš skladem, se na Shoptetu nemusí nabízet.</span></p>
-      </div>
     </div>
 
     <div>
@@ -209,39 +198,12 @@
       <div class="card" style="margin-top:18px">
         <h2>Nejbližší události — termíny eldee</h2>
         <div id="eventRows"></div>
-        <div id="invoiceEvents"></div>
-        <p class="note">5 ručních termínů (DPH, daňové přiznání…) + automatické <span style="color:var(--coach)">splatnosti faktur z „Příjmu zboží"</span>. Do budoucna se propojí s rodinným kalendářem, odkud se budou plnit samy.</p>
+        <p class="note">Ruční termíny (DPH, daňové přiznání, zálohy OSVČ…). Do budoucna se propojí s rodinným kalendářem, odkud se budou plnit samy. <span style="color:var(--coach)">Splatnosti faktur najdeš ve Skladu.</span></p>
       </div>
     </div>
   </div>
 
-  <footer>eldee · kniha kap. 8 · kalkulačka v3.0 · 2026-06 · prvky + MOQ/sklad + cíle + příjem zboží · config v JS objektu CONFIG (plug-in ready) · <a href="../eldee-book.html">← zpět do knihy</a></footer>
-</div>
-
-<!-- ───────── PŘÍJEM ZBOŽÍ — okno přes kalkulačku -->
-<div class="overlay" id="receiptOverlay">
-  <div class="modal">
-    <div class="modal-head">
-      <h2>📦 Příjem zboží — faktury</h2>
-      <button class="modal-x" id="receiptClose" title="Zavřít">×</button>
-    </div>
-    <div class="modal-sum" id="invSummary"></div>
-    <div style="overflow-x:auto">
-      <table class="inv">
-        <thead><tr>
-          <th>Č. faktury</th><th>Produkt</th><th>Barva</th><th>Provedení</th><th>Velikost</th>
-          <th>Množství</th><th>Cena bez DPH/ks</th><th>Cena s DPH</th><th>Celkem</th><th>Splatnost</th><th>Zapl.</th><th></th>
-        </tr></thead>
-        <tbody id="invoiceRows"></tbody>
-      </table>
-    </div>
-    <div class="modal-actions">
-      <button class="btn" id="invAdd">+ Přidat fakturu</button>
-      <button class="btn primary" id="invDone">Hotovo — uložit a zavřít</button>
-      <span class="note" style="margin:0;align-self:center">DPH <input type="number" id="vatRate" value="21" step="1" style="width:54px;background:var(--ink);border:1px solid #2c2c2c;color:var(--bone);border-radius:6px;padding:4px 6px;text-align:right;font-family:ui-monospace,monospace;font-size:12.5px"> %</span>
-    </div>
-    <p class="note">Každý řádek = jedna varianta (produkt + barva + provedení + velikost). <span style="color:var(--coach)">Cena s DPH i celková částka se počítají samy</span>. Co svítí <span style="color:#f0b1b1">červeně</span>, ještě není hotové (chybí číslo, množství, cena nebo splatnost). Po uložení se kusy <span style="color:var(--coach)">sečtou vepředu do „Skladem podle variant"</span> a splatnosti tě hlídají v „Nejbližší události".</p>
-  </div>
+  <footer>eldee · kniha kap. 8 · finanční kalkulačka · 2026-06 · prvky + MOQ + cíle · <a href="sklad.html">Sklad →</a> · <a href="../eldee-book.html">← zpět do knihy</a></footer>
 </div>
 
 <script>
@@ -272,13 +234,6 @@ const CONFIG = {
     { date: '2026-07-20', label: 'Zálohy OSVČ (soc. + zdrav.)' },
     { date: '2026-08-01', label: 'Objednávka další šarže (MOQ)' },
     { date: '2027-04-01', label: 'Daňové přiznání za 2026' },
-  ],
-  vatRate: 21,              // DPH % pro příjem zboží
-  colors: ['Černá', 'Bílá'],                              // barvy do rozbalovačky (+ lze přidat novou)
-  sizes: ['31-34', '35-38', '39-42', '43-46', '47-50'],  // řady velikostí (bot)
-  // příjem zboží — řádek = jedna přijatá varianta (produkt+barva+provedení+velikost); celková částka a cena s DPH se počítají
-  invoices: [
-    { num: '', product: 'navlek', color: 'Černá', feat: [], size: '39-42', qty: 0, net: 0, due: '', paid: false },
   ],
   scenarios: {
     'Start (launch ceny)': { goal: 20000, club: 10, prices: { navlek: 449, ponozka: 269, nizka: 499, vysoka: 499, bundle: 649 }, mix: { navlek: 40, ponozka: 20, nizka: 15, vysoka: 10, bundle: 15 } },
@@ -376,175 +331,6 @@ function recalcEvents() {
   });
 }
 
-// ───────── příjem zboží — faktury + skladové varianty (Shoptet-ready)
-const FEAT_LABEL = { grip: 'Grip', kapsa: 'Kapsa', dira: 'Díra' };
-const FEAT_CODE = { grip: 'G', kapsa: 'K', dira: 'D' };
-const PROD_CODE = { navlek: 'NAV', ponozka: 'PON', nizka: 'NIZ', vysoka: 'VYS', bundle: 'BND' };
-
-function featSubsets() {                      // všechny kombinace prvků pro rozbalovačku
-  const ids = CONFIG.addons.map(a => a.id);
-  const out = [[]];
-  for (const id of ids) { const len = out.length; for (let j = 0; j < len; j++) out.push([...out[j], id]); }
-  return out;
-}
-const featKey = (arr) => (arr || []).slice().sort().join(',');
-const featText = (arr) => (arr && arr.length) ? arr.map(f => FEAT_LABEL[f] || f).join('+') : 'Základní';
-const prodName = (id) => { const p = CONFIG.products.find(x => x.id === id); return p ? p.name : id; };
-const noDia = (s) => (s || '').normalize('NFD').split('').filter(c => { const n = c.charCodeAt(0); return n < 768 || n > 879; }).join('');
-
-function vat() { return (+($('vatRate') && $('vatRate').value) || CONFIG.vatRate) / 100; }
-function invGross(inv) { return (+inv.net || 0) * (1 + vat()); }
-function invTotal(inv) { return invGross(inv) * (+inv.qty || 0); }
-const hasGoods = (inv) => inv.product && inv.color && inv.size && (+inv.qty || 0) > 0;
-const invComplete = (inv) => hasGoods(inv) && inv.num.trim() !== '' && inv.due !== '' && (+inv.net || 0) > 0;
-
-function sku(inv) {                           // SKU kód varianty pro Shoptet
-  const pc = PROD_CODE[inv.product] || 'XXX';
-  const cc = (noDia(inv.color).substring(0, 3).toUpperCase()) || 'XXX';
-  const fc = (inv.feat && inv.feat.length) ? inv.feat.map(f => FEAT_CODE[f]).join('') : '0';
-  const sz = (inv.size || '').replace(/[^0-9]/g, '') || '00';
-  return `${pc}-${cc}-${fc}-${sz}`;
-}
-
-function selOpts(list, val, mv, ml) {
-  return list.map(x => { const v = mv ? mv(x) : x, l = ml ? ml(x) : x; return `<option value="${v}"${v === val ? ' selected' : ''}>${l}</option>`; }).join('');
-}
-
-function buildInvoices() {
-  const subs = featSubsets();
-  $('invoiceRows').innerHTML = CONFIG.invoices.map((inv, i) => {
-    const prodOpts = selOpts(CONFIG.products, inv.product, p => p.id, p => p.name);
-    const colorOpts = selOpts(CONFIG.colors, inv.color) + `<option value="__new__">➕ nová barva…</option>`;
-    const featOpts = subs.map(s => `<option value="${featKey(s)}"${featKey(s) === featKey(inv.feat) ? ' selected' : ''}>${featText(s)}</option>`).join('');
-    const sizeOpts = selOpts(CONFIG.sizes, inv.size);
-    return `
-    <tr>
-      <td><input type="text" data-ini="${i}" data-ink="num" value="${inv.num}" placeholder="2026-001"></td>
-      <td><select data-ini="${i}" data-ink="product">${prodOpts}</select></td>
-      <td><select data-ini="${i}" data-ink="color">${colorOpts}</select></td>
-      <td><select data-ini="${i}" data-ink="feat">${featOpts}</select></td>
-      <td><select data-ini="${i}" data-ink="size">${sizeOpts}</select></td>
-      <td><input type="number" data-ini="${i}" data-ink="qty" value="${inv.qty}" step="10"></td>
-      <td><input type="number" data-ini="${i}" data-ink="net" value="${inv.net}" step="50"></td>
-      <td class="inv-calc" id="ig-${i}">—</td>
-      <td class="inv-calc inv-total" id="it-${i}">—</td>
-      <td><input type="date" data-ini="${i}" data-ink="due" value="${inv.due}"></td>
-      <td style="text-align:center"><input type="checkbox" data-ini="${i}" data-ink="paid" ${inv.paid ? 'checked' : ''}></td>
-      <td><button class="inv-del" data-del="${i}" title="Smazat řádek">🗑</button></td>
-    </tr>`;
-  }).join('');
-}
-
-function recalcInvoices() {
-  const today = new Date(); today.setHours(0, 0, 0, 0);
-  let totalDue = 0, incomplete = 0, nearest = Infinity;
-  CONFIG.invoices.forEach((inv, i) => {
-    if ($('ig-' + i)) $('ig-' + i).textContent = fmt(invGross(inv));
-    if ($('it-' + i)) $('it-' + i).textContent = fmt(invTotal(inv));
-    document.querySelectorAll('[data-ini="' + i + '"]').forEach(el => {
-      const k = el.dataset.ink;
-      if (k === 'num') el.classList.toggle('bad', inv.num.trim() === '');
-      if (k === 'due') el.classList.toggle('bad', inv.due === '');
-      if (k === 'net') el.classList.toggle('bad', (+inv.net || 0) <= 0);
-      if (k === 'qty') el.classList.toggle('bad', (+inv.qty || 0) <= 0);
-    });
-    if (!invComplete(inv)) incomplete++;
-    if (!inv.paid && invComplete(inv)) {
-      totalDue += invTotal(inv);
-      const days = Math.round((new Date(inv.due + 'T00:00:00') - today) / 86400000);
-      if (days < nearest) nearest = days;
-    }
-  });
-  let s = `<strong>${CONFIG.invoices.length}</strong> řádků · k zaplacení <strong>${fmt(totalDue)}</strong>`;
-  if (isFinite(nearest)) s += ` · nejbližší splatnost ${nearest < 0 ? `<span class="bad">po termínu ${-nearest} d</span>` : (nearest === 0 ? '<span class="bad">dnes!</span>' : `za ${nearest} dní`)}`;
-  if (incomplete) s += ` · <span class="bad">⚠ ${incomplete} nedokončených (červené)</span>`;
-  $('invSummary').innerHTML = s;
-
-  const badge = $('receiptBadge');
-  const unpaid = CONFIG.invoices.filter(x => !x.paid && invComplete(x));
-  const overdue = unpaid.filter(x => (new Date(x.due + 'T00:00:00') - today) < 0).length;
-  badge.className = 'badge';
-  badge.textContent = String(unpaid.length);
-  if (overdue) { badge.classList.add('over'); badge.textContent = `⚠ ${overdue} po splatnosti`; }
-  else if (isFinite(nearest) && nearest <= 14) { badge.classList.add('due'); badge.textContent = `${unpaid.length} · za ${nearest} d`; }
-}
-
-function renderInvoiceEvents() {
-  const today = new Date(); today.setHours(0, 0, 0, 0);
-  const byNum = {};
-  CONFIG.invoices.forEach(inv => {
-    if (inv.paid || !invComplete(inv)) return;
-    const k = inv.num.trim();
-    if (!byNum[k]) byNum[k] = { num: k, due: inv.due, total: 0 };
-    byNum[k].total += invTotal(inv);
-    if (inv.due < byNum[k].due) byNum[k].due = inv.due;
-  });
-  const list = Object.values(byNum).sort((a, b) => new Date(a.due) - new Date(b.due));
-  if (!list.length) { $('invoiceEvents').innerHTML = ''; return; }
-  $('invoiceEvents').innerHTML = '<div class="inv-ev-head">📄 splatnosti faktur (z příjmu zboží)</div>' + list.map(o => {
-    const days = Math.round((new Date(o.due + 'T00:00:00') - today) / 86400000);
-    let col = 'var(--muted)', txt = `za ${days} dní`;
-    if (days < 0) { col = 'var(--blood)'; txt = `po termínu ${-days} d`; }
-    else if (days === 0) { col = 'var(--gold)'; txt = 'dnes!'; }
-    else if (days <= 14) { col = 'var(--gold)'; }
-    return `<div class="inv-ev">
-      <span class="lbl">Faktura č. ${o.num} — <strong>${fmt(o.total)}</strong></span>
-      <span class="evdays" style="color:${col}">${txt}</span>
-      <button class="inv-del" data-paynum="${o.num}" title="Označit fakturu jako zaplacenou" style="color:var(--coach)">✓</button>
-    </div>`;
-  }).join('');
-}
-
-// ───────── sklad podle variant + Shoptet export
-function variantStock() {
-  const map = {};
-  CONFIG.invoices.forEach(inv => {
-    if (!hasGoods(inv)) return;
-    const key = sku(inv);
-    if (!map[key]) map[key] = { sku: key, product: inv.product, color: inv.color, feat: (inv.feat || []).slice(), size: inv.size, qty: 0 };
-    map[key].qty += (+inv.qty || 0);
-  });
-  return Object.values(map);
-}
-
-function renderVariantStock() {
-  const rows = variantStock().sort((a, b) => a.sku.localeCompare(b.sku));
-  if (!rows.length) { $('variantStock').innerHTML = '<p class="note" style="margin:0">Zatím prázdné — přidej příjem zboží (📦 nahoře) a sklad se naplní sám.</p>'; return; }
-  const total = rows.reduce((s, r) => s + r.qty, 0);
-  $('variantStock').innerHTML = `
-    <table class="prod">
-      <thead><tr><th>Produkt</th><th>Barva</th><th>Provedení</th><th>Vel.</th><th>SKU</th><th style="text-align:right">Skladem</th></tr></thead>
-      <tbody>${rows.map(r => `<tr>
-        <td class="pname">${prodName(r.product)}</td>
-        <td>${r.color}</td>
-        <td>${featText(r.feat)}</td>
-        <td>${r.size}</td>
-        <td class="cogs-cell" style="text-align:left">${r.sku}</td>
-        <td class="margin-cell">${r.qty} ks</td>
-      </tr>`).join('')}</tbody>
-      <tfoot><tr><td colspan="5" class="pname" style="border-top:2px solid #333">Celkem skladem</td><td class="margin-cell" style="border-top:2px solid #333">${total} ks</td></tr></tfoot>
-    </table>`;
-}
-
-function shoptetExport() {
-  const rows = variantStock();
-  if (!rows.length) { alert('Sklad je prázdný — není co exportovat. Přidej příjem zboží.'); return; }
-  const head = ['kod', 'nazev', 'produkt', 'barva', 'provedeni', 'velikost', 'skladem'];
-  const lines = [head.join(';')];
-  rows.forEach(r => lines.push([
-    r.sku,
-    `${prodName(r.product)} ${r.color} ${featText(r.feat)} ${r.size}`,
-    prodName(r.product), r.color, featText(r.feat), r.size, r.qty
-  ].join(';')));
-  const csv = String.fromCharCode(0xFEFF) + lines.join('\r\n');
-  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url; a.download = 'eldee-sklad-shoptet.csv';
-  document.body.appendChild(a); a.click(); a.remove();
-  URL.revokeObjectURL(url);
-}
-
 // ───────── recalc
 function recalc() {
   const clubShare = Math.min(100, Math.max(0, +$('club').value || 0)) / 100;
@@ -637,9 +423,6 @@ function recalc() {
   $('cStockProfit').textContent = `tolik vyděláš, než dojde sklad. Větší MOQ sníží cenu/ks → stejný sklad = vyšší zisk.`;
 
   recalcEvents();
-  recalcInvoices();
-  renderInvoiceEvents();
-  renderVariantStock();
 }
 
 // ───────── scénáře + události
@@ -661,28 +444,10 @@ document.querySelectorAll('#scenarios button').forEach((b) => b.addEventListener
 
 document.addEventListener('input', (e) => {
   const t = e.target;
-  if (t.id === 'vatRate') {                          // změna sazby DPH → překreslit faktury
-    CONFIG.vatRate = +t.value || 0;
-    buildInvoices(); recalc(); return;
-  }
   if (t.dataset.ti != null) {                        // MOQ ceník
     CONFIG.products[+t.dataset.i].tiers[+t.dataset.ti][t.dataset.tk] = +t.value || 0;
   } else if (t.dataset.ai != null) {                 // prvky/příplatky
     CONFIG.addons[+t.dataset.ai][t.dataset.ak] = +t.value || 0;
-  } else if (t.dataset.ini != null) {                // faktura — příjem zboží (varianta)
-    const inv = CONFIG.invoices[+t.dataset.ini], k = t.dataset.ink;
-    if (k === 'paid') inv.paid = t.checked;
-    else if (k === 'qty' || k === 'net') inv[k] = +t.value || 0;
-    else if (k === 'feat') inv.feat = t.value ? t.value.split(',') : [];
-    else if (k === 'color') {
-      if (t.value === '__new__') {
-        const nv = (prompt('Název nové barvy:') || '').trim();
-        if (nv && !CONFIG.colors.includes(nv)) CONFIG.colors.push(nv);
-        inv.color = nv || CONFIG.colors[0];
-        buildInvoices();
-      } else inv.color = t.value;
-    }
-    else inv[k] = t.value;                            // num, product, size, due (text)
   } else if (t.dataset.evi != null) {                // události — datum/popis (text, ne číslo)
     CONFIG.events[+t.dataset.evi][t.dataset.evk] = t.value;
   } else if (t.dataset.i != null) {                  // produkt (price/mix/ordered/stock)
@@ -701,19 +466,12 @@ document.addEventListener('click', (e) => {
     t.classList.toggle('on');
     recalc();
   }
-  else if (t.id === 'receiptBtn') { $('receiptOverlay').classList.add('show'); }
-  else if (t.id === 'receiptClose' || t.id === 'invDone' || t.id === 'receiptOverlay') { $('receiptOverlay').classList.remove('show'); }
-  else if (t.id === 'invAdd') { CONFIG.invoices.push({ num: '', product: CONFIG.products[0].id, color: CONFIG.colors[0], feat: [], size: CONFIG.sizes[2] || CONFIG.sizes[0], qty: 0, net: 0, due: '', paid: false }); buildInvoices(); recalc(); }
-  else if (t.id === 'shoptetExport') { shoptetExport(); }
-  else if (t.dataset.del != null) { CONFIG.invoices.splice(+t.dataset.del, 1); buildInvoices(); recalc(); }
-  else if (t.dataset.paynum != null) { CONFIG.invoices.forEach(x => { if (x.num.trim() === t.dataset.paynum) x.paid = true; }); buildInvoices(); recalc(); }
 });
 
 buildRows();
 buildStock();
 buildAddons();
 buildEvents();
-buildInvoices();
 recalc();
 </script>
 </body>

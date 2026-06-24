@@ -222,20 +222,37 @@
     {
       "id": "logomanual-web-split",
       "text": "Veřejné weby: udělat z brand booku veřejný Logomanual (osekaný) + brand book interní vzadu",
-      "stav": "fronta",
+      "stav": "hotovo",
       "kdo": "Jarvis",
-      "pozn": "Fáze B. Spec: docs/superpowers/specs/2026-06-24-logomanual-brandbook-split-design.md. Audience-filtrovaná nav, veřejná adresa = Logomanual, rename logo.eldee.cz později.",
+      "pozn": "Fáze B HOTOVO: Logomanual živě (eldee-brandbook.vercel.app), interní brandbook živě (eldee-interni-brandbook.vercel.app, klikací z HQ). Audience-filtr v Astro, 2 buildy z 1 repa.",
+      "vzniklo": "2026-06-24",
+      "hotovo": "2026-06-24"
+    },
+    {
+      "id": "vercel-rename-logomanual",
+      "text": "Vercel: dořešit rename Logomanualu na eldee-logomanual.vercel.app (teď běží na eldee-brandbook.vercel.app, nová adresa 404)",
+      "stav": "fronta",
+      "kdo": "Lukáš",
+      "pozn": "Rename projektu ve Vercelu nedosedl. Až se rozchodí, Jarvis přepne dlaždici Logomanual na novou adresu.",
       "vzniklo": "2026-06-24",
       "hotovo": null
     }
   ],
   "odkazy": [
     {
+      "nadpis": "Logomanual",
+      "text": "Osekaný brandbook pro dodavatele a partnery — logo, barvy, fonty, vzor a jak s eldee vizuálně pracovat. Tohle se sdílí ven.",
+      "stav": "on",
+      "stavText": "veřejné · sdílej s dodavateli",
+      "href": "https://eldee-brandbook.vercel.app",
+      "extern": true
+    },
+    {
       "nadpis": "Brandbook (interní)",
-      "text": "Plný brand book = DNA firmy (manifest, příběh, positioning, voice) + celý vizuální manuál. INTERNÍ — nesdílet ven. Veřejný Logomanual (osekaná verze pro dodavatele) = příští fáze.",
+      "text": "Plný brand book = DNA firmy (manifest, příběh, positioning, voice) + celý vizuální manuál. INTERNÍ — nesdílet ven; klikni a načte se (jako kalkulačka).",
       "stav": "on",
       "stavText": "interní · nesdílet",
-      "href": "https://eldee-brandbook.vercel.app",
+      "href": "https://eldee-interni-brandbook.vercel.app",
       "extern": true
     },
     {

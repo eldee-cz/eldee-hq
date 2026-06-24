@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>eldee — vizualizace homepage (mockup)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@400;700;900&family=Caveat+Brush&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0A0A0A;        /* Carbon Black */
+    --ink-soft:#141414;
+    --bone:#F5F5F0;       /* Off-white */
+    --ash:#9a9a92;        /* tlumený text */
+    --blood:#B91C1C;      /* Blood Red */
+    --blood-light:#DC2626;
+    --gold:#C9A227;       /* Burnished Gold */
+    --line:rgba(245,245,240,.12);
+    --maxw:1180px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--ink);color:var(--bone);
+    font-family:'Space Grotesk',system-ui,sans-serif;
+    line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+  }
+  h1,h2,h3,.display{font-family:'Big Shoulders Display',sans-serif;font-weight:900;line-height:.95;letter-spacing:-.01em;text-transform:uppercase}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 22px}
+  .gold{color:var(--gold)}
+
+  .mock-note{background:var(--gold);color:var(--ink);text-align:center;font-size:12.5px;font-weight:700;letter-spacing:.04em;padding:7px 14px}
+
+  /* HEADER */
+  header{position:sticky;top:0;z-index:50;background:rgba(10,10,10,.95);backdrop-filter:blur(10px);border-bottom:1.5px solid var(--gold)}
+  .header-grid{display:flex;align-items:stretch;gap:28px}
+  .logo-mark{display:flex;align-items:center;flex:0 0 auto;color:var(--bone);padding:8px 0}
+  .logo-mark svg{height:124px;width:auto;display:block}
+  .logo-word{display:flex;align-items:center;flex:0 0 auto;font-family:'Big Shoulders Display';font-weight:900;font-size:64px;text-transform:lowercase;letter-spacing:-.02em;line-height:1;color:var(--bone);white-space:nowrap}
+  .header-main{flex:1;display:flex;flex-direction:column;min-width:0}
+  /* RADEK 1 - ikony na stred */
+  .nav-top{display:flex;align-items:center;justify-content:center;gap:18px;height:64px;border-bottom:1px solid var(--line)}
+  .nav-actions{display:flex;align-items:center;gap:26px}
+  .wm{font-family:'Big Shoulders Display';font-weight:900;font-size:52px;text-transform:lowercase;letter-spacing:-.02em;line-height:1;color:var(--bone);white-space:nowrap}
+  /* RADEK 2 - navigace */
+  .nav-bottom{flex:1;display:flex;align-items:center;min-height:58px}
+  .nav-bottom .menu{display:flex;justify-content:center;align-items:center;gap:12px;width:100%;font-size:16px;font-weight:500;letter-spacing:.02em}
+  .nav-bottom .menu a{color:var(--bone);transition:.2s;border:1.5px solid rgba(201,162,39,.7);border-radius:30px;padding:11px 22px;font-weight:600}
+  .nav-bottom .menu a:hover{color:var(--gold);border-color:var(--gold);background:rgba(201,162,39,.1)}
+  /* MOBILNI MENU + BURGER */
+  .mobile-menu{display:none}
+  .mm-row{display:flex;gap:10px}
+  .mm-lang{display:flex;align-items:center;flex-wrap:wrap;gap:8px}
+  .cart{display:flex;align-items:center;gap:8px;font-size:16px;font-weight:600;border:1.5px solid rgba(201,162,39,.7);padding:12px 18px;border-radius:40px;transition:.2s}
+  .cart:hover{border-color:var(--gold);color:var(--gold)}
+  /* LANG SWITCHER */
+  .lang{position:relative}
+  .lang-btn{display:flex;align-items:center;gap:8px;font-size:16px;font-weight:600;border:1.5px solid rgba(201,162,39,.7);padding:12px 17px;border-radius:40px;cursor:pointer;color:var(--bone);background:transparent;font-family:inherit;transition:.2s}
+  .lang-btn:hover{border-color:var(--gold);color:var(--gold)}
+  .lang-btn svg{width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:1.7}
+  .lang-btn .arr{font-size:10px;transition:.2s;opacity:.8}
+  .lang.open .lang-btn .arr{transform:rotate(180deg)}
+  .lang-menu{position:absolute;top:calc(100% + 8px);right:0;background:rgba(10,10,10,.97);backdrop-filter:blur(10px);border:1.5px solid rgba(201,162,39,.5);border-radius:14px;padding:6px;min-width:178px;display:none;flex-direction:column;gap:2px;z-index:60;box-shadow:0 16px 40px rgba(0,0,0,.55)}
+  .lang.open .lang-menu{display:flex}
+  .lang-menu a{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;border-radius:9px;font-size:14px;color:var(--bone);transition:.15s}
+  .lang-menu a:hover{background:rgba(201,162,39,.12);color:var(--gold)}
+  .lang-menu a.active{color:var(--gold);background:rgba(201,162,39,.08)}
+  .lang-menu a .code{font-size:11.5px;color:var(--ash);font-weight:700;letter-spacing:.06em}
+  .lang-menu a:hover .code,.lang-menu a.active .code{color:var(--gold)}
+  /* HEADER IKONY (hledat/wishlist/prihlasit/kosik) */
+  .icons{display:flex;align-items:center;gap:22px}
+  .ico-btn{display:flex;flex-direction:column;align-items:center;gap:5px;font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--bone);transition:.2s;cursor:pointer;position:relative}
+  .ico-btn:hover{color:var(--gold)}
+  .ico-btn svg{width:26px;height:26px;stroke:currentColor;fill:none;stroke-width:1.8}
+  .ico-btn .cnt{position:absolute;top:-7px;right:4px;background:var(--blood);color:#fff;font-size:10px;font-weight:700;min-width:17px;height:17px;border-radius:10px;display:grid;place-items:center;padding:0 4px}
+  .burger{display:none;flex-direction:column;justify-content:center;gap:6px;cursor:pointer;background:none;border:none;padding:9px;width:46px;height:46px;flex:0 0 auto}
+  .burger span{width:26px;height:2.5px;background:var(--bone);display:block;border-radius:2px;transition:.25s}
+  .burger.on span:nth-child(1){transform:translateY(8.5px) rotate(45deg)}
+  .burger.on span:nth-child(2){opacity:0}
+  .burger.on span:nth-child(3){transform:translateY(-8.5px) rotate(-45deg)}
+  /* mobilni vysuvne menu */
+  .mobile-menu.open{display:flex;flex-direction:column;gap:4px;padding:14px 22px 22px;border-top:1px solid var(--line);background:rgba(10,10,10,.98)}
+  .mobile-menu a{color:var(--bone);font-size:18px;font-weight:600;padding:14px 6px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px}
+  .mobile-menu a:hover{color:var(--gold)}
+  .mobile-menu .mm-row{display:flex;gap:10px;border:none;margin-top:6px}
+  .mobile-menu .mm-row a{flex:1;justify-content:center;border:1.5px solid rgba(201,162,39,.5);border-radius:30px;font-size:15px;border-bottom:1.5px solid rgba(201,162,39,.5)}
+  .mobile-menu .mm-row a svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8}
+  .mm-lang{margin-top:16px}
+  .mm-lang-lbl{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ash);font-weight:700;margin-right:4px}
+  .mm-lang button{background:transparent;border:1.5px solid rgba(201,162,39,.5);color:var(--bone);font-family:inherit;font-weight:700;font-size:14px;padding:10px 14px;border-radius:30px;cursor:pointer;transition:.2s}
+  .mm-lang button.active,.mm-lang button:hover{border-color:var(--gold);color:var(--gold);background:rgba(201,162,39,.1)}
+
+  /* HERO */
+  .hero{position:relative;text-align:center;padding:70px 0 86px;overflow:hidden}
+  .hero::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 60%, rgba(201,162,39,.10), transparent 62%);pointer-events:none}
+  /* Holy Socks jako jemný podkres nahoře */
+  .hero-watermark{position:absolute;top:120px;left:50%;transform:translateX(-50%);width:120%;text-align:center;
+     font-family:'Big Shoulders Display';font-weight:900;font-size:clamp(70px,17vw,210px);line-height:.8;
+     color:rgba(245,245,240,.04);-webkit-text-stroke:1.7px rgba(245,245,240,.20);white-space:nowrap;pointer-events:none;user-select:none;letter-spacing:.01em}
+  .hero-inner{position:relative;padding-top:46px}
+  /* produktový placeholder se svatozáří */
+  .hero-product{width:210px;height:300px;margin:0 auto 26px;position:relative;border-radius:60px 60px 18px 18px;
+     background:linear-gradient(180deg,#F5F5F0 0%,#E9E9E2 100%);box-shadow:0 26px 60px rgba(0,0,0,.55)}
+  .hero-product::before{content:"";position:absolute;top:-26px;left:50%;transform:translateX(-50%);width:88px;height:22px;border:4px solid var(--gold);border-radius:50%}
+  .hero-product::after{content:"";position:absolute;top:120px;left:50%;transform:translateX(-50%);width:60%;height:54px;background:
+     radial-gradient(circle 6px at 30% 40%, var(--blood) 60%, transparent 62%),
+     radial-gradient(circle 6px at 62% 64%, var(--blood) 60%, transparent 62%)}
+  .ph-cap{font-size:10px;color:var(--ash);letter-spacing:.18em;text-transform:uppercase;opacity:.6;margin-bottom:22px}
+  .hero-holy{font-family:'Caveat Brush',cursive;font-weight:400;font-size:clamp(54px,12vw,106px);color:var(--gold);line-height:.9;margin-bottom:0;text-transform:none;letter-spacing:.5px} .hero-slogan{font-family:'Big Shoulders Display';font-weight:700;font-size:clamp(18px,3.6vw,26px);text-transform:none;letter-spacing:0;color:var(--bone);opacity:.9;margin-bottom:24px}
+  .btn{display:inline-flex;align-items:center;gap:9px;font-weight:700;font-size:15px;padding:15px 34px;border-radius:46px;cursor:pointer;border:1px solid transparent;transition:.2s;letter-spacing:.01em}
+  .btn-primary{background:var(--blood);color:#fff}
+  .btn-primary:hover{background:var(--blood-light);transform:translateY(-2px)}
+  .btn-ghost{background:transparent;border-color:var(--line);color:var(--bone)}
+  .btn-ghost:hover{border-color:var(--bone)}
+
+  section{position:relative}
+  .sec-pad{padding:28px 0}
+  .sec-head{text-align:center;max-width:620px;margin:0 auto 20px}
+  .sec-head .kicker{font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);font-weight:600;display:block;margin-bottom:12px}
+  .sec-head h2{font-size:clamp(30px,6vw,48px)}
+  .sec-head p{color:var(--ash);margin-top:12px;font-size:15.5px}
+
+  /* FEATURES — jednoduché, pozitivní */
+  .features{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:40px 0}
+  .feat{text-align:center;padding:0 8px}
+  .feat .ic svg{width:42px;height:42px;stroke:var(--gold);fill:none;stroke-width:1.6;margin:0 auto 13px;display:block}
+  .feat h3{font-size:16px;letter-spacing:0}
+  .feat p{font-size:12.5px;color:var(--ash);text-transform:none;font-family:'Space Grotesk';margin-top:3px}
+
+  /* PRODUKTY */
+  .products{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+  .card{background:var(--ink-soft);border:1px solid var(--line);border-radius:16px;overflow:hidden;transition:.25s;cursor:pointer}
+  .card:hover{transform:translateY(-5px);border-color:rgba(201,162,39,.5)}
+  .card .ph{aspect-ratio:1/1.08;position:relative;display:grid;place-items:center;overflow:hidden;background:repeating-linear-gradient(135deg,#161616 0 14px,#1b1b1b 14px 28px)}
+  .card .ph .stulpna{width:38%;height:74%;border-radius:40px 40px 14px 14px;position:relative;background:linear-gradient(180deg,#F5F5F0 0%,#E9E9E2 100%);box-shadow:0 18px 40px rgba(0,0,0,.5)}
+  .card .stulpna::before{content:"";position:absolute;top:-16px;left:50%;transform:translateX(-50%);width:40px;height:11px;border:2.4px solid var(--gold);border-radius:50%}
+  .card .badge{position:absolute;top:12px;left:12px;background:var(--blood);color:#fff;font-size:10.5px;font-weight:700;letter-spacing:.08em;padding:5px 10px;border-radius:30px;text-transform:uppercase;z-index:2}
+  .card .ph-label{position:absolute;bottom:10px;right:12px;font-size:10px;color:var(--ash);letter-spacing:.1em;text-transform:uppercase;z-index:2;opacity:.6}
+  /* OBLIBENE - svatozar misto srdicka */
+  .fav{position:absolute;top:10px;right:10px;z-index:3;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:rgba(10,10,10,.5);backdrop-filter:blur(3px);border:1px solid var(--line);cursor:pointer;transition:.18s;color:var(--ash);padding:0}
+  .fav:hover{color:var(--gold);border-color:rgba(201,162,39,.5);transform:scale(1.08)}
+  .fav svg{width:23px;height:23px;fill:none;stroke:currentColor;stroke-width:2;overflow:visible}
+  .fav.active{color:var(--gold);border-color:rgba(201,162,39,.6);box-shadow:0 0 16px rgba(201,162,39,.4)}
+  .fav.active svg ellipse{fill:rgba(201,162,39,.3)}
+  .card-body{padding:16px 16px 18px}
+  .card-body h3{font-size:18px;letter-spacing:0;margin-bottom:3px;color:var(--blood)}
+  .card-body .desc{font-size:12.5px;color:var(--ash);text-transform:none;font-family:'Space Grotesk';min-height:34px}
+  .swatches{display:flex;gap:8px;margin-top:11px;align-items:center}
+  .sw{width:22px;height:22px;border-radius:6px;border:2px solid rgba(245,245,240,.22);cursor:pointer;transition:.15s;padding:0;background-clip:padding-box}
+  .sw:hover{transform:scale(1.12)}
+  .sw.active{border-color:var(--gold);box-shadow:0 0 0 2px rgba(201,162,39,.25)}
+  .sw-label{font-size:11px;color:var(--ash);text-transform:none;font-family:'Space Grotesk';margin-left:2px}
+  .card-row{display:flex;align-items:center;justify-content:space-between;margin-top:13px}
+  .price{font-family:'Big Shoulders Display';font-weight:900;font-size:24px;color:var(--gold)}
+  .price small{font-size:13px;color:rgba(201,162,39,.7);font-weight:400}
+  .mini-cta{background:var(--blood);color:#fff;font-weight:700;font-size:12.5px;padding:9px 15px;border-radius:30px;transition:.2s}
+  .card:hover .mini-cta{background:var(--blood-light)}
+
+  /* HOLY SQUAD */
+  .squad{background:var(--ink-soft);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .squad-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .squad-card{border:1px solid var(--line);border-radius:14px;padding:24px 22px;background:var(--ink)}
+  .squad-card .av{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,var(--blood),var(--gold));margin-bottom:13px}
+  .squad-card h3{font-size:15px;letter-spacing:0}
+  .squad-card .role{font-size:11.5px;color:var(--gold);letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px}
+  .squad-card p{font-size:13px;color:var(--ash);text-transform:none;font-family:'Space Grotesk'}
+
+  /* INSTAGRAM */
+  .ig-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:10px}
+  .ig-tile{aspect-ratio:1;border-radius:12px;position:relative;overflow:hidden;cursor:pointer;
+     background:radial-gradient(circle at 50% 38%, rgba(201,162,39,.13), transparent 60%), repeating-linear-gradient(45deg,#161616 0 12px,#1c1c1c 12px 24px)}
+  .ig-tile.alt{background:radial-gradient(circle at 50% 38%, rgba(185,28,28,.16), transparent 60%), repeating-linear-gradient(45deg,#161616 0 12px,#1c1c1c 12px 24px)}
+  .ig-tile .ph-tag{position:absolute;bottom:8px;left:10px;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--ash);opacity:.55;z-index:1}
+  .ig-ov{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:16px;
+     background:rgba(10,10,10,.55);backdrop-filter:blur(1px);opacity:0;transition:.2s;font-size:13.5px;font-weight:700;color:var(--bone)}
+  .ig-tile:hover .ig-ov{opacity:1}
+  .ig-ov span{display:inline-flex;align-items:center;gap:5px}
+  .ig-cta{text-align:center;margin-top:26px}
+  .ig-handle{display:inline-flex;align-items:center;gap:9px;border:1.5px solid rgba(201,162,39,.7);color:var(--bone);
+     padding:14px 26px;border-radius:46px;font-weight:600;font-size:15px;transition:.2s}
+  .ig-handle:hover{border-color:var(--gold);color:var(--gold);background:rgba(201,162,39,.1)}
+
+  /* NEWSLETTER */
+  .news{text-align:center;background:radial-gradient(ellipse 60% 120% at 50% 0%, rgba(185,28,28,.12), transparent 55%)}
+  .news h2{font-size:clamp(28px,6vw,46px)}
+  .news p{color:var(--ash);margin:12px auto 24px;max-width:420px;text-transform:none}
+  .news-form{display:flex;gap:10px;max-width:430px;margin:0 auto;flex-wrap:wrap;justify-content:center}
+  .news-form input{flex:1;min-width:210px;background:var(--ink-soft);border:1px solid var(--line);color:var(--bone);padding:15px 18px;border-radius:46px;font-family:inherit;font-size:15px}
+  .news-form input::placeholder{color:var(--ash)}
+  .news-form input:focus{outline:none;border-color:var(--gold)}
+
+  /* FOOTER */
+  footer{border-top:1px solid var(--line);padding:50px 0 30px;background:#080808}
+  .foot-top{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:30px;margin-bottom:36px}
+  .foot-brand .logo{margin-bottom:14px}
+  .foot-brand p{color:var(--ash);font-size:13.5px;text-transform:none;max-width:260px}
+  .foot-col h4{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--bone);margin-bottom:14px;font-family:'Space Grotesk';font-weight:700}
+  .foot-col a{display:block;color:var(--ash);font-size:13.5px;margin-bottom:9px;transition:.2s}
+  .foot-col a:hover{color:var(--gold)}
+  .foot-bottom{border-top:1px solid var(--line);padding-top:22px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;color:var(--ash);font-size:12.5px}
+  .socials{display:flex;gap:16px}
+  .socials a:hover{color:var(--gold)}
+
+  @media(max-width:900px){
+    .features{grid-template-columns:repeat(2,1fr);gap:30px 18px}
+    .products{grid-template-columns:repeat(2,1fr)}
+    .squad-grid{grid-template-columns:1fr}
+    .ig-grid{grid-template-columns:repeat(3,1fr)}
+    .foot-top{grid-template-columns:1fr 1fr}
+  }
+  @media(max-width:620px){
+    .products{grid-template-columns:1fr 1fr}
+    .sec-pad{padding:52px 0}
+    .foot-top{grid-template-columns:1fr}
+  }
+.hero-sun{position:relative;width:clamp(320px,54vw,520px);margin:0 auto 16px;display:grid;place-items:center} .hero-sun::before{content:"";position:absolute;width:100%;aspect-ratio:1;left:50%;top:50%;transform:translate(-50%,-50%);border-radius:50%;background:repeating-conic-gradient(from 0deg, rgba(201,162,39,.20) 0deg 5deg, transparent 5deg 13deg);-webkit-mask:radial-gradient(circle,#000 26%,rgba(0,0,0,.5) 50%,transparent 70%);mask:radial-gradient(circle,#000 26%,rgba(0,0,0,.5) 50%,transparent 70%);animation:heroSpin 50s linear infinite;z-index:0;pointer-events:none} .hero-sun::after{content:"";position:absolute;width:74%;aspect-ratio:1;left:50%;top:50%;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle,rgba(201,162,39,.28),rgba(201,162,39,.08) 52%,transparent 70%);z-index:0;pointer-events:none} .hero-sun img{position:relative;z-index:1;height:clamp(300px,46vw,460px);width:auto;display:block;filter:drop-shadow(0 18px 36px rgba(0,0,0,.5))} @keyframes heroSpin{to{transform:translate(-50%,-50%) rotate(360deg)}} @media(max-width:880px){.nav-bottom{display:none}.burger{display:flex}.hide-mob{display:none}.header-grid{align-items:center;gap:10px;min-height:66px}.logo-mark{padding:0}.logo-mark svg{height:48px}.header-main{flex-direction:row;align-items:center}.nav-top{height:auto;border-bottom:none;flex:1;justify-content:flex-end}.logo-word{display:none}.nav-actions{gap:16px}.icons{gap:18px}.hero-sun{width:min(88vw,380px)}.hero-sun img{height:clamp(230px,60vw,360px)}}@media(max-width:480px){.products{grid-template-columns:1fr 1fr;gap:12px}.card-body h3{font-size:17px}.card-body .desc{font-size:13px}.btn{padding:14px 28px}.sec-head h2{font-size:clamp(26px,8vw,40px)}}footer .logo svg{height:60px} footer .logo .wm{font-size:44px} .foot-top{align-items:center} .foot-brand .logo{margin-bottom:0}.scroll-cue{margin-top:34px;font-size:26px;line-height:1;color:var(--ash);animation:bob 1.8s ease-in-out infinite} @keyframes bob{0%,100%{transform:translateY(0);opacity:.45}50%{transform:translateY(7px);opacity:1}}.drops-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.drop-card{background:var(--ink-soft);border:1px solid var(--line);border-radius:16px;overflow:hidden;transition:.25s}
+.drop-card:hover{transform:translateY(-5px);border-color:rgba(201,162,39,.5)}
+.drop-img{aspect-ratio:1/1.05;background:radial-gradient(circle at 50% 42%, rgba(201,162,39,.10), transparent 62%) #0d0d0d;display:grid;place-items:center;overflow:hidden}
+.drop-img img{width:90%;height:auto;display:block}
+.drop-info{padding:13px 14px 17px;text-align:center}
+.drop-badge{display:inline-block;font-size:10px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:var(--ink);background:var(--gold);padding:4px 11px;border-radius:30px;margin-bottom:9px}
+.drop-badge.alt{color:var(--ash);background:transparent;border:1px solid var(--line)}
+.drop-info h3{font-size:17px;letter-spacing:0}
+.drop-date{font-size:12.5px;color:var(--ash);text-transform:none;font-family:'Space Grotesk';margin-top:3px}
+@media(max-width:820px){.drops-grid{grid-template-columns:1fr 1fr}}.squad-banner{display:grid;grid-template-columns:.85fr 1.15fr;gap:34px;align-items:center;margin-bottom:42px}
+.squad-mascot{position:relative;display:grid;place-items:center}
+.squad-mascot::before{content:"";position:absolute;width:80%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle, rgba(201,162,39,.18), transparent 65%)}
+.squad-mascot img{position:relative;width:min(100%,300px);height:auto;filter:drop-shadow(0 16px 32px rgba(0,0,0,.5))}
+.squad-text{text-align:left}
+.squad-text .kicker{display:block;font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:10px}
+.squad-text h2{font-size:clamp(30px,5vw,46px);margin-bottom:14px}
+.squad-text p{color:var(--ash);font-size:15.5px;text-transform:none;margin-bottom:22px;max-width:460px}
+@media(max-width:780px){.squad-banner{grid-template-columns:1fr;text-align:center}.squad-text{text-align:center}.squad-text p{margin:0 auto 22px}.squad-mascot img{width:min(70%,230px)}}
+@media(max-width:880px){.ico-btn{font-size:10px;gap:4px}.ico-btn svg{width:24px;height:24px}}
+@media(max-width:480px){.icons{gap:16px}.ico-btn{font-size:0;gap:0}.ico-btn svg{width:26px;height:26px}}</style>
+</head>
+<body>
+
+<div class="mock-note">★ MOCKUP — vizualizace homepage eldee pro Shoptet · placeholdery místo produktových fotek · v2 · 2026-06-13</div>
+
+<!-- HEADER (skutečné logo eldee) -->
+<header>
+  <div class="wrap header-grid">
+    <button class="burger" type="button" aria-label="Otevřít menu" aria-expanded="false" onclick="this.classList.toggle('on');this.setAttribute('aria-expanded',this.classList.contains('on'));document.getElementById('mobileMenu').classList.toggle('open')">
+      <span></span><span></span><span></span>
+    </button>
+    <!-- LD monogram - velky, pres oba radky -->
+    <a class="logo-mark" href="#" aria-label="eldee">
+      <svg viewBox="3.2 46.0 301.5 301.5" fill="none" aria-hidden="true">
+        <defs><mask id="ld-ko" maskUnits="userSpaceOnUse" x="3.2" y="46" width="301.5" height="301.5">
+          <rect x="3.2" y="46" width="301.5" height="301.5" fill="white"/>
+          <path d="M56.32 285.00V78.60H95.02V250.94H145.85V285.00Z" fill="black" stroke="black" stroke-width="25" stroke-linejoin="round"/>
+        </mask></defs>
+        <path d="M128.32 318.00V111.60H180.69Q209.72 111.60 222.68 123.92Q235.65 136.24 236.16 164.49Q236.55 182.42 236.68 198.55Q236.81 214.67 236.68 230.80Q236.55 246.92 236.16 264.85Q235.65 293.23 222.68 305.62Q209.72 318.00 180.69 318.00ZM167.02 283.94H180.69Q188.82 283.94 193.08 280.20Q197.34 276.46 197.46 269.50Q197.85 255.69 198.04 242.02Q198.24 228.34 198.24 214.67Q198.24 201.00 198.04 187.26Q197.85 173.52 197.46 159.85Q197.34 153.01 193.08 149.33Q188.82 145.66 180.69 145.66H167.02Z" fill="currentColor" mask="url(#ld-ko)"/>
+        <path d="M56.32 285.00V78.60H95.02V250.94H145.85V285.00Z" fill="currentColor"/>
+        <ellipse cx="182.3" cy="77" rx="66" ry="13" stroke="#C9A227" stroke-width="11"/>
+      </svg>
+    </a>
+    <div class="header-main">
+      <!-- RADEK 1: akce vlevo + wordmark vpravo -->
+      <div class="nav-top">
+        <div class="nav-actions">
+          <div class="icons">
+            <a class="ico-btn" href="#" aria-label="Hledat"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>Hledat</a>
+            <a class="ico-btn hide-mob" href="#" aria-label="Wishlist"><svg viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="12" rx="9" ry="3.3" transform="rotate(-12 12 12)"/></svg>Wishlist</a>
+            <a class="ico-btn hide-mob" href="#" aria-label="Přihlásit"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7.5 8-7.5s8 3.1 8 7.5"/></svg>Přihlásit</a>
+            <a class="ico-btn" href="#" aria-label="Košík"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 8h12l-1 12H7z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg><span class="cnt">0</span>Košík</a>
+          </div>
+          <div class="lang hide-mob" id="langSwitch">
+            <button class="lang-btn" type="button" onclick="document.getElementById('langSwitch').classList.toggle('open')" aria-haspopup="true" aria-label="Změnit jazyk">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><path d="M3 12h18M12 2.5c2.5 2.6 3.8 6 3.8 9.5S14.5 18.9 12 21.5M12 2.5C9.5 5.1 8.2 8.5 8.2 12S9.5 18.9 12 21.5"/></svg>
+              <span class="cur">CZ</span><span class="arr">▾</span>
+            </button>
+            <div class="lang-menu" role="menu">
+              <a href="#" class="active" role="menuitem">Čeština <span class="code">CZ</span></a>
+              <a href="#" role="menuitem">English <span class="code">EN</span></a>
+              <a href="#" role="menuitem">Deutsch <span class="code">DE</span></a>
+              <a href="#" role="menuitem">Español <span class="code">ES</span></a>
+              <a href="#" role="menuitem">Polski <span class="code">PL</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- RADEK 2: navigace (desktop) -->
+      <nav class="nav-bottom">
+        <div class="menu">
+          <a href="#">Štulpny</a>
+          <a href="#">Holy Squad</a>
+          <a href="#">Náš příběh</a>
+          <a href="#">Blog</a>
+          <a href="#">Kontakt</a>
+        </div>
+      </nav>
+    </div>
+    <a class="logo-word" href="#" aria-label="eldee.cz"><span style="display:inline-block;line-height:1">eldee<span style="color:var(--blood)">.</span><span style="color:var(--gold);font-size:.62em">cz</span></span></a>
+  </div>
+  <!-- MOBILNI rozbalovaci menu -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#">Štulpny</a>
+    <a href="#">Holy Squad</a>
+    <a href="#">Náš příběh</a>
+    <a href="#">Blog</a>
+    <a href="#">Kontakt</a>
+    <div class="mm-row">
+      <a href="#"><svg viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="12" rx="9" ry="3.3" transform="rotate(-12 12 12)"/></svg> Wishlist</a>
+      <a href="#"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-7.5 8-7.5s8 3.1 8 7.5"/></svg> Přihlásit</a>
+    </div>
+    <div class="mm-lang">
+      <span class="mm-lang-lbl">Jazyk</span>
+      <button type="button" class="active">CZ</button><button type="button">EN</button><button type="button">DE</button><button type="button">ES</button><button type="button">PL</button>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  
+  <div class="wrap hero-inner">
+    <div class="hero-sun"><img src="maskot/eldee-prodejce-transparent.png" alt="eldee - maskot Eldee"></div>
+    
+    <p class="hero-holy">Holy Socks.</p><p class="hero-slogan">No, just socks with holes.</p>
+    <a class="btn btn-primary" href="#produkty">Koupit štulpny →</a><div class="scroll-cue" aria-hidden="true">↓</div>
+  </div>
+</section>
+
+<!-- USP / TRUST BAR -->
+<section class="wrap">
+  <div class="features">
+    <div class="feat">
+      <div class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M1 4h14v11H1zM15 8h4l3 3v4h-7z"/><circle cx="6" cy="18" r="2"/><circle cx="18" cy="18" r="2"/></svg></div>
+      <h3>Doprava od 79 Kč</h3>
+      <p>Zdarma od dvou párů</p>
+    </div>
+    <div class="feat">
+      <div class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 2.6-6.4M3 4v4h4"/></svg></div>
+      <h3>Vrácení do 14 dní</h3>
+      <p>I bez kázání</p>
+    </div>
+    <div class="feat">
+      <div class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s7-6 7-12a7 7 0 0 0-14 0c0 6 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg></div>
+      <h3>Vyrobeno v Česku</h3>
+      <p>Ne v tabulce v Excelu</p>
+    </div>
+    <div class="feat">
+      <div class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2l8 3v6c0 5-3.5 8.5-8 11-4.5-2.5-8-6-8-11V5z"/><path d="M9 12l2 2 4-4"/></svg></div>
+      <h3>Dva chráněné vzory</h3>
+      <p>Díry na lýtku + kapsa na chránič</p>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUKTY -->
+<section class="sec-pad wrap" id="produkty">
+  <div class="sec-head">
+    <span class="kicker">Drop 001</span>
+    <h2>Vyber si svůj pár</h2>
+  </div>
+  <div class="products">
+    <article class="card">
+      <div class="ph"><span class="badge">Bestseller</span><button class="fav" type="button" aria-label="Přidat do oblíbených" title="Oblíbené"><svg viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="12" rx="9" ry="3.3" transform="rotate(-12 12 12)"/></svg></button><div class="stulpna"></div><span class="ph-label">foto produktu</span></div>
+      <div class="card-body">
+        <h3>Návlek / Tube</h3>
+        <p class="desc">Zápasové jádro. Bez chodidla.</p>
+        <div class="swatches" aria-label="Barevné varianty">
+          <button class="sw active" style="background:#F5F5F0" title="Bílá" aria-label="Bílá"></button>
+          <button class="sw" style="background:#0A0A0A" title="Černá" aria-label="Černá"></button>
+          <button class="sw" style="background:#B91C1C" title="Červená" aria-label="Červená"></button>
+        </div>
+        <div class="card-row"><span class="price">599 <small>Kč</small></span><a class="mini-cta" href="#">Do košíku</a></div>
+      </div>
+    </article>
+    <article class="card">
+      <div class="ph"><button class="fav" type="button" aria-label="Přidat do oblíbených" title="Oblíbené"><svg viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="12" rx="9" ry="3.3" transform="rotate(-12 12 12)"/></svg></button><div class="stulpna"></div><span class="ph-label">foto produktu</span></div>
+      <div class="card-body">
+        <h3>Tréninková ponožka</h3>
+        <p class="desc">Protiskluz na všední dny.</p>
+        <div class="swatches" aria-label="Barevné varianty">
+          <button class="sw active" style="background:#F5F5F0" title="Bílá" aria-label="Bílá"></button>
+          <button class="sw" style="background:#0A0A0A" title="Černá" aria-label="Černá"></button>
+          <button class="sw" style="background:#B91C1C" title="Červená" aria-label="Červená"></button>
+        </div>
+        <div class="card-row"><span class="price">599 <small>Kč</small></span><a class="mini-cta" href="#">Do košíku</a></div>
+      </div>
+    </article>
+    <article class="card">
+      <div class="ph"><button class="fav" type="button" aria-label="Přidat do oblíbených" title="Oblíbené"><svg viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="12" rx="9" ry="3.3" transform="rotate(-12 12 12)"/></svg></button><div class="stulpna"></div><span class="ph-label">foto produktu</span></div>
+      <div class="card-body">
+        <h3>Nízká štulpna</h3>
+        <p class="desc">Klasika v nízkém střihu.</p>
+        <div class="swatches" aria-label="Barevné varianty">
+          <button class="sw active" style="background:#F5F5F0" title="Bílá" aria-label="Bílá"></button>
+          <button class="sw" style="background:#0A0A0A" title="Černá" aria-label="Černá"></button>
+          <button class="sw" style="background:#B91C1C" title="Červená" aria-label="Červená"></button>
+        </div>
+        <div class="card-row"><span class="price">599 <small>Kč</small></span><a class="mini-cta" href="#">Do košíku</a></div>
+      </div>
+    </article>
+    <article class="card">
+      <div class="ph"><span class="badge">Limitka</span><button class="fav" type="button" aria-label="Přidat do oblíbených" title="Oblíbené"><svg viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="12" rx="9" ry="3.3" transform="rotate(-12 12 12)"/></svg></button><div class="stulpna"></div><span class="ph-label">foto produktu</span></div>
+      <div class="card-body">
+        <h3>Vysoká štulpna</h3>
+        <p class="desc">Plná výška, mateřský střih řady.</p>
+        <div class="swatches" aria-label="Barevné varianty">
+          <button class="sw active" style="background:#0A0A0A" title="Černá" aria-label="Černá"></button>
+          <button class="sw" style="background:#C9A227" title="Zlatá" aria-label="Zlatá"></button>
+          <button class="sw" style="background:#F5F5F0" title="Bílá" aria-label="Bílá"></button>
+        </div>
+        <div class="card-row"><span class="price">599 <small>Kč</small></span><a class="mini-cta" href="#">Do košíku</a></div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- HOLY SQUAD -->
+<section class="sec-pad squad">
+  <div class="wrap">
+    <div class="squad-banner">
+      <div class="squad-mascot"><img src="maskot/eldee-fotbalista-transparent.png" alt="eldee maskot Eldee fotbalista"></div>
+      <div class="squad-text">
+        <span class="kicker">Holy Squad</span>
+        <h2>Patříš mezi své</h2>
+        <p>Hráči, kluby a ambasadoři, co nosí eldee. Za značkou stojí hráč, ne korporát. Klubům vracíme 10 % z prodejů.</p>
+        <a class="btn btn-primary" href="#">Přidej se k Holy Squad</a>
+      </div>
+    </div>
+    <div class="squad-grid">
+      <div class="squad-card"><div class="av"></div><div class="role">Pro hráče</div><h3>Tvoje tvář tady</h3><p>Nos eldee, taguj #holysocks a objev se na webu. První Holy Squad se píše teď.</p></div>
+      <div class="squad-card"><div class="av"></div><div class="role">Pro kluby</div><h3>10 % zpátky klubu</h3><p>Vezmi eldee pro celý tým — desetina z prodejů jde zpět do klubu.</p></div>
+      <div class="squad-card"><div class="av"></div><div class="role">Pro všechny</div><h3>Patříš mezi své</h3><p>Za značkou stojí hráč, ne korporát. Buď u toho od začátku.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- INSTAGRAM -->
+<section class="sec-pad wrap">
+  <div class="sec-head">
+    <span class="kicker">@eldee.cz</span>
+    <h2>Holy Socks v akci</h2>
+    <p>Otaguj svůj pár <strong>#holysocks</strong> a objev se tady.</p>
+  </div>
+  <div class="ig-grid">
+    <a class="ig-tile" href="#"><span class="ph-tag">na hřišti</span><div class="ig-ov"><span>Otevřít →</span></div></a>
+    <a class="ig-tile alt" href="#"><span class="ph-tag">detail díry</span><div class="ig-ov"><span>Otevřít →</span></div></a>
+    <a class="ig-tile" href="#"><span class="ph-tag">tým</span><div class="ig-ov"><span>Otevřít →</span></div></a>
+    <a class="ig-tile alt" href="#"><span class="ph-tag">unboxing</span><div class="ig-ov"><span>Otevřít →</span></div></a>
+    <a class="ig-tile" href="#"><span class="ph-tag">maskot</span><div class="ig-ov"><span>Otevřít →</span></div></a>
+    <a class="ig-tile alt" href="#"><span class="ph-tag">drop teaser</span><div class="ig-ov"><span>Otevřít →</span></div></a>
+  </div>
+  <div class="ig-cta">
+    <a class="ig-handle" href="https://instagram.com/eldee.cz" target="_blank" rel="noopener">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <rect x="2" y="2" width="20" height="20" rx="5.5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.6" cy="6.4" r="1.1" fill="currentColor" stroke="none"/>
+      </svg>
+      Sleduj @eldee.cz
+    </a>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<section class="sec-pad news">
+  <div class="wrap">
+    <h2>Buď u Dropu 001 první</h2>
+    <p>Limitka. Kdo nestihne, kouká. Prvních 50 ze seznamu má přednostní přístup.</p>
+    <form class="news-form" onsubmit="return false">
+      <input type="email" placeholder="tvuj@email.cz">
+      <button class="btn btn-primary" type="submit">Chci přednost</button>
+    </form>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <a class="logo" href="#" aria-label="eldee">
+          <svg viewBox="3.2 46.0 301.5 301.5" fill="none" aria-hidden="true">
+            <defs><mask id="ld-ko2" maskUnits="userSpaceOnUse" x="3.2" y="46" width="301.5" height="301.5">
+              <rect x="3.2" y="46" width="301.5" height="301.5" fill="white"/>
+              <path d="M56.32 285.00V78.60H95.02V250.94H145.85V285.00Z" fill="black" stroke="black" stroke-width="25" stroke-linejoin="round"/>
+            </mask></defs>
+            <path d="M128.32 318.00V111.60H180.69Q209.72 111.60 222.68 123.92Q235.65 136.24 236.16 164.49Q236.55 182.42 236.68 198.55Q236.81 214.67 236.68 230.80Q236.55 246.92 236.16 264.85Q235.65 293.23 222.68 305.62Q209.72 318.00 180.69 318.00ZM167.02 283.94H180.69Q188.82 283.94 193.08 280.20Q197.34 276.46 197.46 269.50Q197.85 255.69 198.04 242.02Q198.24 228.34 198.24 214.67Q198.24 201.00 198.04 187.26Q197.85 173.52 197.46 159.85Q197.34 153.01 193.08 149.33Q188.82 145.66 180.69 145.66H167.02Z" fill="currentColor" mask="url(#ld-ko2)"/>
+            <path d="M56.32 285.00V78.60H95.02V250.94H145.85V285.00Z" fill="currentColor"/>
+            <ellipse cx="182.3" cy="77" rx="66" ry="13" stroke="#C9A227" stroke-width="11"/>
+          </svg>
+          <span class="wm"><span style="display:inline-block;line-height:1">eldee<span style="color:var(--blood)">.</span><span style="color:var(--gold);font-size:.62em">cz</span></span></span>
+        </a>
+        
+      </div>
+      <div class="foot-col">
+        <h4>Obchod</h4>
+        <a href="#">Štulpny</a><a href="#">Drop 001</a><a href="#">Velikosti</a><a href="#">Dárkový poukaz</a>
+      </div>
+      <div class="foot-col">
+        <h4>Informace</h4>
+        <a href="#">Doprava a platba</a><a href="#">Reklamace</a><a href="#">Obchodní podmínky</a><a href="#">Ochrana údajů</a><a href="#">FAQ</a>
+      </div>
+      <div class="foot-col">
+        <h4>eldee</h4>
+        <a href="#">Náš příběh</a><a href="#">Holy Squad</a><a href="#">Pro kluby</a><a href="#">Kontakt</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 eldee.cz · Vyrobeno v ČR</span>
+      <div class="socials"><a href="#">Instagram</a><a href="#">TikTok</a><a href="#">Facebook</a></div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  (function(){
+    var ls=document.getElementById('langSwitch');
+    if(!ls)return;
+    ls.querySelectorAll('.lang-menu a').forEach(function(a){
+      a.addEventListener('click',function(e){
+        e.preventDefault();
+        ls.querySelectorAll('a').forEach(function(x){x.classList.remove('active')});
+        a.classList.add('active');
+        ls.querySelector('.cur').textContent=a.querySelector('.code').textContent;
+        ls.classList.remove('open');
+      });
+    });
+    document.addEventListener('click',function(e){
+      if(!ls.contains(e.target)) ls.classList.remove('open');
+    });
+  })();
+  // prepinani barevnych variant v kartach
+  document.querySelectorAll('.swatches').forEach(function(group){
+    group.querySelectorAll('.sw').forEach(function(sw){
+      sw.addEventListener('click',function(){
+        group.querySelectorAll('.sw').forEach(function(x){x.classList.remove('active')});
+        sw.classList.add('active');
+      });
+    });
+  });
+  // oblibene - svatozar
+  document.querySelectorAll('.fav').forEach(function(f){
+    f.addEventListener('click',function(e){
+      e.preventDefault(); e.stopPropagation();
+      f.classList.toggle('active');
+      f.setAttribute('aria-pressed', f.classList.contains('active'));
+    });
+  });
+  // mobilni menu - zavri po kliku na odkaz
+  document.querySelectorAll('#mobileMenu a').forEach(function(a){
+    a.addEventListener('click',function(){
+      document.getElementById('mobileMenu').classList.remove('open');
+      var bg=document.querySelector('.burger'); if(bg){ bg.classList.remove('on'); bg.setAttribute('aria-expanded','false'); }
+    });
+  });
+  // mobilni prepinac jazyka
+  document.querySelectorAll('.mm-lang button').forEach(function(b){
+    b.addEventListener('click',function(){
+      document.querySelectorAll('.mm-lang button').forEach(function(x){x.classList.remove('active')});
+      b.classList.add('active');
+      var cur=document.querySelector('#langSwitch .cur'); if(cur){ cur.textContent=b.textContent; }
+    });
+  });
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Všeobecný dotazník eldee — v1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@900&family=Caveat+Brush&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0A0A0A;
+    --bone: #F5F5F0;
+    --ash: #3A3A3A;
+    --blood: #B91C1C;
+    --blood-dark: #7F1D1D;
+    --gold: #C9A227;
+    --display: "Big Shoulders Display", "Archivo Black", Impact, sans-serif;
+    --body: "Space Grotesk", "Helvetica Neue", Arial, sans-serif;
+    --brush: "Caveat Brush", "Space Grotesk", cursive;
+  }
+  @page { size: A4; margin: 1.6cm 1.8cm; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: var(--body);
+    color: #1a1a1a;
+    line-height: 1.55;
+    font-size: 11pt;
+    margin: 0;
+    padding: 0;
+    background: #fff;
+  }
+
+  /* ===== Branded header ===== */
+  .header {
+    background: var(--ink);
+    color: var(--bone);
+    padding: 22pt 24pt 20pt;
+    display: flex;
+    align-items: center;
+    gap: 18pt;
+  }
+  .header svg { flex: 0 0 auto; height: 64pt; width: auto; }
+  .header .titles { line-height: 1.1; }
+  .header .wordmark {
+    font-family: var(--display);
+    font-weight: 900;
+    font-size: 40pt;
+    letter-spacing: -0.5px;
+    margin: 0;
+    color: var(--bone);
+  }
+  .header .wordmark .dot { color: var(--blood); }
+  .header .tagline {
+    font-family: var(--brush);
+    font-size: 19pt;
+    color: var(--gold);
+    margin: 2pt 0 0;
+  }
+  .header .kicker {
+    font-size: 8.5pt;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #9a9a9a;
+    margin: 6pt 0 0;
+    font-weight: 500;
+  }
+
+  .wrap { padding: 0 4pt; }
+
+  .meta {
+    color: #666;
+    font-size: 9pt;
+    margin: 14pt 0 0;
+    padding-left: 10pt;
+    border-left: 3px solid var(--blood);
+  }
+  .intro {
+    background: var(--bone);
+    padding: 14pt 16pt;
+    border-radius: 4pt;
+    margin: 14pt 0 22pt;
+    border-left: 4px solid var(--blood);
+  }
+  .intro p { margin: 0 0 6pt; }
+  .intro p:last-child { margin-bottom: 0; }
+
+  h2 {
+    font-family: var(--display);
+    font-size: 17pt;
+    font-weight: 900;
+    margin: 22pt 0 8pt;
+    padding-bottom: 4pt;
+    border-bottom: 2.5px solid var(--blood);
+    color: var(--ink);
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+    page-break-after: avoid;
+  }
+  h2 .sec { color: var(--blood); margin-right: 6pt; }
+
+  .question { margin: 12pt 0 8pt; page-break-inside: avoid; }
+  .q-number { font-weight: 700; color: var(--blood); margin-right: 5pt; }
+  .q-text { font-weight: 600; }
+
+  .options { margin: 5pt 0 8pt 0; padding-left: 0; list-style: none; }
+  .options li { padding: 2.5pt 0; }
+  .opt-box {
+    display: inline-block;
+    width: 11pt; height: 11pt;
+    border: 1.5pt solid var(--ash);
+    margin-right: 7pt;
+    vertical-align: middle;
+    border-radius: 2pt;
+  }
+  .write-line {
+    border-bottom: 1px solid #999;
+    display: inline-block;
+    min-width: 160pt;
+    margin-left: 4pt;
+    height: 13pt;
+    vertical-align: middle;
+  }
+  .write-block {
+    border-bottom: 1px solid #999;
+    display: block;
+    margin: 7pt 0;
+    height: 15pt;
+  }
+  .note { font-size: 9.5pt; color: #555; font-style: italic; margin-top: 2pt; }
+  .conditional {
+    background: #faf6f0;
+    border-left: 3px solid var(--gold);
+    padding: 7pt 12pt;
+    margin: 5pt 0 8pt 14pt;
+    font-size: 10pt;
+    color: #555;
+  }
+  .conditional .q-text { color: #333; }
+  .scale-row {
+    display: flex;
+    gap: 6pt;
+    margin: 5pt 0;
+    font-size: 10pt;
+    flex-wrap: wrap;
+  }
+  .scale-row .step {
+    border: 1.5pt solid var(--ash);
+    border-radius: 3pt;
+    padding: 4pt 9pt;
+  }
+
+  .closer {
+    margin-top: 24pt;
+    text-align: center;
+    color: #666;
+    font-size: 10pt;
+    border-top: 1px solid #ddd;
+    padding-top: 12pt;
+  }
+  .closer .brush { font-family: var(--brush); color: var(--blood); font-size: 15pt; }
+
+  @media print {
+    .header { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .intro, .conditional, h2 { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 420">
+    <rect width="320" height="420" fill="#0A0A0A"/>
+    <ellipse cx="205" cy="105" rx="70" ry="14" fill="none" stroke="#C9A227" stroke-width="9"/>
+    <text x="205" y="380" text-anchor="middle" font-family="'Big Shoulders Display','Archivo Black',sans-serif" font-size="305" font-weight="900" fill="#F5F5F0">D</text>
+    <path d="M48,86.5 H94 V295 H141 V339 H48 Z" fill="#F5F5F0"/>
+  </svg>
+  <div class="titles">
+    <p class="wordmark">eldee<span class="dot">.</span></p>
+    <p class="tagline">Holy Socks. No, just socks with holes.</p>
+    <p class="kicker">Všeobecný dotazník · co od štulpen čekáš ty?</p>
+  </div>
+</div>
+
+<div class="wrap">
+
+<div class="meta">
+  Verze 1.0 &middot; 15 otázek &middot; ~3 minuty &middot; anonymní
+</div>
+
+<div class="intro">
+  <p>Ahoj! Stavíme novou českou značku fotbalových štulpen — <strong>eldee</strong>.</p>
+  <p>Než pustíme produkt do světa, chceme vědět, <strong>co od štulpen fakt potřebuješ ty</strong>: jak vysoké, jestli řešíš protiskluz, co tě štve na těch, co nosíš teď.</p>
+  <p>⏱️ Zabere ti to <strong>~3 minuty</strong> a je to anonymní. Buď upřímný — díky tomu postavíme štulpnu, kterou budeš chtít nosit. 💪</p>
+</div>
+
+<h2><span class="sec">A</span>Základní info</h2>
+
+<div class="question">
+  <p><span class="q-number">1.</span><span class="q-text">Kolik ti je let?</span></p>
+  <ul class="options">
+    <li><span class="opt-box"></span>10–14</li>
+    <li><span class="opt-box"></span>15–17</li>
+    <li><span class="opt-box"></span>18–20</li>
+    <li><span class="opt-box"></span>21–30</li>
+    <li><span class="opt-box"></span>31+</li>
+  </ul>
+</div>
+
+<div class="question">
+  <p><span class="q-number">2.</span><span class="q-text">Na jaké úrovni hraješ fotbal?</span></p>
+  <ul class="options">
+    <li><span class="opt-box"></span>Soutěžně (klub, registrovaný)</li>
+    <li><span class="opt-box"></span>Amatérsky (hobby liga, malá kopaná)</li>
+    <li><span class="opt-box"></span>Rekreačně (občas s partou)</li>
+  </ul>
+</div>
+
+<div class="question">
+  <p><span class="q-number">3.</span><span class="q-text">Jak často hraješ (trénink + zápasy)?</span></p>
+  <ul class="options">
+    <li><span class="opt-box"></span>1× týdně</li>
+    <li><span class="opt-box"></span>2–3× týdně</li>
+    <li><span class="opt-box"></span>4× a víc týdně</li>
+  </ul>
+</div>
+
+<h2><span class="sec">B</span>Co nosíš teď</h2>
+
+<div class="question">
+  <p><span class="q-number">4.</span><span class="q-text">Jakou značku štulpen / návleků teď nosíš nejčastěji?</span></p>
+  <ul class="options">
+    <li><span class="opt-box"></span>Nike</li>
+    <li><span class="opt-box"></span>adidas</li>
+    <li><span class="opt-box"></span>Puma</li>
+    <li><span class="opt-box"></span>Tapedesign</li>
+    <li><span class="opt-box"></span>Soxpro</li>
+    <li><span class="opt-box"></span>Jiná: <span class="write-line"></span></li>
+    <li><span class="opt-box"></span>Neřeším značku</li>
+  </ul>
+</div>
+
+<div class="question">
+  <p><span class="q-number">5.</span><span class="q-text">Co teď nosíš?</span></p>
+  <ul class="options">
+    <li><span class="opt-box"></span>Klasickou štulpnu (i s ponožkou)</li>
+    <li><span class="opt-box"></span>Návlek (tube, bez chodidla)</li>
+    <li><span class="opt-box"></span>Kombinaci obojího</li>
+  </ul>
+</div>
+
+<div class="question">
+  <p><span class="q-number">6.</span><span class="q-text">Co ti na současných štulpnách NEJVÍC vadí?</span></p>
+  <p class="note">Můžeš vybrat víc možností.</p>
+  <ul class="options">
+    <li><span class="opt-box"></span>Kloužou / sjíždějí</li>
+    <li><span class="opt-box"></span>Nepohodlné / tlačí</li>
+    <li><span class="opt-box"></span>Špatný materiál (pot, dření)</li>
+    <li><span class="opt-box"></span>Rychle se ničí</li>
+    <li><span class="opt-box"></span>Špatný / nudný design</li>
+    <li><span class="opt-box"></span>Nedrží chrániče</li>
+    <li><span class="opt-box"></span>Nic, jsem spokojený</li>
+    <li><span class="opt-box"></span>Jiné: <span class="write-line"></span></li>
+  </ul>
+</div>
+
+<h2><span class="sec">C</span>Co od štulpny chceš</h2>
+
+<div class="question">
+  <p><span class="q-number">7.</span><span class="q-text">Jaké štulpny preferuješ DÉLKOU?</span></p>
+  <ul class="options">
+    <li><span class="opt-box"></span>Nízké</li>
+    <li><span class="opt-box"></span>Vysoké / dlouhé</li>
+    <li><span class="opt-box"></span>Je mi to jedno</li>
+  </ul>
+</div>
+
+<div class="question">
+  <p><span class="q-number">8.</span><span class="q-text">Jak důležitý je pro tebe PROTISKLUZ</span> (aby štulpna / ponožka nesjížděla a držela v kopačce)?</p>
+  <div class="scale-row">
+    <span class="step"><span class="opt-box"></span>Velmi důležitý</span>
+    <span class="step"><span class="opt-box"></span>Spíše důležitý</span>
+    <span class="step"><span class="opt-box"></span>Neutrální</span>
+    <span class="step"><span class="opt-box"></span>Spíše nedůležitý</span>
+    <span class="step"><span class="opt-box"></span>Vůbec to neřeším</span>
+  </div>
+</div>
+
+<div class="question">
+  <p><span class="q-number">9.</span><span class="q-text">Líbila by se ti štulpna s OTVORY NA LÝTKU?</span></p>
+  <ul class="options">
+    <li><span class="opt-box"></span>Ano</li>
+    <li><span class="opt-box"></span>Ne</li>
+    <li><span class="opt-box"></span>Nevím</li>
+  </ul>
+  <div class="conditional">
+    <span class="q-text">Pokud ANO — proč?</span>
+    <ul class="options" style="margin-bottom:0;">
+      <li><span class="opt-box"></span>Je to cool / styl</li>
+      <li><span class="opt-box"></span>Pomáhá proti křečím / větší pohodlí</li>
+      <li><span class="opt-box"></span>Obojí</li>
+      <li><span class="opt-box"></span>Jiný důvod: <span class="write-line"></span></li>
+    </ul>
+  </div>
+</div>
+
+<div class="question">
+  <p><span class="q-number">10.</span><span class="q-text">Ocenil bys štulpnu / návlek s VNITŘNÍ KAPSOU NA CHRÁNIČ</span> (chránič drží bez tejpování)?</p>
+  <ul class="options">
+    <li><span class="opt-box"></span>Ano</li>
+    <li><span class="opt-box"></span>Ne</li>
+    <li><span class="opt-box"></span>Je mi to jedno</li>
+  </ul>
+</div>
+
+<div class="question">
+  <p><span class="q-number">11.</span><span class="q-text">Ocenil bys štulpny s ORIGINÁLNÍM DESIGNEM?</span></p>
+  <ul class="options">
+    <li><span class="opt-box"></span>Ano</li>
+    <li><span class="opt-box"></span>Spíše ano</li>
+    <li><span class="opt-box"></span>Spíše ne</li>
+    <li><span class="opt-box"></span>Ne</li>
+  </ul>
+</div>
+
+<h2><span class="sec">D</span>Návlek vs. klasika</h2>
+<p class="note">Tahle sekce je jen pro ty, co nosí (nebo zkoušeli) NÁVLEK. Pokud návlek neřešíš, přeskoč na sekci E.</p>
+
+<div class="question">
+  <p><span class="q-number">12.</span><span class="q-text">Proč nosíš návlek?</span> <span class="note">(vyber hlavní důvod)</span></p>
+  <ul class="options">
+    <li><span class="opt-box"></span>Klasická štulpna nemá protiskluz</li>
+    <li><span class="opt-box"></span>Používám vlastní tréninkové ponožky, co mi sedí</li>
+    <li><span class="opt-box"></span>Je pohodlnější</li>
+    <li><span class="opt-box"></span>Vypadá líp</li>
+    <li><span class="opt-box"></span>Jiný důvod: <span class="write-line"></span></li>
+  </ul>
+</div>
+
+<div class="question">
+  <p><span class="q-number">13.</span><span class="q-text">Kdyby měla klasická štulpna protiskluz, zůstal bys u návleku?</span></p>
+  <ul class="options">
+    <li><span class="opt-box"></span>Ano</li>
+    <li><span class="opt-box"></span>Ne</li>
+    <li><span class="opt-box"></span>Nevím</li>
+  </ul>
+</div>
+
+<h2><span class="sec">E</span>Cena &amp; vize</h2>
+
+<div class="question">
+  <p><span class="q-number">14.</span><span class="q-text">Kolik bys byl ochotný zaplatit za prémiovou štulpnu s originálním designem?</span></p>
+  <ul class="options">
+    <li><span class="opt-box"></span>do 299 Kč</li>
+    <li><span class="opt-box"></span>300–499 Kč</li>
+    <li><span class="opt-box"></span>500–599 Kč</li>
+    <li><span class="opt-box"></span>600–799 Kč</li>
+    <li><span class="opt-box"></span>800 Kč a více</li>
+  </ul>
+</div>
+
+<div class="question">
+  <p><span class="q-number">15.</span><span class="q-text">Kdybys mohl navrhnout IDEÁLNÍ štulpny — jak by vypadaly?</span></p>
+  <p class="note">Materiál, střih, funkce, design… cokoliv tě napadne.</p>
+  <span class="write-block"></span>
+  <span class="write-block"></span>
+  <span class="write-block"></span>
+</div>
+
+<div class="closer">
+  Dík za tvůj čas — každá odpověď nám pomáhá postavit lepší štulpnu. 💪<br>
+  <span class="brush">Holy Socks.</span><br>
+  eldee.cz
+</div>
+
+</div>
+</body>
+</html>

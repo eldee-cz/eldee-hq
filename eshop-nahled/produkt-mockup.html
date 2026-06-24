@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>eldee — karta produktu / konfigurátor (mockup)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@400;700;900&family=Caveat+Brush&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0A0A0A;        /* Carbon Black */
+    --ink-soft:#141414;
+    --ink-card:#181818;
+    --bone:#F5F5F0;       /* Off-white */
+    --ash:#9a9a92;        /* tlumený text */
+    --blood:#B91C1C;      /* Blood Red */
+    --blood-light:#DC2626;
+    --gold:#C9A227;       /* Burnished Gold */
+    --line:rgba(245,245,240,.12);
+    --maxw:1180px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--ink);color:var(--bone);
+    font-family:'Space Grotesk',system-ui,sans-serif;
+    line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+  }
+  h1,h2,h3,.display{font-family:'Big Shoulders Display',sans-serif;font-weight:900;line-height:.95;letter-spacing:-.01em;text-transform:uppercase}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 22px}
+  .gold{color:var(--gold)}
+
+  .mock-note{background:var(--gold);color:var(--ink);text-align:center;font-size:12.5px;font-weight:700;letter-spacing:.04em;padding:8px 14px}
+
+  /* HEADER (zjednodušený, navazuje na homepage) */
+  header{position:sticky;top:0;z-index:50;background:rgba(10,10,10,.96);backdrop-filter:blur(10px);border-bottom:1.5px solid var(--gold)}
+  .head-row{display:flex;align-items:center;justify-content:space-between;height:68px;gap:18px}
+  .brand{display:flex;align-items:center;gap:12px}
+  .brand .halo{width:30px;height:9px;border:3px solid var(--gold);border-radius:50%;margin-bottom:-3px}
+  .brand .name{font-family:'Big Shoulders Display';font-weight:900;font-size:34px;text-transform:lowercase;letter-spacing:-.02em;color:var(--bone)}
+  .brand .name .dot{color:var(--blood)}
+  .brand .name .cz{color:var(--gold);font-size:.62em;letter-spacing:0}
+  .head-actions{display:flex;align-items:center;gap:10px}
+  .icobtn{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:600;border:1.5px solid rgba(201,162,39,.6);padding:11px 16px;border-radius:40px;transition:.2s;cursor:pointer;color:var(--bone);min-height:44px}
+  .icobtn:hover{border-color:var(--gold);color:var(--gold)}
+  .icobtn svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8}
+
+  /* BREADCRUMB */
+  .crumb{padding:18px 0 4px;font-size:13px;color:var(--ash);letter-spacing:.02em}
+  .crumb a:hover{color:var(--gold)}
+  .crumb span{margin:0 7px;opacity:.5}
+
+  /* PRODUKT LAYOUT */
+  .pd{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:46px;padding:14px 0 56px;align-items:start}
+
+  /* GALERIE */
+  .gallery{position:sticky;top:90px}
+  .stage{position:relative;background:radial-gradient(ellipse 70% 60% at 50% 42%,rgba(201,162,39,.14),transparent 64%),var(--ink-card);
+    border:1px solid var(--line);border-radius:22px;aspect-ratio:1/1;display:grid;place-items:center;overflow:hidden}
+  .badge{position:absolute;top:16px;left:16px;background:var(--blood);color:#fff;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:7px 13px;border-radius:30px;z-index:2}
+  /* placeholder štulpna */
+  .sock{width:150px;height:330px;border-radius:54px 54px 16px 16px;position:relative;box-shadow:0 26px 60px rgba(0,0,0,.55);transition:.3s}
+  .sock .cuff{position:absolute;top:0;left:0;right:0;height:46px;border-radius:54px 54px 0 0}
+  .sock .holes{position:absolute;top:108px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;gap:20px}
+  .sock .holes b{display:block;width:15px;height:24px;border-radius:50%;background:var(--ink);opacity:.85}
+  .sock .holes.off{display:none}
+  .sock .logo{position:absolute;top:62px;left:50%;transform:translateX(-50%);width:20px;height:20px;border-radius:4px;display:grid;place-items:center;font-family:'Big Shoulders Display';font-weight:900;font-size:11px}
+  .sock .grip{position:absolute;bottom:14px;left:0;right:0;height:40px;border-radius:0 0 16px 16px;background-image:radial-gradient(circle 2.5px at 50% 50%,var(--ash) 40%,transparent 42%);background-size:11px 11px;opacity:0;transition:.25s}
+  .sock .grip.on{opacity:.65}
+  .thumbs{display:flex;gap:10px;margin-top:14px}
+  .thumb{flex:1;aspect-ratio:1/1;background:var(--ink-card);border:1.5px solid var(--line);border-radius:14px;display:grid;place-items:center;cursor:pointer;transition:.2s;color:var(--ash);font-size:11px;text-transform:uppercase;letter-spacing:.1em}
+  .thumb:hover,.thumb.active{border-color:var(--gold);color:var(--gold)}
+  .ph-cap{text-align:center;font-size:10px;color:var(--ash);letter-spacing:.18em;text-transform:uppercase;opacity:.55;margin-top:12px}
+
+  /* KONFIGURÁTOR (pravý sloupec) */
+  .info h1{font-size:clamp(34px,5vw,52px);margin-bottom:6px}
+  .sub{color:var(--ash);font-size:16px;margin-bottom:14px}
+  .stars{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ash);margin-bottom:18px}
+  .stars .s{color:var(--gold);letter-spacing:2px;font-size:16px}
+
+  .price-wrap{display:flex;align-items:baseline;gap:12px;padding:16px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-bottom:8px}
+  .price{font-family:'Big Shoulders Display';font-weight:900;font-size:46px;color:var(--gold);line-height:1}
+  .price small{font-size:18px}
+  .price-note{font-size:13px;color:var(--ash)}
+
+  .opt{padding:18px 0;border-bottom:1px solid var(--line)}
+  .opt-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+  .opt-label{font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--bone)}
+  .opt-label .pick{color:var(--gold);margin-left:7px;letter-spacing:0;text-transform:none;font-weight:600}
+  .size-guide{font-size:12.5px;color:var(--ash);text-decoration:underline;cursor:pointer}
+  .size-guide:hover{color:var(--gold)}
+
+  /* segmenty (střih) */
+  .seg{display:flex;gap:10px;flex-wrap:wrap}
+  .seg button{flex:1;min-width:130px;min-height:62px;background:var(--ink-card);border:1.5px solid var(--line);border-radius:14px;color:var(--bone);cursor:pointer;
+    font-family:inherit;text-align:left;padding:11px 15px;transition:.2s}
+  .seg button .t{display:block;font-weight:700;font-size:15px}
+  .seg button .d{display:block;font-size:12px;color:var(--ash);margin-top:2px}
+  .seg button:hover{border-color:rgba(201,162,39,.6)}
+  .seg button.sel{border-color:var(--gold);background:rgba(201,162,39,.08)}
+
+  /* barvy */
+  .swatches{display:flex;gap:14px;flex-wrap:wrap}
+  .sw{width:46px;height:46px;border-radius:50%;cursor:pointer;border:2.5px solid transparent;box-shadow:0 0 0 1.5px var(--line);transition:.2s;position:relative}
+  .sw:hover{transform:scale(1.06)}
+  .sw.sel{border-color:var(--gold);box-shadow:0 0 0 1.5px var(--gold)}
+
+  /* velikosti */
+  .sizes{display:flex;gap:10px;flex-wrap:wrap}
+  .sizes button{min-width:64px;min-height:50px;padding:0 14px;background:var(--ink-card);border:1.5px solid var(--line);border-radius:12px;color:var(--bone);
+    font-family:inherit;font-weight:600;font-size:14px;cursor:pointer;transition:.2s}
+  .sizes button:hover{border-color:rgba(201,162,39,.6)}
+  .sizes button.sel{border-color:var(--gold);background:rgba(201,162,39,.08);color:var(--gold)}
+
+  /* doplňky (toggle s příplatkem) */
+  .addon{display:flex;align-items:center;gap:14px;background:var(--ink-card);border:1.5px solid var(--line);border-radius:14px;padding:14px 16px;cursor:pointer;transition:.2s;margin-top:10px}
+  .addon:hover{border-color:rgba(201,162,39,.6)}
+  .addon.on{border-color:var(--gold);background:rgba(201,162,39,.07)}
+  .addon .toggle{flex:0 0 auto;width:48px;height:28px;border-radius:20px;background:rgba(245,245,240,.18);position:relative;transition:.25s}
+  .addon .toggle::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:var(--bone);transition:.25s}
+  .addon.on .toggle{background:var(--blood)}
+  .addon.on .toggle::after{transform:translateX(20px)}
+  .addon .meta{flex:1;min-width:0}
+  .addon .meta .t{font-weight:700;font-size:15px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .addon .meta .d{font-size:12.5px;color:var(--ash);margin-top:2px}
+  .addon .plus{flex:0 0 auto;font-family:'Big Shoulders Display';font-weight:900;color:var(--gold);font-size:18px;white-space:nowrap}
+
+  /* rozpad ceny */
+  .breakdown{margin:18px 0 4px;font-size:13.5px}
+  .breakdown .row{display:flex;justify-content:space-between;padding:5px 0;color:var(--ash)}
+  .breakdown .row.base{color:var(--bone)}
+  .breakdown .row .v{font-variant-numeric:tabular-nums}
+  .breakdown .tot{display:flex;justify-content:space-between;padding:11px 0 0;margin-top:6px;border-top:1px dashed var(--line);font-weight:700;color:var(--bone);font-size:16px}
+  .breakdown .tot .v{color:var(--gold);font-family:'Big Shoulders Display';font-size:24px}
+
+  /* CTA */
+  .btn-cart{width:100%;display:flex;align-items:center;justify-content:center;gap:11px;background:var(--blood);color:#fff;border:none;
+    font-family:inherit;font-weight:700;font-size:17px;padding:19px;border-radius:48px;cursor:pointer;transition:.2s;margin-top:14px;letter-spacing:.01em}
+  .btn-cart:hover{background:var(--blood-light);transform:translateY(-2px)}
+  .btn-cart svg{width:21px;height:21px;stroke:currentColor;fill:none;stroke-width:1.9}
+
+  .mini-trust{display:flex;gap:18px;flex-wrap:wrap;justify-content:center;margin-top:16px;font-size:12.5px;color:var(--ash)}
+  .mini-trust span{display:flex;align-items:center;gap:6px}
+  .mini-trust .gold{color:var(--gold)}
+
+  /* AKORDEON */
+  .acc{margin-top:18px;border-top:1px solid var(--line)}
+  .acc-item{border-bottom:1px solid var(--line)}
+  .acc-head{width:100%;background:none;border:none;color:var(--bone);font-family:'Big Shoulders Display';font-weight:700;text-transform:uppercase;letter-spacing:.02em;
+    font-size:17px;padding:17px 2px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;min-height:56px}
+  .acc-head .pm{color:var(--gold);font-size:22px;transition:.2s}
+  .acc-item.open .acc-head .pm{transform:rotate(45deg)}
+  .acc-body{display:none;padding:0 2px 18px;font-size:14.5px;color:var(--ash)}
+  .acc-item.open .acc-body{display:block}
+
+  /* DÍRY ZÁMĚRNĚ sekce */
+  .moat{background:var(--ink-soft);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:54px 0}
+  .moat-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center}
+  .moat h2{font-size:clamp(30px,4.5vw,46px);margin-bottom:14px}
+  .moat h2 .gold{display:block}
+  .moat p{color:var(--ash);font-size:15.5px;margin-bottom:14px;max-width:46ch}
+  .moat .tags{display:flex;gap:12px;flex-wrap:wrap;margin-top:18px}
+  .moat .tag{border:1.5px solid var(--gold);color:var(--gold);border-radius:30px;padding:9px 18px;font-size:13px;font-weight:600}
+  .moat .visual{min-height:380px;background:radial-gradient(ellipse 58% 60% at 50% 44%,rgba(201,162,39,.18),transparent 66%),var(--ink-card);
+    border:1px solid var(--line);border-radius:20px;display:grid;place-items:center;overflow:hidden;padding:22px}
+  .moat .visual img{max-height:400px;width:auto;max-width:100%;display:block;filter:drop-shadow(0 18px 32px rgba(0,0,0,.5))}
+
+  /* SHOPTET realita pás */
+  .shoptet{padding:50px 0 70px}
+  .shoptet h2{font-size:26px;margin-bottom:6px}
+  .shoptet .lead{color:var(--ash);font-size:14.5px;margin-bottom:24px;max-width:64ch}
+  .stcols{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .stcol{background:var(--ink-card);border:1px solid var(--line);border-radius:16px;padding:20px}
+  .stcol .h{font-weight:700;font-size:14px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+  .stcol ul{list-style:none;font-size:13.5px;color:var(--ash);line-height:1.5}
+  .stcol li{padding:6px 0 6px 18px;position:relative;border-bottom:1px solid rgba(245,245,240,.06)}
+  .stcol li:last-child{border:none}
+  .stcol li::before{content:"";position:absolute;left:0;top:13px;width:6px;height:6px;border-radius:50%}
+  .dot-g{width:11px;height:11px;border-radius:50%;background:#5fb364;display:inline-block}
+  .dot-y{width:11px;height:11px;border-radius:50%;background:var(--gold);display:inline-block}
+  .dot-r{width:11px;height:11px;border-radius:50%;background:var(--blood-light);display:inline-block}
+  .stcol.g li::before{background:#5fb364}
+  .stcol.y li::before{background:var(--gold)}
+  .stcol.r li::before{background:var(--blood-light)}
+
+  footer{border-top:1px solid var(--line);padding:30px 0;text-align:center;color:var(--ash);font-size:13px}
+
+  /* DORUČENÍ */
+  .ship{display:flex;align-items:center;gap:10px;font-size:13.5px;color:var(--bone);padding:13px 0 4px;border-bottom:1px solid var(--line)}
+  .ship strong{color:#6cc274}
+  .dot-live{flex:0 0 auto;width:9px;height:9px;border-radius:50%;background:#6cc274;animation:pulse 2.1s infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(108,194,116,.55)}70%{box-shadow:0 0 0 8px rgba(108,194,116,0)}100%{box-shadow:0 0 0 0 rgba(108,194,116,0)}}
+
+  /* POČET KUSŮ */
+  .qty-row{display:flex;align-items:center;justify-content:space-between;margin-top:18px;gap:14px}
+  .qty-label{font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
+  .qty{display:flex;align-items:center;border:1.5px solid var(--line);border-radius:40px;overflow:hidden}
+  .qty button{width:50px;height:50px;background:var(--ink-card);border:none;color:var(--bone);font-size:24px;line-height:1;cursor:pointer;font-family:inherit;transition:.2s}
+  .qty button:hover{background:rgba(201,162,39,.14);color:var(--gold)}
+  .qty button:disabled{opacity:.35;cursor:not-allowed}
+  .qty .v{width:62px;text-align:center;font-weight:700;font-size:17px;font-variant-numeric:tabular-nums;background:transparent;border:none;color:var(--bone);font-family:inherit;-moz-appearance:textfield;height:50px}
+  .qty .v::-webkit-outer-spin-button,.qty .v::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+  .qty .v:focus{outline:none;color:var(--gold)}
+  .stock-hint{font-size:11px;color:var(--ash);font-weight:600;letter-spacing:0;text-transform:none;margin-left:8px}
+
+  /* MODAL (velikostní tabulka) */
+  .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.78);backdrop-filter:blur(4px);z-index:100;display:none;align-items:center;justify-content:center;padding:20px}
+  .modal-overlay.open{display:flex}
+  .modal{background:var(--ink-soft);border:1.5px solid var(--gold);border-radius:20px;max-width:540px;width:100%;padding:30px;position:relative;max-height:90vh;overflow:auto}
+  .modal-x{position:absolute;top:14px;right:14px;width:44px;height:44px;border-radius:50%;background:var(--ink-card);border:1px solid var(--line);color:var(--bone);font-size:15px;cursor:pointer;transition:.2s}
+  .modal-x:hover{border-color:var(--gold);color:var(--gold)}
+  .modal h3{font-size:30px;margin-bottom:8px}
+  .modal-lead{color:var(--ash);font-size:14px;margin-bottom:20px}
+  .size-table{width:100%;border-collapse:collapse;font-size:14px}
+  .size-table th{text-align:left;color:var(--gold);font-weight:700;padding:11px 8px;border-bottom:1.5px solid var(--line);font-size:11.5px;text-transform:uppercase;letter-spacing:.06em}
+  .size-table td{padding:13px 8px;border-bottom:1px solid rgba(245,245,240,.07);color:var(--bone)}
+  .size-table tr:last-child td{border-bottom:none}
+  .modal-note{color:var(--ash);font-size:12.5px;margin-top:18px;font-style:italic}
+
+  /* MOBIL */
+  @media(max-width:860px){
+    .pd{grid-template-columns:1fr;gap:26px}
+    .gallery{position:static}
+    .moat-grid{grid-template-columns:1fr;gap:24px}
+    .moat .visual{order:-1}
+    .stcols{grid-template-columns:1fr}
+    .brand .name{font-size:28px}
+    .icobtn span.lbl{display:none}
+    .icobtn{padding:11px 13px}
+  }
+</style>
+</head>
+<body>
+
+<div class="mock-note">🦥 MOCKUP — KONFIGURÁTOR (vize FÁZE 2, až bude kapitál na sklad a variabilitu). Launch verze = produkt-drop-mockup.html. Ceny orientační.</div>
+
+<header>
+  <div class="wrap head-row">
+    <a class="brand" href="#">
+      <span class="halo"></span>
+      <span class="name">eldee<span class="dot">.</span><span class="cz">cz</span></span>
+    </a>
+    <div class="head-actions">
+      <a class="icobtn" href="#">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+        <span class="lbl">Hledat</span>
+      </a>
+      <a class="icobtn" href="#">
+        <svg viewBox="0 0 24 24"><path d="M6 2h12l-1 7H7L6 2z"/><path d="M9 9v11l3-2 3 2V9"/></svg>
+        <span class="lbl">Košík (0)</span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <nav class="crumb">
+    <a href="#">Štulpny</a><span>›</span><a href="#">Drop 001</a><span>›</span>Postav si svůj pár
+  </nav>
+</div>
+
+<div class="wrap">
+  <div class="pd">
+
+    <!-- GALERIE -->
+    <div class="gallery">
+      <div class="stage">
+        <div class="badge" id="badge">Signature</div>
+        <div class="sock" id="sock">
+          <div class="cuff" id="cuff"></div>
+          <div class="logo" id="logo">LD</div>
+          <div class="holes" id="holes"><b></b><b></b><b></b></div>
+          <div class="grip" id="grip"></div>
+        </div>
+      </div>
+      <div class="thumbs">
+        <div class="thumb active">Lýtko</div>
+        <div class="thumb">Detail děr</div>
+        <div class="thumb">Chodidlo</div>
+        <div class="thumb">Na noze</div>
+      </div>
+      <div class="ph-cap">📸 Placeholder — čeká na produktové fotky z prototypu</div>
+    </div>
+
+    <!-- KONFIGURÁTOR -->
+    <div class="info">
+      <h1>Postav si svůj pár</h1>
+      <p class="sub">Zápasová štulpna eldee. Ty rozhoduješ, jak vypadá.</p>
+      <div class="stars">
+        <span class="s">✦</span>
+        <span>Žádné recenze — zatím. Drop 001 právě startuje, tvoje bude první.</span>
+      </div>
+
+      <div class="price-wrap">
+        <div class="price"><span id="priceMain">599</span> <small>Kč</small></div>
+        <div class="price-note">vč. DPH · cena za pár</div>
+      </div>
+
+      <div class="ship">
+        <span class="dot-live"></span>
+        <span><strong>Skladem.</strong></span>
+      </div>
+
+      <!-- STŘIH / DÍRY -->
+      <div class="opt">
+        <div class="opt-head">
+          <span class="opt-label">Střih <span class="pick" id="pickStrih">Signature — díry na lýtku</span></span>
+        </div>
+        <div class="seg" id="segStrih">
+          <button data-strih="signature" class="sel">
+            <span class="t">Signature</span>
+            <span class="d">Díry na lýtku. Náš podpis.</span>
+          </button>
+          <button data-strih="clean">
+            <span class="t">Clean</span>
+            <span class="d">Bez děr. Decentní, klubová.</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- BARVA -->
+      <div class="opt">
+        <div class="opt-head">
+          <span class="opt-label">Barva <span class="pick" id="pickBarva">Off-white</span></span>
+        </div>
+        <div class="swatches" id="swatches">
+          <div class="sw sel" data-barva="Off-white" style="background:#F5F5F0"></div>
+          <div class="sw" data-barva="Carbon" style="background:#0A0A0A;box-shadow:0 0 0 1.5px rgba(245,245,240,.3)"></div>
+          <div class="sw" data-barva="Blood Red" style="background:#B91C1C"></div>
+          <div class="sw" data-barva="Gold (limitka)" style="background:#C9A227"></div>
+        </div>
+      </div>
+
+      <!-- VELIKOST -->
+      <div class="opt">
+        <div class="opt-head">
+          <span class="opt-label">Velikost <span class="pick" id="pickVel">—</span></span>
+          <span class="size-guide">📏 Tabulka velikostí</span>
+        </div>
+        <div class="sizes" id="sizes">
+          <button data-vel="31–34">31–34</button>
+          <button data-vel="35–38">35–38</button>
+          <button data-vel="39–42">39–42</button>
+          <button data-vel="43–46">43–46</button>
+        </div>
+      </div>
+
+      <!-- DOPLŇKY -->
+      <div class="opt">
+        <div class="opt-head">
+          <span class="opt-label">Vychytávky navíc</span>
+        </div>
+
+        <div class="addon" data-addon="grip" data-cena="49">
+          <span class="toggle"></span>
+          <span class="meta">
+            <span class="t">Protiskluz chodidla <span class="gold">GRIP</span></span>
+            <span class="d">Silikonové tečky v chodidle — noha nejede v kopačce. (à la Dedoles, ale po našem.)</span>
+          </span>
+          <span class="plus">+49 Kč</span>
+        </div>
+
+        <div class="addon" data-addon="kapsa" data-cena="39">
+          <span class="toggle"></span>
+          <span class="meta">
+            <span class="t">Vnitřní kapsa na chránič</span>
+            <span class="d">Kapsa na holenní chránič přímo ve štulpně. Hero feature z dotazníku.</span>
+          </span>
+          <span class="plus">+39 Kč</span>
+        </div>
+      </div>
+
+      <!-- ROZPAD CENY -->
+      <div class="breakdown" id="breakdown">
+        <div class="row base"><span>Štulpna (základ)</span><span class="v">599 Kč</span></div>
+        <!-- příplatky se doplní JS -->
+        <div class="tot"><span>Celkem</span><span class="v" id="totVal">599 Kč</span></div>
+      </div>
+
+      <div class="qty-row">
+        <span class="qty-label">Počet párů <span class="stock-hint" id="stockHint">skladem 48</span></span>
+        <div class="qty">
+          <button id="qtyMinus" aria-label="Méně" disabled>–</button>
+          <input class="v" id="qtyVal" type="number" min="1" value="1" inputmode="numeric" aria-label="Počet párů">
+          <button id="qtyPlus" aria-label="Více">+</button>
+        </div>
+      </div>
+
+      <button class="btn-cart" id="addBtn">
+        <svg viewBox="0 0 24 24"><circle cx="9" cy="21" r="1.4"/><circle cx="18" cy="21" r="1.4"/><path d="M2 3h3l2.5 13h11l2-9H6"/></svg>
+        <span id="addBtnTxt">Vyber velikost</span>
+      </button>
+
+      <div class="mini-trust">
+        <span><span class="gold">✓</span> Doprava od 79 Kč</span>
+        <span><span class="gold">✓</span> Vrácení do 14 dní</span>
+        <span><span class="gold">✓</span> Vyrobeno v Česku</span>
+      </div>
+
+      <!-- AKORDEON -->
+      <div class="acc">
+        <div class="acc-item open">
+          <button class="acc-head">Popis <span class="pm">+</span></button>
+          <div class="acc-body">Zápasová štulpna z pořádného materiálu. Postav si přesně takovou, jakou chceš — od střihu po protiskluz. Díry na lýtku, kapsa na chránič. Detaily, co jinde nenajdeš.</div>
+        </div>
+        <div class="acc-item">
+          <button class="acc-head">Materiál &amp; péče <span class="pm">+</span></button>
+          <div class="acc-body">Dvě části, dva úkoly. <strong>Chodidlo z merino vlny</strong> — hřeje, dýchá, odvádí pot a nedrží zápach (oceníš v šatně po zápase). <strong>Návlek na lýtko</strong> z pružného sportovního úpletu, co drží tvar a sedí. Praní na 30 °C naruby, nesušit v sušičce, nežehlit přes potisk. Přesné složení doladíme po vzorcích od výrobce.</div>
+        </div>
+        <div class="acc-item">
+          <button class="acc-head">Doprava &amp; vrácení <span class="pm">+</span></button>
+          <div class="acc-body">Doprava od 79 Kč, nad 2 páry zdarma. Platba kartou i na dobírku. Vrácení do 14 dní i bez důvodu — žádné kázání.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- DÍRY. ZÁMĚRNĚ. -->
+<section class="moat">
+  <div class="wrap moat-grid">
+    <div>
+      <h2>Díry. <span class="gold">Záměrně.</span></h2>
+      <p>Eldee našel <strong>díru na trhu</strong>. Tak ji pořádně obšil — ať ti na štulpnách vydrží co nejdéle a v top kvalitě.</p>
+      <p>Někdo tvrdí, že prostřižení na lýtkách dá větší ránu. Jiný, že nebudeš mít křeče. Ať už je pravda jakákoliv — chceš to riskovat?</p>
+    </div>
+    <div class="visual"><img src="maskot/eldee-fotbalista-transparent.png" alt="Eldee — maskot ve fotbalovém dresu se štulpnami eldee"></div>
+  </div>
+</section>
+
+<!-- SHOPTET REALITA -->
+<section class="shoptet">
+  <div class="wrap">
+    <h2 class="gold">Shoptet realita konfigurátoru</h2>
+    <p class="lead">Tahle karta je vizuální cíl. Tady je upřímně, co z toho Shoptet zvládne sám zdarma, co chce doplněk a co je výrobní rozhodnutí. Ber to jako mapu, ne jako stopku.</p>
+    <div class="stcols">
+      <div class="stcol g">
+        <div class="h"><span class="dot-g"></span> Naklikáš zdarma (varianty)</div>
+        <ul>
+          <li>Výběr <strong>barvy</strong> (swatche) — nativní varianty</li>
+          <li>Výběr <strong>velikosti</strong> — nativní varianty</li>
+          <li>Výběr <strong>střihu</strong> Signature/Clean — varianta nebo 2 produkty</li>
+          <li>Cena kombinace, sklad, fotky per varianta</li>
+          <li>Štítek „Signature / Limitka", trust pás, akordeon</li>
+        </ul>
+      </div>
+      <div class="stcol y">
+        <div class="h"><span class="dot-y"></span> Chce doplněk / vlastní JS</div>
+        <ul>
+          <li><strong>Živý rozpad ceny</strong> (599 + 49 + 39 →) jako čítač</li>
+          <li><strong>Toggly s příplatkem</strong> (protiskluz, kapsa) s živým sčítáním</li>
+          <li>Náhled štulpny, co se mění podle voleb</li>
+          <li>Řešení: placený konfigurátor z Shoptet Apps, nebo custom JS na kartě</li>
+        </ul>
+      </div>
+      <div class="stcol r">
+        <div class="h"><span class="dot-r"></span> Pozor — výrobní past</div>
+        <ul>
+          <li>Každá osa <strong>násobí počet SKU</strong> (4×3×2×2×2 = 96 ks)</li>
+          <li>96 variant = 96× sklad, výroba, evidence</li>
+          <li><strong>Doporučení:</strong> start = díry/barva/velikost</li>
+          <li>Protiskluz + kapsa až 2. vlna, nebo jako appka</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">eldee — karta produktu (mockup v1) · navazuje na homepage-mockup.html · 2026-06-20</div>
+</footer>
+
+<!-- MODAL: tabulka velikostí -->
+<div class="modal-overlay" id="sizeModal">
+  <div class="modal">
+    <button class="modal-x" id="sizeClose" aria-label="Zavřít">✕</button>
+    <h3>Tabulka velikostí</h3>
+    <p class="modal-lead">Štulpny jsou pružné a sednou v rámci rozsahu. Když jsi na hraně, ber menší — líp drží.</p>
+    <table class="size-table">
+      <thead><tr><th>Velikost</th><th>EU bota</th><th>Délka chodidla</th><th>Sedí na</th></tr></thead>
+      <tbody>
+        <tr><td>31–34</td><td>31–34</td><td>20–22 cm</td><td>Junior</td></tr>
+        <tr><td>35–38</td><td>35–38</td><td>22–24 cm</td><td>Dorost / menší dospělý</td></tr>
+        <tr><td>39–42</td><td>39–42</td><td>24,5–26,5 cm</td><td>Nejčastější</td></tr>
+        <tr><td>43–46</td><td>43–46</td><td>27–29 cm</td><td>Velká noha</td></tr>
+      </tbody>
+    </table>
+    <p class="modal-note">Hodnoty jsou orientační — finální tabulku doladíme po vzorcích od výrobce.</p>
+  </div>
+</div>
+
+<script>
+  const BASE = 599;
+  const state = { strih:'signature', barva:'Off-white', vel:null, grip:false, kapsa:false, qty:1 };
+  const parSlovo = n => n>=5 ? 'párů' : 'páry';
+
+  // --- STŘIH ---
+  document.querySelectorAll('#segStrih button').forEach(b=>{
+    b.addEventListener('click',()=>{
+      document.querySelectorAll('#segStrih button').forEach(x=>x.classList.remove('sel'));
+      b.classList.add('sel');
+      state.strih=b.dataset.strih;
+      const sig = state.strih==='signature';
+      document.getElementById('pickStrih').textContent = sig ? 'Signature — díry na lýtku' : 'Clean — bez děr';
+      document.getElementById('badge').textContent = sig ? 'Signature' : 'Clean';
+      document.getElementById('holes').classList.toggle('off', !sig);
+      render();
+    });
+  });
+
+  // --- BARVA ---
+  const sockEl=document.getElementById('sock'), cuffEl=document.getElementById('cuff'), logoEl=document.getElementById('logo');
+  const colorMap={'Off-white':'#F5F5F0','Carbon':'#1c1c1c','Blood Red':'#B91C1C','Gold (limitka)':'#C9A227'};
+  function paintSock(){
+    const c=colorMap[state.barva];
+    sockEl.style.background=c;
+    const dark = (state.barva==='Carbon');
+    cuffEl.style.background = dark ? '#B91C1C' : 'rgba(10,10,10,.12)';
+    logoEl.style.background = (state.barva==='Off-white')?'#0A0A0A':'#F5F5F0';
+    logoEl.style.color = (state.barva==='Off-white')?'#C9A227':'#0A0A0A';
+  }
+  document.querySelectorAll('#swatches .sw').forEach(s=>{
+    s.addEventListener('click',()=>{
+      document.querySelectorAll('#swatches .sw').forEach(x=>x.classList.remove('sel'));
+      s.classList.add('sel');
+      state.barva=s.dataset.barva;
+      document.getElementById('pickBarva').textContent=state.barva;
+      paintSock();
+    });
+  });
+
+  // --- VELIKOST ---
+  document.querySelectorAll('#sizes button').forEach(b=>{
+    b.addEventListener('click',()=>{
+      document.querySelectorAll('#sizes button').forEach(x=>x.classList.remove('sel'));
+      b.classList.add('sel');
+      state.vel=b.dataset.vel;
+      document.getElementById('pickVel').textContent=state.vel;
+      render();
+    });
+  });
+
+  // --- DOPLŇKY ---
+  document.querySelectorAll('.addon').forEach(a=>{
+    a.addEventListener('click',()=>{
+      const key=a.dataset.addon;
+      state[key]=!state[key];
+      a.classList.toggle('on',state[key]);
+      if(key==='grip') document.getElementById('grip').classList.toggle('on',state.grip);
+      render();
+    });
+  });
+
+  // --- RENDER CENY ---
+  function render(){
+    let perPair=BASE;
+    const extras=[];
+    if(state.grip){ perPair+=49; extras.push(['Protiskluz chodidla GRIP',49]); }
+    if(state.kapsa){ perPair+=39; extras.push(['Vnitřní kapsa na chránič',39]); }
+
+    // rozpad ceny (za pár)
+    const bd=document.getElementById('breakdown');
+    bd.querySelectorAll('.row:not(.base)').forEach(r=>r.remove());
+    const tot=bd.querySelector('.tot');
+    extras.forEach(([t,v])=>{
+      const row=document.createElement('div');
+      row.className='row';
+      row.innerHTML=`<span>+ ${t}</span><span class="v">${v} Kč</span>`;
+      bd.insertBefore(row,tot);
+    });
+    document.getElementById('priceMain').textContent=perPair;
+    document.getElementById('totVal').textContent=perPair+' Kč';
+
+    // CTA stav (celkem = za pár × počet)
+    const grand=perPair*state.qty;
+    const btn=document.getElementById('addBtn'), txt=document.getElementById('addBtnTxt');
+    if(!state.vel){ txt.textContent='Vyber velikost'; btn.style.opacity=.6; }
+    else {
+      const suffix = state.qty===1 ? '' : ` · ${state.qty} ${parSlovo(state.qty)}`;
+      txt.textContent=`Do košíku${suffix} — ${grand} Kč`;
+      btn.style.opacity=1;
+    }
+  }
+
+  // --- POČET KUSŮ (strop = skladová zásoba, ne pevné číslo) ---
+  const STOCK = 48; // demo hodnota — v Shoptetu = reálný stav skladu
+  const qtyVal=document.getElementById('qtyVal'), qtyMinus=document.getElementById('qtyMinus'), qtyPlus=document.getElementById('qtyPlus');
+  qtyVal.max = STOCK;
+  function setQty(n){
+    if(isNaN(n)) n=1;
+    state.qty=Math.max(1,Math.min(STOCK,Math.floor(n)));
+    qtyVal.value=state.qty;
+    qtyMinus.disabled=state.qty<=1;
+    qtyPlus.disabled=state.qty>=STOCK;
+    document.getElementById('stockHint').textContent = state.qty>=STOCK ? 'max skladem' : 'skladem '+STOCK;
+    render();
+  }
+  qtyMinus.addEventListener('click',()=>setQty(state.qty-1));
+  qtyPlus.addEventListener('click',()=>setQty(state.qty+1));
+  qtyVal.addEventListener('input',()=>setQty(parseInt(qtyVal.value,10)));
+  qtyVal.addEventListener('blur',()=>{ if(!qtyVal.value) setQty(1); });
+
+  // --- MODAL: tabulka velikostí ---
+  const sizeModal=document.getElementById('sizeModal');
+  document.querySelector('.size-guide').addEventListener('click',()=>sizeModal.classList.add('open'));
+  document.getElementById('sizeClose').addEventListener('click',()=>sizeModal.classList.remove('open'));
+  sizeModal.addEventListener('click',e=>{ if(e.target===sizeModal) sizeModal.classList.remove('open'); });
+  document.addEventListener('keydown',e=>{ if(e.key==='Escape') sizeModal.classList.remove('open'); });
+
+  // --- AKORDEON ---
+  document.querySelectorAll('.acc-head').forEach(h=>{
+    h.addEventListener('click',()=>h.parentElement.classList.toggle('open'));
+  });
+
+  paintSock(); render();
+</script>
+</body>
+</html>

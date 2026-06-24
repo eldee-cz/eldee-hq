@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<title>Dotazník na vzorky eldee — v2.1</title>
+<style>
+  @page { size: A4; margin: 2cm 1.8cm; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: #1a1a1a;
+    line-height: 1.5;
+    font-size: 11pt;
+    margin: 0;
+    padding: 0;
+  }
+  h1 {
+    font-size: 24pt;
+    margin: 0 0 4pt;
+    color: #0a0a0a;
+    letter-spacing: -0.5px;
+  }
+  h1 .red { color: #DC2626; }
+  h2 {
+    font-size: 14pt;
+    margin: 22pt 0 8pt;
+    padding-bottom: 4pt;
+    border-bottom: 2px solid #DC2626;
+    color: #0a0a0a;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    page-break-after: avoid;
+  }
+  h3 {
+    font-size: 12pt;
+    margin: 14pt 0 6pt;
+    color: #DC2626;
+    page-break-after: avoid;
+  }
+  .meta {
+    color: #666;
+    font-size: 9pt;
+    margin-bottom: 14pt;
+    border-left: 3px solid #DC2626;
+    padding-left: 10pt;
+  }
+  .intro {
+    background: #f5f5f0;
+    padding: 14pt 16pt;
+    border-radius: 4pt;
+    margin: 16pt 0 24pt;
+    border-left: 4px solid #DC2626;
+  }
+  .intro p { margin: 0 0 6pt; }
+  .intro p:last-child { margin-bottom: 0; }
+  .question {
+    margin: 12pt 0 8pt;
+    page-break-inside: avoid;
+  }
+  .q-number {
+    font-weight: 700;
+    color: #DC2626;
+    margin-right: 4pt;
+  }
+  .q-text { font-weight: 600; }
+  .options {
+    margin: 4pt 0 8pt 0;
+    padding-left: 0;
+    list-style: none;
+  }
+  .options li { padding: 2pt 0; }
+  .opt-box {
+    display: inline-block;
+    width: 11pt;
+    height: 11pt;
+    border: 1.5pt solid #333;
+    margin-right: 6pt;
+    vertical-align: middle;
+    border-radius: 2pt;
+  }
+  .scale {
+    background: #f9f9f4;
+    border: 1px dashed #ccc;
+    padding: 6pt 10pt;
+    margin: 4pt 0;
+    font-size: 10pt;
+    color: #555;
+  }
+  .write-line {
+    border-bottom: 1px solid #999;
+    display: block;
+    margin: 6pt 0;
+    height: 14pt;
+  }
+  .note {
+    font-size: 9.5pt;
+    color: #555;
+    font-style: italic;
+    margin-top: 2pt;
+  }
+  .closer {
+    margin-top: 20pt;
+    text-align: center;
+    color: #666;
+    font-size: 10pt;
+    border-top: 1px solid #ddd;
+    padding-top: 12pt;
+  }
+  .placeholder {
+    color: #999;
+    font-style: italic;
+  }
+  .conditional {
+    background: #faf6f0;
+    border-left: 3px solid #DC2626;
+    padding: 6pt 10pt;
+    margin: 4pt 0 8pt 14pt;
+    font-size: 10pt;
+    color: #555;
+  }
+</style>
+</head>
+<body>
+
+<h1>Dotazník na vzorky <span class="red">eldee</span></h1>
+<div class="meta">
+  Verze 2.1 &middot; 33 otázek &middot; ~7 minut &middot; <strong>Holy Socks. No, just socks with holes.</strong>
+</div>
+
+<div class="intro">
+  <p>Ahoj! Dík, že jsi byl/a v první vlně testerů <strong>eldee</strong>.</p>
+  <p>Tenhle dotazník pomůže náš produkt vychytat <strong>dřív, než půjde do prodeje</strong>.</p>
+  <p>⏱️ Zabere ti to <strong>~7 minut</strong>. Buď drsný — nepotřebujeme kompliment, potřebujeme <strong>pravdu</strong>, ať to víme zlepšit.</p>
+  <p>Tvoje upřímnost je jediný způsob, jak postavíme štulpnu, kterou budeš fakt chtít nosit.</p>
+</div>
+
+<h2>Sekce A — O tobě</h2>
+
+<div class="question">
+  <p><span class="q-number">1.</span><span class="q-text">Kolik ti je let?</span></p>
+  <ul class="options">
+    <li><span class="opt-box"></span>10–13</li>
+    <li><span class="opt-box"></span>14–16</li>
+    <li><span class="opt-box"></span>17–19</li>
+    <li><span class="opt-box"></span>20+</li>
+  </ul>
+</div>
+
+<div class="question">
+  <p><span class="q-number">2.</span><span class="q-text">Velikost obuvi (EU)?</span></p>
+  <ul class="options">
+    <li><span class="opt-box"></span>35–37</li>
+    <li><span class="opt-box"></span>38–40</li>
+    <li><span class="opt-box"></span>41–43</li>
+    <li><span class="opt-box"></span>44–46</li>
+    <li><span class="opt-box"></span>47+</li>
+  </ul>
+</div>
+
+<div class="question">
+  <p><span class="q-number">3.</span><span class="q-text">Jak často hraješ fotbal (trénink + zápasy)?</span></p>
+  <ul class="options">
+    <li><span class="opt-box"></span>1–2× týdně</li>
+    <li><span class="opt-box"></span>3–4× týdně</li>
+    <li><span class="opt-box"></span>5× a víc</li>
+  </ul>
+</div>
+
+<h2>Sekce B — Tvoje současné štulpny</h2>
+
+<div class="question">
+  <p><span class="q-number">4.</span><span class="q-text">Jakou značku štulpen teď používáš nejčastěji?</span></p>
+  <ul class="options">
+    <li><span class="opt-box"></span>Nike</li>
+    <li><span class="opt-box"></span>Adidas</li>
+    <li><span class="opt-box"></span>Puma</li>
+    <li><span class="opt-box"></span>Local značka (uveď): <span class="write-line"></span></li>
+    <li><span class="opt-box"></span>Žádnou konkrétní</li>
+  </ul>
+</div>
+
+<div class="question">
+  <p><span class="q-number">5.</span><span class="q-text">Co tě na současných štulpnách NEJVÍC štve?</span></p>
+  <p class="note">Vyber max 3.</p>
+  <ul class="options">
+    <li><span class="opt-box"></span>Kloužou dolů</li>
+    <li><span class="opt-box"></span>Špatně sedí / mačkají</li>
+    <li><span class="opt-box"></span>Potí se v nich noha</li>
+    <li><span class="opt-box"></span>Rychle se ničí</li>
+    <li><span class="opt-box"></span>Slabý design</li>
+    <li><span class="opt-box"></span>Cena</li>
+    <li><span class="opt-box"></span>Nic, jsem spoko</li>
+    <li><span class="opt-box"></span>Jiné: <span class="write-line"></span></li>
+  </ul>
+</div>
+
+<div class="question">
+  <p><span class="q-number">6.</span><span class="q-text">Stříhal sis někdy díry do svých štulpen?</span></p>
+  <ul class="options">
+    <li><span class="opt-box"></span>Jo, dělám to pravidelně</li>
+    <li><span class="opt-box"></span>Párkrát jsem to zkoušel</li>
+    <li><span class="opt-box"></span>Přemýšlel jsem o tom, ale neřezal</li>
+    <li><span class="opt-box"></span>Ne, nikdy</li>
+  </ul>
+</div>
+
+<h2>Sekce C — Naše eldee vzorky</h2>
+
+<p class="note">Teď se ptáme <strong>konkrétně na vzorek</strong>, který jsi dostal/a k testu. Buď upřímný.</p>
+
+<h3>Velikost a první dojem</h3>
+
+<div class="question">
+  <p><span class="q-number">7.</span><span class="q-text">Sedla ti VELIKOST?</span></p>
+  <ul class="options">
+    <li><span class="opt-box"></span>Perfektně</li>
+    <li><span class="opt-box"></span>Mírně velké / volné</li>
+    <li><span class="opt-box"></span>Mírně malé / těsné</li>
+    <li><span class="opt-box"></span>Hodně velké</li>
+    <li><span class="opt-box"></span>Hodně malé</li>
+  </ul>
+  <p class="note">Komentář (volitelně): <span class="write-line"></span></p>
+</div>
+
+<div class="question">
+  <p><span class="q-number">8.</span><span class="q-text">Jaký byl tvůj PRVNÍ DOJEM po vybalení?</span> (škála 1–5)</p>
+  <div class="scale">1 = úplně mě to nezaujalo &middot; &middot; &middot; 5 = wow, hned bych vzal</div>
+  <p class="note">Stručně proč to hodnotíš tak (1 věta):</p>
+  <span class="write-line"></span>
+  <span class="write-line"></span>
+</div>
+
+<h3>Pohodlí a materiál</h3>
+
+<div class="question">
+  <p><span class="q-number">9.</span><span class="q-text">Jak ti štulpny seděly NA NOZE během hry?</span> (škála 1–5)</p>
+  <div class="scale">1 = sjížděly / tlačily &middot; &middot; &middot; 5 = perfektní, jakoby byly moje</div>
+</div>
+
+<div class="question">
+  <p><span class="q-number">10.</span><span class="q-text">Jak ses cítil/a uvnitř? Větrání / pot?</span></p>
+  <ul class="options">
+    <li><span class="opt-box"></span>Lepší než moje současné</li>
+    <li><span class="opt-box"></span>Stejné jako moje současné</li>
+    <li><span class="opt-box"></span>Horší než moje současné</li>
+    <li><span class="opt-box"></span>Nevnímal jsem rozdíl</li>
+  </ul>
+</div>
+
+<div class="question">
+  <p><span class="q-number">11.</span><span class="q-text">Jak hodnotíš MATERIÁL (merino vlna) oproti klasickým štulpnám?</span></p>
+  <ul class="options">
+    <li><span class="opt-box"></span>Super, jasně lepší</li>
+    <li><span class="opt-box"></span>OK, drobně lepší</li>
+    <li><span class="opt-box"></span>Nepoznal jsem rozdíl</li>
+    <li><span class="opt-box"></span>Horší</li>
+    <li><span class="opt-box"></span>Špatný</li>
+  </ul>
+  <p class="note">Co bys na materiálu změnil? (volitelně):</p>
+  <span class="write-line"></span>
+</div>
+
+<h3>Konkrétně k chráněným vzorům</h3>
+
+<div class="question">
+  <p><span class="q-number">12.</span><span class="q-text">SOFISTIKOVANÉ DÍRY na lýtku — jsou:</span></p>
+  <p class="note">Zaškrtni vše, co platí.</p>
+  <ul class="options">
+    <li><span class="opt-box"></span>Na správném místě</li>
+    <li><span class="opt-box"></span>Velikost mi sedí</li>
+    <li><span class="opt-box"></span>Je jich akorát</li>
+    <li><span class="opt-box"></span>Mohlo by jich být VÍC</li>
+    <li><span class="opt-box"></span>Mohlo by jich být MÉNĚ</li>
+    <li><span class="opt-box"></span>Měly by být VĚTŠÍ</li>
+    <li><span class="opt-box"></span>Měly by být MENŠÍ</li>
+    <li><span class="opt-box"></span>Měly by být JINDE (uveď): <span class="write-line"></span></li>
+    <li><span class="opt-box"></span>Nelíbí se mi vůbec</li>
+  </ul>
+</div>
+
+<h3>Test v reálu</h3>
+
+<div class="question">
+  <p><span class="q-number">13.</span><span class="q-text">Měl jsi vzorky NAZUTÉ V ZÁPASE / TRÉNINKU?</span></p>
+  <ul class="options">
+    <li><span class="opt-box"></span>Ano, na zápase (kolik?): <span class="write-line"></span></li>
+    <li><span class="opt-box"></span>Ano, na tréninku (kolik?): <span class="write-line"></span></li>
+    <li><span class="opt-box"></span>Jen jsem si je doma vyzkoušel/a</li>
+  </ul>
+</div>
+
+<div class="question">
+  <p><span class="q-number">14.</span><span class="q-text">Pokud jsi je PRAL/A — jak vypadají potom?</span></p>
+  <ul class="options">
+    <li><span class="opt-box"></span>Vypadají úplně stejně jako nové</li>
+    <li><span class="opt-box"></span>Drobné změny (specifikuj): <span class="write-line"></span></li>
+    <li><span class="opt-box"></span>Hodně se změnily (specifikuj): <span class="write-line"></span></li>
+    <li><span class="opt-box"></span>Nepral jsem ještě</li>
+  </ul>
+</div>
+
+<h3>Design a brand</h3>
+
+<div class="question">
+  <p><span class="q-number">15.</span><span class="q-text">Jak ti sedí DESIGN celkově?</span> (škála 1–5)</p>
+  <div class="scale">1 = nelíbí &middot; &middot; &middot; 5 = top, hned bych nosil v zápase</div>
+  <p class="note">Co bys na designu změnil? (volně)</p>
+  <span class="write-line"></span>
+  <span class="write-line"></span>
+</div>
+
+<div class="question">
+  <p><span class="q-number">16.</span><span class="q-text">Co na designu hodnotíš NEJVÍC?</span></p>
+  <ul class="options">
+    <li><span class="opt-box"></span>Barvy</li>
+    <li><span class="opt-box"></span>Logo</li>
+    <li><span class="opt-box"></span>Celkový styl</li>
+    <li><span class="opt-box"></span>Originalita / vzor děr</li>
+    <li><span class="opt-box"></span>Nic extra</li>
+  </ul>
+</div>
+
+<div class="question">
+  <p><span class="q-number">17.</span><span class="q-text">Jak na tebe působí LOGO značky eldee?</span></p>
+  <ul class="options">
+    <li><span class="opt-box"></span>Mega dobrý</li>
+    <li><span class="opt-box"></span>OK</li>
+    <li><span class="opt-box"></span>Slabý</li>
+    <li><span class="opt-box"></span>Nelíbí se mi</li>
+  </ul>
+</div>
+
+<div class="question">
+  <p><span class="q-number">18.</span><span class="q-text">Nosil bys tyhle štulpny i V ZÁPASE (ne jen na tréninku)?</span></p>
+  <ul class="options">
+    <li><span class="opt-box"></span>Jo, určitě</li>
+    <li><span class="opt-box"></span>Možná</li>
+    <li><span class="opt-box"></span>Spíš ne</li>
+    <li><span class="opt-box"></span>Ne</li>
+  </ul>
+</div>
+
+<div class="question">
+  <p><span class="q-number">19.</span><span class="q-text">Je pro tebe DESIGN důležitý při výběru štulpen?</span></p>
+  <ul class="options">
+    <li><span class="opt-box"></span>Ano, hodně</li>
+    <li><span class="opt-box"></span>Spíš ano</li>
+    <li><span class="opt-box"></span>Je mi to jedno</li>
+    <li><span class="opt-box"></span>Spíš ne</li>
+  </ul>
+</div>
+
+<h2>Sekce D — Typ produktu</h2>
+
+<div class="question">
+  <p><span class="q-number">20.</span><span class="q-text">Jaké štulpny máš RADŠI?</span></p>
+  <ul class="options">
+    <li><span class="opt-box"></span>Tenké — lepší cit na míč ⚽</li>
+    <li><span class="opt-box"></span>Silnější — ochrana při střele 💥</li>
+    <li><span class="opt-box"></span>Něco mezi (komfort + výkon)</li>
+    <li><span class="opt-box"></span>Je mi to jedno</li>
+  </ul>
+</div>
+
+<div class="question">
+  <p><span class="q-number">21.</span><span class="q-text">Co preferuješ — STŘIH?</span></p>
+  <ul class="options">
+    <li><span class="opt-box"></span>Komplet i s ponožkou (jeden kus)</li>
+    <li><span class="opt-box"></span>Návlek bez ponožky (samostatné štulpny)</li>
+    <li><span class="opt-box"></span>Je mi to jedno</li>
+  </ul>
+  <p class="note">Stručně proč:</p>
+  <span class="write-line"></span>
+</div>
+
+<div class="question">
+  <p><span class="q-number">22.</span><span class="q-text">Chtěl bys štulpny s PROTISKLUZOVÝM POVRCHEM (aby držely a nesjížděly)?</span></p>
+  <ul class="options">
+    <li><span class="opt-box"></span>Jo, to je pro mě mega důležité</li>
+    <li><span class="opt-box"></span>Spíš jo</li>
+    <li><span class="opt-box"></span>Nevadilo by mi to</li>
+    <li><span class="opt-box"></span>Je mi to jedno</li>
+    <li><span class="opt-box"></span>Ne</li>
+  </ul>
+</div>
+
+<h2>Sekce E — Budoucí featury</h2>
+
+<p class="note">Zajímá nás, jaké funkce přidat do dalších verzí. Buď upřímný — co by tě fakt zaujalo, ne jen „pěkné kdyby".</p>
+
+<div class="question">
+  <p><span class="q-number">23.</span><span class="q-text">Vnitřní KAPSA NA CHRÁNIČ (aby chránič držel bez tejpování) — jak top to zní?</span></p>
+  <ul class="options">
+    <li><span class="opt-box"></span>Jo, top věc, hned bych ocenil</li>
+    <li><span class="opt-box"></span>Spíš jo</li>
+    <li><span class="opt-box"></span>Možná</li>
+    <li><span class="opt-box"></span>Spíš ne</li>
+    <li><span class="opt-box"></span>Ne</li>
+  </ul>
+</div>
+
+<div class="question">
+  <p><span class="q-number">24.</span><span class="q-text">Chtěl bys si štulpny PERSONALIZOVAT (iniciály, číslo, přezdívka)?</span></p>
+  <ul class="options">
+    <li><span class="opt-box"></span>Jo, určitě 🔥</li>
+    <li><span class="opt-box"></span>Spíš jo</li>
+    <li><span class="opt-box"></span>Možná</li>
+    <li><span class="opt-box"></span>Spíš ne</li>
+    <li><span class="opt-box"></span>Ne</li>
+  </ul>
+</div>
+
+<div class="question">
+  <p><span class="q-number">25.</span><span class="q-text">Pokud ANO výše — co by sis tam nechal dát?</span> (multi)</p>
+  <p class="conditional">Pokud jsi v 24 odpověděl/a „spíš ne / ne", přeskoč.</p>
+  <ul class="options">
+    <li><span class="opt-box"></span>Číslo dresu</li>
+    <li><span class="opt-box"></span>Iniciály</li>
+    <li><span class="opt-box"></span>Přezdívku</li>
+    <li><span class="opt-box"></span>Logo týmu</li>
+    <li><span class="opt-box"></span>Vlastní design</li>
+    <li><span class="opt-box"></span>Nic</li>
+  </ul>
+</div>
+
+<div class="question">
+  <p><span class="q-number">26.</span><span class="q-text">Bylo by pro tebe zajímavé si štulpny SÁM NAKONFIGUROVAT (barvy, materiál, funkce)?</span></p>
+  <ul class="options">
+    <li><span class="opt-box"></span>Jo, to bych chtěl</li>
+    <li><span class="opt-box"></span>Spíš jo</li>
+    <li><span class="opt-box"></span>Možná</li>
+    <li><span class="opt-box"></span>Spíš ne</li>
+    <li><span class="opt-box"></span>Ne</li>
+  </ul>
+</div>
+
+<div class="question">
+  <p><span class="q-number">27.</span><span class="q-text">Pokud ANO výše — co bys chtěl UPRAVIT?</span> (multi)</p>
+  <p class="conditional">Pokud jsi v 26 odpověděl/a „spíš ne / ne", přeskoč.</p>
+  <ul class="options">
+    <li><span class="opt-box"></span>Barvy</li>
+    <li><span class="opt-box"></span>Design / vzor</li>
+    <li><span class="opt-box"></span>Materiál</li>
+    <li><span class="opt-box"></span>Tloušťku</li>
+    <li><span class="opt-box"></span>Funkce (protiskluz, kapsa atd.)</li>
+    <li><span class="opt-box"></span>Personalizaci</li>
+    <li><span class="opt-box"></span>Nic</li>
+  </ul>
+</div>
+
+<h2>Sekce F — Cena a nákup</h2>
+
+<div class="question">
+  <p><span class="q-number">28.</span><span class="q-text">Za kolik bys takové štulpny REÁLNĚ koupil/a?</span></p>
+  <ul class="options">
+    <li><span class="opt-box"></span>do 399 Kč</li>
+    <li><span class="opt-box"></span>400–599 Kč</li>
+    <li><span class="opt-box"></span>600–799 Kč</li>
+    <li><span class="opt-box"></span>800–999 Kč</li>
+    <li><span class="opt-box"></span>1000+ Kč</li>
+  </ul>
+</div>
+
+<div class="question">
+  <p><span class="q-number">29.</span><span class="q-text">Koupil/a bys eldee, až půjdou do prodeje?</span></p>
+  <ul class="options">
+    <li><span class="opt-box"></span>Jo, určitě (i full price)</li>
+    <li><span class="opt-box"></span>Jo, ale jen se slevou</li>
+    <li><span class="opt-box"></span>Možná, záleží na finální verzi</li>
+    <li><span class="opt-box"></span>Spíš ne (uveď proč): <span class="write-line"></span></li>
+    <li><span class="opt-box"></span>Ne</li>
+  </ul>
+</div>
+
+<div class="question">
+  <p><span class="q-number">30.</span><span class="q-text">Kolik bys byl ochoten zaplatit za „DOKONALÉ" štulpny PŘESNĚ podle tvých požadavků</span> <span class="placeholder">(sizing, materiál, funkce, personalizace)</span>?</p>
+  <ul class="options">
+    <li><span class="opt-box"></span>do 599 Kč</li>
+    <li><span class="opt-box"></span>600–799 Kč</li>
+    <li><span class="opt-box"></span>800–999 Kč</li>
+    <li><span class="opt-box"></span>1000–1299 Kč</li>
+    <li><span class="opt-box"></span>1300 Kč a víc</li>
+  </ul>
+</div>
+
+<h2>Sekce G — Klíčový feedback</h2>
+
+<div class="question">
+  <p><span class="q-number">31.</span><span class="q-text">Napiš nám tři věci:</span></p>
+
+  <p style="margin-top: 10pt;"><strong>a) Co bychom MĚLI ZACHOVAT?</strong> <span class="placeholder">(co se ti líbilo nejvíc)</span></p>
+  <span class="write-line"></span>
+  <span class="write-line"></span>
+
+  <p style="margin-top: 10pt;"><strong>b) Co bychom MĚLI ZLEPŠIT?</strong> <span class="placeholder">(buď drsný — to nám pomůže nejvíc)</span></p>
+  <span class="write-line"></span>
+  <span class="write-line"></span>
+  <span class="write-line"></span>
+
+  <p style="margin-top: 10pt;"><strong>c) Co bys CHTĚL/A NAVÍC?</strong> <span class="placeholder">(funkce, vychytávka, kterou bys ocenil/a)</span></p>
+  <span class="write-line"></span>
+  <span class="write-line"></span>
+</div>
+
+<h2>Sekce H — Content spolupráce</h2>
+
+<div class="question">
+  <p><span class="q-number">32.</span><span class="q-text">Měl bys zájem tvořit pro eldee CONTENT</span> (Instagram / TikTok) výměnou za produkty / spolupráci?</p>
+  <ul class="options">
+    <li><span class="opt-box"></span>Jo, hned 🔥</li>
+    <li><span class="opt-box"></span>Spíš jo</li>
+    <li><span class="opt-box"></span>Možná, záleží na podmínkách</li>
+    <li><span class="opt-box"></span>Spíš ne</li>
+    <li><span class="opt-box"></span>Ne vůbec</li>
+  </ul>
+</div>
+
+<div class="question">
+  <p><span class="q-number">33.</span><span class="q-text">Co by tě MOTIVOVALO?</span> (multi)</p>
+  <ul class="options">
+    <li><span class="opt-box"></span>Produkty zdarma</li>
+    <li><span class="opt-box"></span>Viditelnost / followeři</li>
+    <li><span class="opt-box"></span>Dlouhodobá spolupráce</li>
+    <li><span class="opt-box"></span>Peníze</li>
+    <li><span class="opt-box"></span>Je mi to jedno</li>
+  </ul>
+</div>
+
+<h2>Sekce I — Doporučení a kontakt</h2>
+
+<div class="question">
+  <p><span class="q-number">34.</span><span class="q-text">Doporučil/a bys eldee kamarádům, až bude v prodeji?</span> (0–10)</p>
+  <div class="scale">0 = nikdy &middot; &middot; &middot; 10 = určitě, hned</div>
+</div>
+
+<div class="question">
+  <p><span class="q-number">35.</span><span class="q-text">Můžeme tě kontaktovat ohledně budoucnosti?</span> <span class="placeholder">(nové vzorky, ambasador program, novinky)</span></p>
+  <ul class="options">
+    <li><span class="opt-box"></span>Ano (uveď e-mail nebo IG handle): <span class="write-line"></span></li>
+    <li><span class="opt-box"></span>Ne, díky</li>
+  </ul>
+</div>
+
+<div class="question">
+  <p><span class="q-number">36.</span><span class="q-text">Souhlasím se zpracováním osobních údajů</span> pro účely tohoto dotazníku dle GDPR (eldee.cz, doba uchování 4 roky).</p>
+  <ul class="options">
+    <li><span class="opt-box"></span>Ano</li>
+  </ul>
+</div>
+
+<div class="closer">
+  Dík za tvůj čas a upřímnost — pomáhá nám to víc, než tušíš. 💪<br>
+  eldee.cz · Holy Socks. No, just socks with holes.
+</div>
+
+</body>
+</html>

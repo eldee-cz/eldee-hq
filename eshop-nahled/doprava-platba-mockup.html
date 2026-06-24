@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>eldee — doprava a platba (mockup)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@400;700;900&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0A0A0A;--ink-soft:#141414;--ink-card:#181818;--bone:#F5F5F0;--ash:#9a9a92;
+    --blood:#B91C1C;--blood-light:#DC2626;--gold:#C9A227;--line:rgba(245,245,240,.12);--maxw:1180px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:var(--ink);color:var(--bone);font-family:'Space Grotesk',system-ui,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  h1,h2,h3{font-family:'Big Shoulders Display',sans-serif;font-weight:900;line-height:.95;letter-spacing:-.01em;text-transform:uppercase}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 22px}
+  .gold{color:var(--gold)}
+  .mock-note{background:var(--gold);color:var(--ink);text-align:center;font-size:12.5px;font-weight:700;letter-spacing:.04em;padding:8px 14px}
+
+  header{position:sticky;top:0;z-index:50;background:rgba(10,10,10,.96);backdrop-filter:blur(10px);border-bottom:1.5px solid var(--gold)}
+  .head-row{display:flex;align-items:center;justify-content:space-between;height:68px;gap:18px}
+  .brand{display:flex;align-items:center;gap:12px}
+  .brand .halo{width:30px;height:9px;border:3px solid var(--gold);border-radius:50%;margin-bottom:-3px}
+  .brand .name{font-family:'Big Shoulders Display';font-weight:900;font-size:34px;text-transform:lowercase;letter-spacing:-.02em;color:var(--bone)}
+  .brand .name .dot{color:var(--blood)}
+  .brand .name .cz{color:var(--gold);font-size:.62em;letter-spacing:0}
+  .head-actions{display:flex;align-items:center;gap:10px;color:var(--ash);font-size:13px}
+
+  /* KROKY */
+  .steps{display:flex;align-items:center;justify-content:center;gap:10px;padding:26px 0 6px;font-size:13px;flex-wrap:wrap}
+  .step{display:flex;align-items:center;gap:8px;color:var(--ash)}
+  .step .n{width:26px;height:26px;border-radius:50%;border:1.5px solid var(--line);display:grid;place-items:center;font-weight:700;font-size:12px}
+  .step.done{color:var(--bone)}
+  .step.done .n{border-color:var(--gold);background:transparent;color:var(--gold)}
+  .step.on{color:var(--bone)}
+  .step.on .n{border-color:var(--gold);background:var(--gold);color:var(--ink)}
+  .step .sep{width:26px;height:1.5px;background:var(--line)}
+
+  .page-h{text-align:center;padding:8px 0 20px}
+  .page-h h1{font-size:clamp(32px,5.5vw,52px)}
+
+  .co{display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:34px;padding:6px 0 60px;align-items:start}
+
+  .block{margin-bottom:24px}
+  .block h2{font-size:20px;margin-bottom:14px;display:flex;align-items:center;gap:10px}
+  .block h2 .bn{width:26px;height:26px;border-radius:50%;background:var(--gold);color:var(--ink);display:grid;place-items:center;font-size:13px;font-weight:900}
+
+  /* RADIO KARTY */
+  .opt{display:flex;align-items:center;gap:14px;background:var(--ink-card);border:1.5px solid var(--line);border-radius:14px;padding:16px;cursor:pointer;transition:.2s;margin-bottom:10px}
+  .opt:hover{border-color:rgba(201,162,39,.55)}
+  .opt.sel{border-color:var(--gold);background:rgba(201,162,39,.07)}
+  .opt .radio{flex:0 0 auto;width:22px;height:22px;border-radius:50%;border:2px solid var(--ash);position:relative;transition:.2s}
+  .opt.sel .radio{border-color:var(--gold)}
+  .opt.sel .radio::after{content:"";position:absolute;inset:4px;border-radius:50%;background:var(--gold)}
+  .opt .ic{flex:0 0 auto;width:30px;text-align:center;font-size:20px}
+  .opt .meta{flex:1;min-width:0}
+  .opt .meta .t{font-weight:700;font-size:15px}
+  .opt .meta .d{font-size:12.5px;color:var(--ash)}
+  .opt .pr{flex:0 0 auto;font-family:'Big Shoulders Display';font-weight:900;font-size:17px;white-space:nowrap}
+  .opt .pr.free{color:#6cc274}
+
+  /* FORMULÁŘ */
+  .form{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:4px}
+  .form .full{grid-column:1 / -1}
+  .form label{display:block;font-size:12px;color:var(--ash);margin-bottom:5px;letter-spacing:.02em}
+  .form input{width:100%;background:var(--ink-card);border:1.5px solid var(--line);border-radius:12px;padding:14px 15px;color:var(--bone);font-family:inherit;font-size:15px;min-height:50px}
+  .form input:focus{outline:none;border-color:var(--gold)}
+  .form input::placeholder{color:#5a5a55}
+  .pickup-note{background:var(--ink-card);border:1px dashed var(--line);border-radius:12px;padding:14px 16px;font-size:13.5px;color:var(--ash);margin-top:4px}
+  .pickup-note .gold{color:var(--gold);font-weight:700}
+
+  /* SOUHRN */
+  .summary{position:sticky;top:90px;background:var(--ink-card);border:1px solid var(--line);border-radius:18px;padding:24px}
+  .summary h2{font-size:20px;margin-bottom:16px}
+  .li{display:flex;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid rgba(245,245,240,.06)}
+  .li .pic{width:42px;height:54px;border-radius:8px;background:linear-gradient(180deg,#F5F5F0,#d9d9d2);position:relative;flex:0 0 auto}
+  .li .pic .cuff{position:absolute;top:0;left:0;right:0;height:9px;border-bottom:1.5px solid var(--gold)}
+  .li .nm{flex:1;min-width:0;font-size:13.5px}
+  .li .nm small{display:block;color:var(--ash);font-size:11.5px}
+  .li .pr{font-family:'Big Shoulders Display';font-weight:900;color:var(--gold);font-size:15px;white-space:nowrap}
+  .sumrow{display:flex;justify-content:space-between;padding:7px 0;font-size:14px;color:var(--ash)}
+  .sumrow.bone{color:var(--bone)}
+  .sumrow .v{font-variant-numeric:tabular-nums}
+  .sumtot{display:flex;justify-content:space-between;align-items:baseline;padding:13px 0 4px;margin-top:8px;border-top:1px solid var(--line);font-weight:700;font-size:17px}
+  .sumtot .v{font-family:'Big Shoulders Display';font-size:28px;color:var(--gold)}
+  .vat{font-size:11.5px;color:var(--ash);text-align:right;margin-bottom:16px}
+  .btn-order{width:100%;display:flex;align-items:center;justify-content:center;gap:11px;background:var(--blood);color:#fff;border:none;font-family:inherit;font-weight:700;font-size:17px;padding:18px;border-radius:48px;cursor:pointer;transition:.2s}
+  .btn-order:hover{background:var(--blood-light);transform:translateY(-2px)}
+  .btn-order svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2}
+  .sum-trust{margin-top:14px;font-size:12px;color:var(--ash);text-align:center;line-height:1.6}
+  .sum-trust .gold{color:var(--gold)}
+  .back{display:inline-flex;align-items:center;gap:8px;margin-top:16px;font-size:14px;color:var(--ash)}
+  .back:hover{color:var(--gold)}
+
+  footer{border-top:1px solid var(--line);padding:30px 0;text-align:center;color:var(--ash);font-size:13px}
+
+  @media(max-width:860px){
+    .co{grid-template-columns:1fr;gap:22px}
+    .summary{position:static;order:-1}
+    .form{grid-template-columns:1fr}
+    .brand .name{font-size:28px}
+  }
+</style>
+</head>
+<body>
+
+<div class="mock-note">🦥 MOCKUP — DOPRAVA A PLATBA (checkout). V Shoptetu = systémová stránka, jen přebarvit do brandu. Dopravci/platby orientační — potvrdíš před spuštěním.</div>
+
+<header>
+  <div class="wrap head-row">
+    <a class="brand" href="#"><span class="halo"></span><span class="name">eldee<span class="dot">.</span><span class="cz">cz</span></span></a>
+    <div class="head-actions">🔒 Zabezpečená pokladna</div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="steps">
+    <div class="step done"><span class="n">✓</span> Košík</div>
+    <span class="sep"></span>
+    <div class="step on"><span class="n">2</span> Doprava a platba</div>
+    <span class="sep"></span>
+    <div class="step"><span class="n">3</span> Hotovo</div>
+  </div>
+  <div class="page-h"><h1>Doprava a platba</h1></div>
+</div>
+
+<div class="wrap">
+  <div class="co">
+
+    <!-- LEVÝ SLOUPEC -->
+    <div>
+      <!-- DOPRAVA -->
+      <div class="block">
+        <h2><span class="bn">1</span> Jak ti to doručíme?</h2>
+        <div id="shipOpts">
+          <div class="opt sel" data-ship="zasilkovna" data-cena="69" data-addr="0">
+            <span class="radio"></span><span class="ic">📦</span>
+            <span class="meta"><span class="t">Zásilkovna — výdejní místo</span><span class="d">Přes 5 000 míst · 1–2 dny</span></span>
+            <span class="pr">69 Kč</span>
+          </div>
+          <div class="opt" data-ship="balikovna" data-cena="79" data-addr="0">
+            <span class="radio"></span><span class="ic">🏤</span>
+            <span class="meta"><span class="t">Balíkovna — Česká pošta</span><span class="d">Výdejní místa po celé ČR · 2–3 dny</span></span>
+            <span class="pr">79 Kč</span>
+          </div>
+          <div class="opt" data-ship="kuryr" data-cena="99" data-addr="1">
+            <span class="radio"></span><span class="ic">🚚</span>
+            <span class="meta"><span class="t">Kurýr na adresu</span><span class="d">PPL / DPD · 1–2 dny</span></span>
+            <span class="pr">99 Kč</span>
+          </div>
+        </div>
+        <div class="pickup-note" id="addrNote">📍 Výdejní místo si vybereš v dalším kroku (mapa poboček). <span class="gold">Doprava zdarma od 2 párů.</span></div>
+      </div>
+
+      <!-- PLATBA -->
+      <div class="block">
+        <h2><span class="bn">2</span> Čím zaplatíš?</h2>
+        <div id="payOpts">
+          <div class="opt sel" data-pay="karta" data-cena="0">
+            <span class="radio"></span><span class="ic">💳</span>
+            <span class="meta"><span class="t">Kartou online</span><span class="d">GoPay · Visa, Mastercard</span></span>
+            <span class="pr free">Zdarma</span>
+          </div>
+          <div class="opt" data-pay="wallet" data-cena="0">
+            <span class="radio"></span><span class="ic">📱</span>
+            <span class="meta"><span class="t">Apple Pay / Google Pay</span><span class="d">Zaplatíš na dvě ťuknutí</span></span>
+            <span class="pr free">Zdarma</span>
+          </div>
+          <div class="opt" data-pay="dobirka" data-cena="39">
+            <span class="radio"></span><span class="ic">💵</span>
+            <span class="meta"><span class="t">Dobírka</span><span class="d">Zaplatíš při převzetí</span></span>
+            <span class="pr">+39 Kč</span>
+          </div>
+          <div class="opt" data-pay="prevod" data-cena="0">
+            <span class="radio"></span><span class="ic">🏦</span>
+            <span class="meta"><span class="t">Bankovní převod</span><span class="d">Pošleme údaje e-mailem</span></span>
+            <span class="pr free">Zdarma</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ÚDAJE -->
+      <div class="block">
+        <h2><span class="bn">3</span> Kam a komu</h2>
+        <div class="form">
+          <div><label>Jméno</label><input type="text" placeholder="Lukáš"></div>
+          <div><label>Příjmení</label><input type="text" placeholder="Novák"></div>
+          <div><label>E-mail</label><input type="email" placeholder="ty@email.cz"></div>
+          <div><label>Telefon</label><input type="tel" placeholder="+420 …"></div>
+          <div class="full" id="addrFields" style="display:none">
+            <div class="form">
+              <div class="full"><label>Ulice a číslo</label><input type="text" placeholder="Fotbalová 7"></div>
+              <div><label>Město</label><input type="text" placeholder="…"></div>
+              <div><label>PSČ</label><input type="text" placeholder="000 00"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SOUHRN -->
+    <div class="summary">
+      <h2>Tvoje objednávka</h2>
+      <div class="li">
+        <div class="pic"><div class="cuff"></div></div>
+        <div class="nm">Signature štulpna<small>Off-white · 39–42 · 1 ks</small></div>
+        <div class="pr">599 Kč</div>
+      </div>
+      <div class="li">
+        <div class="pic"><div class="cuff"></div></div>
+        <div class="nm">Tube návlek<small>Carbon · 39–42 · 1 ks</small></div>
+        <div class="pr">599 Kč</div>
+      </div>
+
+      <div class="sumrow bone" style="margin-top:10px"><span>Mezisoučet</span><span class="v">1 198 Kč</span></div>
+      <div class="sumrow"><span id="shipLabel">Doprava</span><span class="v" id="shipVal">—</span></div>
+      <div class="sumrow" id="payRow" style="display:none"><span>Dobírka</span><span class="v" id="payVal">—</span></div>
+      <div class="sumtot"><span>Celkem</span><span class="v" id="total">—</span></div>
+      <div class="vat">vč. DPH</div>
+
+      <button class="btn-order">Závazně objednat
+        <svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
+      </button>
+      <div class="sum-trust"><span class="gold">✓</span> Zabezpečená platba · <span class="gold">✓</span> Vrácení do 14 dní<br>Klikem na „Závazně objednat" souhlasíš s obchodními podmínkami.</div>
+      <a class="back" href="#">← Zpět do košíku</a>
+    </div>
+  </div>
+</div>
+
+<footer><div class="wrap">eldee — doprava a platba (mockup v1) · 2026-06-20</div></footer>
+
+<script>
+  const SUBTOTAL = 1198;
+  let ship = { key:'zasilkovna', cena:69, addr:0 };
+  let pay = { key:'karta', cena:0 };
+
+  const fmt = n => n.toLocaleString('cs-CZ') + ' Kč';
+
+  function selectIn(container, el){
+    container.querySelectorAll('.opt').forEach(o=>o.classList.remove('sel'));
+    el.classList.add('sel');
+  }
+
+  document.querySelectorAll('#shipOpts .opt').forEach(o=>{
+    o.addEventListener('click',()=>{
+      selectIn(document.getElementById('shipOpts'), o);
+      ship={ key:o.dataset.ship, cena:+o.dataset.cena, addr:+o.dataset.addr };
+      // adresní pole jen u kurýra
+      document.getElementById('addrFields').style.display = ship.addr ? 'block' : 'none';
+      document.getElementById('addrNote').style.display = ship.addr ? 'none' : 'block';
+      render();
+    });
+  });
+
+  document.querySelectorAll('#payOpts .opt').forEach(o=>{
+    o.addEventListener('click',()=>{
+      selectIn(document.getElementById('payOpts'), o);
+      pay={ key:o.dataset.pay, cena:+o.dataset.cena };
+      render();
+    });
+  });
+
+  function render(){
+    const total = SUBTOTAL + ship.cena + pay.cena;
+    document.getElementById('shipVal').textContent = ship.cena===0 ? 'Zdarma' : fmt(ship.cena);
+    document.getElementById('shipVal').style.color = ship.cena===0 ? '#6cc274' : '';
+    const payRow=document.getElementById('payRow');
+    if(pay.cena>0){ payRow.style.display='flex'; document.getElementById('payVal').textContent=fmt(pay.cena); }
+    else payRow.style.display='none';
+    document.getElementById('total').textContent=fmt(total);
+  }
+
+  render();
+</script>
+</body>
+</html>

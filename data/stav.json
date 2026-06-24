@@ -256,6 +256,14 @@
       "extern": false
     },
     {
+      "nadpis": "Náhled e-shopu",
+      "text": "Statické vizualizace toku objednávky: homepage → produkt → košík → doprava/platba → potvrzení.",
+      "stav": "soon",
+      "stavText": "náhled — mockupy",
+      "href": "eshop-nahled/index.html",
+      "extern": false
+    },
+    {
       "nadpis": "Logo balíček v2",
       "text": "Podklady pro výrobce: vektory, PNG, pokyny pro digitizéra (brand/vyrobce-balicek-v2).",
       "stav": "on",
@@ -277,6 +285,14 @@
       "stav": "soon",
       "stavText": "čeká na vzorky v2",
       "href": null,
+      "extern": false
+    },
+    {
+      "nadpis": "Dotazníky",
+      "text": "Rozcestník: náhledy dotazníků (všeobecný, vzorky v2) + odkaz na vyhodnocení.",
+      "stav": "on",
+      "stavText": "rozcestník",
+      "href": "dotazniky.html",
       "extern": false
     },
     {

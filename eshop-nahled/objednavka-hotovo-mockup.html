@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>eldee — objednávka přijata (mockup)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@400;700;900&family=Caveat+Brush&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0A0A0A;--ink-soft:#141414;--ink-card:#181818;--bone:#F5F5F0;--ash:#9a9a92;
+    --blood:#B91C1C;--blood-light:#DC2626;--gold:#C9A227;--line:rgba(245,245,240,.12);--maxw:1180px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--ink);color:var(--bone);font-family:'Space Grotesk',system-ui,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  h1,h2,h3{font-family:'Big Shoulders Display',sans-serif;font-weight:900;line-height:.95;letter-spacing:-.01em;text-transform:uppercase}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 22px}
+  .gold{color:var(--gold)}
+  .mock-note{background:var(--gold);color:var(--ink);text-align:center;font-size:12.5px;font-weight:700;letter-spacing:.04em;padding:8px 14px}
+
+  header{background:rgba(10,10,10,.96);border-bottom:1.5px solid var(--gold)}
+  .head-row{display:flex;align-items:center;justify-content:center;height:68px}
+  .brand{display:flex;align-items:center;gap:12px}
+  .brand .halo{width:30px;height:9px;border:3px solid var(--gold);border-radius:50%;margin-bottom:-3px}
+  .brand .name{font-family:'Big Shoulders Display';font-weight:900;font-size:34px;text-transform:lowercase;letter-spacing:-.02em;color:var(--bone)}
+  .brand .name .dot{color:var(--blood)}
+  .brand .name .cz{color:var(--gold);font-size:.62em;letter-spacing:0}
+
+  .steps{display:flex;align-items:center;justify-content:center;gap:10px;padding:26px 0 0;font-size:13px;flex-wrap:wrap}
+  .step{display:flex;align-items:center;gap:8px;color:var(--bone)}
+  .step .n{width:26px;height:26px;border-radius:50%;border:1.5px solid var(--gold);background:transparent;color:var(--gold);display:grid;place-items:center;font-weight:700;font-size:12px}
+  .step.on .n{background:var(--gold);color:var(--ink)}
+  .step .sep{width:26px;height:1.5px;background:var(--gold);opacity:.5}
+
+  /* HERO díky */
+  .hero{text-align:center;padding:30px 0 10px;position:relative;overflow:hidden}
+  .hero::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse 55% 50% at 50% 30%,rgba(201,162,39,.13),transparent 62%);pointer-events:none}
+  .mascot{width:230px;max-width:62vw;height:auto;margin:0 auto 6px;display:block;position:relative;filter:drop-shadow(0 18px 32px rgba(0,0,0,.5))}
+  .hero .holy{font-family:'Caveat Brush',cursive;font-size:clamp(40px,9vw,72px);color:var(--gold);line-height:.9;margin-bottom:6px}
+  .hero h1{font-size:clamp(30px,5vw,46px);margin-bottom:10px}
+  .hero p{color:var(--ash);font-size:15.5px;max-width:50ch;margin:0 auto}
+  .ordno{display:inline-block;margin-top:16px;background:var(--ink-card);border:1px solid var(--gold);border-radius:40px;padding:9px 20px;font-size:14px}
+  .ordno b{color:var(--gold);font-variant-numeric:tabular-nums}
+
+  /* layout dolní */
+  .grid{display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:34px;padding:34px 0 20px;align-items:start}
+
+  .card{background:var(--ink-card);border:1px solid var(--line);border-radius:18px;padding:24px}
+  .card h2{font-size:20px;margin-bottom:16px}
+
+  /* timeline co teď */
+  .tl{display:flex;flex-direction:column;gap:0}
+  .tl .row{display:flex;gap:14px;padding:12px 0;position:relative}
+  .tl .row .ic{flex:0 0 auto;width:38px;height:38px;border-radius:50%;background:var(--ink);border:1.5px solid var(--gold);display:grid;place-items:center;font-size:17px;z-index:1}
+  .tl .row:not(:last-child)::after{content:"";position:absolute;left:18.5px;top:46px;bottom:-6px;width:1.5px;background:var(--line)}
+  .tl .row .t{font-weight:700;font-size:15px}
+  .tl .row .d{font-size:13px;color:var(--ash)}
+
+  .deliv{margin-top:18px;font-size:14px;color:var(--ash)}
+  .deliv b{color:var(--bone)}
+
+  /* souhrn */
+  .li{display:flex;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid rgba(245,245,240,.06)}
+  .li .pic{width:42px;height:54px;border-radius:8px;background:linear-gradient(180deg,#F5F5F0,#d9d9d2);position:relative;flex:0 0 auto}
+  .li .pic.dark{background:linear-gradient(180deg,#2a2a2a,#1a1a1a)}
+  .li .pic .cuff{position:absolute;top:0;left:0;right:0;height:9px;border-bottom:1.5px solid var(--gold)}
+  .li .nm{flex:1;min-width:0;font-size:13.5px}
+  .li .nm small{display:block;color:var(--ash);font-size:11.5px}
+  .li .pr{font-family:'Big Shoulders Display';font-weight:900;color:var(--gold);font-size:15px;white-space:nowrap}
+  .sumrow{display:flex;justify-content:space-between;padding:7px 0;font-size:14px;color:var(--ash)}
+  .sumrow .v{font-variant-numeric:tabular-nums}
+  .sumtot{display:flex;justify-content:space-between;align-items:baseline;padding:13px 0 4px;margin-top:8px;border-top:1px solid var(--line);font-weight:700;font-size:17px}
+  .sumtot .v{font-family:'Big Shoulders Display';font-size:28px;color:var(--gold)}
+
+  /* Holy Squad pozvánka */
+  .squad{margin:14px 0 0;background:linear-gradient(180deg,rgba(201,162,39,.10),transparent),var(--ink-soft);border:1px solid rgba(201,162,39,.4);border-radius:18px;padding:28px;text-align:center}
+  .squad .k{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);font-weight:700}
+  .squad h2{font-size:26px;margin:6px 0 8px}
+  .squad p{color:var(--ash);font-size:14.5px;max-width:52ch;margin:0 auto 18px}
+  .btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+  .btn{display:inline-flex;align-items:center;gap:9px;font-weight:700;font-size:15px;padding:14px 26px;border-radius:46px;cursor:pointer;transition:.2s;min-height:48px}
+  .btn-primary{background:var(--blood);color:#fff}
+  .btn-primary:hover{background:var(--blood-light);transform:translateY(-2px)}
+  .btn-ghost{background:transparent;border:1.5px solid var(--gold);color:var(--gold)}
+  .btn-ghost:hover{background:rgba(201,162,39,.12)}
+
+  footer{border-top:1px solid var(--line);padding:30px 0;text-align:center;color:var(--ash);font-size:13px;margin-top:30px}
+
+  @media(max-width:860px){
+    .grid{grid-template-columns:1fr;gap:20px}
+    .brand .name{font-size:28px}
+  }
+</style>
+</head>
+<body>
+
+<div class="mock-note">🦥 MOCKUP — DĚKOVACÍ STRÁNKA (po objednávce). V Shoptetu customizovatelná: vlastní text + maskot + odkazy. Číslo objednávky/souhrn generuje Shoptet.</div>
+
+<header>
+  <div class="wrap head-row">
+    <a class="brand" href="#"><span class="halo"></span><span class="name">eldee<span class="dot">.</span><span class="cz">cz</span></span></a>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="steps">
+    <div class="step"><span class="n">✓</span> Košík</div>
+    <span class="sep"></span>
+    <div class="step"><span class="n">✓</span> Doprava a platba</div>
+    <span class="sep"></span>
+    <div class="step on"><span class="n">✓</span> Hotovo</div>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap">
+    <img class="mascot" src="maskot/eldee-srdicko-transparent.png" alt="Eldee dělá srdíčko z tlapek — díky za objednávku">
+    <div class="holy">Holy Socks!</div>
+    <h1>Máme to. Díky, parťáku.</h1>
+    <p>Tvoje objednávka dorazila k nám a už ji chystáme. Potvrzení ti letí na e-mail.</p>
+    <div class="ordno">Číslo objednávky: <b>#ELD-2026-0042</b></div>
+  </div>
+</section>
+
+<div class="wrap">
+  <div class="grid">
+
+    <!-- CO TEĎ + souhrn vlevo -->
+    <div>
+      <div class="card">
+        <h2>Co se děje teď</h2>
+        <div class="tl">
+          <div class="row"><span class="ic">📧</span><div><div class="t">Potvrzení e-mailem</div><div class="d">Posíláme rekapitulaci objednávky na tvůj e-mail.</div></div></div>
+          <div class="row"><span class="ic">📦</span><div><div class="t">Balíme tvůj pár</div><div class="d">Pečlivě sbalíme a předáme dopravci (Zásilkovna).</div></div></div>
+          <div class="row"><span class="ic">🚀</span><div><div class="t">Expedujeme</div><div class="d">Jakmile pár vyrazí, dáme ti vědět e-mailem.</div></div></div>
+        </div>
+        <div class="deliv">📍 Doručení na: <b>Zásilkovna — výdejní místo</b> · platba kartou · <b>1–2 dny</b></div>
+      </div>
+    </div>
+
+    <!-- souhrn vpravo -->
+    <div class="card">
+      <h2>Tvoje objednávka</h2>
+      <div class="li">
+        <div class="pic"><div class="cuff"></div></div>
+        <div class="nm">Signature štulpna<small>Off-white · 39–42 · 1 ks</small></div>
+        <div class="pr">599 Kč</div>
+      </div>
+      <div class="li">
+        <div class="pic dark"><div class="cuff"></div></div>
+        <div class="nm">Tube návlek<small>Carbon · 39–42 · 1 ks</small></div>
+        <div class="pr">599 Kč</div>
+      </div>
+      <div class="sumrow" style="margin-top:10px"><span>Mezisoučet</span><span class="v">1 198 Kč</span></div>
+      <div class="sumrow"><span>Doprava (Zásilkovna)</span><span class="v">69 Kč</span></div>
+      <div class="sumtot"><span>Celkem</span><span class="v">1 267 Kč</span></div>
+    </div>
+  </div>
+
+  <!-- HOLY SQUAD pozvánka -->
+  <div class="squad">
+    <span class="k">Vítej v Holy Squad</span>
+    <h2>Patříš mezi své</h2>
+    <p>Až ti pár dorazí, hoď ho na sebe, vyfoť a otaguj <strong class="gold">#holysocks</strong> — objevíš se na webu mezi prvními. Holy Squad se píše teď.</p>
+    <div class="btns">
+      <a class="btn btn-primary" href="#">Sleduj @eldee.cz</a>
+      <a class="btn btn-ghost" href="#">← Zpět na eshop</a>
+    </div>
+  </div>
+</div>
+
+<footer><div class="wrap">eldee — objednávka přijata (mockup v1) · 2026-06-20</div></footer>
+
+</body>
+</html>

@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>eldee — košík (mockup)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@400;700;900&family=Caveat+Brush&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0A0A0A;--ink-soft:#141414;--ink-card:#181818;--bone:#F5F5F0;--ash:#9a9a92;
+    --blood:#B91C1C;--blood-light:#DC2626;--gold:#C9A227;--line:rgba(245,245,240,.12);--maxw:1180px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:var(--ink);color:var(--bone);font-family:'Space Grotesk',system-ui,sans-serif;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  h1,h2,h3{font-family:'Big Shoulders Display',sans-serif;font-weight:900;line-height:.95;letter-spacing:-.01em;text-transform:uppercase}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 22px}
+  .gold{color:var(--gold)}
+  .mock-note{background:var(--gold);color:var(--ink);text-align:center;font-size:12.5px;font-weight:700;letter-spacing:.04em;padding:8px 14px}
+
+  header{position:sticky;top:0;z-index:50;background:rgba(10,10,10,.96);backdrop-filter:blur(10px);border-bottom:1.5px solid var(--gold)}
+  .head-row{display:flex;align-items:center;justify-content:space-between;height:68px;gap:18px}
+  .brand{display:flex;align-items:center;gap:12px}
+  .brand .halo{width:30px;height:9px;border:3px solid var(--gold);border-radius:50%;margin-bottom:-3px}
+  .brand .name{font-family:'Big Shoulders Display';font-weight:900;font-size:34px;text-transform:lowercase;letter-spacing:-.02em;color:var(--bone)}
+  .brand .name .dot{color:var(--blood)}
+  .brand .name .cz{color:var(--gold);font-size:.62em;letter-spacing:0}
+  .head-actions{display:flex;align-items:center;gap:10px}
+  .icobtn{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:600;border:1.5px solid rgba(201,162,39,.6);padding:11px 16px;border-radius:40px;transition:.2s;cursor:pointer;color:var(--bone);min-height:44px}
+  .icobtn:hover{border-color:var(--gold);color:var(--gold)}
+  .icobtn svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8}
+
+  /* KROKY */
+  .steps{display:flex;align-items:center;justify-content:center;gap:10px;padding:26px 0 6px;font-size:13px;flex-wrap:wrap}
+  .step{display:flex;align-items:center;gap:8px;color:var(--ash)}
+  .step .n{width:26px;height:26px;border-radius:50%;border:1.5px solid var(--line);display:grid;place-items:center;font-weight:700;font-size:12px}
+  .step.on{color:var(--bone)}
+  .step.on .n{border-color:var(--gold);background:var(--gold);color:var(--ink)}
+  .step .sep{width:26px;height:1.5px;background:var(--line)}
+
+  .page-h{text-align:center;padding:8px 0 22px}
+  .page-h h1{font-size:clamp(34px,6vw,56px)}
+  .page-h p{color:var(--ash);font-size:14px;margin-top:4px}
+
+  /* LAYOUT */
+  .cart{display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:34px;padding:6px 0 60px;align-items:start}
+
+  /* FREE SHIPPING progress */
+  .freeship{background:var(--ink-card);border:1px solid var(--line);border-radius:16px;padding:16px 18px;margin-bottom:18px}
+  .freeship .msg{font-size:14px;margin-bottom:10px}
+  .freeship .msg b{color:var(--gold)}
+  .freeship .msg.done b{color:#6cc274}
+  .fbar{height:9px;border-radius:6px;background:var(--ink);overflow:hidden}
+  .fbar i{display:block;height:100%;background:linear-gradient(90deg,var(--blood),var(--gold));border-radius:6px;transition:width .3s}
+  .fbar i.done{background:#6cc274}
+
+  /* ITEM */
+  .items{display:flex;flex-direction:column;gap:14px}
+  .item{display:flex;gap:16px;background:var(--ink-card);border:1px solid var(--line);border-radius:16px;padding:16px;align-items:center}
+  .item .pic{flex:0 0 auto;width:72px;height:92px;border-radius:12px;background:linear-gradient(180deg,#F5F5F0,#d9d9d2);position:relative;overflow:hidden}
+  .item .pic .cuff{position:absolute;top:0;left:0;right:0;height:14px;border-bottom:2px solid var(--gold)}
+  .item .pic .h{position:absolute;top:34px;left:50%;transform:translateX(-50%);width:7px;height:11px;border-radius:50%;background:var(--ink);box-shadow:0 14px 0 var(--ink)}
+  .item .info{flex:1;min-width:0}
+  .item .nm{font-weight:700;font-size:16px;margin-bottom:3px}
+  .item .var{font-size:12.5px;color:var(--ash);display:flex;gap:12px;flex-wrap:wrap}
+  .item .var .sw{display:inline-flex;align-items:center;gap:6px}
+  .item .var .dot{width:12px;height:12px;border-radius:50%;border:1px solid var(--line)}
+  .item .rm{font-size:12px;color:var(--ash);text-decoration:underline;cursor:pointer;margin-top:8px;display:inline-block}
+  .item .rm:hover{color:var(--blood-light)}
+  .item .right{display:flex;flex-direction:column;align-items:flex-end;gap:12px;flex:0 0 auto}
+  .item .price{font-family:'Big Shoulders Display';font-weight:900;font-size:22px;color:var(--gold);white-space:nowrap}
+  .qty{display:flex;align-items:center;border:1.5px solid var(--line);border-radius:40px;overflow:hidden}
+  .qty button{width:38px;height:38px;background:var(--ink);border:none;color:var(--bone);font-size:20px;line-height:1;cursor:pointer;font-family:inherit;transition:.2s}
+  .qty button:hover{background:rgba(201,162,39,.14);color:var(--gold)}
+  .qty button:disabled{opacity:.35;cursor:not-allowed}
+  .qty .v{width:42px;text-align:center;font-weight:700;font-size:15px;font-variant-numeric:tabular-nums}
+
+  .keepshop{display:inline-flex;align-items:center;gap:8px;margin-top:18px;font-size:14px;color:var(--ash)}
+  .keepshop:hover{color:var(--gold)}
+
+  /* SOUHRN */
+  .summary{position:sticky;top:90px;background:var(--ink-card);border:1px solid var(--line);border-radius:18px;padding:24px}
+  .summary h2{font-size:22px;margin-bottom:16px}
+  .coupon{display:flex;gap:8px;margin-bottom:18px}
+  .coupon input{flex:1;min-width:0;background:var(--ink);border:1.5px solid var(--line);border-radius:40px;padding:13px 18px;color:var(--bone);font-family:inherit;font-size:14px}
+  .coupon input:focus{outline:none;border-color:var(--gold)}
+  .coupon button{background:transparent;border:1.5px solid var(--gold);color:var(--gold);border-radius:40px;padding:0 18px;font-family:inherit;font-weight:700;font-size:13px;cursor:pointer;transition:.2s;min-height:48px}
+  .coupon button:hover{background:rgba(201,162,39,.12)}
+  .coupon-msg{font-size:12.5px;margin:-10px 0 16px;min-height:16px}
+  .coupon-msg.ok{color:#6cc274}
+  .coupon-msg.err{color:var(--blood-light)}
+
+  .sumrow{display:flex;justify-content:space-between;padding:8px 0;font-size:14.5px;color:var(--ash)}
+  .sumrow.bone{color:var(--bone)}
+  .sumrow .v{font-variant-numeric:tabular-nums}
+  .sumrow.discount{color:#6cc274}
+  .sumtot{display:flex;justify-content:space-between;align-items:baseline;padding:14px 0 4px;margin-top:8px;border-top:1px solid var(--line);font-weight:700;font-size:17px}
+  .sumtot .v{font-family:'Big Shoulders Display';font-size:30px;color:var(--gold)}
+  .vat{font-size:11.5px;color:var(--ash);text-align:right;margin-bottom:16px}
+
+  .btn-checkout{width:100%;display:flex;align-items:center;justify-content:center;gap:11px;background:var(--blood);color:#fff;border:none;font-family:inherit;font-weight:700;font-size:17px;padding:18px;border-radius:48px;cursor:pointer;transition:.2s;letter-spacing:.01em}
+  .btn-checkout:hover{background:var(--blood-light);transform:translateY(-2px)}
+  .btn-checkout svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2}
+  .pay{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:14px;flex-wrap:wrap}
+  .pay span{font-size:10px;font-weight:700;letter-spacing:.04em;color:var(--ash);border:1px solid var(--line);border-radius:6px;padding:4px 8px}
+  .sum-trust{margin-top:14px;font-size:12px;color:var(--ash);text-align:center;line-height:1.5}
+  .sum-trust .gold{color:var(--gold)}
+
+  /* CROSS-SELL */
+  .xsell{padding:14px 0 64px}
+  .xsell h2{font-size:24px;margin-bottom:4px}
+  .xsell .lead{color:var(--ash);font-size:14px;margin-bottom:20px}
+  .xgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .xcard{background:var(--ink-card);border:1px solid var(--line);border-radius:16px;padding:16px;text-align:center;transition:.2s}
+  .xcard:hover{border-color:rgba(201,162,39,.5)}
+  .xpic{width:64px;height:84px;margin:0 auto 12px;border-radius:10px;background:linear-gradient(180deg,#F5F5F0,#d9d9d2);position:relative}
+  .xpic.dark{background:linear-gradient(180deg,#2a2a2a,#1a1a1a)}
+  .xpic.red{background:linear-gradient(180deg,#d23a3a,#B91C1C)}
+  .xpic .cuff{position:absolute;top:0;left:0;right:0;height:12px;border-radius:10px 10px 0 0;border-bottom:2px solid var(--gold)}
+  .xcard .nm{font-weight:700;font-size:14.5px}
+  .xcard .pr{color:var(--gold);font-family:'Big Shoulders Display';font-weight:900;font-size:18px;margin:2px 0 12px}
+  .xadd{width:100%;background:transparent;border:1.5px solid var(--gold);color:var(--gold);border-radius:40px;padding:10px;font-family:inherit;font-weight:700;font-size:13px;cursor:pointer;transition:.2s;min-height:44px}
+  .xadd:hover{background:var(--gold);color:var(--ink)}
+
+  footer{border-top:1px solid var(--line);padding:30px 0;text-align:center;color:var(--ash);font-size:13px}
+
+  @media(max-width:860px){
+    .cart{grid-template-columns:1fr;gap:22px}
+    .summary{position:static}
+    .xgrid{grid-template-columns:1fr}
+    .brand .name{font-size:28px}
+    .icobtn span.lbl{display:none}
+    .icobtn{padding:11px 13px}
+    .item{flex-wrap:wrap}
+    .item .right{flex-direction:row;width:100%;justify-content:space-between;align-items:center}
+  }
+</style>
+</head>
+<body>
+
+<div class="mock-note">🦥 MOCKUP — KOŠÍK. V Shoptetu = systémová stránka: stylujeme do brandu + přidáváme prvky (doprava zdarma, cross-sell, kupón). Ceny orientační.</div>
+
+<header>
+  <div class="wrap head-row">
+    <a class="brand" href="#"><span class="halo"></span><span class="name">eldee<span class="dot">.</span><span class="cz">cz</span></span></a>
+    <div class="head-actions">
+      <a class="icobtn" href="#"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg><span class="lbl">Hledat</span></a>
+      <a class="icobtn" href="#"><svg viewBox="0 0 24 24"><path d="M6 2h12l-1 7H7L6 2z"/><path d="M9 9v11l3-2 3 2V9"/></svg><span class="lbl" id="headCount">Košík (2)</span></a>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="steps">
+    <div class="step on"><span class="n">1</span> Košík</div>
+    <span class="sep"></span>
+    <div class="step"><span class="n">2</span> Doprava a platba</div>
+    <span class="sep"></span>
+    <div class="step"><span class="n">3</span> Hotovo</div>
+  </div>
+  <div class="page-h">
+    <h1>Tvůj košík</h1>
+    <p id="cartSub">2 páry · ještě nejsi v Holy Squad, ale blížíš se</p>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="cart">
+
+    <!-- LEVÝ SLOUPEC -->
+    <div>
+      <!-- doprava zdarma -->
+      <div class="freeship">
+        <div class="msg" id="shipMsg"></div>
+        <div class="fbar"><i id="fbar" style="width:0%"></i></div>
+      </div>
+
+      <!-- položky -->
+      <div class="items" id="items"></div>
+
+      <a class="keepshop" href="#">← Pokračovat v nákupu</a>
+    </div>
+
+    <!-- SOUHRN -->
+    <div class="summary">
+      <h2>Souhrn objednávky</h2>
+      <div class="coupon">
+        <input type="text" id="couponInput" placeholder="Slevový kód" aria-label="Slevový kód">
+        <button id="couponBtn">Použít</button>
+      </div>
+      <div class="coupon-msg" id="couponMsg"></div>
+
+      <div class="sumrow bone"><span>Mezisoučet</span><span class="v" id="subtotal">—</span></div>
+      <div class="sumrow" id="discountRow" style="display:none"><span>Sleva <span id="couponTag"></span></span><span class="v" id="discountVal">—</span></div>
+      <div class="sumrow"><span>Doprava</span><span class="v" id="shipVal">—</span></div>
+      <div class="sumtot"><span>Celkem</span><span class="v" id="total">—</span></div>
+      <div class="vat">vč. DPH</div>
+
+      <button class="btn-checkout">Pokračovat k objednávce
+        <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </button>
+      <div class="pay"><span>VISA</span><span>Mastercard</span><span>Apple Pay</span><span>GoPay</span><span>Dobírka</span></div>
+      <div class="sum-trust"><span class="gold">✓</span> Bezpečná platba · <span class="gold">✓</span> Vrácení do 14 dní</div>
+    </div>
+  </div>
+</div>
+
+<!-- CROSS-SELL -->
+<section class="wrap xsell">
+  <h2>Hodí se k tomu</h2>
+  <p class="lead">Přidej k objednávce — a možná i odemkneš dopravu zdarma.</p>
+  <div class="xgrid">
+    <div class="xcard">
+      <div class="xpic"><div class="cuff"></div></div>
+      <div class="nm">Tréninková ponožka</div>
+      <div class="pr">549 Kč</div>
+      <button class="xadd" data-add="Tréninková ponožka" data-price="549">+ Přidat</button>
+    </div>
+    <div class="xcard">
+      <div class="xpic dark"><div class="cuff"></div></div>
+      <div class="nm">Nízká štulpna · Carbon</div>
+      <div class="pr">599 Kč</div>
+      <button class="xadd" data-add="Nízká štulpna" data-price="599">+ Přidat</button>
+    </div>
+    <div class="xcard">
+      <div class="xpic red"><div class="cuff"></div></div>
+      <div class="nm">Tube návlek · Blood Red</div>
+      <div class="pr">499 Kč</div>
+      <button class="xadd" data-add="Tube návlek" data-price="499">+ Přidat</button>
+    </div>
+  </div>
+</section>
+
+<footer><div class="wrap">eldee — košík (mockup v1) · 2026-06-20</div></footer>
+
+<script>
+  const FREE_FROM = 2; // doprava zdarma od 2 párů
+  const SHIP = 79;
+  let coupon = null; // {code, pct}
+  const VALID = { 'HOLY10': 10 }; // demo kupón
+
+  let items = [
+    { name:'Signature štulpna', color:'Off-white', dot:'#F5F5F0', size:'39–42', price:599, qty:1 },
+    { name:'Tube návlek', color:'Carbon', dot:'#0A0A0A', size:'39–42', price:599, qty:1 },
+  ];
+
+  const fmt = n => n.toLocaleString('cs-CZ') + ' Kč';
+  const parSlovo = n => n>=5 ? 'párů' : (n>=2 ? 'páry' : 'pár');
+
+  function renderItems(){
+    const box=document.getElementById('items');
+    box.innerHTML='';
+    items.forEach((it,i)=>{
+      const el=document.createElement('div');
+      el.className='item';
+      el.innerHTML=`
+        <div class="pic"><div class="cuff"></div><div class="h"></div></div>
+        <div class="info">
+          <div class="nm">${it.name}</div>
+          <div class="var">
+            <span class="sw"><span class="dot" style="background:${it.dot}"></span>${it.color}</span>
+            <span>Velikost ${it.size}</span>
+          </div>
+          <span class="rm" data-i="${i}">Odebrat</span>
+        </div>
+        <div class="right">
+          <div class="price">${fmt(it.price*it.qty)}</div>
+          <div class="qty">
+            <button data-dec="${i}" ${it.qty<=1?'disabled':''}>–</button>
+            <span class="v">${it.qty}</span>
+            <button data-inc="${i}">+</button>
+          </div>
+        </div>`;
+      box.appendChild(el);
+    });
+    box.querySelectorAll('[data-inc]').forEach(b=>b.addEventListener('click',()=>{ items[b.dataset.inc].qty++; renderAll(); }));
+    box.querySelectorAll('[data-dec]').forEach(b=>b.addEventListener('click',()=>{ const i=b.dataset.dec; if(items[i].qty>1){items[i].qty--; renderAll();} }));
+    box.querySelectorAll('.rm').forEach(b=>b.addEventListener('click',()=>{ items.splice(b.dataset.i,1); renderAll(); }));
+  }
+
+  function renderAll(){
+    renderItems();
+    const pairs = items.reduce((s,it)=>s+it.qty,0);
+    const subtotal = items.reduce((s,it)=>s+it.price*it.qty,0);
+    const shipping = pairs>=FREE_FROM ? 0 : SHIP;
+    const discount = coupon ? Math.round(subtotal*coupon.pct/100) : 0;
+    const total = Math.max(0, subtotal - discount) + shipping;
+
+    // header + sub
+    document.getElementById('headCount').textContent=`Košík (${pairs})`;
+    document.getElementById('cartSub').textContent = pairs ? `${pairs} ${parSlovo(pairs)} v košíku` : 'Košík je prázdný';
+
+    // doprava zdarma progress
+    const msg=document.getElementById('shipMsg'), bar=document.getElementById('fbar');
+    if(pairs>=FREE_FROM){
+      msg.className='msg done'; msg.innerHTML='🎉 <b>Doprava zdarma odemčena!</b>';
+      bar.className='done'; bar.style.width='100%';
+    } else {
+      const need=FREE_FROM-pairs;
+      msg.className='msg'; msg.innerHTML=`Přidej ještě <b>${need} ${parSlovo(need)}</b> a máš <b>dopravu zdarma</b>.`;
+      bar.className=''; bar.style.width=(pairs/FREE_FROM*100)+'%';
+    }
+
+    // souhrn
+    document.getElementById('subtotal').textContent=fmt(subtotal);
+    document.getElementById('shipVal').textContent= shipping===0 ? 'Zdarma' : fmt(shipping);
+    document.getElementById('shipVal').style.color = shipping===0 ? '#6cc274' : '';
+    document.getElementById('total').textContent=fmt(total);
+    const dRow=document.getElementById('discountRow');
+    if(discount>0){ dRow.style.display='flex'; document.getElementById('discountVal').textContent='– '+fmt(discount); document.getElementById('couponTag').textContent='('+coupon.code+')'; }
+    else dRow.style.display='none';
+  }
+
+  // kupón
+  document.getElementById('couponBtn').addEventListener('click',()=>{
+    const code=document.getElementById('couponInput').value.trim().toUpperCase();
+    const msg=document.getElementById('couponMsg');
+    if(VALID[code]){ coupon={code,pct:VALID[code]}; msg.className='coupon-msg ok'; msg.textContent=`Kód ${code} použit — sleva ${VALID[code]} %.`; }
+    else { coupon=null; msg.className='coupon-msg err'; msg.textContent='Neplatný kód. (Zkus HOLY10.)'; }
+    renderAll();
+  });
+
+  // cross-sell
+  document.querySelectorAll('.xadd').forEach(b=>b.addEventListener('click',()=>{
+    items.push({ name:b.dataset.add, color:'—', dot:'#888', size:'39–42', price:+b.dataset.price, qty:1 });
+    renderAll();
+    document.getElementById('items').scrollIntoView({behavior:'smooth',block:'center'});
+  }));
+
+  renderAll();
+</script>
+</body>
+</html>

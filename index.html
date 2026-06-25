@@ -64,8 +64,8 @@
 
   /* ---------- timeline ---------- */
   .tl{position:relative;margin-left:8px}
-  .tl-head,.tl-rest-inner{position:relative;padding-left:34px}
-  .tl-head::before,.tl-rest-inner::before{content:"";position:absolute;left:0;top:6px;bottom:6px;width:1px;background:var(--line)}
+  .tl-rest-inner{position:relative;padding-left:34px}
+  .tl-rest-inner::before{content:"";position:absolute;left:0;top:6px;bottom:6px;width:1px;background:var(--line)}
   .tl-item{position:relative;padding-bottom:30px}
   .tl-item:last-child{padding-bottom:0}
   .tl-item::before{content:"";position:absolute;left:-38.5px;top:5px;width:9px;height:9px;border-radius:50%;background:var(--gold)}
@@ -74,19 +74,21 @@
   .tl-item h3{font-family:'Big Shoulders Display';font-weight:800;font-size:21px;text-transform:uppercase;margin:2px 0 4px}
   .tl-item p{font-size:14px;color:var(--dim);max-width:64ch}
 
-  /* historie milníků: scroll box na PC, rozbalovací tlačítko na mobilu */
-  .tl-rest{position:relative;max-height:360px;overflow-y:auto;margin-top:30px;scrollbar-width:thin;scrollbar-color:var(--line) transparent;-webkit-mask-image:linear-gradient(to bottom,#000 calc(100% - 42px),transparent);mask-image:linear-gradient(to bottom,#000 calc(100% - 42px),transparent)}
-  .tl-rest-inner{padding-bottom:8px}
-  .tl-rest::-webkit-scrollbar{width:8px}
-  .tl-rest::-webkit-scrollbar-track{background:transparent}
-  .tl-rest::-webkit-scrollbar-thumb{background:var(--line);border-radius:999px}
-  .tl-rest::-webkit-scrollbar-thumb:hover{background:var(--muted)}
+  /* historie milníků: scroll box (~6 vidět) na PC, rozbalovací tlačítko na mobilu */
+  .tl-track{position:relative}
   .tl-more{display:none;margin-top:18px;padding:0 20px;min-height:44px;align-items:center;gap:8px;background:var(--ink2);border:1px solid var(--line);color:var(--gold);font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;border-radius:999px;cursor:pointer;transition:border-color .2s}
   .tl-more:hover{border-color:var(--gold)}
+  @media(min-width:721px){
+    .tl-track{max-height:900px;overflow-y:auto;padding-right:16px;scrollbar-width:auto;scrollbar-color:var(--gold) var(--ink2)}
+    .tl-track::-webkit-scrollbar{width:12px}
+    .tl-track::-webkit-scrollbar-track{background:var(--ink2);border-radius:999px}
+    .tl-track::-webkit-scrollbar-thumb{background:var(--gold);border-radius:999px;border:3px solid var(--ink2)}
+    .tl-track::-webkit-scrollbar-thumb:hover{background:var(--blood-l)}
+  }
   @media(max-width:720px){
     .tl-more{display:inline-flex}
-    .tl-rest{max-height:0;overflow:hidden;margin-top:0;-webkit-mask-image:none;mask-image:none}
-    .tl.rest-open .tl-rest{max-height:none;margin-top:30px}
+    .tl-rest-inner .tl-item:nth-child(n+7){display:none}
+    .tl.rest-open .tl-rest-inner .tl-item:nth-child(n+7){display:block}
   }
 
   /* ---------- tasks ---------- */
@@ -242,11 +244,10 @@ function renderTimeline(arr){
   arr=arr||[];
   const VISIBLE=6;
   const item=t=>`<div class="tl-item${t.minor?' minor':''}"><div class="tl-date">${esc(t.datum)}</div><h3>${esc(t.nadpis)}</h3><p>${t.text||''}</p></div>`;
-  const rest=arr.slice(VISIBLE);
-  let html=`<div class="tl-head">${arr.slice(0,VISIBLE).map(item).join('')}</div>`;
-  if(rest.length){
-    html+=`<button class="tl-more" type="button" aria-expanded="false">Zobrazit starší (${rest.length})</button>`;
-    html+=`<div class="tl-rest"><div class="tl-rest-inner">${rest.map(item).join('')}</div></div>`;
+  const hidden=Math.max(0,arr.length-VISIBLE);
+  let html=`<div class="tl-track"><div class="tl-rest-inner">${arr.map(item).join('')}</div></div>`;
+  if(hidden){
+    html+=`<button class="tl-more" type="button" aria-expanded="false">Zobrazit starší (${hidden})</button>`;
   }
   el.innerHTML=html;
   const btn=el.querySelector('.tl-more');
@@ -254,7 +255,7 @@ function renderTimeline(arr){
     btn.addEventListener('click',()=>{
       const open=el.classList.toggle('rest-open');
       btn.setAttribute('aria-expanded',open?'true':'false');
-      btn.textContent=open?'Skrýt starší':`Zobrazit starší (${rest.length})`;
+      btn.textContent=open?'Skrýt starší':`Zobrazit starší (${hidden})`;
     });
   }
 }

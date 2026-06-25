@@ -34,9 +34,9 @@
     },
     {
       "tag": "Brand",
-      "nadpis": "Brand book v1.9",
+      "nadpis": "Brand book v2.0",
       "badge": "živě",
-      "text": "16 sekcí, kompletní vizuální i verbální identita, jednotné logo i wordmark v2 propsány, misuse s reálnými příklady, construction grid, produktová řada v positioningu, aktuální PDF. Zbývá doména brand.eldee.cz."
+      "text": "Kompletní vizuální i verbální identita včetně sekce Maskot Eldee: jednotné logo i wordmark v2, misuse s reálnými příklady, construction grid, produktová řada v positioningu, aktuální PDF. Zbývá doména brand.eldee.cz."
     },
     {
       "tag": "Byznys",
@@ -325,8 +325,8 @@
     {
       "nadpis": "Editor maskota",
       "text": "Ruční editor lenochoda v krabici: klonování děr z obrázku, razítka (čistá díra / LD logo / záplata), export PNG. Nástroj na úpravu maskota.",
-      "stav": "soon",
-      "stavText": "nástroj — beta",
+      "stav": "on",
+      "stavText": "online — nástroj",
       "href": "maskot-editor/krabice-editor.html",
       "extern": false
     },

@@ -63,8 +63,9 @@
   .b-done{background:rgba(63,158,88,.12);color:#5fbf7a;border:1px solid rgba(63,158,88,.4)}
 
   /* ---------- timeline ---------- */
-  .tl{position:relative;margin-left:8px;padding-left:34px}
-  .tl::before{content:"";position:absolute;left:0;top:6px;bottom:6px;width:1px;background:var(--line)}
+  .tl{position:relative;margin-left:8px}
+  .tl-head,.tl-rest-inner{position:relative;padding-left:34px}
+  .tl-head::before,.tl-rest-inner::before{content:"";position:absolute;left:0;top:6px;bottom:6px;width:1px;background:var(--line)}
   .tl-item{position:relative;padding-bottom:30px}
   .tl-item:last-child{padding-bottom:0}
   .tl-item::before{content:"";position:absolute;left:-38.5px;top:5px;width:9px;height:9px;border-radius:50%;background:var(--gold)}
@@ -72,6 +73,21 @@
   .tl-date{font-family:'Space Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:.1em}
   .tl-item h3{font-family:'Big Shoulders Display';font-weight:800;font-size:21px;text-transform:uppercase;margin:2px 0 4px}
   .tl-item p{font-size:14px;color:var(--dim);max-width:64ch}
+
+  /* historie milníků: scroll box na PC, rozbalovací tlačítko na mobilu */
+  .tl-rest{position:relative;max-height:360px;overflow-y:auto;margin-top:30px;scrollbar-width:thin;scrollbar-color:var(--line) transparent;-webkit-mask-image:linear-gradient(to bottom,#000 calc(100% - 42px),transparent);mask-image:linear-gradient(to bottom,#000 calc(100% - 42px),transparent)}
+  .tl-rest-inner{padding-bottom:8px}
+  .tl-rest::-webkit-scrollbar{width:8px}
+  .tl-rest::-webkit-scrollbar-track{background:transparent}
+  .tl-rest::-webkit-scrollbar-thumb{background:var(--line);border-radius:999px}
+  .tl-rest::-webkit-scrollbar-thumb:hover{background:var(--muted)}
+  .tl-more{display:none;margin-top:18px;padding:0 20px;min-height:44px;align-items:center;gap:8px;background:var(--ink2);border:1px solid var(--line);color:var(--gold);font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;border-radius:999px;cursor:pointer;transition:border-color .2s}
+  .tl-more:hover{border-color:var(--gold)}
+  @media(max-width:720px){
+    .tl-more{display:inline-flex}
+    .tl-rest{max-height:0;overflow:hidden;margin-top:0;-webkit-mask-image:none;mask-image:none}
+    .tl.rest-open .tl-rest{max-height:none;margin-top:30px}
+  }
 
   /* ---------- tasks ---------- */
   table{width:100%;border-collapse:collapse;font-size:14px}
@@ -223,7 +239,24 @@ function renderStavKarty(arr){
 }
 function renderTimeline(arr){
   const el=document.querySelector('#timeline .tl'); if(!el) return;
-  el.innerHTML=(arr||[]).map(t=>`<div class="tl-item${t.minor?' minor':''}"><div class="tl-date">${esc(t.datum)}</div><h3>${esc(t.nadpis)}</h3><p>${t.text||''}</p></div>`).join('');
+  arr=arr||[];
+  const VISIBLE=6;
+  const item=t=>`<div class="tl-item${t.minor?' minor':''}"><div class="tl-date">${esc(t.datum)}</div><h3>${esc(t.nadpis)}</h3><p>${t.text||''}</p></div>`;
+  const rest=arr.slice(VISIBLE);
+  let html=`<div class="tl-head">${arr.slice(0,VISIBLE).map(item).join('')}</div>`;
+  if(rest.length){
+    html+=`<button class="tl-more" type="button" aria-expanded="false">Zobrazit starší (${rest.length})</button>`;
+    html+=`<div class="tl-rest"><div class="tl-rest-inner">${rest.map(item).join('')}</div></div>`;
+  }
+  el.innerHTML=html;
+  const btn=el.querySelector('.tl-more');
+  if(btn){
+    btn.addEventListener('click',()=>{
+      const open=el.classList.toggle('rest-open');
+      btn.setAttribute('aria-expanded',open?'true':'false');
+      btn.textContent=open?'Skrýt starší':`Zobrazit starší (${rest.length})`;
+    });
+  }
 }
 function renderUkoly(arr){
   const el=document.querySelector('#ukoly tbody'); if(!el) return;

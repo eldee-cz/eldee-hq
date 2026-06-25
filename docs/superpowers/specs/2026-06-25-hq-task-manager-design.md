@@ -66,3 +66,38 @@ Z tabulky se stává nástroj, do kterého se sahá denně. Ukládání zůstáv
 - **Timeline:** úkoly se do ní NEpropisují automaticky — zůstává kurátorovaná na velké milníky (drobné hotové tasky žijí jen v sekci „Hotové").
 
 **Mimo vrstvu 1** (další vrstvy): editace textu už existujícího úkolu, termíny/deadliny (vrstva 2), filtry/skupiny (vrstva 3), propojení s kalendářem (vrstva 4), ukládání bez tření (vrstva 0).
+
+---
+
+## Vrstva 2 — termíny + kalendář (2026-06-25)
+
+Spojeno: termíny na úkolech + funkční kalendář (ruční události + termíny úkolů). Ukládání zůstává přes export (serverless = task `zabezpeceni-hq`).
+
+### Termíny na úkolech
+- Nové volitelné pole `termin` (ISO datum) u úkolu.
+- Task manager: nový sloupec **Termín** = `<input type="date">` (klik → nativní picker). Volitelné.
+- Zvýraznění: po termínu červeně, ≤ 3 dny do termínu žlutě, dál normálně. Hotové úkoly termín neřeší.
+
+### Kalendář — data
+- Nová sekce `stav.json`: `udalosti: [{ id, datum, cas, nazev, popis, kategorie }]` (sdílí se přes git).
+- **Kategorie + barvy:** drop (zlatá) · schuzka (modrá) · deadline (červená) · prace (fialová) · finance (zelená) · vyroba (oranžová) · marketing (růžová) · ostatni (šedá).
+- Zdroje v kalendáři: ruční `udalosti[]` + termíny z `ukoly[].termin` (vyjma hotových).
+
+### Kalendář — UI
+- **Layout:** PC = mřížka vlevo + panel vpravo (grid 2 sloupce); mobil = panel pod mřížkou.
+- **Mřížka:** u dnů s položkami tečky (víc položek = víc teček, strop 3 + „·"); barva tečky dle kategorie (událost) / priority (úkol).
+- **Panel „Nejbližší":** nadcházející události + termíny úkolů, seřazené, nejbližší nahoře. Položka: barva · datum · čas · název.
+- **Klik na den** → panel přepne na **„Detail dne"** (položky dne s popisem) + tlačítko „← Nejbližší".
+- Prošlé nesplněné termíny červeně; hotové úkoly se nezobrazují.
+
+### Přidávání / správa událostí
+- **„➕ Přidat událost"** (nad kalendářem) → formulář: datum · čas (volitelný) · název · kategorie (barevný výběr) · popis (volitelný).
+- **Klik na den → „➕ přidat na tento den"** (datum předvyplněno).
+- Detail dne: u události 🗑 smazat, klik = úprava (předvyplní formulář).
+
+### Mimo vrstvu 2
+Opakované události, připomínky/notifikace, přetahování v kalendáři, serverless ukládání.
+
+### Dotčené soubory
+- `index.html` — task manager (sloupec termín + render/wire) + kompletní přepis kalendářní sekce (layout, tečky, panel, detail, formulář, CRUD událostí) + CSS.
+- `data/stav.json` — nová sekce `udalosti`, volitelné pole `termin` u úkolů.

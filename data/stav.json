@@ -186,7 +186,7 @@
       "vzniklo": "2026-06-24",
       "hotovo": null,
       "priorita": "nizka",
-      "poradi": 11
+      "poradi": 12
     },
     {
       "id": "vyrobce-schuzka",
@@ -217,7 +217,7 @@
       "vzniklo": "2026-05-24",
       "hotovo": null,
       "priorita": "nizka",
-      "poradi": 12
+      "poradi": 13
     },
     {
       "id": "kniha-kap8",
@@ -248,7 +248,7 @@
       "vzniklo": "2026-06-06",
       "hotovo": null,
       "priorita": "stredni",
-      "poradi": 4
+      "poradi": 5
     },
     {
       "id": "barvy-dresu-p3",
@@ -259,7 +259,7 @@
       "vzniklo": "2026-05-19",
       "hotovo": null,
       "priorita": "nizka",
-      "poradi": 13
+      "poradi": 14
     },
     {
       "id": "construction-grid",
@@ -279,7 +279,7 @@
       "vzniklo": "2026-06-24",
       "hotovo": null,
       "priorita": "nizka",
-      "poradi": 14
+      "poradi": 15
     },
     {
       "id": "logomanual-web-split",
@@ -308,7 +308,7 @@
       "vzniklo": "2026-06-24",
       "hotovo": null,
       "priorita": "stredni",
-      "poradi": 5
+      "poradi": 6
     },
     {
       "id": "kalendar-ficury",
@@ -319,7 +319,7 @@
       "vzniklo": "2026-06-24",
       "hotovo": null,
       "priorita": "stredni",
-      "poradi": 6
+      "poradi": 7
     },
     {
       "id": "barva-akcent",
@@ -330,7 +330,8 @@
       "vzniklo": "2026-06-25",
       "hotovo": null,
       "priorita": "vysoka",
-      "poradi": 3
+      "poradi": 3,
+      "termin": "2026-06-30"
     },
     {
       "id": "drop001-forma-mix",
@@ -341,7 +342,7 @@
       "vzniklo": "2026-06-25",
       "hotovo": null,
       "priorita": "stredni",
-      "poradi": 7
+      "poradi": 8
     },
     {
       "id": "ucetni-pravnik",
@@ -352,7 +353,7 @@
       "vzniklo": "2026-06-25",
       "hotovo": null,
       "priorita": "stredni",
-      "poradi": 8
+      "poradi": 9
     },
     {
       "id": "eshop-pravni",
@@ -363,7 +364,7 @@
       "vzniklo": "2026-06-25",
       "hotovo": null,
       "priorita": "stredni",
-      "poradi": 9
+      "poradi": 10
     },
     {
       "id": "cogs-finalni",
@@ -374,7 +375,7 @@
       "vzniklo": "2026-06-25",
       "hotovo": null,
       "priorita": "stredni",
-      "poradi": 10
+      "poradi": 11
     },
     {
       "id": "eshop-launch-blok",
@@ -385,7 +386,7 @@
       "vzniklo": "2026-06-25",
       "hotovo": null,
       "priorita": "nizka",
-      "poradi": 15
+      "poradi": 16
     },
     {
       "id": "marketing-blok",
@@ -396,7 +397,7 @@
       "vzniklo": "2026-06-25",
       "hotovo": null,
       "priorita": "nizka",
-      "poradi": 16
+      "poradi": 17
     },
     {
       "id": "fotky-obsah-blok",
@@ -407,7 +408,7 @@
       "vzniklo": "2026-06-25",
       "hotovo": null,
       "priorita": "nizka",
-      "poradi": 17
+      "poradi": 18
     },
     {
       "id": "kluby-b2b-blok",
@@ -418,7 +419,7 @@
       "vzniklo": "2026-06-25",
       "hotovo": null,
       "priorita": "nizka",
-      "poradi": 18
+      "poradi": 19
     },
     {
       "id": "brandbook-copy-blok",
@@ -429,7 +430,18 @@
       "vzniklo": "2026-06-25",
       "hotovo": null,
       "priorita": "nizka",
-      "poradi": 19
+      "poradi": 20
+    },
+    {
+      "id": "zabezpeceni-hq",
+      "text": "🔒 Zabezpečit eldee HQ komplet (zámek + ukládání + sdílení citlivých dat)",
+      "stav": "fronta",
+      "kdo": "Lukáš + Jarvis",
+      "pozn": "BLOK na později, celé najednou (rozmysl 25. 6.): (A) ZÁMEK — server-side heslo na celé HQ; teď je veřejně čitelná vč. citlivých čísel (kniha s maržemi, kalkulačka, finance, sklad) = riziko. (B) UKLÁDÁNÍ ÚKOLŮ — serverless api/save + GitHub token (V0), teď nahrazeno exportem. (C) DATA kalkulačky/skladu/financí — citlivá → soukromé úložiště (privátní repo / DB), ne veřejné repo; teď localStorage per zařízení.",
+      "vzniklo": "2026-06-25",
+      "hotovo": null,
+      "priorita": "vysoka",
+      "poradi": 4
     }
   ],
   "odkazy": [
@@ -577,6 +589,24 @@
       "iniciuly": "?",
       "jmeno": "Doplnit",
       "role": "Role — doplníme"
+    }
+  ],
+  "udalosti": [
+    {
+      "id": "ev-demo1",
+      "datum": "2026-06-27",
+      "cas": "10:00",
+      "nazev": "Ukázka — schůzka",
+      "popis": "Takhle vypadá ručně přidaná událost. Klidně smaž a dej si svoje.",
+      "kategorie": "schuzka"
+    },
+    {
+      "id": "ev-demo2",
+      "datum": "2026-07-01",
+      "cas": "",
+      "nazev": "Ukázka — drop akce",
+      "popis": "",
+      "kategorie": "drop"
     }
   ]
 }

@@ -2,9 +2,18 @@
   "meta": {
     "aktualizovano": "25. 6. 2026",
     "pilulky": [
-      { "label": "Brand book", "hodnota": "v2.0" },
-      { "label": "Kniha", "hodnota": "8/8 kapitol" },
-      { "label": "Maskot", "hodnota": "Eldee zakotven" }
+      {
+        "label": "Brand book",
+        "hodnota": "v2.0"
+      },
+      {
+        "label": "Kniha",
+        "hodnota": "8/8 kapitol"
+      },
+      {
+        "label": "Maskot",
+        "hodnota": "Eldee zakotven"
+      }
     ]
   },
   "stavKarty": [
@@ -169,7 +178,9 @@
       "kdo": "Lukáš + Jarvis",
       "pozn": "Teď sklad eviduje jen naskladnění, data v localStorage. Sdílení s Hledíkem zatím přes Zálohu. Plné cloud/heslování až s reálným prodejem.",
       "vzniklo": "2026-06-24",
-      "hotovo": null
+      "hotovo": null,
+      "priorita": "nizka",
+      "poradi": 3
     },
     {
       "id": "vyrobce-schuzka",
@@ -178,7 +189,9 @@
       "kdo": "Lukáš",
       "pozn": "Schůzka v týdnu od 8. 6. — sew-out vzorek, PES/DST, termíny prototypu a výroby (Drop 001 Q3)",
       "vzniklo": "2026-06-05",
-      "hotovo": null
+      "hotovo": null,
+      "priorita": "vysoka",
+      "poradi": 1
     },
     {
       "id": "wordmark-v2",
@@ -196,7 +209,9 @@
       "kdo": "Lukáš",
       "pozn": "Web už běží na eldee-brandbook.vercel.app",
       "vzniklo": "2026-05-24",
-      "hotovo": null
+      "hotovo": null,
+      "priorita": "nizka",
+      "poradi": 4
     },
     {
       "id": "kniha-kap8",
@@ -214,7 +229,9 @@
       "kdo": "Lukáš",
       "pozn": "Až dorazí vzorky v2; formulář hotový (Google Forms dle databaze/dotaznik-tester-stulpna-dlouha-v2.md)",
       "vzniklo": "2026-06-06",
-      "hotovo": null
+      "hotovo": null,
+      "priorita": "stredni",
+      "poradi": 2
     },
     {
       "id": "feedback-vzorky-v2",
@@ -223,7 +240,9 @@
       "kdo": "Lukáš + Jarvis",
       "pozn": "Po sběru odpovědí; výstup = konkrétní změny pro výrobce",
       "vzniklo": "2026-06-06",
-      "hotovo": null
+      "hotovo": null,
+      "priorita": "nizka",
+      "poradi": 5
     },
     {
       "id": "barvy-dresu-p3",
@@ -232,7 +251,9 @@
       "kdo": "kdokoliv",
       "pozn": "~8 h práce, jde delegovat a rozložit",
       "vzniklo": "2026-05-19",
-      "hotovo": null
+      "hotovo": null,
+      "priorita": "nizka",
+      "poradi": 6
     },
     {
       "id": "construction-grid",
@@ -250,7 +271,9 @@
       "kdo": "Jarvis",
       "pozn": "Dnes localStorage „eldee-crm-v1“ = neviditelné pro druhého. Vyřešit, až bude aktivní oslovování klubů.",
       "vzniklo": "2026-06-24",
-      "hotovo": null
+      "hotovo": null,
+      "priorita": "nizka",
+      "poradi": 7
     },
     {
       "id": "logomanual-web-split",
@@ -277,7 +300,9 @@
       "kdo": "Lukáš + Jarvis",
       "pozn": "Podobu a fungování doladíme v další session.",
       "vzniklo": "2026-06-24",
-      "hotovo": null
+      "hotovo": null,
+      "priorita": "nizka",
+      "poradi": 8
     },
     {
       "id": "kalendar-ficury",
@@ -286,7 +311,9 @@
       "kdo": "Lukáš + Jarvis",
       "pozn": "Zobrazovací kalendář (KT týdny, dnešek, procházení měsíců) hotový; doplňování událostí = budoucí.",
       "vzniklo": "2026-06-24",
-      "hotovo": null
+      "hotovo": null,
+      "priorita": "nizka",
+      "poradi": 9
     }
   ],
   "odkazy": [
@@ -420,8 +447,20 @@
     }
   ],
   "tym": [
-    { "iniciuly": "LD", "jmeno": "Lukáš Doležal", "role": "Founder · vize, produkt, obchod" },
-    { "iniciuly": "LH", "jmeno": "Lukáš Hledík", "role": "CEO · strategie, data, web & AI" },
-    { "iniciuly": "?", "jmeno": "Doplnit", "role": "Role — doplníme" }
+    {
+      "iniciuly": "LD",
+      "jmeno": "Lukáš Doležal",
+      "role": "Founder · vize, produkt, obchod"
+    },
+    {
+      "iniciuly": "LH",
+      "jmeno": "Lukáš Hledík",
+      "role": "CEO · strategie, data, web & AI"
+    },
+    {
+      "iniciuly": "?",
+      "jmeno": "Doplnit",
+      "role": "Role — doplníme"
+    }
   ]
 }

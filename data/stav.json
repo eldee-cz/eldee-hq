@@ -52,6 +52,12 @@
       "nadpis": "Kniha projektu",
       "badge": "8 / 8",
       "text": "Business příručka eldee KOMPLETNÍ — 8 kapitol + interaktivní finanční kalkulačka (4 produkty, mix, klubové kódy, DPH hlídač, kapitál první výroby) + brány go/no-go a 90denní plán k Drop 001."
+    },
+    {
+      "tag": "Byznys",
+      "nadpis": "Firma & ochrana",
+      "badge": "hotovo",
+      "text": "Živnost (OSVČ vedlejší) · datová schránka · podnikatelský účet · průmyslové vzory (díry + kapsa) podané. Právní a ochranný základ stojí."
     }
   ],
   "timeline": [
@@ -180,7 +186,7 @@
       "vzniklo": "2026-06-24",
       "hotovo": null,
       "priorita": "nizka",
-      "poradi": 3
+      "poradi": 11
     },
     {
       "id": "vyrobce-schuzka",
@@ -211,7 +217,7 @@
       "vzniklo": "2026-05-24",
       "hotovo": null,
       "priorita": "nizka",
-      "poradi": 4
+      "poradi": 12
     },
     {
       "id": "kniha-kap8",
@@ -230,7 +236,7 @@
       "pozn": "Až dorazí vzorky v2; formulář hotový (Google Forms dle databaze/dotaznik-tester-stulpna-dlouha-v2.md)",
       "vzniklo": "2026-06-06",
       "hotovo": null,
-      "priorita": "stredni",
+      "priorita": "vysoka",
       "poradi": 2
     },
     {
@@ -241,8 +247,8 @@
       "pozn": "Po sběru odpovědí; výstup = konkrétní změny pro výrobce",
       "vzniklo": "2026-06-06",
       "hotovo": null,
-      "priorita": "nizka",
-      "poradi": 5
+      "priorita": "stredni",
+      "poradi": 4
     },
     {
       "id": "barvy-dresu-p3",
@@ -253,7 +259,7 @@
       "vzniklo": "2026-05-19",
       "hotovo": null,
       "priorita": "nizka",
-      "poradi": 6
+      "poradi": 13
     },
     {
       "id": "construction-grid",
@@ -273,7 +279,7 @@
       "vzniklo": "2026-06-24",
       "hotovo": null,
       "priorita": "nizka",
-      "poradi": 7
+      "poradi": 14
     },
     {
       "id": "logomanual-web-split",
@@ -301,8 +307,8 @@
       "pozn": "Podobu a fungování doladíme v další session.",
       "vzniklo": "2026-06-24",
       "hotovo": null,
-      "priorita": "nizka",
-      "poradi": 8
+      "priorita": "stredni",
+      "poradi": 5
     },
     {
       "id": "kalendar-ficury",
@@ -312,8 +318,118 @@
       "pozn": "Zobrazovací kalendář (KT týdny, dnešek, procházení měsíců) hotový; doplňování událostí = budoucí.",
       "vzniklo": "2026-06-24",
       "hotovo": null,
-      "priorita": "nizka",
+      "priorita": "stredni",
+      "poradi": 6
+    },
+    {
+      "id": "barva-akcent",
+      "text": "Rozhodnout akcentní barvu (Holy Red vs Electric Blue)",
+      "stav": "fronta",
+      "kdo": "Lukáš",
+      "pozn": "Blokuje finální PDF brandbooku + packaging. Visí od května.",
+      "vzniklo": "2026-06-25",
+      "hotovo": null,
+      "priorita": "vysoka",
+      "poradi": 3
+    },
+    {
+      "id": "drop001-forma-mix",
+      "text": "Rozhodnout formu + mix Drop 001 (tube návlek vs štulpna, Signature díry + Clean)",
+      "stav": "fronta",
+      "kdo": "Lukáš",
+      "pozn": "S výrobcem dle prototypu. Průzkum: 93 % nosí návlek, díry polarizují → statement.",
+      "vzniklo": "2026-06-25",
+      "hotovo": null,
+      "priorita": "stredni",
+      "poradi": 7
+    },
+    {
+      "id": "ucetni-pravnik",
+      "text": "Konzultace účetní + právník (1×) + smlouvy do Word/PDF",
+      "stav": "fronta",
+      "kdo": "Lukáš",
+      "pozn": "Účetní ~1,5–2k, právník ~2,5k. Smlouvy z MD do podepisovatelného formátu (licenční/spolupráce/GDPR).",
+      "vzniklo": "2026-06-25",
+      "hotovo": null,
+      "priorita": "stredni",
+      "poradi": 8
+    },
+    {
+      "id": "eshop-pravni",
+      "text": "Obchodní podmínky + GDPR + reklamace + FAQ pro e-shop",
+      "stav": "fronta",
+      "kdo": "Lukáš + Jarvis",
+      "pozn": "Povinné pro reálný prodej. Shoptet šablona + úpravy (UGC doložka, nezletilí).",
+      "vzniklo": "2026-06-25",
+      "hotovo": null,
+      "priorita": "stredni",
       "poradi": 9
+    },
+    {
+      "id": "cogs-finalni",
+      "text": "Potvrdit 4 finální produkty + výrobní ceny písemně → aktualizovat kalkulačku",
+      "stav": "fronta",
+      "kdo": "Lukáš + Jarvis",
+      "pozn": "Go/no-go brána před výrobou. COGS nových produktů jsou teď jen odhady.",
+      "vzniklo": "2026-06-25",
+      "hotovo": null,
+      "priorita": "stredni",
+      "poradi": 10
+    },
+    {
+      "id": "eshop-launch-blok",
+      "text": "🛒 E-shop launch (Shoptet) — kompletní spuštění",
+      "stav": "fronta",
+      "kdo": "Lukáš + Jarvis",
+      "pozn": "BLOK: Shoptet účet+šablona · doména eldee.cz→DNS/SSL · GoPay · Zásilkovna+ceny dopravy · slevové kódy · newsletter (MailerLite) · GA4+Heureka · testovací objednávka 5×.",
+      "vzniklo": "2026-06-25",
+      "hotovo": null,
+      "priorita": "nizka",
+      "poradi": 15
+    },
+    {
+      "id": "marketing-blok",
+      "text": "📣 Marketing pre-launch zásoba",
+      "stav": "fronta",
+      "kdo": "Lukáš + Jarvis",
+      "pozn": "BLOK: 5 quick-start videí (scripty + natočení) · 3s jingle · landing s countdownem · UGC karty (50 ks) · grafika slev pro kluby.",
+      "vzniklo": "2026-06-25",
+      "hotovo": null,
+      "priorita": "nizka",
+      "poradi": 16
+    },
+    {
+      "id": "fotky-obsah-blok",
+      "text": "📸 Produktové fotky + obsah (čeká na prototyp)",
+      "stav": "fronta",
+      "kdo": "Lukáš + Jarvis",
+      "pozn": "BLOK: fotky 5–7/produkt · hero video · mockupy Vlna 2 (vizitka/krabička/hangtag) · finální vektor maskota. Blokováno prototypem.",
+      "vzniklo": "2026-06-25",
+      "hotovo": null,
+      "priorita": "nizka",
+      "poradi": 17
+    },
+    {
+      "id": "kluby-b2b-blok",
+      "text": "🤝 Kluby B2B — nástroje pro oslovování",
+      "stav": "fronta",
+      "kdo": "Lukáš + Jarvis",
+      "pozn": "BLOK: welcome pack PDF · onboarding checklist · rozšířit průzkum na 2–3 další kluby. Až bude aktivní oslovování.",
+      "vzniklo": "2026-06-25",
+      "hotovo": null,
+      "priorita": "nizka",
+      "poradi": 18
+    },
+    {
+      "id": "brandbook-copy-blok",
+      "text": "✏️ Brandbook / copy drobnosti",
+      "stav": "fronta",
+      "kdo": "Lukáš + Jarvis",
+      "pozn": "BLOK: materiál návleku do copy · sjednotit obrat „tvrdší rána\" v brandbooku + mockupech · voice examples · rozhodnout merino komunikaci.",
+      "vzniklo": "2026-06-25",
+      "hotovo": null,
+      "priorita": "nizka",
+      "poradi": 19
     }
   ],
   "odkazy": [

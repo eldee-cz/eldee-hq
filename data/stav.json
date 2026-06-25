@@ -1,6 +1,6 @@
 {
   "meta": {
-    "aktualizovano": "24. 6. 2026",
+    "aktualizovano": "25. 6. 2026",
     "pilulky": [
       { "label": "Brand book", "hodnota": "v2.0" },
       { "label": "Kniha", "hodnota": "8/8 kapitol" },
@@ -46,6 +46,12 @@
     }
   ],
   "timeline": [
+    {
+      "datum": "25. 6. 2026",
+      "nadpis": "Instagram kokpit na HQ",
+      "text": "Nová dlaždice <strong>📸 Instagram</strong> jako kompletní startovní výbava pro IG (Lukáš začíná postovat ochutnávky). 5 záložek: <strong>Galerie</strong> — maskot, loga, logo eldee.cz a slogan Holy Socks skládané přes canvas na brand barvu (čtverec 1:1 / stories 9:16 / průhledný originál), stažení v plné kvalitě na telefon i PC. <strong>Hashtagy</strong> — kopírovací sady podle typu postu. <strong>Popisky</strong> — captiony v eldee tónu. <strong>Plán</strong> prvních ~12 postů. <strong>Profil</strong> — bio, jméno, highlight covers. Postaveno na existující marketingové strategii (Holy Socks campaign).",
+      "minor": false
+    },
     {
       "datum": "24. 6. 2026",
       "nadpis": "Finance: DPH plátce/neplátce kalkulačka",
@@ -299,6 +305,14 @@
       "stavText": "interní · nesdílet",
       "href": "https://eldee-interni-brandbook.vercel.app",
       "extern": true
+    },
+    {
+      "nadpis": "Instagram kokpit",
+      "text": "Vše pro IG na jednom místě: <strong>Galerie</strong> (maskot, loga, eldee.cz, Holy Socks → stáhni hotový post v plné kvalitě, telefon i PC), <strong>Hashtagy</strong> (kopírovací sady podle typu postu), <strong>Popisky</strong> (captiony v eldee tónu), <strong>Plán</strong> prvních ~12 postů a <strong>Profil</strong> (bio, jméno, highlights). Pro start IG bez přemýšlení.",
+      "stav": "on",
+      "stavText": "online — telefon i PC",
+      "href": "instagram.html",
+      "extern": false
     },
     {
       "nadpis": "Brand assety",

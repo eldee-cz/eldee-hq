@@ -151,6 +151,25 @@
   .tm-save{min-height:42px;padding:0 18px;background:var(--ink2);border:1px solid var(--line);color:var(--gold);font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;border-radius:999px;cursor:pointer;transition:border-color .2s,background .2s,color .2s;flex-shrink:0}
   .tm-save:hover{border-color:var(--gold)}
   .tm-save.dirty{border-color:var(--gold);background:rgba(201,162,39,.16);color:var(--bone)}
+  .tm-btns{display:flex;gap:10px;flex-shrink:0}
+  .tm-add{min-height:42px;padding:0 18px;background:var(--ink2);border:1px solid var(--line);color:var(--bone);font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;border-radius:999px;cursor:pointer;transition:border-color .2s,color .2s}
+  .tm-add:hover{border-color:var(--gold);color:var(--gold)}
+  td.tm-checkcell{width:32px}
+  .tm-check{width:23px;height:23px;border:1.5px solid var(--line);border-radius:6px;background:var(--ink);cursor:pointer;display:inline-flex;align-items:center;justify-content:center;color:transparent;font-size:13px;line-height:1;flex-shrink:0;padding:0;transition:border-color .2s,background .2s,color .2s}
+  .tm-check::after{content:"✓"}
+  .tm-check:hover{border-color:var(--green);color:var(--green)}
+  .tm-check.done{background:var(--green);border-color:var(--green);color:var(--ink)}
+  .tm-stav-sel{background:var(--ink);color:var(--bone);border:1px solid var(--line);border-radius:8px;padding:6px 8px;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;min-height:34px}
+  .tm-stav-sel:hover{border-color:var(--gold)}
+  .tm-edit-input{width:100%;max-width:42ch;background:var(--ink);border:1px solid var(--gold);border-radius:6px;color:var(--bone);font-family:inherit;font-size:14px;padding:8px 10px}
+  .tm-done{margin-top:22px}
+  .tm-done-toggle{display:inline-flex;align-items:center;gap:6px;background:none;border:none;color:var(--muted);font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;padding:8px 0}
+  .tm-done-toggle:hover{color:var(--bone)}
+  .tm-done-list{display:none;margin-top:8px;border-top:1px solid var(--line)}
+  .tm-done.open .tm-done-list{display:block}
+  .tm-done-row{display:flex;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid var(--line)}
+  .tm-done-row .d-text{flex:1;color:var(--muted);text-decoration:line-through;text-decoration-color:#3a382f;font-size:14px}
+  .tm-done-row .d-date{font-family:'Space Mono',monospace;font-size:10px;color:var(--muted);white-space:nowrap}
   table.tm td{vertical-align:middle}
   .tm-handle{cursor:grab;color:var(--muted);font-size:18px;user-select:none;text-align:center;width:26px}
   .tm-handle:active{cursor:grabbing}
@@ -213,13 +232,17 @@
 <section id="ukoly"><div class="wrap">
   <div class="sec-head"><span class="no">03</span><h2>Otevřené úkoly</h2></div>
   <div class="tm-bar">
-    <span class="tm-hint">Pořadí: táhni za <b>⠿</b> (PC) / šipkami (mobil) · klikni na štítek priority pro změnu</span>
-    <button class="tm-save" id="tm-save" type="button">💾 Uložit pořadí</button>
+    <span class="tm-hint">✓ hotovo · táhni za <b>⠿</b>/šipkami · klik na štítek = priorita</span>
+    <div class="tm-btns">
+      <button class="tm-add" id="tm-add" type="button">➕ Přidat úkol</button>
+      <button class="tm-save" id="tm-save" type="button">💾 Uložit změny</button>
+    </div>
   </div>
   <table class="tm">
-    <thead><tr><th aria-label="pořadí"></th><th>Priorita</th><th>Úkol</th><th>Od kdy</th><th>Kdo</th><th>Stav</th></tr></thead>
+    <thead><tr><th aria-label="hotovo"></th><th aria-label="pořadí"></th><th>Priorita</th><th>Úkol</th><th>Od kdy</th><th>Kdo</th><th>Stav</th></tr></thead>
     <tbody></tbody>
   </table>
+  <div class="tm-done" id="tm-done"></div>
 </div></section>
 
 <section id="kalendar"><div class="wrap">
@@ -306,32 +329,54 @@ const PRIO_LABEL={vysoka:'vysoká',stredni:'střední',nizka:'nízká'};
 function daysSince(iso){ if(!iso) return null; const d=new Date(iso+'T00:00:00'); if(isNaN(d)) return null; const n=new Date(); n.setHours(0,0,0,0); return Math.max(0,Math.round((n-d)/864e5)); }
 function czDate(iso){ if(!iso) return '—'; const d=new Date(iso+'T00:00:00'); if(isNaN(d)) return esc(iso); return d.getDate()+'. '+(d.getMonth()+1)+'.'; }
 function dayTxt(n){ if(n===null) return ''; if(n===0) return 'dnes'; if(n===1) return '1 den'; if(n<=4) return n+' dny'; return n+' dní'; }
-function tmMarkDirty(){ const b=document.getElementById('tm-save'); if(b){b.classList.add('dirty');b.textContent='💾 Uložit pořadí •';} }
+function tmMarkDirty(){ const b=document.getElementById('tm-save'); if(b){b.classList.add('dirty');b.textContent='💾 Uložit změny •';} }
 function tmRenumber(){ TM.forEach((u,i)=>{u.poradi=i+1;}); }
+const TM_STAVY=['teď','další','fronta','blokováno'];
+let tmEditingId=null;
+function todayISO(){ return new Date().toISOString().slice(0,10); }
 
 function renderUkoly(arr){
   const el=document.querySelector('#ukoly tbody'); if(!el) return;
-  TM=(arr||[]).filter(u=>u.stav!=='hotovo').sort((a,b)=>(a.poradi||999)-(b.poradi||999));
+  const all=arr||[];
+  TM=all.filter(u=>u.stav!=='hotovo').sort((a,b)=>(a.poradi||999)-(b.poradi||999));
   el.innerHTML=TM.map((u,i)=>{
     const prio=u.priorita||'stredni';
     const note=u.pozn?`<span class="tm-note">${esc(u.pozn)}</span>`:'';
+    const textCell=(u.id===tmEditingId)
+      ? `<input class="tm-edit-input" type="text" data-id="${esc(u.id)}" value="${esc(u.text)}" placeholder="Text úkolu…">`
+      : `<span class="tm-task">${esc(u.text)}</span>${note}`;
+    const opts=TM_STAVY.map(s=>`<option value="${s}"${u.stav===s?' selected':''}>${s}</option>`).join('');
     return `<tr class="tm-row" draggable="true" data-id="${esc(u.id)}">
+      <td class="tm-checkcell"><button class="tm-check" type="button" data-id="${esc(u.id)}" title="Označit jako hotové" aria-label="hotovo"></button></td>
       <td class="tm-handle" aria-hidden="true">⠿</td>
-      <td><button class="prio ${prio}" type="button" data-id="${esc(u.id)}" title="Klikni pro změnu priority"><span class="dot"></span>${PRIO_LABEL[prio]||prio}</button></td>
-      <td><span class="tm-task">${esc(u.text)}</span>${note}<div class="tm-arrows"><button type="button" class="tm-up" data-id="${esc(u.id)}" aria-label="nahoru"${i===0?' disabled':''}>↑</button><button type="button" class="tm-dn" data-id="${esc(u.id)}" aria-label="dolů"${i===TM.length-1?' disabled':''}>↓</button></div></td>
+      <td class="tm-priocell"><button class="prio ${prio}" type="button" data-id="${esc(u.id)}" title="Klikni pro změnu priority"><span class="dot"></span>${PRIO_LABEL[prio]||prio}</button></td>
+      <td>${textCell}<div class="tm-arrows"><button type="button" class="tm-up" data-id="${esc(u.id)}" aria-label="nahoru"${i===0?' disabled':''}>↑</button><button type="button" class="tm-dn" data-id="${esc(u.id)}" aria-label="dolů"${i===TM.length-1?' disabled':''}>↓</button></div></td>
       <td class="tm-when"><b>${czDate(u.vzniklo)}</b> <span class="tm-days">${dayTxt(daysSince(u.vzniklo))}</span></td>
       <td class="who">${esc(u.kdo)}</td>
-      <td>${badge(u.stav)}</td>
+      <td><select class="tm-stav-sel" data-id="${esc(u.id)}">${opts}</select></td>
     </tr>`;
   }).join('');
+  renderDone(all.filter(u=>u.stav==='hotovo').sort((a,b)=>String(b.hotovo||'').localeCompare(String(a.hotovo||''))));
   tmWire();
+}
+function renderDone(done){
+  const el=document.getElementById('tm-done'); if(!el) return;
+  if(!done.length){ el.innerHTML=''; return; }
+  const open=el.classList.contains('open');
+  el.innerHTML=`<button class="tm-done-toggle" id="tm-done-toggle" type="button">${open?'▾':'▸'} Hotové (${done.length})</button>`
+    +`<div class="tm-done-list">${done.map(u=>`<div class="tm-done-row"><button class="tm-check done" type="button" data-id="${esc(u.id)}" title="Vrátit mezi aktivní" aria-label="vrátit">✓</button><span class="d-text">${esc(u.text)}</span><span class="d-date">${u.hotovo?czDate(u.hotovo):''}</span></div>`).join('')}</div>`;
 }
 function tmWire(){
   const tb=document.querySelector('#ukoly tbody'); if(!tb) return;
   tb.querySelectorAll('.prio').forEach(btn=>btn.addEventListener('click',()=>{
-    const u=TM.find(x=>x.id===btn.dataset.id); if(!u) return;
+    const u=STAV.ukoly.find(x=>x.id===btn.dataset.id); if(!u) return;
     u.priorita=PRIO_ORDER[(PRIO_ORDER.indexOf(u.priorita||'stredni')+1)%PRIO_ORDER.length];
     tmMarkDirty(); renderUkoly(STAV.ukoly);
+  }));
+  tb.querySelectorAll('.tm-check').forEach(b=>b.addEventListener('click',()=>tmSetDone(b.dataset.id,true)));
+  tb.querySelectorAll('.tm-stav-sel').forEach(s=>s.addEventListener('change',()=>{
+    const u=STAV.ukoly.find(x=>x.id===s.dataset.id); if(!u) return;
+    u.stav=s.value; tmMarkDirty(); renderUkoly(STAV.ukoly);
   }));
   tb.querySelectorAll('.tm-up').forEach(b=>b.addEventListener('click',()=>tmMove(b.dataset.id,-1)));
   tb.querySelectorAll('.tm-dn').forEach(b=>b.addEventListener('click',()=>tmMove(b.dataset.id,1)));
@@ -342,6 +387,32 @@ function tmWire(){
     tr.addEventListener('dragleave',()=>tr.classList.remove('drag-over'));
     tr.addEventListener('drop',e=>{e.preventDefault();tmDrop(tr.dataset.id);});
   });
+  const inp=tb.querySelector('.tm-edit-input');
+  if(inp){ inp.focus();
+    const commit=()=>{ const u=STAV.ukoly.find(x=>x.id===inp.dataset.id); if(!u) return;
+      const v=inp.value.trim();
+      if(!v){ STAV.ukoly=STAV.ukoly.filter(x=>x.id!==inp.dataset.id); } else { u.text=v; }
+      tmEditingId=null; tmMarkDirty(); renderUkoly(STAV.ukoly);
+    };
+    inp.addEventListener('keydown',e=>{ if(e.key==='Enter'){e.preventDefault();inp.blur();} else if(e.key==='Escape'){inp.blur();} });
+    inp.addEventListener('blur',commit);
+  }
+  document.querySelectorAll('#tm-done .tm-check').forEach(b=>b.addEventListener('click',()=>tmSetDone(b.dataset.id,false)));
+  const tg=document.getElementById('tm-done-toggle');
+  if(tg) tg.addEventListener('click',()=>{ document.getElementById('tm-done').classList.toggle('open'); renderUkoly(STAV.ukoly); });
+}
+function tmSetDone(id,done){
+  const u=STAV.ukoly.find(x=>x.id===id); if(!u) return;
+  if(done){ u.stav='hotovo'; u.hotovo=todayISO(); } else { u.stav='fronta'; u.hotovo=null; }
+  tmMarkDirty(); renderUkoly(STAV.ukoly);
+}
+function tmAddTask(){
+  if(!STAV||!STAV.ukoly) return;
+  const maxP=Math.max(0,...STAV.ukoly.filter(u=>u.stav!=='hotovo').map(u=>u.poradi||0));
+  const id='u'+Date.now();
+  STAV.ukoly.push({id,text:'',stav:'fronta',kdo:'Lukáš',pozn:'',vzniklo:todayISO(),hotovo:null,priorita:'stredni',poradi:maxP+1});
+  tmEditingId=id;
+  tmMarkDirty(); renderUkoly(STAV.ukoly);
 }
 function tmMove(id,dir){
   const i=TM.findIndex(x=>x.id===id); if(i<0) return; const j=i+dir; if(j<0||j>=TM.length) return;
@@ -358,7 +429,7 @@ function tmExport(){
   const blob=new Blob([JSON.stringify(STAV,null,2)+'\n'],{type:'application/json'});
   const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='stav.json';
   document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(a.href);
-  const b=document.getElementById('tm-save'); if(b){b.classList.remove('dirty');b.textContent='✅ Staženo — nahraj na GitHub';setTimeout(()=>{b.textContent='💾 Uložit pořadí';},4000);}
+  const b=document.getElementById('tm-save'); if(b){b.classList.remove('dirty');b.textContent='✅ Staženo — nahraj na GitHub';setTimeout(()=>{b.textContent='💾 Uložit změny';},4000);}
 }
 function renderOdkazy(arr){
   const el=document.querySelector('#data .links'); if(!el) return;

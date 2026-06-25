@@ -190,11 +190,13 @@
   .tm-arrows button:hover:not(:disabled){border-color:var(--gold)}
   .tm-arrows button:disabled{opacity:.28;cursor:default}
   @media(max-width:680px){
-    table.tm tr.tm-row{position:relative;padding:16px 0}
+    table.tm tr.tm-row{position:relative;padding:16px 0 16px 38px}
     table.tm td{padding:2px 0}
     .tm-handle{display:none}
+    td.tm-checkcell{position:absolute;top:16px;left:0;width:auto}
     .tm-arrows{display:flex;position:absolute;top:14px;right:0}
     .tm-task{padding-right:100px;max-width:none}
+    .tm-stav-sel{margin-top:6px}
     .tm-when::before{content:"visí ";color:var(--muted)}
   }
 </style>
@@ -455,6 +457,7 @@ fetch('data/stav.json',{cache:'no-store'})
     renderTym(d.tym);
     const f=document.getElementById('foot-date'); if(f&&d.meta) f.textContent=d.meta.aktualizovano;
     const sb=document.getElementById('tm-save'); if(sb) sb.addEventListener('click',tmExport);
+    const ab=document.getElementById('tm-add'); if(ab) ab.addEventListener('click',tmAddTask);
   })
   .catch(e=>{
     const m=document.createElement('div');

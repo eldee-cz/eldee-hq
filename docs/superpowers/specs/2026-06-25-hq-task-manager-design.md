@@ -51,3 +51,18 @@ Změny (pořadí, priorita) se mění v prohlížeči okamžitě (vizuálně, v 
 ## Dotčené soubory
 - `data/stav.json` — přidat `priorita` + `poradi` ke stávajícím úkolům.
 - `index.html` — CSS (štítky, drag, šipky, tlačítko, mobil karty) + JS (`renderUkoly` přepis: řazení, sloupce, drag/šipky handlery, priorita toggle, export `stav.json`).
+
+---
+
+## Vrstva 1 — provozní základ (2026-06-25)
+
+Z tabulky se stává nástroj, do kterého se sahá denně. Ukládání zůstává přes export (rozhodnutí Lukáše — serverless/localStorage odloženo).
+
+- **Odškrtnutí hotovo:** zaškrtávací ✓ vlevo u úkolu → nastaví `stav: "hotovo"` + `hotovo` = dnešní ISO datum → úkol se přesune do sekce „Hotové".
+- **Změna stavu:** sloupec stav = `<select>` dropdown (teď / další / fronta / blokováno). Mění `stav`. Hotovo se řeší přes ✓, ne dropdownem.
+- **Přidání úkolu:** tlačítko „➕ Přidat úkol" → nový řádek, inline editace textu. Výchozí: `priorita:"stredni"`, `stav:"fronta"`, `kdo:"Lukáš"`, `vzniklo` = dnes, `id` = `"u"+Date.now()`, `poradi` na konec.
+- **Sekce „Hotové (N)":** sbalený seznam pod aktivními úkoly (datum dokončení). Odškrtnutí ✓ u hotového ho vrací mezi aktivní (`stav:"fronta"`, `hotovo:null`).
+- **Tlačítko** přejmenováno „Uložit pořadí" → **„Uložit změny"** (ukládá stav, hotovo, nové úkoly, pořadí i priority).
+- **Timeline:** úkoly se do ní NEpropisují automaticky — zůstává kurátorovaná na velké milníky (drobné hotové tasky žijí jen v sekci „Hotové").
+
+**Mimo vrstvu 1** (další vrstvy): editace textu už existujícího úkolu, termíny/deadliny (vrstva 2), filtry/skupiny (vrstva 3), propojení s kalendářem (vrstva 4), ukládání bez tření (vrstva 0).

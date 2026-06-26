@@ -15,7 +15,7 @@
   header p { color:var(--muted); margin:0 0 8px; font-size:14px; }
   .mono { font-family: ui-monospace, "JetBrains Mono", monospace; }
   .scenarios { display:flex; gap:8px; margin:20px 0 26px; flex-wrap:wrap; }
-  .scenarios button { background:var(--card); color:var(--bone); border:1px solid #2c2c2c; border-radius:8px; padding:8px 14px; font-size:13px; cursor:pointer; }
+  .scenarios button { background:var(--card); color:var(--bone); border:1px solid #2c2c2c; border-radius:8px; padding:10px 16px; min-height:44px; font-size:14px; cursor:pointer; }
   .scenarios button:hover { border-color:var(--gold); }
   .scenarios button.active { border-color:var(--gold); color:var(--gold); }
   .grid { display:grid; grid-template-columns: 1.2fr 1fr; gap:18px; }
@@ -106,7 +106,7 @@
   .inv-del { background:none; border:none; color:#666; cursor:pointer; font-size:15px; }
   .inv-del:hover { color:var(--blood); }
   .modal-actions { display:flex; gap:10px; margin-top:18px; flex-wrap:wrap; align-items:center; }
-  .btn { border-radius:8px; padding:9px 16px; font-size:13px; font-weight:600; cursor:pointer; border:1px solid #2c2c2c; background:var(--ink); color:var(--bone); }
+  .btn { border-radius:8px; padding:10px 16px; min-height:44px; font-size:13px; font-weight:600; cursor:pointer; border:1px solid #2c2c2c; background:var(--ink); color:var(--bone); }
   .btn:hover { border-color:var(--gold); }
   .btn.primary { background:var(--gold); color:#1a1400; border-color:var(--gold); }
   /* faktury vepředu */
@@ -115,6 +115,38 @@
   .inv-ev .lbl { flex:1; color:var(--bone); }
   footer { margin-top:46px; color:#555; font-size:12px; font-family:ui-monospace,monospace; }
   a { color:var(--gold); }
+
+  /* ── mobil: zvětšené dotykové cíle (tap targety ≥44px; inputy 16px kvůli iOS zoomu při fokusu) ── */
+  @media (max-width:680px) {
+    input, select, button { font-size:16px; }
+    /* všechny editovatelné inputy: font ≥16px + výška dotyku ≥44px */
+    table.prod input,
+    .row input[type=number],
+    .tiers input, .orderline input,
+    .evrow input[type=date], .evrow input[type=text] { min-height:44px; font-size:16px; }
+    /* tabulka produktů — čitelnější písmo + vzdušnější buňky + vodorovný scroll s indikátorem */
+    .prod-scroll { overflow-x:auto; -webkit-overflow-scrolling:touch; }
+    .prod-scroll::-webkit-scrollbar { height:6px; }
+    .prod-scroll::-webkit-scrollbar-thumb { background:#3a3a3a; border-radius:3px; }
+    table.prod { font-size:15px; }
+    table.prod th { font-size:12px; padding:6px 8px; }
+    table.prod td { padding:9px 8px; }
+    table.prod input { width:74px; padding:8px 10px; }
+    /* číselné inputy v řádcích cílů / parametrů / DPH */
+    .row input[type=number] { width:104px; padding:8px 10px; }
+    /* MOQ ceník + objednané/skladem */
+    .tiers input, .orderline input { width:68px; padding:8px 10px; }
+    .tier input { width:64px; }
+    /* prvky (Grip/Kapsa/Díra) — klikací čipy jako plnohodnotné dotykové cíle */
+    .chip { min-height:44px; padding:0 14px; display:inline-flex; align-items:center; font-size:14px; }
+    .chips { gap:8px; flex-wrap:nowrap; }
+    /* události — na úzkém displeji zalom, ať se inputy nestlačí */
+    .evrow { flex-wrap:wrap; }
+    .evrow input[type=date] { width:150px; padding:8px 10px; }
+    .evrow input[type=text] { padding:8px 10px; }
+    /* přepínače scénářů ať se roztáhnou */
+    .scenarios button { flex:1 1 auto; }
+  }
 </style>
 </head>
 <body>
@@ -131,10 +163,12 @@
     <div>
       <div class="card">
         <h2>Produkty · ceny · prvky · mix</h2>
+        <div class="prod-scroll">
         <table class="prod">
           <thead><tr><th>Produkt</th><th>Cena Kč</th><th>COGS/ks</th><th>Mix %</th><th>Prvky</th><th style="text-align:right">Marže/ks</th></tr></thead>
           <tbody id="prodRows"></tbody>
         </table>
+        </div>
         <div class="mixwarn" id="mixWarn">⚠ Mix prodejů nedává 100 % — výsledky se normalizují.</div>
         <p class="note">Marže/ks = cena − COGS − brána (2,5 % + 5 Kč) − marketing/prodej. COGS/ks = cena z MOQ ceníku + krabička 25 Kč + UGC karta 2 Kč + zapnuté prvky. Klikni na <strong>Prvky</strong> (Grip/Kapsa/Díra) — promítnou se do ceny i COGS.</p>
       </div>
@@ -155,10 +189,12 @@
 
       <div class="card" style="margin-top:18px">
         <h2>Prvky / příplatky</h2>
+        <div class="prod-scroll">
         <table class="prod">
           <thead><tr><th>Prvek</th><th>+COGS Kč</th><th>+Cena Kč</th><th style="text-align:right">Marže navíc/ks</th></tr></thead>
           <tbody id="addonRows"></tbody>
         </table>
+        </div>
         <p class="note">+COGS = kolik prvek stojí navíc ve výrobě · +Cena = kolik si za něj účtuješ navíc. Reálné ceny doladíme s výrobcem.</p>
       </div>
 

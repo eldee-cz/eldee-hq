@@ -69,6 +69,7 @@
   <button class="btn" id="clone">✂ Klonovat</button>
   <div class="sep"></div>
   <button class="btn sm" id="addSock">+ Levá štulpna</button>
+  <button class="btn sm" id="addCleat">+ kopačka</button>
   <button class="btn sm" id="addEldee">+ eldee nápis</button>
   <button class="btn sm" id="addHole">+ Díra</button>
   <button class="btn sm" id="addLogo">+ LD znak (hruď)</button>
@@ -233,6 +234,7 @@
   document.getElementById('addPatch').addEventListener('click', ()=>addStamp('patch'));
   document.getElementById('addSock').addEventListener('click', addSock);
   document.getElementById('addEldee').addEventListener('click', ()=> addObj('eldee-wordmark.svg', Math.max(40, nat.w*0.10), 0.503));
+  document.getElementById('addCleat').addEventListener('click', ()=>{ const im=new Image(); im.onload=()=>addObj('kopacka.png', nat.w*0.20, im.height/im.width); im.onerror=()=>addObj('kopacka.png', nat.w*0.20, 0.52); im.src='kopacka.png'; });
 
   // ---- barvy ----
   document.getElementById('swatches').addEventListener('click', e=>{

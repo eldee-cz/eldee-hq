@@ -14,77 +14,81 @@
   * { box-sizing:border-box; }
   body { margin:0; background:var(--ink); color:var(--bone);
     font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif; line-height:1.45; font-size:14px; }
-  .mono { font-family:ui-monospace,"JetBrains Mono","Cascadia Code",monospace; }
-  .wrap { max-width:1280px; margin:0 auto; padding:22px 22px 80px; }
+  .mono { font-family:ui-monospace,"JetBrains Mono",monospace; }
+  .wrap { max-width:1320px; margin:0 auto; padding:22px 22px 80px; }
 
-  /* topbar */
-  .topbar { display:flex; align-items:center; gap:14px; margin-bottom:20px; flex-wrap:wrap; }
+  .topbar { display:flex; align-items:center; gap:14px; margin-bottom:16px; flex-wrap:wrap; }
   .topbar .back { color:var(--muted); text-decoration:none; font-size:13px; font-weight:600; padding:6px 0; }
   .topbar .back:hover { color:var(--bone); }
   .brand { font-size:20px; font-weight:900; letter-spacing:-0.4px; }
   .brand em { color:var(--gold); font-style:normal; }
-  .seg { display:flex; gap:2px; background:var(--panel); border:1px solid var(--line); border-radius:9px; padding:3px; }
-  .seg a { text-decoration:none; color:var(--muted); font-size:12.5px; font-weight:700; padding:6px 13px; border-radius:6px; }
-  .seg a.on { background:var(--gold-dim); color:var(--gold); }
-  .seg a:hover:not(.on) { color:var(--bone); }
   .spacer { flex:1; }
   .saved { font-size:11.5px; color:var(--coach); opacity:0; transition:opacity .3s; }
   .saved.show { opacity:1; }
 
-  /* KPI strip */
+  /* sekce-taby */
+  .tabs { display:flex; gap:6px; margin-bottom:18px; flex-wrap:wrap; background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:5px; }
+  .tabs button { background:transparent; border:none; color:var(--muted); font:inherit; font-weight:800; font-size:14px;
+    padding:10px 18px; border-radius:8px; cursor:pointer; display:inline-flex; align-items:center; gap:7px; }
+  .tabs button.on { background:var(--gold); color:#1a1400; }
+  .tabs button:hover:not(.on) { color:var(--bone); background:var(--panel2); }
+  .sec { display:none; } .sec.on { display:block; }
+
+  /* KPI */
   .kpis { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-bottom:18px; }
   @media (max-width:740px){ .kpis { grid-template-columns:1fr 1fr; } }
   .kpi { background:linear-gradient(160deg,var(--panel2),var(--panel)); border:1px solid var(--line); border-radius:12px; padding:13px 15px; }
-  .kpi .v { font-size:23px; font-weight:900; }
+  .kpi .v { font-size:22px; font-weight:900; }
   .kpi .v.gold { color:var(--gold); }
   .kpi .l { color:var(--muted); font-size:10.5px; text-transform:uppercase; letter-spacing:.7px; margin-top:2px; }
 
-  /* panel */
   .panel { background:var(--panel); border:1px solid var(--line); border-radius:13px; overflow:hidden; margin-bottom:18px; }
   .panel-head { display:flex; align-items:center; gap:12px; padding:13px 16px; border-bottom:1px solid var(--line); flex-wrap:wrap; }
   .panel-head h2 { font-size:12px; margin:0; color:var(--gold); text-transform:uppercase; letter-spacing:1.3px; font-family:ui-monospace,monospace; font-weight:700; }
   .panel-head .sum { font-size:12px; color:var(--muted); }
-  .panel-head .sum strong { color:var(--bone); }
-  .panel-head .sum .bad { color:var(--blood); }
-  .panel-head .grow { flex:1; }
+  .panel-head .sum strong { color:var(--bone); } .panel-head .sum .bad { color:var(--blood); }
+  .grow { flex:1; }
   .vat { font-size:11.5px; color:var(--muted); display:inline-flex; align-items:center; gap:6px; }
   .vat input { width:48px; background:var(--ink); border:1px solid var(--line2); color:var(--bone); border-radius:6px; padding:4px 6px; text-align:right; font-family:ui-monospace,monospace; font-size:12px; }
 
-  /* DATA GRID (excel/SAP) */
-  .gridwrap { overflow-x:auto; }
+  /* filtry */
+  .filters { display:flex; gap:8px; align-items:center; padding:11px 16px; border-bottom:1px solid var(--line); flex-wrap:wrap; }
+  .filters select, .filters input[type=text] { background:var(--ink); border:1px solid var(--line2); color:var(--bone); border-radius:7px; padding:7px 9px; font:inherit; font-size:12.5px; }
+  .filters input[type=text] { min-width:150px; }
+  .chk { display:inline-flex; align-items:center; gap:5px; font-size:12.5px; color:var(--muted); cursor:pointer; }
+  .chk input { accent-color:var(--gold); }
+
+  /* DATA GRID */
+  .gridwrap { overflow-x:auto; max-height:70vh; }
   table.grid { width:100%; border-collapse:collapse; font-size:12.5px; min-width:840px; }
-  table.grid thead th {
-    position:sticky; top:0; z-index:2; text-align:left;
-    background:#1b1b21; color:var(--muted); font-weight:700; font-size:10px;
-    text-transform:uppercase; letter-spacing:.5px; padding:8px 10px; white-space:nowrap;
-    border-bottom:1px solid var(--line2); border-right:1px solid var(--line);
-  }
+  table.grid thead th { position:sticky; top:0; z-index:2; text-align:left; background:#1b1b21; color:var(--muted);
+    font-weight:700; font-size:10px; text-transform:uppercase; letter-spacing:.5px; padding:8px 10px; white-space:nowrap;
+    border-bottom:1px solid var(--line2); border-right:1px solid var(--line); }
   table.grid thead th:last-child { border-right:none; }
-  table.grid tbody td { padding:0; border-bottom:1px solid var(--line); border-right:1px solid var(--line); height:38px; }
+  table.grid tbody td { padding:0; border-bottom:1px solid var(--line); border-right:1px solid var(--line); height:36px; }
   table.grid tbody td:last-child { border-right:none; }
   table.grid tbody tr:hover td { background:rgba(201,162,39,.05); }
-  table.grid tbody tr:last-child td { border-bottom:none; }
-  /* cell controls — splývají s buňkou jako v excelu */
-  .cell { width:100%; height:100%; min-height:38px; background:transparent; border:none; color:var(--bone);
-    font:inherit; padding:0 10px; outline:none; }
+  table.grid tbody tr.has td { background:rgba(79,174,132,.06); }
+  table.grid tbody tr.low td { background:rgba(224,82,79,.08); }
+  .cell { width:100%; height:100%; min-height:36px; background:transparent; border:none; color:var(--bone); font:inherit; padding:0 10px; outline:none; }
   .cell.num { text-align:right; font-family:ui-monospace,monospace; }
   select.cell { cursor:pointer; appearance:none;
     background-image:linear-gradient(45deg,transparent 50%,var(--muted) 50%),linear-gradient(135deg,var(--muted) 50%,transparent 50%);
-    background-position:calc(100% - 14px) 16px,calc(100% - 9px) 16px; background-size:5px 5px,5px 5px; background-repeat:no-repeat;
-    padding-right:26px; }
+    background-position:calc(100% - 14px) 15px,calc(100% - 9px) 15px; background-size:5px 5px,5px 5px; background-repeat:no-repeat; padding-right:26px; }
   select.cell option { background:var(--panel2); color:var(--bone); }
-  td.focus, .cell:focus { box-shadow:inset 0 0 0 2px var(--gold); border-radius:2px; }
-  td .cell:focus { background:rgba(201,162,39,.07); }
+  .cell:focus { box-shadow:inset 0 0 0 2px var(--gold); border-radius:2px; background:rgba(201,162,39,.07); }
   .cell.bad { box-shadow:inset 0 0 0 1.5px var(--blood); }
   td.calc { padding:0 10px; font-family:ui-monospace,monospace; text-align:right; color:var(--muted); white-space:nowrap; }
   td.calc.total { color:var(--gold); font-weight:700; }
-  td.center { text-align:center; }
-  td.center input { accent-color:var(--gold); width:15px; height:15px; }
-  .delcell { text-align:center; }
-  .del { background:none; border:none; color:#5a5a63; cursor:pointer; font-size:14px; padding:8px; }
-  .del:hover { color:var(--blood); }
-  .skucell { font-family:ui-monospace,monospace; color:var(--gold); font-size:11.5px; }
-  .qtycell { font-family:ui-monospace,monospace; text-align:right; color:var(--bone); font-weight:700; }
+  td.center { text-align:center; } td.center input { accent-color:var(--gold); width:15px; height:15px; }
+  td.cnum { padding:0 10px; font-family:ui-monospace,monospace; color:var(--muted); font-weight:700; text-align:right; }
+  td.skucell { padding:0 10px; font-family:ui-monospace,monospace; color:var(--gold); font-size:11px; white-space:nowrap; }
+  .stockin { width:100%; height:36px; background:transparent; border:none; color:var(--bone); font-family:ui-monospace,monospace;
+    font-weight:700; text-align:right; padding:0 10px; outline:none; font-size:13px; }
+  .stockin:focus { box-shadow:inset 0 0 0 2px var(--gold); background:rgba(201,162,39,.07); }
+  .stockin.has { color:var(--green); } .stockin.low { color:var(--blood); }
+  .delcell { text-align:center; } .del { background:none; border:none; color:#5a5a63; cursor:pointer; font-size:14px; padding:8px; } .del:hover { color:var(--blood); }
+  .badge { font-size:10px; padding:2px 7px; border-radius:20px; background:var(--panel2); border:1px solid var(--line2); color:var(--muted); }
 
   .panel-foot { display:flex; gap:10px; align-items:center; padding:11px 16px; border-top:1px solid var(--line); flex-wrap:wrap; }
   .btn { border-radius:8px; padding:8px 14px; font-size:12.5px; font-weight:700; cursor:pointer; border:1px solid var(--line2); background:var(--panel2); color:var(--bone); }
@@ -109,154 +113,366 @@
 
   <div class="kpis">
     <div class="kpi"><div class="v gold" id="kTotal">0</div><div class="l">kusů skladem</div></div>
-    <div class="kpi"><div class="v" id="kVariants">0</div><div class="l">variant</div></div>
+    <div class="kpi"><div class="v" id="kVariants">0</div><div class="l">variant skladem</div></div>
     <div class="kpi"><div class="v" id="kValue">—</div><div class="l">hodnota skladu (nákup, bez DPH)</div></div>
     <div class="kpi"><div class="v" id="kDue">—</div><div class="l">k zaplacení (nezapl. faktury)</div></div>
   </div>
 
-  <!-- PŘÍJEM ZBOŽÍ = hlavní excel grid -->
-  <div class="panel">
-    <div class="panel-head">
-      <h2>📦 Příjem zboží</h2>
-      <span class="grow"></span>
-      <span class="sum" id="invSummary"></span>
-      <span class="vat">DPH <input type="number" id="vatRate" value="21" step="1"> %</span>
-    </div>
-    <div class="gridwrap">
-      <table class="grid">
-        <thead><tr>
-          <th style="width:104px">Č. faktury</th>
-          <th style="width:150px">Produkt</th>
-          <th style="width:110px">Barva</th>
-          <th style="width:120px">Provedení</th>
-          <th style="width:84px">Velikost</th>
-          <th style="width:74px">Ks</th>
-          <th style="width:96px">Cena/ks</th>
-          <th style="width:92px">s DPH</th>
-          <th style="width:104px">Celkem</th>
-          <th style="width:130px">Splatnost</th>
-          <th style="width:48px">Zapl.</th>
-          <th style="width:40px"></th>
-        </tr></thead>
-        <tbody id="invoiceRows"></tbody>
-      </table>
-    </div>
-    <div class="panel-foot">
-      <button class="btn" id="invAdd">+ Přidat řádek</button>
-      <span class="grow"></span>
-      <span class="hint">Každý řádek = jedna varianta. Cena s DPH i celkem se počítají samy. Červené = chybí údaj.</span>
-    </div>
+  <div class="tabs" id="tabs">
+    <button data-sec="sklad" class="on">📊 Skladem</button>
+    <button data-sec="karty">🗂️ Skladové karty</button>
+    <button data-sec="prijem">📦 Příjem zboží</button>
+    <button data-sec="historie">📜 Historie příjmů</button>
+    <button data-sec="zaloha">💾 Záloha</button>
   </div>
 
-  <!-- SKLADEM PODLE VARIANT -->
-  <div class="panel">
-    <div class="panel-head">
-      <h2>📊 Skladem podle variant</h2>
-      <span class="grow"></span>
-      <button class="btn ghost" id="shoptetExport">⬇ Export pro Shoptet (CSV)</button>
+  <!-- ===== SKLADEM (co reálně máme) ===== -->
+  <section class="sec on" id="sec-sklad">
+    <div class="panel">
+      <div class="panel-head">
+        <h2>📊 Skladem — co reálně máme</h2>
+        <span class="grow"></span>
+        <span class="sum" id="stockSum"></span>
+      </div>
+      <div class="filters">
+        <select id="sColor"><option value="">Barva: vše</option></select>
+        <select id="sProd"><option value="">Produkt: vše</option></select>
+        <input type="text" id="sSearch" placeholder="Hledat (SKU, číslo, název)…">
+      </div>
+      <div class="gridwrap">
+        <table class="grid">
+          <thead><tr>
+            <th style="width:46px;text-align:right">#</th>
+            <th style="width:160px">Produkt</th>
+            <th style="width:74px">Barva</th>
+            <th style="width:130px">Provedení</th>
+            <th style="width:120px">Velikost</th>
+            <th style="width:140px">SKU</th>
+            <th style="width:90px;text-align:right">Stav (ks)</th>
+            <th style="width:100px;text-align:right">Hodnota</th>
+          </tr></thead>
+          <tbody id="stockRows"></tbody>
+        </table>
+      </div>
+      <div class="panel-foot">
+        <button class="btn ghost" id="shoptetExport">⬇ Export pro Shoptet (CSV)</button>
+        <span class="grow"></span>
+        <span class="hint">Vidíš jen varianty, co máš skladem (kusy &gt; 0). Stav doladíš v záložce 🗂️ Skladové karty (inventura) nebo napumpováním z příjmu.</span>
+      </div>
     </div>
-    <div id="variantStock"></div>
-  </div>
+  </section>
 
-  <!-- ZÁLOHA -->
-  <div class="panel">
-    <div class="panel-head"><h2>💾 Záloha dat</h2></div>
-    <div class="panel-foot">
-      <button class="btn" id="backupBtn">⬇ Záloha do souboru</button>
-      <button class="btn" id="restoreBtn">⬆ Načíst ze souboru</button>
-      <input type="file" id="restoreFile" accept="application/json" style="display:none">
-      <span class="hint">Data žijí v tomhle prohlížeči. Záloha = pojistka / přenos na jiný počítač nebo Hledíkovi.</span>
+  <!-- ===== SKLADOVÉ KARTY (všechny + inventura) ===== -->
+  <section class="sec" id="sec-karty">
+    <div class="panel">
+      <div class="panel-head">
+        <h2>🗂️ Skladové karty</h2>
+        <span class="grow"></span>
+        <span class="sum" id="cardSum"></span>
+      </div>
+      <div class="filters">
+        <select id="fColor"><option value="">Barva: vše</option></select>
+        <select id="fProd"><option value="">Produkt: vše</option></select>
+        <select id="fFeat"><option value="">Provedení: vše</option></select>
+        <input type="text" id="fSearch" placeholder="Hledat (SKU, číslo, název)…">
+        <label class="chk"><input type="checkbox" id="fStock"> jen skladem</label>
+        <label class="chk"><input type="checkbox" id="fLow"> nízký stav (&lt; <input type="number" id="lowLevel" value="5" style="width:42px;background:var(--ink);border:1px solid var(--line2);color:var(--bone);border-radius:5px;padding:2px 4px;text-align:right">)</label>
+      </div>
+      <div class="gridwrap">
+        <table class="grid">
+          <thead><tr>
+            <th style="width:46px;text-align:right">#</th>
+            <th style="width:160px">Produkt</th>
+            <th style="width:74px">Barva</th>
+            <th style="width:130px">Provedení</th>
+            <th style="width:120px">Velikost</th>
+            <th style="width:140px">SKU</th>
+            <th style="width:90px;text-align:right">Stav (ks)</th>
+            <th style="width:100px;text-align:right">Hodnota</th>
+          </tr></thead>
+          <tbody id="cardRows"></tbody>
+        </table>
+      </div>
+      <div class="panel-foot">
+        <span class="hint">Všech 280 karet (i nulové) — pro <strong>inventuru</strong> a přehled. Stav píšeš ručně. Číslování drží barvu: <strong>Bílá 1–140, Černá 141–280</strong>.</span>
+      </div>
     </div>
-  </div>
+  </section>
+
+  <!-- ===== PŘÍJEM ZBOŽÍ ===== -->
+  <section class="sec" id="sec-prijem">
+    <div class="panel">
+      <div class="panel-head">
+        <h2>📦 Příjem zboží</h2>
+        <span class="grow"></span>
+        <span class="sum" id="invSummary"></span>
+        <span class="vat">DPH <input type="number" id="vatRate" value="21" step="1"> %</span>
+      </div>
+      <div class="gridwrap">
+        <table class="grid">
+          <thead><tr>
+            <th style="width:104px">Č. faktury</th>
+            <th style="width:150px">Produkt</th>
+            <th style="width:100px">Barva</th>
+            <th style="width:130px">Provedení</th>
+            <th style="width:84px">Velikost</th>
+            <th style="width:70px">Ks</th>
+            <th style="width:90px">Cena/ks</th>
+            <th style="width:84px">s DPH</th>
+            <th style="width:96px">Celkem</th>
+            <th style="width:128px">Splatnost</th>
+            <th style="width:38px"></th>
+          </tr></thead>
+          <tbody id="invoiceRows"></tbody>
+        </table>
+      </div>
+      <div class="panel-foot">
+        <button class="btn" id="invAdd">+ Přidat řádek</button>
+        <button class="btn gold" id="pumpBtn">✅ Uzavřít příjemku → do skladu</button>
+        <span class="grow"></span>
+        <span class="hint" id="pumpHint">Naskládej řádky a klikni „Uzavřít příjemku" — kusy jdou do skladu, vznikne doklad v 📜 Historii a plocha se vyčistí pro další příjem.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== HISTORIE PŘÍJMŮ ===== -->
+  <section class="sec" id="sec-historie">
+    <div class="panel">
+      <div class="panel-head">
+        <h2>📜 Historie příjmů</h2>
+        <span class="grow"></span>
+        <span class="sum" id="histSum"></span>
+      </div>
+      <div class="filters">
+        <input type="text" id="hSearch" placeholder="Hledat (faktura, příjemka, datum, produkt, SKU…)" style="min-width:280px">
+        <select id="hPaid"><option value="">Zaplaceno: vše</option><option value="ne">jen nezaplacené</option><option value="ano">jen zaplacené</option></select>
+      </div>
+      <div class="gridwrap">
+        <table class="grid">
+          <thead><tr>
+            <th style="width:40px"></th>
+            <th style="width:110px">Příjemka</th>
+            <th style="width:150px">Datum</th>
+            <th style="width:120px">Kdo</th>
+            <th style="width:100px">Faktura</th>
+            <th style="width:70px;text-align:right">Položek</th>
+            <th style="width:70px;text-align:right">Ks</th>
+            <th style="width:110px;text-align:right">Hodnota</th>
+            <th style="width:100px;text-align:center">Zaplaceno</th>
+          </tr></thead>
+          <tbody id="histRows"></tbody>
+        </table>
+      </div>
+      <div class="panel-foot">
+        <span class="hint">Každá příjemka = uzavřený příjem zboží (doklad). Klikni na <strong>▸</strong> pro rozbalení položek — co přesně bylo přijato. Zpětná kontrola / audit. <em>Kdo</em> se doplní, až budou osobní přihlášení.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ZÁLOHA ===== -->
+  <section class="sec" id="sec-zaloha">
+    <div class="panel">
+      <div class="panel-head"><h2>💾 Záloha dat</h2></div>
+      <div class="panel-foot">
+        <button class="btn" id="backupBtn">⬇ Záloha do souboru</button>
+        <button class="btn" id="restoreBtn">⬆ Načíst ze souboru</button>
+        <input type="file" id="restoreFile" accept="application/json" style="display:none">
+        <span class="grow"></span>
+        <button class="btn" id="resetBtn" style="border-color:var(--blood);color:var(--blood)">🗑 Vynulovat sklad</button>
+      </div>
+      <div class="panel-foot" style="border-top:none;padding-top:0">
+        <span class="hint">Data (příjem + stav karet) žijí v tomhle prohlížeči. Záloha = pojistka / přenos na jiný počítač nebo Hledíkovi.<br><strong style="color:var(--blood)">🗑 Vynulovat</strong> = čistý start (smaže příjem i stav karet) — použij až půjdete do ostrého provozu. Cvičit můžeš klidně teď, nic se nepokazí.</span>
+      </div>
+    </div>
+  </section>
 
   <footer>eldee · sklad · 2026-06 · data v prohlížeči (localStorage)</footer>
 </div>
 
 <script>
-// ───────── CONFIG
-const CONFIG = {
-  products: [
-    { id: 'navlek',  name: 'Návlek / tube' },
-    { id: 'ponozka', name: 'Tréninková ponožka' },
-    { id: 'nizka',   name: 'Nízká štulpna' },
-    { id: 'vysoka',  name: 'Vysoká štulpna' },
-    { id: 'bundle',  name: 'Bundle návlek+ponožka' },
-  ],
-  addons: [
-    { id: 'grip',  name: 'Grip', short: 'Grip' },
-    { id: 'kapsa', name: 'Kapsa', short: 'Kapsa' },
-    { id: 'dira',  name: 'Díra', short: 'Díra' },
-  ],
-  colors: ['Černá', 'Bílá'],
-  sizes: ['31-34', '35-38', '39-42', '43-46', '47-50'],
-  vatRate: 21,
-  invoices: [
-    { num: '', product: 'navlek', color: 'Černá', feat: [], size: '39-42', qty: 0, net: 0, due: '', paid: false },
-  ],
-};
-
-// ───────── ukládání do prohlížeče (sdílené s Finance přes stejný origin)
-const LS_KEY = 'eldeeData';
-function loadData() {
-  try {
-    const d = JSON.parse(localStorage.getItem(LS_KEY) || '{}');
-    if (Array.isArray(d.invoices)) CONFIG.invoices = d.invoices;
-    if (Array.isArray(d.colors) && d.colors.length) CONFIG.colors = d.colors;
-    if (d.vatRate) CONFIG.vatRate = d.vatRate;
-  } catch (e) {}
-}
-let savedTimer;
-function saveData() {
-  let cur = {};
-  try { cur = JSON.parse(localStorage.getItem(LS_KEY) || '{}'); } catch (e) {}
-  cur.invoices = CONFIG.invoices; cur.colors = CONFIG.colors; cur.vatRate = CONFIG.vatRate;
-  cur.updated = new Date().toISOString();
-  localStorage.setItem(LS_KEY, JSON.stringify(cur));
-  const el = $('savedNote'); if (el) { el.classList.add('show'); clearTimeout(savedTimer); savedTimer = setTimeout(() => el.classList.remove('show'), 1400); }
-}
+// ───────── ČÍSELNÍK (per produkt)
+const ALL8 = [[],['grip'],['kapsa'],['dira'],['grip','kapsa'],['grip','dira'],['kapsa','dira'],['grip','kapsa','dira']];
+const TUBE_FEAT = [[],['kapsa'],['dira'],['kapsa','dira']];          // bez gripu
+const SOCK_SIZES = ['S','M','L','XL'];
+const TUBE_SIZES = ['S','M','L'];
+const SIZE_EU = { S:'35-38', M:'39-42', L:'43-46', XL:'47-50' };
+const PRODUCTS = [
+  { id:'navlek',  name:'Návlek/tunel',        code:'NAV', feat:TUBE_FEAT, sizes:TUBE_SIZES },
+  { id:'ponozka', name:'Tréninková ponožka',  code:'PON', feat:ALL8,      sizes:SOCK_SIZES },
+  { id:'nizka',   name:'Nízká štulpna',       code:'NIZ', feat:ALL8,      sizes:SOCK_SIZES },
+  { id:'vysoka',  name:'Vysoká štulpna',      code:'VYS', feat:ALL8,      sizes:SOCK_SIZES },
+  { id:'bundle',  name:'Bundle',              code:'BND', feat:ALL8,      sizes:SOCK_SIZES },
+];
+let COLORS = [ {name:'Bílá'}, {name:'Černá'} ];   // rozšiřitelné
+const FL = { grip:'Grip', kapsa:'Kapsa', dira:'Díra' };
+const FC = { grip:'G', kapsa:'K', dira:'D' };
 
 // ───────── helpers
-const $ = (id) => document.getElementById(id);
-const fmt = (n, suf = '') => isFinite(n) ? Math.round(n).toLocaleString('cs-CZ') + suf : '—';
-const FEAT_LABEL = { grip: 'Grip', kapsa: 'Kapsa', dira: 'Díra' };
-const FEAT_CODE = { grip: 'G', kapsa: 'K', dira: 'D' };
-const PROD_CODE = { navlek: 'NAV', ponozka: 'PON', nizka: 'NIZ', vysoka: 'VYS', bundle: 'BND' };
-const prodName = (id) => { const p = CONFIG.products.find(x => x.id === id); return p ? p.name : id; };
-const noDia = (s) => (s || '').normalize('NFD').split('').filter(c => { const n = c.charCodeAt(0); return n < 768 || n > 879; }).join('');
-const featKey = (arr) => (arr || []).slice().sort().join(',');
-const featText = (arr) => (arr && arr.length) ? arr.map(f => FEAT_LABEL[f] || f).join('+') : 'Základní';
+const $ = id => document.getElementById(id);
+const fmt = (n,suf='') => isFinite(n) ? Math.round(n).toLocaleString('cs-CZ')+suf : '—';
+const noDia = s => (s||'').normalize('NFD').split('').filter(c=>{const n=c.charCodeAt(0);return n<768||n>879;}).join('');
+const colorCode = name => (noDia(name).substring(0,3).toUpperCase())||'XXX';
+const prodDef = id => PRODUCTS.find(p=>p.id===id) || PRODUCTS[0];
+const FEAT_ORDER = ['grip','kapsa','dira'];          // pevné kanonické pořadí
+const CODE_FEAT = { G:'grip', K:'kapsa', D:'dira' };
+const featNorm = a => FEAT_ORDER.filter(f=>(a||[]).includes(f));
+const featKey = a => (a||[]).slice().sort().join(',');                      // pro párování rozbalovačky
+const featText = a => { const n=featNorm(a); return n.length ? n.map(f=>FL[f]).join('+') : 'Základní'; };
+const featCode = a => { const n=featNorm(a); return n.length ? n.map(f=>FC[f]).join('') : '0'; };
+// přemapování starého SKU (špatné pořadí písmen) na kanonické
+function canonSku(sku){
+  const p = (sku||'').split('-'); if(p.length!==4) return sku;
+  const feats = p[2]==='0' ? [] : p[2].split('').map(c=>CODE_FEAT[c]).filter(Boolean);
+  return `${p[0]}-${p[1]}-${featCode(feats)}-${p[3]}`;
+}
+const skuOf = (prodId,color,feat,size) => `${prodDef(prodId).code}-${colorCode(color)}-${featCode(feat)}-${size}`;
 
-function featSubsets() {
-  const ids = CONFIG.addons.map(a => a.id);
-  const out = [[]];
-  for (const id of ids) { const len = out.length; for (let j = 0; j < len; j++) out.push([...out[j], id]); }
+// ───────── DATA
+const LS_KEY = 'eldeeData';
+function emptyLine(){ return { num:'', product:PRODUCTS[0].id, color:(COLORS[0]&&COLORS[0].name)||'Bílá', feat:[], size:PRODUCTS[0].sizes[Math.min(1,PRODUCTS[0].sizes.length-1)], qty:0, net:0, due:'' }; }
+let invoices = [ emptyLine() ];   // aktivní pracovní příjem (rozpracovaná příjemka)
+let cardStock = {};               // sku -> qty (sklad)
+let receipts = [];                // uzavřené příjemky (doklady) — nejnovější nahoře
+let receiptSeq = 0;
+let vatRate = 21;
+const SIZE_MIGR = { '31-34':'S','35-38':'S','39-42':'M','43-46':'L','47-50':'XL' };
+
+function migrInv(inv){
+  if (SIZE_MIGR[inv.size]) inv.size = SIZE_MIGR[inv.size];
+  const p = prodDef(inv.product);
+  if (!p.feat.some(f=>featKey(f)===featKey(inv.feat||[]))) inv.feat = [];
+  if (!p.sizes.includes(inv.size)) inv.size = p.sizes[Math.min(1,p.sizes.length-1)];
+  return inv;
+}
+function makeReceipt(lines, createdISO){
+  receiptSeq++;
+  const fakt = [...new Set(lines.map(l=>(l.num||'').trim()).filter(Boolean))];
+  const dues = lines.map(l=>l.due).filter(Boolean).sort();
+  return {
+    n: receiptSeq,
+    created: createdISO || new Date().toISOString(),
+    by: '—',
+    faktura: fakt.join(', '),
+    due: dues[0] || '',
+    paid: false,
+    lines: lines.map(l=>({ product:l.product, color:l.color, feat:(l.feat||[]).slice(), size:l.size, qty:+l.qty||0, net:+l.net||0, num:l.num, due:l.due })),
+  };
+}
+
+function loadData(){
+  try {
+    const d = JSON.parse(localStorage.getItem(LS_KEY)||'{}');
+    if (Array.isArray(d.colorsList) && d.colorsList.length) COLORS = d.colorsList.map(n=>({name:n}));
+    if (d.cardStock && typeof d.cardStock==='object'){ const fix={}; for(const k in d.cardStock){ const ck=canonSku(k); fix[ck]=(fix[ck]||0)+(+d.cardStock[k]||0); } cardStock=fix; }
+    if (d.vatRate) vatRate = d.vatRate;
+    if (typeof d.receiptSeq === 'number') receiptSeq = d.receiptSeq;
+    if (Array.isArray(d.receipts)) receipts = d.receipts;
+    if (Array.isArray(d.invoices)) {
+      const inv = d.invoices.map(migrInv);
+      // migrace ze staré verze: dříve napumpované řádky → uzavřená příjemka (cardStock je už má, nepřičítat)
+      const pumped = inv.filter(x=>x.pumped);
+      const active = inv.filter(x=>!x.pumped);
+      if (pumped.length && !receipts.length) receipts.unshift(makeReceipt(pumped));
+      invoices = active.length ? active : [ emptyLine() ];
+    }
+  } catch(e){}
+}
+let savedTimer;
+function saveData(){
+  const cur = { invoices, cardStock, receipts, receiptSeq, colorsList: COLORS.map(c=>c.name), vatRate, updated:new Date().toISOString() };
+  localStorage.setItem(LS_KEY, JSON.stringify(cur));
+  const el = $('savedNote'); if(el){ el.classList.add('show'); clearTimeout(savedTimer); savedTimer=setTimeout(()=>el.classList.remove('show'),1400); }
+}
+function fmtDate(iso){ try{ const d=new Date(iso); if(isNaN(d.getTime())) return iso||'—'; return d.toLocaleDateString('cs-CZ')+' '+d.toLocaleTimeString('cs-CZ',{hour:'2-digit',minute:'2-digit'}); }catch(e){ return iso||'—'; } }
+
+// ───────── generování karet (z číselníku)
+function genCards(){
+  const out = []; let n = 0;
+  for (const col of COLORS) for (const p of PRODUCTS) for (const f of p.feat) for (const sz of p.sizes){
+    n++;
+    out.push({ n, prodId:p.id, prodName:p.name, color:col.name, feat:f, size:sz, sku:skuOf(p.id,col.name,f,sz) });
+  }
   return out;
 }
-function vat() { return (+($('vatRate') && $('vatRate').value) || CONFIG.vatRate) / 100; }
-function invGross(inv) { return (+inv.net || 0) * (1 + vat()); }
-function invTotal(inv) { return invGross(inv) * (+inv.qty || 0); }
-const hasGoods = (inv) => inv.product && inv.color && inv.size && (+inv.qty || 0) > 0;
-const invComplete = (inv) => hasGoods(inv) && inv.num.trim() !== '' && inv.due !== '' && (+inv.net || 0) > 0;
+let CARDS = [];
 
-function sku(inv) {
-  const pc = PROD_CODE[inv.product] || 'XXX';
-  const cc = (noDia(inv.color).substring(0, 3).toUpperCase()) || 'XXX';
-  const fc = (inv.feat && inv.feat.length) ? inv.feat.map(f => FEAT_CODE[f]).join('') : '0';
-  const sz = (inv.size || '').replace(/[^0-9]/g, '') || '00';
-  return `${pc}-${cc}-${fc}-${sz}`;
-}
-function selOpts(list, val, mv, ml) {
-  return list.map(x => { const v = mv ? mv(x) : x, l = ml ? ml(x) : x; return `<option value="${v}"${v === val ? ' selected' : ''}>${l}</option>`; }).join('');
+// poslední nákupní cena podle SKU (z uzavřených příjemek) → hodnota skladu
+function priceMap(){
+  const m = {};
+  receipts.slice().reverse().forEach(r=>r.lines.forEach(l=>{ if((+l.net||0)>0) m[skuOf(l.product,l.color,l.feat,l.size)] = +l.net; }));
+  return m;
 }
 
-// ───────── příjem zboží — grid řádky
-function buildInvoices() {
-  const subs = featSubsets();
-  $('invoiceRows').innerHTML = CONFIG.invoices.map((inv, i) => {
-    const prodOpts = selOpts(CONFIG.products, inv.product, p => p.id, p => p.name);
-    const colorOpts = selOpts(CONFIG.colors, inv.color) + `<option value="__new__">➕ nová barva…</option>`;
-    const featOpts = subs.map(s => `<option value="${featKey(s)}"${featKey(s) === featKey(inv.feat) ? ' selected' : ''}>${featText(s)}</option>`).join('');
-    const sizeOpts = selOpts(CONFIG.sizes, inv.size);
+// ───────── KARTY render + filtry
+function lowLevel(){ return +($('lowLevel')&&$('lowLevel').value) || 0; }
+function filteredCards(){
+  const fc=$('fColor').value, fp=$('fProd').value, ff=$('fFeat').value, fs=($('fSearch').value||'').trim().toLowerCase();
+  const onlyStock=$('fStock').checked, onlyLow=$('fLow').checked, low=lowLevel();
+  return CARDS.filter(c=>{
+    const q = cardStock[c.sku]||0;
+    if (fc && c.color!==fc) return false;
+    if (fp && c.prodId!==fp) return false;
+    if (ff && featKey(c.feat)!==ff) return false;
+    if (onlyStock && q<=0) return false;
+    if (onlyLow && !(q>0 && q<low)) return false;
+    if (fs){ const hay=(c.n+' '+c.sku+' '+c.prodName+' '+c.color+' '+featText(c.feat)+' '+c.size).toLowerCase(); if(!hay.includes(fs)) return false; }
+    return true;
+  });
+}
+function renderCards(){
+  const pm = priceMap();
+  const rows = filteredCards();
+  const low = lowLevel();
+  $('cardRows').innerHTML = rows.map(c=>{
+    const q = cardStock[c.sku]||0;
+    const cls = q<=0 ? '' : (low && q<low ? 'low' : 'has');
+    const inCls = q<=0 ? '' : (low && q<low ? 'low' : 'has');
+    const val = q * (pm[c.sku]||0);
+    return `<tr class="${cls}">
+      <td class="cnum">${c.n}</td>
+      <td style="padding:0 10px;font-weight:600">${c.prodName}</td>
+      <td style="padding:0 10px">${c.color}</td>
+      <td style="padding:0 10px">${featText(c.feat)}</td>
+      <td style="padding:0 10px">${c.size}${SIZE_EU[c.size]?` <span class="badge">${SIZE_EU[c.size]}</span>`:''}</td>
+      <td class="skucell">${c.sku}</td>
+      <td style="padding:0"><input class="stockin ${inCls}" type="number" min="0" step="1" data-sku="${c.sku}" value="${q}"></td>
+      <td class="calc">${val>0?fmt(val,' Kč'):'—'}</td>
+    </tr>`;
+  }).join('') || `<tr><td colspan="8" class="empty">Žádná karta neodpovídá filtru.</td></tr>`;
+  $('cardSum').innerHTML = `<strong>${rows.length}</strong> / ${CARDS.length} karet`;
+}
+
+// ───────── KPI
+function recalcKPI(){
+  const pm = priceMap();
+  let total=0, variants=0, value=0;
+  CARDS.forEach(c=>{ const q=cardStock[c.sku]||0; if(q>0){ total+=q; variants++; value+=q*(pm[c.sku]||0); } });
+  $('kTotal').textContent = total;
+  $('kVariants').textContent = variants;
+  $('kValue').textContent = fmt(value,' Kč');
+  // k zaplacení = nezaplacené příjemky (hrubá hodnota)
+  const v = (+($('vatRate')&&$('vatRate').value)||vatRate)/100;
+  let due=0; receipts.forEach(r=>{ if(!r.paid) due += r.lines.reduce((s,l)=>s+(+l.qty||0)*(+l.net||0),0)*(1+v); });
+  $('kDue').textContent = fmt(due,' Kč');
+}
+
+// ───────── PŘÍJEM ZBOŽÍ
+function vat(){ return (+($('vatRate')&&$('vatRate').value)||vatRate)/100; }
+const invGross = inv => (+inv.net||0)*(1+vat());
+const invTotal = inv => invGross(inv)*(+inv.qty||0);
+const invHasGoods = inv => inv.product && inv.color && inv.size && (+inv.qty||0)>0;
+const invComplete = inv => invHasGoods(inv) && inv.num.trim()!=='' && inv.due!=='' && (+inv.net||0)>0;
+
+function selOpts(list, val, mv, ml){
+  return list.map(x=>{ const v=mv?mv(x):x, l=ml?ml(x):x; return `<option value="${v}"${v===val?' selected':''}>${l}</option>`; }).join('');
+}
+function buildInvoices(){
+  $('invoiceRows').innerHTML = invoices.map((inv,i)=>{
+    const p = prodDef(inv.product);
+    const prodOpts = selOpts(PRODUCTS, inv.product, x=>x.id, x=>x.name);
+    const colorOpts = selOpts(COLORS, inv.color, c=>c.name, c=>c.name) + `<option value="__new__">➕ nová barva…</option>`;
+    const featOpts = p.feat.map(s=>`<option value="${featKey(s)}"${featKey(s)===featKey(inv.feat)?' selected':''}>${featText(s)}</option>`).join('');
+    const sizeOpts = p.sizes.map(s=>`<option value="${s}"${s===inv.size?' selected':''}>${s}${SIZE_EU[s]?' ('+SIZE_EU[s]+')':''}</option>`).join('');
     return `
     <tr>
       <td><input class="cell" type="text" data-ini="${i}" data-ink="num" value="${inv.num}" placeholder="2026-001"></td>
@@ -269,140 +485,228 @@ function buildInvoices() {
       <td class="calc" id="ig-${i}">—</td>
       <td class="calc total" id="it-${i}">—</td>
       <td><input class="cell" type="date" data-ini="${i}" data-ink="due" value="${inv.due}"></td>
-      <td class="center"><input type="checkbox" data-ini="${i}" data-ink="paid" ${inv.paid ? 'checked' : ''}></td>
       <td class="delcell"><button class="del" data-del="${i}" title="Smazat řádek">🗑</button></td>
     </tr>`;
   }).join('');
 }
-
-function recalcInvoices() {
-  const today = new Date(); today.setHours(0, 0, 0, 0);
-  let totalDue = 0, incomplete = 0, nearest = Infinity;
-  CONFIG.invoices.forEach((inv, i) => {
-    if ($('ig-' + i)) $('ig-' + i).textContent = fmt(invGross(inv));
-    if ($('it-' + i)) $('it-' + i).textContent = fmt(invTotal(inv));
-    document.querySelectorAll('[data-ini="' + i + '"]').forEach(el => {
-      const k = el.dataset.ink;
-      if (k === 'num') el.classList.toggle('bad', inv.num.trim() === '');
-      if (k === 'due') el.classList.toggle('bad', inv.due === '');
-      if (k === 'net') el.classList.toggle('bad', (+inv.net || 0) <= 0);
-      if (k === 'qty') el.classList.toggle('bad', (+inv.qty || 0) <= 0);
+function recalcInvoices(){
+  const today=new Date(); today.setHours(0,0,0,0);
+  let incomplete=0, nearest=Infinity, ready=0;
+  invoices.forEach((inv,i)=>{
+    if($('ig-'+i)) $('ig-'+i).textContent = fmt(invGross(inv));
+    if($('it-'+i)) $('it-'+i).textContent = fmt(invTotal(inv));
+    document.querySelectorAll('[data-ini="'+i+'"]').forEach(el=>{
+      const k=el.dataset.ink;
+      if(k==='num') el.classList.toggle('bad', inv.num.trim()==='');
+      if(k==='due') el.classList.toggle('bad', inv.due==='');
+      if(k==='net') el.classList.toggle('bad', (+inv.net||0)<=0);
+      if(k==='qty') el.classList.toggle('bad', (+inv.qty||0)<=0);
     });
-    if (!invComplete(inv)) incomplete++;
-    if (!inv.paid && invComplete(inv)) {
-      totalDue += invTotal(inv);
-      const days = Math.round((new Date(inv.due + 'T00:00:00') - today) / 86400000);
-      if (days < nearest) nearest = days;
+    if(invHasGoods(inv)) ready++;
+    if(invHasGoods(inv) && !invComplete(inv)) incomplete++;
+    if(invComplete(inv)){
+      const days = Math.round((new Date(inv.due+'T00:00:00')-today)/86400000);
+      if(days<nearest) nearest=days;
     }
   });
-  let s = `<strong>${CONFIG.invoices.length}</strong> řádků`;
-  if (isFinite(nearest)) s += ` · splatnost ${nearest < 0 ? `<span class="bad">po termínu ${-nearest} d</span>` : (nearest === 0 ? '<span class="bad">dnes!</span>' : `za ${nearest} d`)}`;
-  if (incomplete) s += ` · <span class="bad">⚠ ${incomplete} nedokončených</span>`;
+  let s=`<strong>${invoices.length}</strong> řádků`;
+  if(ready) s += ` · <strong style="color:var(--gold)">${ready}</strong> k uzavření`;
+  if(isFinite(nearest)) s += ` · splatnost ${nearest<0?`<span class="bad">po termínu ${-nearest} d</span>`:(nearest===0?'<span class="bad">dnes!</span>':`za ${nearest} d`)}`;
+  if(incomplete) s += ` · <span class="bad">⚠ ${incomplete} bez faktury/ceny/splatnosti</span>`;
   $('invSummary').innerHTML = s;
-  $('kDue').textContent = fmt(totalDue, ' Kč');
 }
 
-// ───────── sklad podle variant + Shoptet export
-function variantStock() {
-  const map = {};
-  CONFIG.invoices.forEach(inv => {
-    if (!hasGoods(inv)) return;
-    const key = sku(inv);
-    if (!map[key]) map[key] = { sku: key, product: inv.product, color: inv.color, feat: (inv.feat || []).slice(), size: inv.size, qty: 0, val: 0 };
-    map[key].qty += (+inv.qty || 0);
-    map[key].val += (+inv.net || 0) * (+inv.qty || 0);
-  });
-  return Object.values(map);
+// ───────── UZAVŘENÍ PŘÍJEMKY → do skladu + doklad do historie
+function finalizeReceipt(){
+  const lines = invoices.filter(invHasGoods);
+  if(!lines.length){ alert('Není co uzavřít — vyplň aspoň jeden řádek (produkt, barva, velikost, ks > 0).'); return; }
+  lines.forEach(l=>{ const sku=skuOf(l.product,l.color,l.feat,l.size); cardStock[sku]=(cardStock[sku]||0)+(+l.qty||0); });
+  const r = makeReceipt(lines);
+  receipts.unshift(r);
+  const ks = lines.reduce((s,l)=>s+(+l.qty||0),0);
+  invoices = invoices.filter(x=>!invHasGoods(x));   // ponech nedokončené řádky
+  if(!invoices.length) invoices = [ emptyLine() ];
+  saveData(); buildInvoices(); refreshAll();
+  alert(`Příjemka PR-${String(r.n).padStart(4,'0')} uzavřena.\n+${ks} ks do skladu, doklad uložen do 📜 Historie příjmů.`);
 }
 
-function renderVariantStock() {
-  const rows = variantStock().sort((a, b) => a.sku.localeCompare(b.sku));
-  const total = rows.reduce((s, r) => s + r.qty, 0);
-  const value = rows.reduce((s, r) => s + r.val, 0);
-  $('kTotal').textContent = total;
-  $('kVariants').textContent = rows.length;
-  $('kValue').textContent = fmt(value, ' Kč');
-  if (!rows.length) { $('variantStock').innerHTML = '<div class="empty">Zatím prázdné — přidej příjem zboží nahoře a sklad se naplní sám.</div>'; return; }
-  $('variantStock').innerHTML = `
-    <div class="gridwrap"><table class="grid" style="min-width:640px">
-      <thead><tr>
-        <th>Produkt</th><th style="width:90px">Barva</th><th style="width:120px">Provedení</th>
-        <th style="width:80px">Vel.</th><th style="width:150px">SKU</th><th style="width:100px;text-align:right">Skladem</th>
-      </tr></thead>
-      <tbody>${rows.map(r => `<tr>
-        <td style="padding:0 10px;font-weight:600">${prodName(r.product)}</td>
-        <td style="padding:0 10px">${r.color}</td>
-        <td style="padding:0 10px">${featText(r.feat)}</td>
-        <td style="padding:0 10px">${r.size}</td>
-        <td class="skucell" style="padding:0 10px">${r.sku}</td>
-        <td class="qtycell" style="padding:0 10px">${r.qty} ks</td>
-      </tr>`).join('')}</tbody>
-    </table></div>`;
-}
-
-function download(blob, name) {
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url; a.download = name;
-  document.body.appendChild(a); a.click(); a.remove();
-  URL.revokeObjectURL(url);
-}
-function shoptetExport() {
-  const rows = variantStock();
-  if (!rows.length) { alert('Sklad je prázdný — není co exportovat.'); return; }
-  const head = ['kod', 'nazev', 'produkt', 'barva', 'provedeni', 'velikost', 'skladem'];
-  const lines = [head.join(';')];
-  rows.forEach(r => lines.push([r.sku, `${prodName(r.product)} ${r.color} ${featText(r.feat)} ${r.size}`, prodName(r.product), r.color, featText(r.feat), r.size, r.qty].join(';')));
-  download(new Blob([String.fromCharCode(0xFEFF) + lines.join('\r\n')], { type: 'text/csv;charset=utf-8' }), 'eldee-sklad-shoptet.csv');
-}
-function backup() {
-  download(new Blob([localStorage.getItem(LS_KEY) || '{}'], { type: 'application/json' }), 'eldee-sklad-zaloha.json');
-}
-function restore(file) {
-  const r = new FileReader();
-  r.onload = () => { try { JSON.parse(r.result); localStorage.setItem(LS_KEY, r.result); loadData(); buildInvoices(); recalc(); alert('Hotovo — data načtena.'); } catch (e) { alert('Soubor není platná záloha.'); } };
-  r.readAsText(file);
-}
-
-function recalc() { recalcInvoices(); renderVariantStock(); }
-
-// ───────── events
-document.addEventListener('input', (e) => {
-  const t = e.target;
-  if (t.id === 'vatRate') { CONFIG.vatRate = +t.value || 0; recalc(); saveData(); return; }
-  if (t.dataset.ini != null) {
-    const inv = CONFIG.invoices[+t.dataset.ini], k = t.dataset.ink;
-    if (k === 'paid') inv.paid = t.checked;
-    else if (k === 'qty' || k === 'net') inv[k] = +t.value || 0;
-    else if (k === 'feat') inv.feat = t.value ? t.value.split(',') : [];
-    else if (k === 'color') {
-      if (t.value === '__new__') {
-        const nv = (prompt('Název nové barvy:') || '').trim();
-        if (nv && !CONFIG.colors.includes(nv)) CONFIG.colors.push(nv);
-        inv.color = nv || CONFIG.colors[0]; buildInvoices();
-      } else inv.color = t.value;
+// ───────── HISTORIE PŘÍJMŮ
+function renderHistory(){
+  if(!receipts.length){ $('histRows').innerHTML='<tr><td colspan="9" class="empty">Zatím žádná příjemka. Udělej příjem v 📦 Příjem zboží a klikni „Uzavřít příjemku".</td></tr>'; $('histSum').innerHTML=''; return; }
+  const fs = (($('hSearch')&&$('hSearch').value)||'').trim().toLowerCase();
+  const fp = $('hPaid') && $('hPaid').value;
+  const list = receipts.filter(r=>{
+    if(fp==='ne' && r.paid) return false;
+    if(fp==='ano' && !r.paid) return false;
+    if(fs){
+      const hay = ('PR-'+String(r.n).padStart(4,'0')+' '+(r.faktura||'')+' '+fmtDate(r.created)+' '+(r.created||'')+' '+(r.by||'')+' '
+        + r.lines.map(l=>prodDef(l.product).name+' '+l.color+' '+featText(l.feat)+' '+l.size+' '+skuOf(l.product,l.color,l.feat,l.size)).join(' ')).toLowerCase();
+      if(!hay.includes(fs)) return false;
     }
-    else inv[k] = t.value;
-    recalc(); saveData();
+    return true;
+  });
+  $('histRows').innerHTML = list.map(r=>{
+    const ks = r.lines.reduce((s,l)=>s+(+l.qty||0),0);
+    const val = r.lines.reduce((s,l)=>s+(+l.qty||0)*(+l.net||0),0);
+    const head = `<tr class="hrow" data-rid="${r.n}" style="cursor:pointer">
+      <td class="center"><span class="exp" data-rid="${r.n}" style="color:var(--gold);font-weight:700">▸</span></td>
+      <td style="padding:0 10px;font-family:ui-monospace,monospace;color:var(--gold);font-weight:700">PR-${String(r.n).padStart(4,'0')}</td>
+      <td style="padding:0 10px">${fmtDate(r.created)}</td>
+      <td style="padding:0 10px">${r.by||'—'}</td>
+      <td style="padding:0 10px">${r.faktura||'—'}</td>
+      <td class="cnum">${r.lines.length}</td>
+      <td class="cnum">${ks}</td>
+      <td class="calc">${fmt(val,' Kč')}</td>
+      <td class="center"><input type="checkbox" class="paidchk" data-rid="${r.n}" ${r.paid?'checked':''}> ${r.paid?'<span style="color:var(--green)">zapl.</span>':'<span style="color:var(--blood)">ne</span>'}</td>
+    </tr>`;
+    const det = `<tr class="hdet" data-rid="${r.n}" style="display:none"><td></td><td colspan="8" style="padding:8px 10px;background:var(--ink)">
+      <table class="grid" style="min-width:0"><thead><tr><th>Produkt</th><th>Barva</th><th>Provedení</th><th>Vel.</th><th>SKU</th><th style="text-align:right">Ks</th><th style="text-align:right">Cena/ks</th><th style="text-align:right">Celkem</th></tr></thead>
+      <tbody>${r.lines.map(l=>`<tr>
+        <td style="padding:0 10px;font-weight:600">${prodDef(l.product).name}</td>
+        <td style="padding:0 10px">${l.color}</td>
+        <td style="padding:0 10px">${featText(l.feat)}</td>
+        <td style="padding:0 10px">${l.size}</td>
+        <td class="skucell">${skuOf(l.product,l.color,l.feat,l.size)}</td>
+        <td class="cnum">${l.qty}</td>
+        <td class="cnum">${fmt(l.net,' Kč')}</td>
+        <td class="cnum" style="color:var(--gold)">${fmt((+l.qty||0)*(+l.net||0),' Kč')}</td>
+      </tr>`).join('')}</tbody></table>
+    </td></tr>`;
+    return head+det;
+  }).join('') || '<tr><td colspan="9" class="empty">Žádná příjemka neodpovídá filtru.</td></tr>';
+  $('histSum').innerHTML = `<strong>${list.length}</strong>${list.length!==receipts.length?' / '+receipts.length:''} příjemek`;
+}
+
+// ───────── export / záloha
+function download(blob,name){ const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download=name; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url); }
+function shoptetExport(){
+  const rows = CARDS.filter(c=>(cardStock[c.sku]||0)>0);
+  if(!rows.length){ alert('Sklad je prázdný — není co exportovat.'); return; }
+  const head=['kod','nazev','produkt','barva','provedeni','velikost','skladem'];
+  const lines=[head.join(';')];
+  rows.forEach(c=>lines.push([c.sku, `${c.prodName} ${c.color} ${featText(c.feat)} ${c.size}`, c.prodName, c.color, featText(c.feat), c.size, cardStock[c.sku]].join(';')));
+  download(new Blob([String.fromCharCode(0xFEFF)+lines.join('\r\n')],{type:'text/csv;charset=utf-8'}),'eldee-sklad-shoptet.csv');
+}
+function backup(){ download(new Blob([localStorage.getItem(LS_KEY)||'{}'],{type:'application/json'}),'eldee-sklad-zaloha.json'); }
+function restore(file){ const r=new FileReader(); r.onload=()=>{ try{ JSON.parse(r.result); localStorage.setItem(LS_KEY,r.result); loadData(); CARDS=genCards(); buildInvoices(); buildFilters(); refreshAll(); alert('Hotovo — data načtena.'); }catch(e){ alert('Soubor není platná záloha.'); } }; r.readAsText(file); }
+
+// ───────── SKLADEM (jen kusy > 0)
+function renderStock(){
+  const pm = priceMap();
+  const fc=$('sColor').value, fp=$('sProd').value, fs=($('sSearch').value||'').trim().toLowerCase();
+  const low=lowLevel();
+  const rows = CARDS.filter(c=>{
+    const q=cardStock[c.sku]||0; if(q<=0) return false;
+    if(fc && c.color!==fc) return false;
+    if(fp && c.prodId!==fp) return false;
+    if(fs){ const hay=(c.n+' '+c.sku+' '+c.prodName+' '+c.color+' '+featText(c.feat)+' '+c.size).toLowerCase(); if(!hay.includes(fs)) return false; }
+    return true;
+  });
+  let totalKs=0;
+  $('stockRows').innerHTML = rows.map(c=>{
+    const q=cardStock[c.sku]||0; totalKs+=q; const val=q*(pm[c.sku]||0);
+    const inCls = (low&&q<low)?'low':'has';
+    return `<tr class="${(low&&q<low)?'low':'has'}">
+      <td class="cnum">${c.n}</td>
+      <td style="padding:0 10px;font-weight:600">${c.prodName}</td>
+      <td style="padding:0 10px">${c.color}</td>
+      <td style="padding:0 10px">${featText(c.feat)}</td>
+      <td style="padding:0 10px">${c.size}${SIZE_EU[c.size]?` <span class="badge">${SIZE_EU[c.size]}</span>`:''}</td>
+      <td class="skucell">${c.sku}</td>
+      <td style="padding:0"><input class="stockin ${inCls}" type="number" min="0" step="1" data-sku="${c.sku}" value="${q}"></td>
+      <td class="calc">${val>0?fmt(val,' Kč'):'—'}</td>
+    </tr>`;
+  }).join('') || `<tr><td colspan="8" class="empty">Zatím prázdné — naskladni přes 📦 Příjem zboží → „Napumpovat do skladu", nebo zadej stav v 🗂️ Skladové karty.</td></tr>`;
+  $('stockSum').innerHTML = `<strong>${rows.length}</strong> variant · <strong>${totalKs}</strong> ks skladem`;
+}
+
+// ───────── filtry init
+function buildFilters(){
+  const colorOpts = COLORS.map(c=>`<option value="${c.name}">${c.name}</option>`).join('');
+  const prodOpts = PRODUCTS.map(p=>`<option value="${p.id}">${p.name}</option>`).join('');
+  $('fColor').innerHTML = '<option value="">Barva: vše</option>' + colorOpts;
+  $('fProd').innerHTML = '<option value="">Produkt: vše</option>' + prodOpts;
+  $('fFeat').innerHTML = '<option value="">Provedení: vše</option>' + ALL8.map(f=>`<option value="${featKey(f)}">${featText(f)}</option>`).join('');
+  $('sColor').innerHTML = '<option value="">Barva: vše</option>' + colorOpts;
+  $('sProd').innerHTML = '<option value="">Produkt: vše</option>' + prodOpts;
+}
+
+function refreshAll(){ recalcInvoices(); renderStock(); renderCards(); renderHistory(); recalcKPI(); }
+
+// ───────── EVENTS
+document.addEventListener('input', e=>{
+  const t=e.target;
+  if(t.id==='vatRate'){ vatRate=+t.value||0; refreshAll(); saveData(); return; }
+  if(t.classList.contains('stockin')){ const v=Math.max(0,+t.value||0); cardStock[t.dataset.sku]=v; t.classList.toggle('has',v>0&&!(lowLevel()&&v<lowLevel())); t.classList.toggle('low',!!(lowLevel()&&v>0&&v<lowLevel())); recalcKPI(); saveData(); return; }
+  if(['fColor','fProd','fFeat','fSearch','fStock','fLow','lowLevel'].includes(t.id)){ renderCards(); if(t.id==='lowLevel') renderStock(); return; }
+  if(['sColor','sProd','sSearch'].includes(t.id)){ renderStock(); return; }
+  if(['hSearch','hPaid'].includes(t.id)){ renderHistory(); return; }
+  if(t.dataset.ini!=null){
+    const inv=invoices[+t.dataset.ini], k=t.dataset.ink;
+    if(k==='paid') inv.paid=t.checked;
+    else if(k==='qty'||k==='net') inv[k]=+t.value||0;
+    else if(k==='feat') inv.feat = t.value?t.value.split(','):[];
+    else if(k==='product'){ inv.product=t.value; const p=prodDef(t.value);
+      if(!p.feat.some(f=>featKey(f)===featKey(inv.feat))) inv.feat=[];
+      if(!p.sizes.includes(inv.size)) inv.size=p.sizes[Math.min(1,p.sizes.length-1)];
+      buildInvoices(); }
+    else if(k==='color'){
+      if(t.value==='__new__'){ const nv=(prompt('Název nové barvy:')||'').trim(); if(nv&&!COLORS.some(c=>c.name===nv)) COLORS.push({name:nv}); inv.color=nv||COLORS[0].name; CARDS=genCards(); buildFilters(); buildInvoices(); }
+      else inv.color=t.value;
+    }
+    else inv[k]=t.value;
+    refreshAll(); saveData();
   }
 });
-document.addEventListener('focusin', (e) => { const td = e.target.closest && e.target.closest('td'); if (td && e.target.classList.contains('cell')) td.classList.add('focus'); });
-document.addEventListener('focusout', (e) => { const td = e.target.closest && e.target.closest('td'); if (td) td.classList.remove('focus'); });
-document.addEventListener('click', (e) => {
-  const t = e.target;
-  if (t.id === 'invAdd') { CONFIG.invoices.push({ num: '', product: CONFIG.products[0].id, color: CONFIG.colors[0], feat: [], size: CONFIG.sizes[2] || CONFIG.sizes[0], qty: 0, net: 0, due: '', paid: false }); buildInvoices(); recalc(); saveData(); }
-  else if (t.id === 'shoptetExport') { shoptetExport(); }
-  else if (t.id === 'backupBtn') { backup(); }
-  else if (t.id === 'restoreBtn') { $('restoreFile').click(); }
-  else if (t.dataset.del != null) { CONFIG.invoices.splice(+t.dataset.del, 1); buildInvoices(); recalc(); saveData(); }
+document.addEventListener('change', e=>{
+  const t=e.target;
+  if(t.classList && t.classList.contains('stockin')){ renderStock(); renderCards(); recalcKPI(); return; }
+  if(t.classList && t.classList.contains('paidchk')){ const r=receipts.find(x=>x.n===+t.dataset.rid); if(r){ r.paid=t.checked; saveData(); renderHistory(); recalcKPI(); } return; }
 });
-$('restoreFile').addEventListener('change', (e) => { if (e.target.files[0]) restore(e.target.files[0]); });
+document.addEventListener('click', e=>{
+  const t=e.target;
+  if(t.dataset.sec!=null && t.closest('#tabs')){
+    [...document.querySelectorAll('#tabs button')].forEach(b=>b.classList.toggle('on',b===t));
+    document.querySelectorAll('.sec').forEach(s=>s.classList.toggle('on', s.id==='sec-'+t.dataset.sec));
+    return;
+  }
+  // rozbalení položek příjemky v historii
+  const hrow = t.closest && t.closest('tr.hrow');
+  if(hrow && t.type!=='checkbox' && !(t.classList&&t.classList.contains('paidchk'))){
+    const rid=hrow.dataset.rid; const det=document.querySelector('tr.hdet[data-rid="'+rid+'"]');
+    if(det){ const open=det.style.display!=='none'; det.style.display=open?'none':'table-row'; const ex=hrow.querySelector('.exp'); if(ex) ex.textContent=open?'▸':'▾'; }
+    return;
+  }
+  if(t.id==='invAdd'){ invoices.push(emptyLine()); buildInvoices(); refreshAll(); saveData(); }
+  else if(t.id==='pumpBtn'){ finalizeReceipt(); }
+  else if(t.id==='shoptetExport'){ shoptetExport(); }
+  else if(t.id==='backupBtn'){ backup(); }
+  else if(t.id==='restoreBtn'){ $('restoreFile').click(); }
+  else if(t.id==='resetBtn'){
+    if(confirm('Opravdu VYNULOVAT celý sklad?\n\nSmaže se příjem zboží, historie příjmů i stav všech karet (čistý start). Akce je nevratná — pokud chceš, udělej si nejdřív zálohu.')){
+      invoices = [ emptyLine() ]; cardStock = {}; receipts = []; receiptSeq = 0;
+      saveData(); buildInvoices(); refreshAll();
+      alert('Sklad vynulován — čistý start. 🧹');
+    }
+  }
+  else if(t.dataset.del!=null){ invoices.splice(+t.dataset.del,1); buildInvoices(); refreshAll(); saveData(); }
+});
+$('restoreFile').addEventListener('change', e=>{ if(e.target.files[0]) restore(e.target.files[0]); });
 
-// ───────── start
+// klik do pole splatnosti spolehlivě otevře kalendář (u všech řádků)
+document.addEventListener('click', e=>{
+  const t=e.target;
+  if(t && t.tagName==='INPUT' && t.type==='date' && typeof t.showPicker==='function'){ try{ t.showPicker(); }catch(_){} }
+});
+
+// ───────── START
 loadData();
-if ($('vatRate')) $('vatRate').value = CONFIG.vatRate;
+if($('vatRate')) $('vatRate').value = vatRate;
+CARDS = genCards();
+buildFilters();
 buildInvoices();
-recalc();
+refreshAll();
+saveData();   // ukotvi případnou migraci (staré napumpované řádky → příjemka), ať se nezdvojí
 </script>
 </body>
 </html>

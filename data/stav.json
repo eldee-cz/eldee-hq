@@ -63,6 +63,12 @@
   "timeline": [
     {
       "datum": "26. 6. 2026",
+      "nadpis": "Sklad přestavěn (skladové karty + příjemky) + Finance kokpit",
+      "text": "Velká přestavba dvou dlaždic. <strong>📦 Sklad</strong>: 4 proklikávací sekce — <strong>Skladem</strong> (co reálně máme) · <strong>Skladové karty</strong> (280 pevně očíslovaných variant, klíč barva→produkt→provedení→velikost, Bílá 1–140 / Černá 141–280, inventura) · <strong>Příjem zboží</strong> (uzavře se jako příjemka/doklad) · <strong>Historie příjmů</strong> (audit à la SAP, rozbalovací položky, filtr) · Záloha + Vynulovat. Rozměry per produkt (tunel S/M/L bez gripu, ostatní S/M/L/XL). <strong>💰 Finance</strong> přestavěné na kokpit: záložky <strong>Ceny &amp; marže</strong> (osekané o duplicity se Skladem, marže i v %) · <strong>Náklady &amp; faktury</strong> (provozní, + zboží natažené ze Skladu) · <strong>Kam jdou peníze</strong> (rozpad nákladů) · <strong>Daně &amp; rezerva</strong> (kolik odkládat na daň) · <strong>DPH</strong>. Hranice: Sklad = realita, Finance = ceny + peníze. Specy v docs. <em>Zatím se testuje, doladí se za provozu.</em>",
+      "minor": false
+    },
+    {
+      "datum": "26. 6. 2026",
       "nadpis": "Maskot — opraveny vady + editor s kyblíkem",
       "text": "Opraveny 2 vady AI maskotů, co se propsaly na web i sítě: <strong>špinavá svatozář</strong> u prodejce (přenesena čistá z fotbalisty) a <strong>špinavý šedý límeček</strong> u fotbalisty (Lukáš vyplnil čistě bíle v editoru). Obojí propsáno do všech repozitářů (brandbook, e-shop náhled, sociální sítě, editor). <strong>Editor maskota</strong> (eldee-hq/maskot-editor) vylepšen: <strong>🪣 kyblík</strong> (flood fill, bílá/černá/tma boxu/zlatá/červená), <strong>🖌 štětec</strong>, razítko štulpny, <strong>přepínání postav</strong> (fotbalista/hero/prodejce). Zbývá: <strong>špinavé štulpny v boxu</strong> u hero — propletené, skript ani editor je čistě nedají → na finálního ilustrátora (brief to jmenuje).",
       "minor": false
@@ -476,6 +482,17 @@
       "hotovo": null,
       "priorita": "nizka",
       "poradi": 22
+    },
+    {
+      "id": "sklad-prodej-bestsellery",
+      "text": "Sklad: prodej/výdej + prodejní analytika (bestsellery) → napojit na Finance",
+      "stav": "fronta",
+      "kdo": "Lukáš + Jarvis",
+      "pozn": "Další fáze po skladových kartách + Finance kokpitu (26.6.). Přidat do Skladu prodej/výdej (odečítá stav): manuální výdej teď, import Shoptet CSV (párování přes SKU) až bude eshop živý. Pak prodejní analytika: bestsellery s rozpadem na prvky (díra v X % prodejů), sell-through, reorder, marže po variantě. Finance: záložka Kam jdou peníze pak doplnit o tržby/zisk. Zatím se Sklad+Finance testují lokálně, doladí za provozu.",
+      "vzniklo": "2026-06-26",
+      "hotovo": null,
+      "priorita": "stredni",
+      "poradi": 23
     }
   ],
   "odkazy": [

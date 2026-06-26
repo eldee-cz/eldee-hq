@@ -126,6 +126,10 @@ a { color:var(--gold); }
 .prio span { font-size:12px; font-weight:800; padding:5px 11px; border-radius:20px; background:var(--panel2); border:1px solid var(--line2); color:var(--muted); }
 .prio span.now { background:var(--gold-dim); border-color:var(--gold); color:var(--gold); }
 
+.hint { background:var(--gold-dim); border:1px solid var(--line2); border-left:3px solid var(--gold); border-radius:10px;
+  padding:12px 14px; margin:0 0 18px; font-size:13px; color:var(--bone); line-height:1.55; }
+.hint strong { color:var(--gold); }
+
 /* ===== rozcestnik (socialni-site.html) ===== */
 .hub { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:14px; }
 .hub-card { display:flex; flex-direction:column; gap:8px; text-decoration:none; color:var(--bone);

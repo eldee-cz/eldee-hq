@@ -20,14 +20,33 @@
   <p class="lead">Discord není o postech — je to <strong>domov komunity / Holy Squad</strong>. Insider info o dropech, role, chat, místo kde fanoušci a ambassadoři žijí. Mladí + fotbal + hraní se překrývají. Galerie má <strong>ikonu serveru (1:1)</strong> a <strong>banner (16:9)</strong>. Zbytek = struktura serveru.</p>
 
   <div class="maintabs" id="maintabs">
-    <button data-sec="galerie" class="on">🖼️ Galerie</button>
+    <button data-sec="start" class="on">🚀 Start</button>
+    <button data-sec="galerie">🖼️ Galerie</button>
     <button data-sec="struktura">🏗️ Struktura serveru</button>
     <button data-sec="uvitani">👋 Uvítání + pravidla</button>
     <button data-sec="oznameni">📢 Oznámení</button>
   </div>
 
+  <!-- ===== START ===== -->
+  <section class="section on" id="sec-start">
+    <div class="block">
+      <h2>💡 Co je Discord a proč ho eldee chce</h2>
+      <p class="stub"><b>Discord</b> = chatovací appka, kde mají komunity vlastní „server" (něco jako klubovna rozdělená na místnosti). Mladí + fotbal + hraní se tam potkávají.<br><br>
+      Pro eldee je to <b>domov Holy Squad</b> — místo, kde tvoji nejvěrnější fanoušci a ambassadoři chatují, dozví se o dropech <b>první</b> a posílají svoje fotky. Není to o postech, je to o <b>partě</b>. Tohle zapni, až budeš mít první fanoušky z TikToku/IG, co je kam pozvat.</p>
+    </div>
+    <div class="guide">
+      <h2>🚀 Jak založit server (krok za krokem)</h2>
+      <p class="sub">Zvládneš za 15 minut z telefonu i z počítače.</p>
+      <div class="gstep"><div class="gn">1</div><div class="gt"><b>Stáhni Discord</b> (appka zdarma) nebo jdi na discord.com, založ účet.</div></div>
+      <div class="gstep"><div class="gn">2</div><div class="gt"><b>Vytvoř server.</b> Vlevo velké <b>+</b> → Vytvořit vlastní → Pro klub nebo komunitu. Název: <b>eldee · Holy Squad</b>.</div></div>
+      <div class="gstep"><div class="gn">3</div><div class="gt"><b>Nahraj ikonu a banner.</b> Ze záložky <b>🖼️ Galerie</b>: ikona = Loga → Monogram LD (1:1), banner = formát 16:9. (Banner jde po pár „boostech" serveru, nevadí když hned ne.)</div></div>
+      <div class="gstep"><div class="gn">4</div><div class="gt"><b>Postav místnosti a role</b> podle záložky <b>🏗️ Struktura serveru</b> (mám to rozepsané).</div></div>
+      <div class="gstep"><div class="gn">5</div><div class="gt"><b>Vlož uvítání a pravidla</b> ze záložky <b>👋 Uvítání + pravidla</b>. Pak dej zvací odkaz do bia na TikToku/IG.</div></div>
+    </div>
+  </section>
+
   <!-- ===== GALERIE ===== -->
-  <section class="section on" id="sec-galerie">
+  <section class="section" id="sec-galerie">
     <p class="lead" style="margin-bottom:14px">Formáty: <strong>1:1</strong> = ikona serveru (nahraj jako server icon, stáhni Monogram LD), <strong>16:9</strong> = banner serveru. Originál na další použití.</p>
     <div id="controls"></div>
     <div class="grid" id="grid"></div>
@@ -36,42 +55,86 @@
   <!-- ===== STRUKTURA ===== -->
   <section class="section" id="sec-struktura">
     <div class="block">
-      <h2>🏗️ Struktura serveru (kanály + role)</h2>
-      <p class="stub">Návrh, jak server postavit, ať není prázdný a chaotický. Připravíme:<br><br>
-      • <strong>Kanály:</strong> 📢 oznámení · 👋 uvítání · 💬 obecný-chat · 🕳️ eldee-drops (insider drop info) · 🤝 holy-squad (jen pro ambassadory) · 📸 vaše-fotky (UGC) · ⚽ fotbal-offtopic.<br>
-      • <strong>Role:</strong> @Holy Squad (ambassador), @Early (první členové), @Drop Alert (kdo chce ping na drop).<br>
-      • <strong>Reakční role</strong> — člen si klikne na emoji a dostane roli (např. ping na drop).<br>
-      • Doporučení botů (zdarma): MEE6 / Carl-bot na uvítání, role a moderaci.<br><br>
-      <em>Připravujeme — doplníme v dalším kole.</em></p>
+      <h2>🏗️ Místnosti (kanály)</h2>
+      <p class="desc">Server rozděl na místnosti, ať není chaos. Tohle je dobrý základ — v nastavení serveru přidáš „Kanály". Začni s těmihle:</p>
+      <p class="stub">📢 <b>oznámení</b> — jen ty píšeš, dropy a novinky<br>
+      👋 <b>uvítání</b> — uvítací zpráva, sem padají noví členové<br>
+      📜 <b>pravidla</b> — krátká pravidla serveru<br>
+      💬 <b>obecný-chat</b> — volná zábava<br>
+      🕳️ <b>eldee-drops</b> — insider info o dropech (kdo je tu, ví dřív)<br>
+      📸 <b>vaše-fotky</b> — členové sem dávají fotky v eldee (UGC)<br>
+      ⚽ <b>fotbal-offtopic</b> — kecání o fotbale<br>
+      🤝 <b>holy-squad</b> — soukromá místnost jen pro ambassadory</p>
+    </div>
+    <div class="block">
+      <h2>🎭 Role (odznaky členů)</h2>
+      <p class="desc">Role = barevný odznak + práva. V nastavení serveru → Role. Dají serveru život.</p>
+      <p class="stub"><b>@Holy Squad</b> — ambassadoři (mají přístup do soukromé místnosti)<br>
+      <b>@Early</b> — prvních ~50 členů (odměna za to, že přišli první)<br>
+      <b>@Drop Alert</b> — kdo chce ping, když startuje drop<br><br>
+      <b>Tip:</b> nastav <b>reakční role</b> — člen klikne na emoji v jedné zprávě a sám si přidá roli @Drop Alert. Udělá to bot zdarma (<b>Carl-bot</b> nebo <b>MEE6</b> — přidáš je na jejich webu jedním klikem).</p>
     </div>
   </section>
 
   <!-- ===== UVÍTÁNÍ ===== -->
   <section class="section" id="sec-uvitani">
     <div class="block">
-      <h2>👋 Uvítací zpráva + pravidla</h2>
-      <p class="stub">Hotové texty k vložení do kanálů 👋 uvítání a 📜 pravidla. Připravíme:<br><br>
-      • <strong>Uvítací zpráva</strong> v eldee tónu („Vítej v Holy Squad. Tady se dozvíš o dropech dřív než ostatní.“) + co kde najít.<br>
-      • <strong>Pravidla serveru</strong> (slušnost, žádný spam, žádná nenávist) — krátká, lidská.<br>
-      • <strong>Onboarding</strong> — co udělat hned (vyber si roli, řekni odkud hraješ).<br><br>
-      <em>Připravujeme — doplníme v dalším kole.</em></p>
+      <h2>👋 Uvítací zpráva</h2>
+      <p class="desc">Vlož do místnosti 👋 uvítání (nebo nastav botovi, ať ji pošle každému novému). Zkopíruj.</p>
+      <div class="copybox"><div class="label">👋 Uvítání</div><div class="body">Vítej v Holy Squad. 🦥
+
+Tady se o dropech dozvíš dřív než zbytek světa. Co teď:
+1️⃣ Mrkni do 📜 pravidla
+2️⃣ V 👋 uvítání si klikni na 🔔 a budeš dostávat ping na drop
+3️⃣ Stav se v 💬 obecný-chat a řekni, za koho kopeš ⚽
+
+Holy Socks. No, just socks with holes.</div><button class="copybtn">📋 Kopírovat</button></div>
+    </div>
+    <div class="block">
+      <h2>📜 Pravidla serveru</h2>
+      <p class="desc">Vlož do místnosti 📜 pravidla. Krátká a lidská.</p>
+      <div class="copybox"><div class="label">📜 Pravidla</div><div class="body">Pár pravidel, ať je tu pohoda:
+
+1. Buď slušnej. Žádné urážky, nenávist, rasismus.
+2. Žádný spam a reklamy cizích věcí.
+3. Žádný nevhodný obsah (jsme i pro mladší).
+4. Drž téma v místnostech (kecání do 💬, fotky do 📸).
+5. Co řekne admin, platí. 🦥
+
+Porušení = napomenutí, pak ban.</div><button class="copybtn">📋 Kopírovat</button></div>
     </div>
   </section>
 
   <!-- ===== OZNÁMENÍ ===== -->
   <section class="section" id="sec-oznameni">
     <div class="block">
-      <h2>📢 Šablony oznámení</h2>
-      <p class="stub">Hotové zprávy do kanálu 📢 oznámení. Připravíme:<br><br>
-      • <strong>Drop teaser</strong> (@Drop Alert ping + datum a počet kusů).<br>
-      • <strong>Drop je live</strong> (odkaz na eshop, scarcity).<br>
-      • <strong>Holy Squad nábor</strong> (jak se stát ambassadorem).<br>
-      • <strong>Výzva na UGC</strong> (pošli fotku v eldee → role + repost).<br><br>
-      <em>Připravujeme — doplníme v dalším kole.</em></p>
+      <h2>📢 Hotová oznámení</h2>
+      <p class="desc">Zprávy do místnosti 📢 oznámení. Zkopíruj, doplň <span class="fill">[závorky]</span>, pošli.</p>
+
+      <div class="copybox"><div class="label">🔥 Drop teaser</div><div class="body">@Drop Alert pozor 👀
+
+Drop 001 startuje [datum a čas]. Jen [X] párů fotbalových štulpen s dírama. Až dojdou, dojdou.
+
+Buďte připravení. 🦥🕳️</div><button class="copybtn">📋 Kopírovat</button></div>
+
+      <div class="copybox"><div class="label">🟢 Drop je live</div><div class="body">@everyone DROP 001 JE LIVE 🔥
+
+Vyber velikost a barvu, než to zmizí 👇
+[odkaz na eshop]
+
+Holy Socks!</div><button class="copybtn">📋 Kopírovat</button></div>
+
+      <div class="copybox"><div class="label">🤝 Nábor Holy Squad</div><div class="body">Hledáme Holy Squad. 🦥⚽
+
+Hraješ a chceš eldee na nohách? Páry zdarma, vlastní slevový kód, provize z prodejů. Napiš sem nebo do DM slovo „SQUAD" + odkaz na svůj profil.</div><button class="copybtn">📋 Kopírovat</button></div>
+
+      <div class="copybox"><div class="label">📸 Výzva na fotky (UGC)</div><div class="body">Máš eldee na nohách? 📸
+
+Hoď fotku do 📸 vaše-fotky. Nejlepší repostneme na našich sítích + dostaneš roli @Holy Squad. 🦥</div><button class="copybtn">📋 Kopírovat</button></div>
     </div>
   </section>
 
-  <footer>eldee HQ · Discord kokpit · galerie hotová · struktura serveru se doplňuje</footer>
+  <footer>eldee HQ · Discord kokpit · start + galerie + struktura + uvítání/pravidla + oznámení</footer>
 </div>
 
 <!-- MODAL -->

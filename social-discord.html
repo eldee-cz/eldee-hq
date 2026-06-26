@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>eldee · Discord kokpit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@400;700;900&family=Caveat+Brush&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="social.css">
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar">
+    <a href="socialni-site.html" class="back">← Sociální sítě</a>
+    <div class="brand">eldee · <em>Discord</em></div>
+  </div>
+  <p class="lead">Discord není o postech — je to <strong>domov komunity / Holy Squad</strong>. Insider info o dropech, role, chat, místo kde fanoušci a ambassadoři žijí. Mladí + fotbal + hraní se překrývají. Galerie má <strong>ikonu serveru (1:1)</strong> a <strong>banner (16:9)</strong>. Zbytek = struktura serveru.</p>
+
+  <div class="maintabs" id="maintabs">
+    <button data-sec="galerie" class="on">🖼️ Galerie</button>
+    <button data-sec="struktura">🏗️ Struktura serveru</button>
+    <button data-sec="uvitani">👋 Uvítání + pravidla</button>
+    <button data-sec="oznameni">📢 Oznámení</button>
+  </div>
+
+  <!-- ===== GALERIE ===== -->
+  <section class="section on" id="sec-galerie">
+    <p class="lead" style="margin-bottom:14px">Formáty: <strong>1:1</strong> = ikona serveru (nahraj jako server icon, stáhni Monogram LD), <strong>16:9</strong> = banner serveru. Originál na další použití.</p>
+    <div id="controls"></div>
+    <div class="grid" id="grid"></div>
+  </section>
+
+  <!-- ===== STRUKTURA ===== -->
+  <section class="section" id="sec-struktura">
+    <div class="block">
+      <h2>🏗️ Struktura serveru (kanály + role)</h2>
+      <p class="stub">Návrh, jak server postavit, ať není prázdný a chaotický. Připravíme:<br><br>
+      • <strong>Kanály:</strong> 📢 oznámení · 👋 uvítání · 💬 obecný-chat · 🕳️ eldee-drops (insider drop info) · 🤝 holy-squad (jen pro ambassadory) · 📸 vaše-fotky (UGC) · ⚽ fotbal-offtopic.<br>
+      • <strong>Role:</strong> @Holy Squad (ambassador), @Early (první členové), @Drop Alert (kdo chce ping na drop).<br>
+      • <strong>Reakční role</strong> — člen si klikne na emoji a dostane roli (např. ping na drop).<br>
+      • Doporučení botů (zdarma): MEE6 / Carl-bot na uvítání, role a moderaci.<br><br>
+      <em>Připravujeme — doplníme v dalším kole.</em></p>
+    </div>
+  </section>
+
+  <!-- ===== UVÍTÁNÍ ===== -->
+  <section class="section" id="sec-uvitani">
+    <div class="block">
+      <h2>👋 Uvítací zpráva + pravidla</h2>
+      <p class="stub">Hotové texty k vložení do kanálů 👋 uvítání a 📜 pravidla. Připravíme:<br><br>
+      • <strong>Uvítací zpráva</strong> v eldee tónu („Vítej v Holy Squad. Tady se dozvíš o dropech dřív než ostatní.“) + co kde najít.<br>
+      • <strong>Pravidla serveru</strong> (slušnost, žádný spam, žádná nenávist) — krátká, lidská.<br>
+      • <strong>Onboarding</strong> — co udělat hned (vyber si roli, řekni odkud hraješ).<br><br>
+      <em>Připravujeme — doplníme v dalším kole.</em></p>
+    </div>
+  </section>
+
+  <!-- ===== OZNÁMENÍ ===== -->
+  <section class="section" id="sec-oznameni">
+    <div class="block">
+      <h2>📢 Šablony oznámení</h2>
+      <p class="stub">Hotové zprávy do kanálu 📢 oznámení. Připravíme:<br><br>
+      • <strong>Drop teaser</strong> (@Drop Alert ping + datum a počet kusů).<br>
+      • <strong>Drop je live</strong> (odkaz na eshop, scarcity).<br>
+      • <strong>Holy Squad nábor</strong> (jak se stát ambassadorem).<br>
+      • <strong>Výzva na UGC</strong> (pošli fotku v eldee → role + repost).<br><br>
+      <em>Připravujeme — doplníme v dalším kole.</em></p>
+    </div>
+  </section>
+
+  <footer>eldee HQ · Discord kokpit · galerie hotová · struktura serveru se doplňuje</footer>
+</div>
+
+<!-- MODAL -->
+<div class="modal" id="modal">
+  <div class="sheet">
+    <h3 id="mTitle">—</h3>
+    <div class="sub" id="mSub">—</div>
+    <div class="preview-box" id="mBox"></div>
+    <button class="btn gold" id="mDownload">⬇ Stáhnout obrázek</button>
+    <button class="btn ghost" id="mClose">Zavřít</button>
+    <div class="savehint" id="mHint"></div>
+  </div>
+</div>
+
+<script>window.PLATFORM = { id:'discord', formats:['ctverec','sirka','original'] };</script>
+<script src="social-assets.js"></script>
+<script src="social-engine.js"></script>
+</body>
+</html>

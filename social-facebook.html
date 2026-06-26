@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>eldee · Facebook kokpit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@400;700;900&family=Caveat+Brush&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="social.css">
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar">
+    <a href="socialni-site.html" class="back">← Sociální sítě</a>
+    <div class="brand">eldee · <em>Facebook</em></div>
+  </div>
+  <p class="lead">Facebook = spíš <strong>rodiče</strong> (kupují dětem) a <strong>B2B kluby</strong> (skupiny, události, oslovení trenérů). Ne hlavní kanál pro mládež, ale skvělý na <strong>fotbalové skupiny</strong> a <strong>klubové akce</strong>. Galerie má formáty pro FB: <strong>cover foto</strong>, <strong>sdílení odkazu 1.91:1</strong>, čtverec, 9:16 stories.</p>
+
+  <div class="maintabs" id="maintabs">
+    <button data-sec="galerie" class="on">🖼️ Galerie</button>
+    <button data-sec="popisky">✍️ Popisky</button>
+    <button data-sec="skupiny">📣 Stránka / skupiny / události</button>
+    <button data-sec="profil">👤 Profil</button>
+  </div>
+
+  <!-- ===== GALERIE ===== -->
+  <section class="section on" id="sec-galerie">
+    <p class="lead" style="margin-bottom:14px">Formáty: <strong>cover</strong> = záhlaví stránky, <strong>1.91:1</strong> = obrázek u sdíleného odkazu na eshop, <strong>1:1</strong> = běžný post / profilovka, <strong>9:16</strong> = stories.</p>
+    <div id="controls"></div>
+    <div class="grid" id="grid"></div>
+  </section>
+
+  <!-- ===== POPISKY ===== -->
+  <section class="section" id="sec-popisky">
+    <div class="block">
+      <h2>✍️ Popisky (Facebook tón)</h2>
+      <p class="stub">Na FB můžeš <strong>delší a vysvětlující</strong> text než na TikToku (publikum je starší, čte). Připravíme:<br><br>
+      • <strong>Představení značky</strong> pro rodiče (proč díry, kvalita, česká značka).<br>
+      • <strong>Post na sdílení dropu</strong> + odkaz na eshop.<br>
+      • <strong>Příspěvek do fotbalových skupin</strong> (nenásilný, hodnotný — ne spam).<br>
+      • <strong>B2B oslovení klubů</strong> (10 % zpátky klubu, týmové objednávky).<br><br>
+      <em>Připravujeme — doplníme v dalším kole.</em></p>
+    </div>
+  </section>
+
+  <!-- ===== SKUPINY ===== -->
+  <section class="section" id="sec-skupiny">
+    <div class="block">
+      <h2>📣 Stránka, skupiny a události</h2>
+      <p class="stub">FB síla pro eldee = komunita a kluby. Připravíme:<br><br>
+      • Návod na <strong>firemní stránku</strong> (kategorie, tlačítko „Nakoupit“, napojení na eshop a Instagram).<br>
+      • Seznam relevantních <strong>fotbalových skupin</strong> (mládež, rodiče, trenéři) + pravidla, jak v nich nespamovat.<br>
+      • Šablona <strong>události</strong> k dropu („Drop 001 — start prodeje“).<br>
+      • <strong>Marketplace / Meta katalog</strong> napojení (později, až bude eshop živý).<br><br>
+      <em>Připravujeme — doplníme v dalším kole.</em></p>
+    </div>
+  </section>
+
+  <!-- ===== PROFIL ===== -->
+  <section class="section" id="sec-profil">
+    <div class="block">
+      <h2>👤 Nastavení stránky</h2>
+      <p class="stub">Jednorázový setup. Připravíme text k vložení:<br><br>
+      • <strong>Název stránky:</strong> eldee · fotbalové štulpny<br>
+      • <strong>Popis / O nás</strong> + odkazy.<br>
+      • <strong>Cover</strong> z galerie (formát „Facebook cover“), <strong>profilovka</strong> z galerie (Monogram, 1:1).<br>
+      • Propojení s Instagram účtem (Meta Business Suite — správa obou na jednom místě).<br><br>
+      <em>Připravujeme — doplníme v dalším kole.</em></p>
+    </div>
+  </section>
+
+  <footer>eldee HQ · Facebook kokpit · galerie hotová · texty se doplňují</footer>
+</div>
+
+<!-- MODAL -->
+<div class="modal" id="modal">
+  <div class="sheet">
+    <h3 id="mTitle">—</h3>
+    <div class="sub" id="mSub">—</div>
+    <div class="preview-box" id="mBox"></div>
+    <button class="btn gold" id="mDownload">⬇ Stáhnout obrázek</button>
+    <button class="btn ghost" id="mClose">Zavřít</button>
+    <div class="savehint" id="mHint"></div>
+  </div>
+</div>
+
+<script>window.PLATFORM = { id:'facebook', formats:['ctverec','fblink','fbcover','vertical','original'] };</script>
+<script src="social-assets.js"></script>
+<script src="social-engine.js"></script>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>eldee · Threads kokpit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@400;700;900&family=Caveat+Brush&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="social.css">
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar">
+    <a href="socialni-site.html" class="back">← Sociální sítě</a>
+    <div class="brand">eldee · <em>Threads</em></div>
+  </div>
+  <p class="lead">Threads jede <strong>na stejný účet jako Instagram</strong> (stejné jméno, jedno přihlášení) — skoro <strong>žádná práce navíc</strong>. Je hlavně <strong>textový</strong>: krátké vtipné hlášky, otázky, zákulisí. Obrázky sdílí s IG, takže galerie je stejná. Skvělé na budování osobnosti značky a konverzaci.</p>
+
+  <div class="maintabs" id="maintabs">
+    <button data-sec="galerie" class="on">🖼️ Galerie</button>
+    <button data-sec="popisky">✍️ Příspěvky</button>
+    <button data-sec="plan">🗓️ Plán</button>
+  </div>
+
+  <!-- ===== GALERIE ===== -->
+  <section class="section on" id="sec-galerie">
+    <p class="lead" style="margin-bottom:14px">Stejné assety jako Instagram (1:1, 4:5, 9:16). Threads je hlavně o textu — obrázek přidáš k vtipnému příspěvku jen občas.</p>
+    <div id="controls"></div>
+    <div class="grid" id="grid"></div>
+  </section>
+
+  <!-- ===== PŘÍSPĚVKY ===== -->
+  <section class="section" id="sec-popisky">
+    <div class="block">
+      <h2>✍️ Textové příspěvky (Threads tón)</h2>
+      <p class="stub">Threads = krátké, mluvené, vtipné, vyvolávající reakci. Připravíme hotové příspěvky k vložení:<br><br>
+      • <strong>Hlášky</strong> v eldee tónu („Hot take: stříhat si štulpny nůžkama je trestnej čin. 🪦“).<br>
+      • <strong>Otázky komunitě</strong> („Kolik párů štulpen jsi za kariéru zničil nůžkama? Buď upřímnej.“).<br>
+      • <strong>Zákulisí</strong> značky (jednou větou, lidsky).<br>
+      • <strong>Reakce na fotbalové dění</strong> (nenásilně protáhnout brand).<br><br>
+      <em>Připravujeme — doplníme v dalším kole.</em></p>
+    </div>
+  </section>
+
+  <!-- ===== PLÁN ===== -->
+  <section class="section" id="sec-plan">
+    <div class="block">
+      <h2>🗓️ Jak na Threads</h2>
+      <p class="stub">• <strong>Stejný účet jako IG</strong> — propojíš jedním klikem, jméno eldee.cz.<br>
+      • <strong>Tempo:</strong> 1 krátký příspěvek denně stačí, klidně víc — je to rychlé.<br>
+      • <strong>Odpovídej a ptej se</strong> — Threads odměňuje konverzaci.<br>
+      • <strong>Recykluj</strong> nejlepší popisky z IG/TikToku jako samostatné textové hlášky.<br><br>
+      Konkrétní rozpis prvních příspěvků doplníme v dalším kole.<br><br>
+      <em>Připravujeme — doplníme v dalším kole.</em></p>
+    </div>
+  </section>
+
+  <footer>eldee HQ · Threads kokpit · jede s Instagramem · texty se doplňují</footer>
+</div>
+
+<!-- MODAL -->
+<div class="modal" id="modal">
+  <div class="sheet">
+    <h3 id="mTitle">—</h3>
+    <div class="sub" id="mSub">—</div>
+    <div class="preview-box" id="mBox"></div>
+    <button class="btn gold" id="mDownload">⬇ Stáhnout obrázek</button>
+    <button class="btn ghost" id="mClose">Zavřít</button>
+    <div class="savehint" id="mHint"></div>
+  </div>
+</div>
+
+<script>window.PLATFORM = { id:'threads', formats:['ctverec','portret','vertical','original'] };</script>
+<script src="social-assets.js"></script>
+<script src="social-engine.js"></script>
+</body>
+</html>

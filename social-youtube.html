@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>eldee · YouTube kokpit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@400;700;900&family=Caveat+Brush&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="social.css">
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar">
+    <a href="socialni-site.html" class="back">← Sociální sítě</a>
+    <div class="brand">eldee · <em>YouTube</em></div>
+  </div>
+  <p class="lead">YouTube = <strong>Shorts</strong> (rychlý dosah, stejná videa jako TikTok) + <strong>delší videa</strong> (SEO, vyhledávání). Tady máš galerii ve formátech, co YouTube potřebuje: <strong>16:9 náhled (thumbnail)</strong>, <strong>kanálový banner</strong>, <strong>9:16 Shorts</strong>, avatar. Texty doplníme postupně.</p>
+
+  <div class="maintabs" id="maintabs">
+    <button data-sec="galerie" class="on">🖼️ Galerie</button>
+    <button data-sec="seo">📝 Názvy + popisy</button>
+    <button data-sec="plan">🗓️ Plán</button>
+    <button data-sec="kanal">👤 Kanál</button>
+  </div>
+
+  <!-- ===== GALERIE ===== -->
+  <section class="section on" id="sec-galerie">
+    <p class="lead" style="margin-bottom:14px">Vyber formát: <strong>16:9</strong> = náhledový obrázek videa (thumbnail), <strong>banner</strong> = záhlaví kanálu, <strong>9:16</strong> = coverka Shorts, <strong>1:1</strong> = profilovka kanálu.</p>
+    <div id="controls"></div>
+    <div class="grid" id="grid"></div>
+  </section>
+
+  <!-- ===== SEO ===== -->
+  <section class="section" id="sec-seo">
+    <div class="block">
+      <h2>📝 Názvy + popisy (SEO)</h2>
+      <p class="stub">Na YouTube <strong>rozhoduje název a popis</strong> (lidi tě najdou ve vyhledávání i za měsíce). Připravíme sem:<br><br>
+      • <strong>Šablony názvů</strong> videí s klíčovými slovy („fotbalové štulpny“, „díry ve štulpnách“, „jak si nestříhat štulpny“).<br>
+      • <strong>Popis videa</strong> = první 2 řádky hook + odkazy (eshop, IG, TikTok) + hashtagy.<br>
+      • <strong>Tagy / klíčová slova</strong> kanálu.<br>
+      • <strong>Thumbnail text</strong> nápady (velký čitelný text na 16:9 náhled — největší vliv na prokliky).<br><br>
+      <em>Připravujeme — doplníme v dalším kole.</em></p>
+    </div>
+  </section>
+
+  <!-- ===== PLÁN ===== -->
+  <section class="section" id="sec-plan">
+    <div class="block">
+      <h2>🗓️ Plán: Shorts vs delší videa</h2>
+      <p class="stub"><strong>Shorts</strong> (9:16, do 60 s) = stejná videa jako na TikToku/Reels, jen sem nahraná → rychlý dosah a noví diváci.<br>
+      <strong>Delší videa</strong> (16:9, 2–8 min) = Hole Story, „jak vznikaly eldee“, srovnání materiálů, behind the scenes výroby → budují důvěru a SEO.<br><br>
+      Připravíme konkrétní rozpis prvních videí + poměr Shorts : dlouhé.<br><br>
+      <em>Připravujeme — doplníme v dalším kole.</em></p>
+    </div>
+  </section>
+
+  <!-- ===== KANÁL ===== -->
+  <section class="section" id="sec-kanal">
+    <div class="block">
+      <h2>👤 Nastavení kanálu</h2>
+      <p class="stub">Jednorázový setup. Připravíme sem text k vložení:<br><br>
+      • <strong>Název kanálu:</strong> eldee<br>
+      • <strong>Popis kanálu</strong> (sekce „O kanálu“) + odkazy na eshop a ostatní sítě.<br>
+      • <strong>Banner</strong> stáhni z galerie (formát „YouTube banner“), <strong>profilovku</strong> z galerie (Loga → Monogram, 1:1).<br>
+      • Odkazy na konci banneru, vodoznak kanálu.<br><br>
+      <em>Připravujeme — doplníme v dalším kole.</em></p>
+    </div>
+  </section>
+
+  <footer>eldee HQ · YouTube kokpit · galerie hotová · texty se doplňují</footer>
+</div>
+
+<!-- MODAL -->
+<div class="modal" id="modal">
+  <div class="sheet">
+    <h3 id="mTitle">—</h3>
+    <div class="sub" id="mSub">—</div>
+    <div class="preview-box" id="mBox"></div>
+    <button class="btn gold" id="mDownload">⬇ Stáhnout obrázek</button>
+    <button class="btn ghost" id="mClose">Zavřít</button>
+    <div class="savehint" id="mHint"></div>
+  </div>
+</div>
+
+<script>window.PLATFORM = { id:'youtube', formats:['sirka','vertical','ytbanner','ctverec','original'] };</script>
+<script src="social-assets.js"></script>
+<script src="social-engine.js"></script>
+</body>
+</html>

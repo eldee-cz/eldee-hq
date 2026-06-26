@@ -11,8 +11,8 @@
 <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Space+Grotesk:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --ink:#0A0A0A; --ink2:#121211; --line:#262624;
-    --bone:#F5F5F0; --muted:#8d8a81; --dim:#cfcdc4;
+    --ink:#0A0A0A; --ink2:#191917; --line:#312F2A;
+    --bone:#F5F5F0; --muted:#9b988e; --dim:#d6d4cb;
     --gold:#C9A227; --blood:#B91C1C; --blood-l:#DC2626; --green:#3f9e58;
   }
   *{box-sizing:border-box;margin:0;padding:0}
@@ -31,7 +31,13 @@
   .tb-brand .n b{color:var(--gold)}
   .tb-nav{display:flex;gap:22px;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase}
   .tb-nav a{color:var(--muted)} .tb-nav a:hover{color:var(--gold)}
-  @media(max-width:720px){.tb-nav{display:none}}
+  @media(max-width:720px){
+    .topbar .in{flex-wrap:wrap;gap:10px;padding:12px 16px}
+    .tb-nav{order:2;width:100%;gap:8px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:2px;letter-spacing:.08em;font-size:11px}
+    .tb-nav::-webkit-scrollbar{display:none}
+    .tb-nav a{flex:0 0 auto;display:inline-flex;align-items:center;min-height:40px;padding:0 15px;border:1px solid var(--line);border-radius:999px;color:var(--dim);background:var(--ink2)}
+    .tb-nav a:hover,.tb-nav a:active{color:var(--gold);border-color:var(--gold)}
+  }
 
   /* ---------- hero ---------- */
   .hero{padding:72px 0 56px;border-bottom:1px solid var(--line);position:relative;overflow:hidden}
@@ -45,14 +51,15 @@
   .stamp .pill b{color:var(--gold);font-weight:400}
 
   /* ---------- sections ---------- */
-  section{padding:64px 0;border-bottom:1px solid var(--line)}
-  .sec-head{display:flex;align-items:baseline;gap:16px;margin-bottom:34px}
+  section{padding:78px 0;border-bottom:1px solid var(--line)}
+  .sec-head{display:flex;align-items:baseline;gap:16px;margin-bottom:42px}
   .sec-head .no{font-family:'Space Mono',monospace;color:var(--gold);font-size:13px;letter-spacing:.2em}
   .sec-head h2{font-family:'Big Shoulders Display';font-weight:900;font-size:clamp(28px,4vw,42px);text-transform:uppercase;letter-spacing:.01em}
 
   /* ---------- stav teď: cards ---------- */
-  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px}
-  .card{background:var(--ink2);border:1px solid var(--line);padding:22px;display:flex;flex-direction:column;gap:10px;transition:border-color .2s}
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px}
+  .card{background:var(--ink2);border:1px solid var(--line);padding:26px;display:flex;flex-direction:column;gap:10px;transition:border-color .2s,transform .2s}
+  .card:hover{transform:translateY(-2px)}
   .card:hover{border-color:#3a382f}
   .card .tag{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
   .card h3{font-family:'Big Shoulders Display';font-weight:800;font-size:24px;text-transform:uppercase;line-height:1}
@@ -247,6 +254,31 @@
     .tm-termincell::before{content:"termín: ";color:var(--muted);font-family:'Space Mono',monospace;font-size:11px}
     .tm-termincell{margin-top:4px}
   }
+
+  /* ---------- úkoly: scroll box + zobrazit další + mazání ---------- */
+  td.tm-delcell{width:36px;text-align:center}
+  .tm-del{background:none;border:none;cursor:pointer;font-size:15px;line-height:1;opacity:.4;padding:6px;min-width:32px;min-height:32px;border-radius:8px;transition:opacity .2s,background .2s}
+  .tm-del:hover{opacity:1;background:rgba(185,28,28,.14)}
+  .tm-track{position:relative}
+  .tm-more{width:100%;margin-top:14px;min-height:46px;padding:0 20px;display:none;align-items:center;justify-content:center;gap:8px;background:var(--ink2);border:1px solid var(--line);color:var(--gold);font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;border-radius:12px;cursor:pointer;transition:border-color .2s}
+  .tm-more:hover{border-color:var(--gold)}
+  @media(min-width:681px){
+    .tm-track{max-height:520px;overflow-y:auto;padding-right:14px;scrollbar-width:auto;scrollbar-color:var(--gold) var(--ink2)}
+    .tm-track::-webkit-scrollbar{width:12px}
+    .tm-track::-webkit-scrollbar-track{background:var(--ink2);border-radius:999px}
+    .tm-track::-webkit-scrollbar-thumb{background:var(--gold);border-radius:999px;border:3px solid var(--ink2)}
+    .tm-track::-webkit-scrollbar-thumb:hover{background:var(--blood-l)}
+    .tm-track table.tm thead th{position:sticky;top:0;background:var(--ink);z-index:2}
+  }
+  @media(max-width:680px){
+    .tm-more{display:flex}
+    .tm-more[hidden]{display:none}
+    table.tm tbody tr.tm-row:nth-child(n+7){display:none}
+    #ukoly.rows-open table.tm tbody tr.tm-row:nth-child(n+7){display:block}
+    td.tm-delcell{width:auto;margin-top:8px}
+    .tm-del{opacity:.8;border:1px solid var(--line);padding:8px 14px;min-height:40px;font-size:14px}
+    .tm-del::after{content:" Smazat";font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+  }
 </style>
 </head>
 <body>
@@ -257,7 +289,7 @@
     <span class="n"><b>eldee</b> HQ</span>
   </div>
   <nav class="tb-nav">
-    <a href="#stav">Stav</a><a href="#timeline">Timeline</a><a href="#ukoly">Úkoly</a><a href="#kalendar">Kalendář</a><a href="#brainstorm">Brainstorm</a><a href="#data">Data &amp; odkazy</a><a href="#tym">Tým</a>
+    <a href="#kalendar">Kalendář</a><a href="#ukoly">Úkoly</a><a href="#stav">Stav</a><a href="#timeline">Hotovo</a><a href="#brainstorm">Brainstorm</a><a href="#data">Data</a><a href="#tym">Tým</a>
   </nav>
 </div></div>
 
@@ -269,34 +301,8 @@
   <svg class="logo-bg" viewBox="3.2 46.0 301.5 301.5" aria-hidden="true"><defs><mask id="ldk-b" maskUnits="userSpaceOnUse" x="3.2" y="46" width="301.5" height="301.5"><rect x="3.2" y="46" width="301.5" height="301.5" fill="white"/><path d="M56.32 285.00V78.60H95.02V250.94H145.85V285.00Z" fill="black" stroke="black" stroke-width="25" stroke-linejoin="round"/></mask></defs><path d="M128.32 318.00V111.60H180.69Q209.72 111.60 222.68 123.92Q235.65 136.24 236.16 164.49Q236.55 182.42 236.68 198.55Q236.81 214.67 236.68 230.80Q236.55 246.92 236.16 264.85Q235.65 293.23 222.68 305.62Q209.72 318.00 180.69 318.00ZM167.02 283.94H180.69Q188.82 283.94 193.08 280.20Q197.34 276.46 197.46 269.50Q197.85 255.69 198.04 242.02Q198.24 228.34 198.24 214.67Q198.24 201.00 198.04 187.26Q197.85 173.52 197.46 159.85Q197.34 153.01 193.08 149.33Q188.82 145.66 180.69 145.66H167.02Z" fill="#F5F5F0" mask="url(#ldk-b)"/><path d="M56.32 285.00V78.60H95.02V250.94H145.85V285.00Z" fill="#F5F5F0"/><ellipse cx="182.3" cy="77" rx="66" ry="13" fill="none" stroke="#C9A227" stroke-width="11"/></svg>
 </div></header>
 
-<section id="stav"><div class="wrap">
-  <div class="sec-head"><span class="no">01</span><h2>Stav teď</h2></div>
-  <div class="cards"></div>
-</div></section>
-
-<section id="timeline"><div class="wrap">
-  <div class="sec-head"><span class="no">02</span><h2>Co je hotovo</h2></div>
-  <div class="tl"></div>
-</div></section>
-
-<section id="ukoly"><div class="wrap">
-  <div class="sec-head"><span class="no">03</span><h2>Otevřené úkoly</h2></div>
-  <div class="tm-bar">
-    <span class="tm-hint">✓ hotovo · táhni za <b>⠿</b>/šipkami · klik na štítek = priorita</span>
-    <div class="tm-btns">
-      <button class="tm-add" id="tm-add" type="button">➕ Přidat úkol</button>
-      <button class="tm-save" id="tm-save" type="button">💾 Uložit změny</button>
-    </div>
-  </div>
-  <table class="tm">
-    <thead><tr><th aria-label="hotovo"></th><th aria-label="pořadí"></th><th>Priorita</th><th>Úkol</th><th>Od kdy</th><th>Termín</th><th>Kdo</th><th>Stav</th></tr></thead>
-    <tbody></tbody>
-  </table>
-  <div class="tm-done" id="tm-done"></div>
-</div></section>
-
 <section id="kalendar"><div class="wrap">
-  <div class="sec-head"><span class="no">04</span><h2>Kalendář</h2></div>
+  <div class="sec-head"><span class="no">01</span><h2>Kalendář</h2></div>
   <div class="cal-toolbar"><button class="cal-add-btn" id="cal-add" type="button">➕ Přidat událost</button></div>
   <div class="cal-layout">
     <div class="cal">
@@ -327,6 +333,35 @@
       </div>
     </div>
   </div>
+</div></section>
+
+<section id="ukoly"><div class="wrap">
+  <div class="sec-head"><span class="no">02</span><h2>Otevřené úkoly</h2></div>
+  <div class="tm-bar">
+    <span class="tm-hint">✓ hotovo · táhni za <b>⠿</b>/šipkami · klik na štítek = priorita · 🗑 smazat</span>
+    <div class="tm-btns">
+      <button class="tm-add" id="tm-add" type="button">➕ Přidat úkol</button>
+      <button class="tm-save" id="tm-save" type="button">💾 Uložit změny</button>
+    </div>
+  </div>
+  <div class="tm-track">
+    <table class="tm">
+      <thead><tr><th aria-label="hotovo"></th><th aria-label="pořadí"></th><th>Priorita</th><th>Úkol</th><th>Od kdy</th><th>Termín</th><th>Kdo</th><th>Stav</th><th aria-label="smazat"></th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+  <button class="tm-more" id="tm-more" type="button" hidden></button>
+  <div class="tm-done" id="tm-done"></div>
+</div></section>
+
+<section id="stav"><div class="wrap">
+  <div class="sec-head"><span class="no">03</span><h2>Stav teď</h2></div>
+  <div class="cards"></div>
+</div></section>
+
+<section id="timeline"><div class="wrap">
+  <div class="sec-head"><span class="no">04</span><h2>Co je hotovo</h2></div>
+  <div class="tl"></div>
 </div></section>
 
 <section id="brainstorm"><div class="wrap">
@@ -429,10 +464,22 @@ function renderUkoly(arr){
       <td class="tm-termincell">${terminCell(u)}</td>
       <td class="who">${esc(u.kdo)}</td>
       <td><select class="tm-stav-sel" data-id="${esc(u.id)}">${opts}</select></td>
+      <td class="tm-delcell"><button class="tm-del" type="button" data-id="${esc(u.id)}" title="Smazat úkol" aria-label="smazat">🗑</button></td>
     </tr>`;
   }).join('');
   renderDone(all.filter(u=>u.stav==='hotovo').sort((a,b)=>String(b.hotovo||'').localeCompare(String(a.hotovo||''))));
   tmWire();
+  updateTmMore();
+}
+function updateTmMore(){
+  const more=document.getElementById('tm-more'), sec=document.getElementById('ukoly');
+  if(!more||!sec) return;
+  const hiddenN=Math.max(0,TM.length-6);
+  if(hiddenN>0){
+    more.hidden=false;
+    const open=sec.classList.contains('rows-open');
+    more.textContent=open?'Skrýt':('Zobrazit další ('+hiddenN+')');
+  } else { more.hidden=true; sec.classList.remove('rows-open'); }
 }
 function renderDone(done){
   const el=document.getElementById('tm-done'); if(!el) return;
@@ -459,6 +506,12 @@ function tmWire(){
   }));
   tb.querySelectorAll('.tm-up').forEach(b=>b.addEventListener('click',()=>tmMove(b.dataset.id,-1)));
   tb.querySelectorAll('.tm-dn').forEach(b=>b.addEventListener('click',()=>tmMove(b.dataset.id,1)));
+  tb.querySelectorAll('.tm-del').forEach(b=>b.addEventListener('click',()=>{
+    const u=STAV.ukoly.find(x=>x.id===b.dataset.id); if(!u) return;
+    if(!confirm('Opravdu smazat úkol?\n\n„'+(u.text||'(bez názvu)')+'"')) return;
+    STAV.ukoly=STAV.ukoly.filter(x=>x.id!==b.dataset.id);
+    tmMarkDirty(); renderUkoly(STAV.ukoly); if(typeof renderKalendar==='function')renderKalendar();
+  }));
   tb.querySelectorAll('tr.tm-row').forEach(tr=>{
     tr.addEventListener('dragstart',e=>{tmDragId=tr.dataset.id;tr.classList.add('dragging');e.dataTransfer.effectAllowed='move';});
     tr.addEventListener('dragend',()=>{tr.classList.remove('dragging');tb.querySelectorAll('.drag-over').forEach(x=>x.classList.remove('drag-over'));});
@@ -535,6 +588,7 @@ fetch('data/stav.json',{cache:'no-store'})
     const f=document.getElementById('foot-date'); if(f&&d.meta) f.textContent=d.meta.aktualizovano;
     const sb=document.getElementById('tm-save'); if(sb) sb.addEventListener('click',tmExport);
     const ab=document.getElementById('tm-add'); if(ab) ab.addEventListener('click',tmAddTask);
+    const mb=document.getElementById('tm-more'); if(mb) mb.addEventListener('click',()=>{ document.getElementById('ukoly').classList.toggle('rows-open'); updateTmMore(); });
     initKalendar();
   })
   .catch(e=>{

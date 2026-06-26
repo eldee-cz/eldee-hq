@@ -63,6 +63,12 @@
   "timeline": [
     {
       "datum": "26. 6. 2026",
+      "nadpis": "Maskot — opraveny vady + editor s kyblíkem",
+      "text": "Opraveny 2 vady AI maskotů, co se propsaly na web i sítě: <strong>špinavá svatozář</strong> u prodejce (přenesena čistá z fotbalisty) a <strong>špinavý šedý límeček</strong> u fotbalisty (Lukáš vyplnil čistě bíle v editoru). Obojí propsáno do všech repozitářů (brandbook, e-shop náhled, sociální sítě, editor). <strong>Editor maskota</strong> (eldee-hq/maskot-editor) vylepšen: <strong>🪣 kyblík</strong> (flood fill, bílá/černá/tma boxu/zlatá/červená), <strong>🖌 štětec</strong>, razítko štulpny, <strong>přepínání postav</strong> (fotbalista/hero/prodejce). Zbývá: <strong>špinavé štulpny v boxu</strong> u hero — propletené, skript ani editor je čistě nedají → na finálního ilustrátora (brief to jmenuje).",
+      "minor": false
+    },
+    {
+      "datum": "26. 6. 2026",
       "nadpis": "Rozcestník Sociální sítě (z Instagramu)",
       "text": "Dlaždice <strong>📸 Instagram</strong> povýšena na <strong>📱 Sociální sítě</strong> — rozcestník na 6 sítí: <strong>Instagram, TikTok, YouTube/Shorts, Facebook, Discord, Threads</strong>. Každá síť má vlastní kokpit s galerií vizuálů ve formátech, co potřebuje (1:1, 4:5, 9:16, 16:9 náhled, kanálový banner, FB cover, sdílení odkazu) + obsah na míru. <strong>Instagram</strong> přesunut beze ztráty, <strong>TikTok</strong> hotový naplno (nápady na videa s hooky, TikTok hashtagy, popisky, profil). YouTube/Facebook/Discord/Threads dodělány naplno (SEO názvy, příspěvky, struktura Discord serveru, Threads hlášky). Každá síť má záložku <strong>🚀 Start</strong> = jak založit účet krok za krokem + na rozcestníku <strong>průvodce pro úplného začátečníka</strong> (Lukáš nikdy nepostoval). Postaveno na <strong>sdíleném motoru</strong>: nový maskot/logo se přidá jednou a naskočí u všech sítí. Vše s kopírovacími (📋) a stahovacími (⬇) tlačítky, mobile-first.",
       "minor": false
@@ -459,6 +465,17 @@
       "hotovo": "2026-06-26",
       "priorita": "nizka",
       "poradi": 21
+    },
+    {
+      "id": "maskot-box-stulpny",
+      "text": "Maskot hero — čisté štulpny v krabici (na ilustrátora)",
+      "stav": "fronta",
+      "kdo": "ilustrátor",
+      "pozn": "Štulpny uvnitř krabice u hero/prodejce mají rozmazané LD logo + nečisté/propletené díry. Skript ani editor je čistě nedají (propletené + tma na tmě). Finální vektor je udělá čistě — brief MASKOT-brief.md to už jmenuje. Svatozář + límeček už opraveny.",
+      "vzniklo": "2026-06-26",
+      "hotovo": null,
+      "priorita": "nizka",
+      "poradi": 22
     }
   ],
   "odkazy": [

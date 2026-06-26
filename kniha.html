@@ -59,6 +59,7 @@
     display: flex;
     align-items: center;
     gap: 8px;
+    min-height: 44px;
   }
 
   .logo .holes {
@@ -79,7 +80,11 @@
     background: transparent;
     border: 1px solid var(--gray-border);
     color: var(--off-white);
-    padding: 8px 14px;
+    min-height: 44px;
+    padding: 10px 18px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     font-family: 'Anton', sans-serif;
     font-size: 14px;
     letter-spacing: 1px;
@@ -116,10 +121,13 @@
   }
 
   nav.toc a {
-    display: block;
+    display: flex;
+    align-items: center;
+    min-height: 44px;
     color: var(--off-white);
     text-decoration: none;
     padding: 10px 12px;
+    margin-bottom: 4px;
     border-radius: 4px;
     font-size: 15px;
     transition: all 0.2s;
@@ -409,7 +417,7 @@
   </g>
 </svg></a>
   <div style="display:flex;gap:10px;align-items:center">
-    <a href="index.html" style="color:var(--gray-text);text-decoration:none;font-size:13px;font-weight:600">← HQ</a>
+    <a href="index.html" style="color:var(--gray-text);text-decoration:none;font-size:13px;font-weight:600;display:inline-flex;align-items:center;min-height:44px;padding:0 10px">← HQ</a>
     <button class="menu-toggle" onclick="toggleMenu()">≡ Kapitoly</button>
   </div>
 </header>

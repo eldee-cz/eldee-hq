@@ -13,7 +13,7 @@
   .gold{color:var(--gold)}
 
   .topbar{background:var(--ink-soft);border-bottom:1.5px solid var(--gold);padding:8px 14px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;flex:0 0 auto}
-  .btn{display:inline-flex;align-items:center;gap:6px;font-family:inherit;font-weight:700;font-size:13px;padding:9px 13px;border-radius:40px;cursor:pointer;border:1.5px solid var(--gold);background:transparent;color:var(--gold);transition:.15s;white-space:nowrap}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;font-family:inherit;font-weight:700;font-size:13px;min-height:44px;padding:9px 15px;border-radius:40px;cursor:pointer;border:1.5px solid var(--gold);background:transparent;color:var(--gold);transition:.15s;white-space:nowrap}
   .btn:hover{background:rgba(201,162,39,.14)}
   .btn.on{background:var(--gold);color:var(--ink)}
   .btn.red{border-color:var(--blood);color:#fff;background:var(--blood)}
@@ -22,6 +22,8 @@
   .sep{width:1px;height:24px;background:var(--line);margin:0 2px}
   .zoomwrap{display:flex;align-items:center;gap:7px;font-size:13px;color:var(--ash)}
   .zoomwrap input{width:110px;accent-color:var(--gold)}
+  /* posuvníky: vyšší dotyková plocha (≥44px), vzhled zachován (zlatý accent) */
+  input[type=range]{height:44px;cursor:pointer}
 
   .main{flex:1;display:flex;min-height:0}
   .canvas-area{flex:1;overflow:auto;background:repeating-conic-gradient(#171717 0% 25%, #121212 0% 50%) 50% / 28px 28px;display:grid;place-items:center;padding:30px}
@@ -44,8 +46,8 @@
   .ctrl input[type=range]{width:100%;accent-color:var(--gold)}
   .row{display:flex;gap:7px;flex-wrap:wrap}
   .row .btn{flex:1;justify-content:center;padding:9px 6px;font-size:12px}
-  .swatches{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px}
-  .sw{width:38px;height:38px;border-radius:9px;cursor:pointer;border:3px solid transparent;position:relative}
+  .swatches{display:flex;gap:24px 8px;flex-wrap:wrap;margin-bottom:18px}
+  .sw{width:44px;height:44px;border-radius:11px;cursor:pointer;border:3px solid transparent;position:relative}
   .sw.on{border-color:var(--gold)}
   .sw span{position:absolute;bottom:-16px;left:50%;transform:translateX(-50%);font-size:9.5px;color:var(--ash);white-space:nowrap}
   .steps{font-size:11.5px;color:var(--ash);line-height:1.65;margin-top:6px;border-top:1px solid var(--line);padding-top:10px}
@@ -54,9 +56,20 @@
   .miniLabel{font-size:10.5px;color:var(--ash);text-transform:uppercase;letter-spacing:.06em;margin:2px 0 6px;width:100%}
   .charbar{background:var(--ink-card);border-bottom:1px solid var(--line);padding:8px 14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;flex:0 0 auto}
   .charbar .lbl{font-family:'Big Shoulders Display';font-weight:700;text-transform:uppercase;font-size:13px;color:var(--ash)}
-  .charbar .cbtn{font-family:inherit;font-weight:700;font-size:14px;padding:9px 18px;border-radius:40px;cursor:pointer;border:2px solid var(--line);background:transparent;color:var(--bone);transition:.15s}
+  .charbar .cbtn{display:inline-flex;align-items:center;justify-content:center;font-family:inherit;font-weight:700;font-size:14px;min-height:44px;padding:9px 18px;border-radius:40px;cursor:pointer;border:2px solid var(--line);background:transparent;color:var(--bone);transition:.15s}
   .charbar .cbtn:hover{border-color:var(--gold)}
   .charbar .cbtn.on{background:var(--gold);color:var(--ink);border-color:var(--gold)}
+
+  /* MOBIL: tlačítka zůstávají ≥44px, lišty se zalamují do více řádků a nepřetékají */
+  @media(max-width:680px){
+    .topbar{padding:8px 10px;gap:8px}
+    .charbar{padding:8px 10px;gap:8px}
+    .btn{padding:11px 15px}
+    .btn.sm{padding:11px 13px}
+    .charbar .cbtn{padding:11px 15px;font-size:13px}
+    .zoomwrap input{width:160px}
+    .sep{display:none}
+  }
 </style>
 </head>
 <body>

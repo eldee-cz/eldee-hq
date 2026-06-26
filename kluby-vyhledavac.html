@@ -55,13 +55,13 @@ tr.incomplete td { font-style: italic; }
 .star { cursor: pointer; font-size: 18px; color: #444; user-select: none; line-height: 1; transition: color 0.15s; }
 .star:hover { color: #888; }
 .star.active { color: #fbbf24; }
-.status-sel { background: #1a1a1a; color: #fff; border: 1px solid #333; padding: 3px 6px; border-radius: 3px; font-size: 11px; cursor: pointer; }
+.status-sel { background: #1a1a1a; color: #fff; border: 1px solid #333; padding: 4px 8px; border-radius: 3px; font-size: 12px; cursor: pointer; }
 .status-sel.s-osloven { background: #1e3a8a; color: #fff; border-color: #3b82f6; }
 .status-sel.s-odpovedel { background: #14532d; color: #fff; border-color: #22c55e; }
 .status-sel.s-vzorek { background: #713f12; color: #fff; border-color: #eab308; }
 .status-sel.s-objednavka { background: #14532d; color: #fff; border-color: #16a34a; font-weight: 700; }
 .status-sel.s-odmitl { background: #450a0a; color: #fff; border-color: #dc2626; }
-.note-input { width: 100%; background: #1a1a1a; color: #fff; border: 1px solid #333; padding: 4px 6px; border-radius: 3px; font-size: 11px; margin-top: 3px; }
+.note-input { width: 100%; background: #1a1a1a; color: #fff; border: 1px solid #333; padding: 5px 8px; border-radius: 3px; font-size: 12px; margin-top: 3px; }
 .note-input::placeholder { color: #555; }
 .crm-stats { display: inline-flex; gap: 10px; font-size: 12px; color: #888; margin-left: 12px; }
 .crm-stats span b { color: #fff; }
@@ -148,6 +148,31 @@ tr.incomplete td { font-style: italic; }
   .hide-mobile { display: none; }
 }
 footer { padding: 20px; text-align: center; color: #555; font-size: 12px; }
+/* ===== Mobil: pohodlné dotykové cíle (≥44 px) — web je z 95 % mobilní ===== */
+@media (max-width: 680px) {
+  /* Navigace v hlavičce (← HQ) */
+  header a { display: inline-flex; align-items: center; min-height: 44px; padding: 6px 4px; }
+  /* Filtry — textové pole hledání, selecty (kraj/soutěž/priorita/CRM) + mailová šablona */
+  .filter-group input, .filter-group select { min-height: 44px; font-size: 16px; padding: 11px 12px; }
+  /* Barevné chipy dresů */
+  .colors { gap: 8px; }
+  .color-chip { min-height: 44px; padding: 10px 16px; font-size: 14px; display: inline-flex; align-items: center; }
+  /* Tlačítka v liště statistik (Reset, CSV, Záloha, Načíst, smazat) */
+  .stats button, .btn-small { min-height: 44px; padding: 11px 16px; font-size: 14px; }
+  /* Přepínač „Skrýt neúplné" */
+  .toggle-incomplete { min-height: 44px; font-size: 14px; }
+  .toggle-incomplete input { width: 22px; height: 22px; }
+  /* Klikací hlavičky tabulky (řazení) */
+  th { padding: 15px 6px; }
+  /* Hvězda oblíbené */
+  .star { font-size: 24px; min-width: 44px; min-height: 44px; display: inline-flex; align-items: center; justify-content: center; }
+  /* Stav oslovení + poznámka v řádku klubu (16px = bez auto-zoomu na iOS) */
+  .status-sel { width: 100%; min-height: 44px; font-size: 16px; padding: 10px 12px; }
+  .note-input { min-height: 44px; font-size: 16px; padding: 11px 12px; }
+  /* Mailové tlačítko + zavření modální mapy kraje */
+  .mail-btn { min-height: 44px; padding: 11px 16px; font-size: 14px; display: inline-flex; align-items: center; }
+  .kraj-modal-close { min-height: 44px; padding: 11px 18px; }
+}
 </style>
 </head>
 <body>

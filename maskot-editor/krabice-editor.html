@@ -69,8 +69,9 @@
   <button class="btn" id="clone">✂ Klonovat</button>
   <div class="sep"></div>
   <button class="btn sm" id="addSock">+ Levá štulpna</button>
+  <button class="btn sm" id="addEldee">+ eldee nápis</button>
   <button class="btn sm" id="addHole">+ Díra</button>
-  <button class="btn sm" id="addLogo">+ LD logo</button>
+  <button class="btn sm" id="addLogo">+ LD znak (hruď)</button>
   <button class="btn sm" id="addPatch">+ Záplata</button>
   <div class="sep"></div>
   <button class="btn sm" id="undo">↩ Zpět</button>
@@ -231,6 +232,7 @@
   document.getElementById('addLogo').addEventListener('click', ()=>addStamp('logo'));
   document.getElementById('addPatch').addEventListener('click', ()=>addStamp('patch'));
   document.getElementById('addSock').addEventListener('click', addSock);
+  document.getElementById('addEldee').addEventListener('click', ()=> addObj('eldee-wordmark.svg', Math.max(40, nat.w*0.10), 0.503));
 
   // ---- barvy ----
   document.getElementById('swatches').addEventListener('click', e=>{

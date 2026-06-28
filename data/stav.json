@@ -64,6 +64,12 @@
     {
       "datum": "28. 6. 2026",
       "minor": false,
+      "nadpis": "Objednávky — Krok B (mozek hotový)",
+      "text": "Objednávky dostaly proaktivní mozek. <strong>📊 Hladiny zásob</strong>: u varianty nastavíš min. hladinu (kdy objednat) + cílovou zásobu (na kolik doplnit). <strong>🔔 Doporučujeme objednat</strong>: appka sama porovná hladinu se skladem + zbožím na cestě a ukáže <strong>co a kolik objednat</strong>, s <strong>tipem na ceník</strong> (dorovnání na výhodnější pásmo) a — až poběží prodeje — i „vydrží ~X dní / objednej do\". Upozornění naskočí i ve formuláři nové objednávky („+ Doplnit doporučené\"). <strong>„Vytvořit koncept z návrhů\"</strong> → z upozornění uděláš objednávku na pár kliků. Tím je dlaždice Objednávky kompletní (Fáze 1 + Krok A + Krok B): plánování → objednávka → na cestě → naskladnění do skladu → finance, a proaktivní hlídání zásob. Vše jen v prohlížeči."
+    },
+    {
+      "datum": "28. 6. 2026",
+      "minor": false,
       "nadpis": "Objednávky — Krok A (objednávky + zboží na cestě)",
       "text": "Objednávky dostaly doklad: <strong>📦 nová objednávka</strong> u dodavatele po variantách (SKU), životní cyklus <strong>koncept → objednáno → přijato</strong>. ETA (termín dodání) se počítá z výrobní šablony. <strong>🚚 Zboží na cestě</strong> sčítá objednané kusy a nejbližší dodání. <strong>Přijetí → naskladní do Skladu</strong> (vznikne příjemka s nákupní cenou) → a tím i do Financí (čtou sklad) = jedno zadání, data všude. <strong>💰 Množstevní ceník</strong> u dodavatele (pásma od množství → cena/ks) → cena v objednávce naskočí sama podle množství. Vše jen v prohlížeči. Krok B (hladiny + návrh co objednat + upozornění) ve frontě."
     },
@@ -569,12 +575,13 @@
     },
     {
       "id": "objednavky-faze2b",
-      "stav": "fronta",
+      "stav": "hotovo",
       "priorita": "střední",
       "kdo": "Doležal",
       "vzniklo": "28. 6. 2026",
-      "text": "Objednávky — Krok B (mozek): skladové hladiny (reorder point) + rychlost prodeje z výdejek + zboží na cestě → návrh „co/kolik/kdy objednat\" + proaktivní upozornění",
-      "pozn": ""
+      "text": "Objednávky — Krok B (mozek): skladové hladiny (min/cíl) + rychlost prodeje + zboží na cestě → návrh co/kolik/kdy objednat (ceníkový tip) + upozornění + koncept z návrhů",
+      "pozn": "",
+      "hotovo": "28. 6. 2026"
     }
   ],
   "odkazy": [

@@ -78,6 +78,7 @@
     <button data-sec="nova">🧮 Kalkulačka termínů</button>
     <button data-sec="dodavatele">👥 Dodavatelé</button>
     <button data-sec="cenik">💰 Ceníky</button>
+    <button data-sec="hladiny">📊 Hladiny</button>
     <button data-sec="sablony">🏭 Výrobní šablony</button>
     <button data-sec="svatky">🗓️ Svátky &amp; volno</button>
   </div>
@@ -121,6 +122,16 @@
         <label class="hint" style="display:flex;align-items:center;gap:8px">Dodavatel: <select id="pricingSup"></select></label></div>
       <div class="panel-body" id="pricingBody"></div>
       <div class="panel-foot"><span class="hint">Množstevní pásma „od množství → cena/ks". V objednávce u tohoto dodavatele cena/ks naskočí sama podle množství. Bez ceníku zůstane cena ruční.</span></div>
+    </div>
+  </section>
+
+  <section class="sec" id="sec-hladiny">
+    <div class="panel">
+      <div class="panel-head"><h2>📊 Hladiny zásob</h2><span class="grow"></span>
+        <label class="hint" style="display:flex;align-items:center;gap:6px">Okno prodeje: <input id="salesWin" type="number" min="1" value="30" style="width:64px"> dní</label>
+        <button class="btn gold" id="lvlAdd">➕ Přidat variantu</button></div>
+      <div class="panel-body" id="lvlBody"></div>
+      <div class="panel-foot"><span class="hint">Nastav min. hladinu (kdy objednat) a cílovou zásobu (na kolik doplnit) u variant, co chceš hlídat. Mozek je porovná se skladem + zbožím na cestě a navrhne objednávku.</span></div>
     </div>
   </section>
 
@@ -703,6 +714,41 @@ function renderPricing(){
     + '<button class="btn" id="ptAdd" style="margin-top:10px">+ Přidat pásmo</button>';
 }
 
+// ───────── HLADINY ZÁSOB
+let lvlDraft=null;   // {product,color,feat,size,min,target}
+function applyLvlDraft(t){
+  if(!(t.dataset.lk && lvlDraft)) return false;
+  const k=t.dataset.lk;
+  if(k==='min'||k==='target') lvlDraft[k]=+t.value||0;
+  else if(k==='feat') lvlDraft.feat=t.value?t.value.split(','):[];
+  else if(k==='product'){ lvlDraft.product=t.value; const p=prodDef(t.value); if(!p.feat.some(f=>featKey(f)===featKey(lvlDraft.feat))) lvlDraft.feat=[]; if(!p.sizes.includes(lvlDraft.size)) lvlDraft.size=p.sizes[Math.min(1,p.sizes.length-1)]; renderLevels(); }
+  else lvlDraft[k]=t.value;
+  return true;
+}
+function renderLevels(){
+  if($('salesWin') && document.activeElement!==$('salesWin')) $('salesWin').value=salesWindow;
+  const body=$('lvlBody'); if(!body) return;
+  let html='';
+  if(lvlDraft){
+    const p=prodDef(lvlDraft.product);
+    const sel=(list,val,mv,ml)=>list.map(x=>{const v=mv?mv(x):x,l=ml?ml(x):x;return `<option value="${v}"${v===val?' selected':''}>${l}</option>`;}).join('');
+    html+=`<div class="supcard"><div class="supgrid">
+      <label class="fld">Produkt<select data-lk="product">${sel(PRODUCTS,lvlDraft.product,x=>x.id,x=>x.name)}</select></label>
+      <label class="fld">Barva<select data-lk="color">${sel(COLORS,lvlDraft.color,c=>c.name,c=>c.name)}</select></label>
+      <label class="fld">Provedení<select data-lk="feat">${p.feat.map(f=>`<option value="${featKey(f)}"${featKey(f)===featKey(lvlDraft.feat)?' selected':''}>${featText(f)}</option>`).join('')}</select></label>
+      <label class="fld">Velikost<select data-lk="size">${p.sizes.map(s=>`<option value="${s}"${s===lvlDraft.size?' selected':''}>${s}</option>`).join('')}</select></label>
+      <label class="fld">Min. hladina<input data-lk="min" type="number" min="0" value="${lvlDraft.min}"></label>
+      <label class="fld">Cílová zásoba<input data-lk="target" type="number" min="0" value="${lvlDraft.target}"></label>
+    </div><div class="panel-foot" style="border-top:none;padding:12px 0 0"><button class="btn gold" id="lvlSave">💾 Uložit</button><button class="btn ghost" id="lvlCancel">Zrušit</button></div></div>`;
+  }
+  const keys=Object.keys(levels).filter(k=>levels[k]&&levels[k].variant);
+  html+= keys.length ? `<div class="gridwrap"><table class="grid"><thead><tr><th>Varianta</th><th>SKU</th><th style="text-align:right">Sklad</th><th style="text-align:right">Na cestě</th><th>Min.</th><th>Cílová</th><th></th></tr></thead><tbody>`
+    + keys.map(sku=>{ const lv=levels[sku];
+      return `<tr data-lvl="${sku}"><td>${escT(skuLabel(sku))}</td><td class="skucell" style="font-family:ui-monospace,monospace;color:var(--gold);font-size:11px">${sku}</td><td style="text-align:right">${stockQty(sku)}</td><td style="text-align:right">${transitQty(sku)}</td><td><input data-lvk="min" type="number" min="0" value="${lv.min||0}" style="width:70px"></td><td><input data-lvk="target" type="number" min="0" value="${lv.target||0}" style="width:70px"></td><td><button class="del" data-lvldel="${sku}">🗑</button></td></tr>`; }).join('')
+    + '</tbody></table></div>' : (lvlDraft?'':'<div class="hint" style="padding:4px 0">Zatím žádná hlídaná varianta. Přidej přes „➕ Přidat variantu".</div>');
+  body.innerHTML=html;
+}
+
 // ───────── SVÁTKY & VOLNO
 function renderOurVac(){
   if(!$('ourVacList')) return;
@@ -761,7 +807,7 @@ document.addEventListener('click', e=>{
 });
 
 // ───────── render
-function refreshAll(){ renderOrders(); renderTransit(); renderSuppliers(); renderChains(); renderPricing(); renderOurVac(); renderHolidays(); renderCalc(); }
+function refreshAll(){ renderOrders(); renderTransit(); renderSuppliers(); renderChains(); renderPricing(); renderLevels(); if(typeof renderSuggestions==='function') renderSuggestions(); renderOurVac(); renderHolidays(); renderCalc(); }
 function applyOurVac(t){
   if(!t.dataset.ovk) return false;
   const r=t.closest && t.closest('[data-ovi]'); if(!r) return false;
@@ -789,6 +835,9 @@ document.addEventListener('input', e=>{
   if(applyVacField(t)) return;
   if(applyPtField(t)) return;
   if(applyOurVac(t)){ renderCalc(); return; }
+  if(t.id==='salesWin'){ salesWindow=Math.max(1,+t.value||30); saveData(); renderOrders(); if(typeof renderSuggestions==='function') renderSuggestions(); return; }
+  if(t.dataset.lvk){ const r=t.closest('[data-lvl]'); const lv=r&&levels[r.dataset.lvl]; if(lv){ lv[t.dataset.lvk]=+t.value||0; saveData(); if(typeof renderSuggestions==='function') renderSuggestions(); } return; }
+  if(applyLvlDraft(t)) return;
   if(t.dataset.chfk && chDraft){ chDraft.name=t.value; return; }
   if(applyStepField(t)){ if(typeof renderCalc==='function') renderCalc(); return; }
   if(t.dataset.ofk && ordDraft){ if(t.dataset.ofk==='supplierId') ordDraft.supplierId=+t.value; else ordDraft[t.dataset.ofk]=t.value; return; }
@@ -845,6 +894,7 @@ document.addEventListener('change', e=>{
     return;
   }
   if(applyOurVac(t)) return;
+  if(applyLvlDraft(t)) return;
   if(t.id==='holCountry'||t.id==='holYear'){ renderHolidays(); return; }
   if(t.id==='pricingSup'){ pricingSupId=+t.value; renderPricing(); return; }
   if(t.dataset.ofk==='supplierId' && ordDraft){ ordDraft.supplierId=+t.value; return; }
@@ -929,6 +979,12 @@ document.addEventListener('click', e=>{
   if(t.dataset && t.dataset.ordrecv!=null){ const o=orders.find(x=>x.id===+t.dataset.ordrecv); if(o && confirm('Přijmout objednávku a naskladnit kusy do Skladu?')) receiveOrder(o); return; }
   if(t.dataset && t.dataset.orddel!=null){ if(confirm('Smazat objednávku?')){ orders=orders.filter(o=>o.id!==+t.dataset.orddel); saveData(); renderOrders(); renderTransit(); } return; }
   { const oer=t.closest && t.closest('[data-ordedit]'); if(oer){ const o=orders.find(x=>x.id===+oer.dataset.ordedit); if(o){ ordEditId=o.id; ordDraft=JSON.parse(JSON.stringify(o)); renderOrders(); } return; } }
+
+  // ── hladiny zásob
+  if(t.id==='lvlAdd'){ lvlDraft={ product:PRODUCTS[0].id, color:(COLORS[0]&&COLORS[0].name)||'Bílá', feat:[], size:PRODUCTS[0].sizes[Math.min(1,PRODUCTS[0].sizes.length-1)], min:0, target:0 }; renderLevels(); return; }
+  if(t.id==='lvlCancel'){ lvlDraft=null; renderLevels(); return; }
+  if(t.id==='lvlSave'){ if(!lvlDraft) return; const sku=skuOf(lvlDraft.product,lvlDraft.color,lvlDraft.feat,lvlDraft.size); levels[sku]={ variant:{product:lvlDraft.product,color:lvlDraft.color,feat:lvlDraft.feat.slice(),size:lvlDraft.size}, min:+lvlDraft.min||0, target:+lvlDraft.target||0 }; lvlDraft=null; saveData(); renderLevels(); renderOrders(); if(typeof renderSuggestions==='function') renderSuggestions(); return; }
+  if(t.dataset && t.dataset.lvldel!=null){ delete levels[t.dataset.lvldel]; saveData(); renderLevels(); if(typeof renderSuggestions==='function') renderSuggestions(); return; }
 
   // ── kalkulačka
   if(t.id==='calcRun'){ runCalc(); return; }

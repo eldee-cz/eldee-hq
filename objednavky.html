@@ -56,7 +56,9 @@
   .vacrow{ display:grid; grid-template-columns:1.3fr auto auto auto auto; gap:10px; margin-bottom:8px; align-items:end; }
   .vacrow .vlab{ display:inline-flex; flex-direction:column; font-size:10px; color:var(--muted); gap:3px; text-transform:uppercase; letter-spacing:.4px; }
   .vacrow .vchk{ flex-direction:row; align-items:center; gap:6px; text-transform:none; letter-spacing:0; font-size:11.5px; }
-  @media (max-width:680px){ .contactrow{ grid-template-columns:1fr 1fr; } .vacrow{ grid-template-columns:1fr 1fr; } }
+  .ptrow{ display:grid; grid-template-columns:1.3fr auto auto auto; gap:10px; margin-bottom:8px; align-items:end; }
+  .ptrow .vlab{ display:inline-flex; flex-direction:column; font-size:10px; color:var(--muted); gap:3px; text-transform:uppercase; letter-spacing:.4px; }
+  @media (max-width:680px){ .contactrow{ grid-template-columns:1fr 1fr; } .vacrow{ grid-template-columns:1fr 1fr; } .ptrow{ grid-template-columns:1fr 1fr; } }
   @media (max-width:880px){ .supgrid{ grid-template-columns:repeat(2,1fr); } }
   @media (max-width:680px){ input,select,textarea{ font-size:16px; } .tabs button{ font-size:13px; padding:10px 13px; }
     .supgrid{ grid-template-columns:1fr; } .supgrid .fld.span2{ grid-column:span 1; } }
@@ -341,11 +343,22 @@ let supEditId = null;   // null = tabulka; 'new' nebo id dodavatele = formulář
 let supDraft = null;    // rozpracovaná kopie ve formuláři (Zrušit ji zahodí)
 function blankContact(){ return { role:'', name:'', phone:'', email:'' }; }
 function blankVacation(){ return { from:'', to:'', label:'', yearly:false }; }
-function blankSupplier(){ return { id:null, name:'', country:settings.defaultCountry, ico:'', address:'', web:'', ltDays:0, vacations:[], note:'', contacts:[ blankContact() ] }; }
+function blankPriceTier(){ return { product:PRODUCTS[0].id, minQty:0, price:0 }; }
+function blankSupplier(){ return { id:null, name:'', country:settings.defaultCountry, ico:'', address:'', web:'', ltDays:0, vacations:[], priceTiers:[], note:'', contacts:[ blankContact() ] }; }
+// cena/ks z ceníku dodavatele pro produkt a množství (největší práh ≤ qty); null = ceník není
+function priceFor(supplierId, product, qty){
+  const s=suppliers.find(x=>x.id===supplierId); if(!s) return null;
+  const tiers=(s.priceTiers||[]).filter(t=>t.product===product && t.price!=='' && t.price!=null).map(t=>({minQty:+t.minQty||0,price:+t.price||0})).sort((a,b)=>a.minQty-b.minQty);
+  if(!tiers.length) return null;
+  let chosen=tiers[0];
+  for(const t of tiers){ if((+qty||0)>=t.minQty) chosen=t; }
+  return chosen.price;
+}
 // migrace: starý jeden telefon/email -> první kontakt; staré týdny dovolené -> zahodit (zadá nově přes kalendář)
 function migrSuppliers(){ suppliers.forEach(s=>{
   if(!Array.isArray(s.contacts)){ s.contacts = (s.phone||s.email) ? [{ role:'', name:'', phone:s.phone||'', email:s.email||'' }] : []; delete s.phone; delete s.email; }
   if(!Array.isArray(s.vacations)){ s.vacations=[]; delete s.vacationWeeks; }
+  if(!Array.isArray(s.priceTiers)) s.priceTiers=[];
 }); }
 
 function supForm(d){
@@ -383,6 +396,16 @@ function supForm(d){
         <button class="del" data-vacdel="${vi}" title="Smazat období">🗑</button>
       </div>`).join('')||'<div class="hint" style="padding:4px 0">Zatím žádná dovolená.</div>'}
       <button class="btn" id="vacAdd" style="margin-top:8px">+ Přidat období</button>
+    </div>
+    <div class="contacts">
+      <div class="chead">💰 Ceník (množstevní pásma)</div>
+      ${(d.priceTiers||[]).map((t,ti)=>`<div class="ptrow" data-pti="${ti}">
+        <select data-ptk="product">${PRODUCTS.map(p=>`<option value="${p.id}"${p.id===t.product?' selected':''}>${p.name}</option>`).join('')}</select>
+        <label class="vlab">od množství<input data-ptk="minQty" type="number" min="0" value="${t.minQty}"></label>
+        <label class="vlab">cena/ks (Kč)<input data-ptk="price" type="number" min="0" value="${t.price}"></label>
+        <button class="del" data-ptdel="${ti}" title="Smazat pásmo">🗑</button>
+      </div>`).join('')||'<div class="hint" style="padding:4px 0">Zatím bez ceníku → cena/ks v objednávce zůstane ruční. Přidej pásma (např. od 0 → 90, od 100 → 75, od 300 → 65).</div>'}
+      <button class="btn" id="ptAdd" style="margin-top:8px">+ Přidat pásmo</button>
     </div>
     <div class="panel-foot" style="border-top:none;padding:14px 0 0">
       <button class="btn gold" id="supSave">💾 Uložit dodavatele</button>
@@ -492,6 +515,11 @@ function itemRow(it,i){
   const p=prodDef(it.product);
   const sel=(list,val,mv,ml)=>list.map(x=>{const v=mv?mv(x):x,l=ml?ml(x):x;return `<option value="${v}"${v===val?' selected':''}>${l}</option>`;}).join('');
   const sku=skuOf(it.product,it.color,it.feat,it.size);
+  const auto=priceFor(ordDraft.supplierId, it.product, it.qty);
+  if(auto!=null) it.price=auto;   // cena z ceníku má přednost
+  const priceCell = auto!=null
+    ? `<td style="text-align:right;color:var(--green)" title="automaticky z ceníku dodavatele">${fmtKc(auto)} <span class="hint">📋</span></td>`
+    : `<td><input data-ik="price" type="number" min="0" value="${it.price}" style="width:80px"></td>`;
   return `<tr data-ii="${i}">
     <td><select data-ik="product">${sel(PRODUCTS,it.product,x=>x.id,x=>x.name)}</select></td>
     <td><select data-ik="color">${sel(COLORS,it.color,c=>c.name,c=>c.name)}</select></td>
@@ -500,7 +528,7 @@ function itemRow(it,i){
     <td class="skucell" style="font-family:ui-monospace,monospace;color:var(--gold);font-size:11px">${sku}</td>
     <td style="text-align:right;color:var(--muted)">${stockQty(sku)}</td>
     <td><input data-ik="qty" type="number" min="0" value="${it.qty}" style="width:70px"></td>
-    <td><input data-ik="price" type="number" min="0" value="${it.price}" style="width:80px"></td>
+    ${priceCell}
     <td style="text-align:right;color:var(--gold)">${fmtKc((+it.qty||0)*(+it.price||0))}</td>
     <td><button class="del" data-itemdel="${i}">🗑</button></td>
   </tr>`;
@@ -690,6 +718,7 @@ document.addEventListener('input', e=>{
     return;
   }
   if(applyVacField(t)) return;
+  if(applyPtField(t)) return;
   if(applyOurVac(t)){ renderCalc(); return; }
   if(t.dataset.chfk && chDraft){ chDraft.name=t.value; return; }
   if(applyStepField(t)){ if(typeof renderCalc==='function') renderCalc(); return; }
@@ -715,10 +744,19 @@ function applyVacField(t){
   else supDraft.vacations[vi][t.dataset.vk]=t.value;
   return true;
 }
+function applyPtField(t){
+  if(!(t.dataset.ptk && supDraft)) return false;
+  const r=t.closest && t.closest('[data-pti]'); if(!r) return false;
+  const pt=supDraft.priceTiers[+r.dataset.pti]; if(!pt) return false;
+  const k=t.dataset.ptk;
+  if(k==='minQty'||k==='price') pt[k]=+t.value||0; else pt[k]=t.value;
+  return true;
+}
 document.addEventListener('change', e=>{
   const t=e.target;
   if(t.dataset && t.dataset.fk==='country' && supDraft){ supDraft.country=t.value; return; }
   if(applyVacField(t)) return;
+  if(applyPtField(t)) return;
   if(t.dataset && t.dataset.stk==='name' && chDraft){
     const sr=t.closest('[data-si]'); const st=sr && chDraft.steps[+sr.dataset.si];
     if(st){
@@ -748,6 +786,8 @@ document.addEventListener('click', e=>{
   if(t.dataset && t.dataset.cdel!=null && supDraft){ supDraft.contacts.splice(+t.dataset.cdel,1); renderSuppliers(); return; }
   if(t.id==='vacAdd' && supDraft){ supDraft.vacations=supDraft.vacations||[]; supDraft.vacations.push(blankVacation()); renderSuppliers(); return; }
   if(t.dataset && t.dataset.vacdel!=null && supDraft){ supDraft.vacations.splice(+t.dataset.vacdel,1); renderSuppliers(); return; }
+  if(t.id==='ptAdd' && supDraft){ supDraft.priceTiers=supDraft.priceTiers||[]; supDraft.priceTiers.push(blankPriceTier()); renderSuppliers(); return; }
+  if(t.dataset && t.dataset.ptdel!=null && supDraft){ supDraft.priceTiers.splice(+t.dataset.ptdel,1); renderSuppliers(); return; }
   if(t.id==='supSave'){
     if(!supDraft) return;
     if(!(supDraft.name||'').trim()){ alert('Vyplň aspoň jméno dodavatele.'); return; }

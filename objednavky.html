@@ -108,6 +108,90 @@ function loadData(){
   }catch(e){}
 }
 
+// ───────── VÝPOČETNÍ JÁDRO
+function fmtISO(d){ const z=n=>String(n).padStart(2,'0'); return d.getFullYear()+'-'+z(d.getMonth()+1)+'-'+z(d.getDate()); }
+// Velikonoční neděle (Meeus/Jones/Butcher)
+function easter(y){
+  const a=y%19,b=Math.floor(y/100),c=y%100,d=Math.floor(b/4),e=b%4,f=Math.floor((b+8)/25),g=Math.floor((b-f+1)/3),
+    h=(19*a+b-d-g+15)%30,i=Math.floor(c/4),k=c%4,l=(32+2*e+2*i-h-k)%7,m=Math.floor((a+11*h+22*l)/451),
+    mo=Math.floor((h+l-7*m+114)/31),da=((h+l-7*m+114)%31)+1;
+  return new Date(y, mo-1, da);
+}
+function addDaysTo(d,n){ const x=new Date(d); x.setDate(x.getDate()+n); return x; }
+// pevné svátky [měsíc,den] per země + pohyblivé od Velikonoc
+const FIXED_HOLIDAYS = {
+  CZ:[[1,1],[5,1],[5,8],[7,5],[7,6],[9,28],[10,28],[11,17],[12,24],[12,25],[12,26]],
+  SK:[[1,1],[1,6],[5,1],[5,8],[7,5],[8,29],[9,1],[9,15],[11,1],[11,17],[12,24],[12,25],[12,26]],
+  PL:[[1,1],[1,6],[5,1],[5,3],[8,15],[11,1],[11,11],[12,25],[12,26]],
+  DE:[[1,1],[5,1],[10,3],[12,25],[12,26]],
+};
+// pohyblivé (offset dní od Velikonoční neděle) per země
+const EASTER_OFFSETS = {
+  CZ:[-2, 1],            // Velký pátek, Velikonoční pondělí
+  SK:[-2, 1],
+  PL:[ 0, 1, 60],        // neděle, pondělí, Boží tělo (+60)
+  DE:[-2, 1, 39, 50],    // Velký pátek, pondělí, Nanebevstoupení (+39), Svatodušní pondělí (+50)
+};
+function holidaysFor(country, year){
+  const set=new Set();
+  (FIXED_HOLIDAYS[country]||FIXED_HOLIDAYS.CZ).forEach(([m,da])=>set.add(fmtISO(new Date(year,m-1,da))));
+  const e=easter(year);
+  (EASTER_OFFSETS[country]||EASTER_OFFSETS.CZ).forEach(off=>set.add(fmtISO(addDaysTo(e,off))));
+  customHolidays.forEach(h=>{ if((h.country===country||h.country==='*') && h.date) set.add(h.date); });
+  return set;
+}
+// ISO 8601 číslo týdne
+function isoWeekOf(d){
+  const date=new Date(d.getFullYear(),d.getMonth(),d.getDate());
+  const day=(date.getDay()+6)%7; date.setDate(date.getDate()-day+3);
+  const firstThu=new Date(date.getFullYear(),0,4);
+  const fday=(firstThu.getDay()+6)%7; firstThu.setDate(firstThu.getDate()-fday+3);
+  return 1+Math.round((date-firstThu)/(7*86400000));
+}
+function isWeekend(d){ const g=d.getDay(); return g===0||g===6; }
+function isOff(date, country, vacWeeks){
+  if(isWeekend(date)) return true;
+  if(holidaysFor(country, date.getFullYear()).has(fmtISO(date))) return true;
+  if((vacWeeks||[]).includes(isoWeekOf(date))) return true;
+  return false;
+}
+function addStep(start, days, dayType, country, vacWeeks){
+  let d=new Date(start);
+  if(dayType==='cal'){ return addDaysTo(d, days); }
+  let c=0; while(c<days){ d=addDaysTo(d,1); if(!isOff(d,country,vacWeeks)) c++; }
+  return d;
+}
+function subStep(end, days, dayType, country, vacWeeks){
+  let d=new Date(end);
+  if(dayType==='cal'){ return addDaysTo(d, -days); }
+  let c=0; while(c<days){ d=addDaysTo(d,-1); if(!isOff(d,country,vacWeeks)) c++; }
+  return d;
+}
+function stepCtx(st){
+  const sup = st.supplierId!=null ? suppliers.find(s=>s.id===st.supplierId) : null;
+  return { sup, country: sup?sup.country:settings.defaultCountry, vac: sup?(sup.vacationWeeks||[]):(ourVacation.weeks||[]) };
+}
+function calcChainForward(chain, start){
+  let cur=new Date(start); const steps=[];
+  for(const st of (chain.steps||[])){
+    const {sup,country,vac}=stepCtx(st);
+    const from=new Date(cur), to=addStep(from, +st.days||0, st.dayType, country, vac);
+    steps.push({ name:st.name, supplier:sup?sup.name:'—', from, to, days:+st.days||0, dayType:st.dayType });
+    cur=to;
+  }
+  return { end:cur, steps };
+}
+function calcChainBackward(chain, target){
+  let cur=new Date(target); const steps=[];
+  for(let i=(chain.steps||[]).length-1;i>=0;i--){
+    const st=chain.steps[i], {sup,country,vac}=stepCtx(st);
+    const to=new Date(cur), from=subStep(to, +st.days||0, st.dayType, country, vac);
+    steps.unshift({ name:st.name, supplier:sup?sup.name:'—', from, to, days:+st.days||0, dayType:st.dayType });
+    cur=from;
+  }
+  return { start:cur, steps };
+}
+
 // ───────── TABY
 document.addEventListener('click', e=>{
   const t=e.target;

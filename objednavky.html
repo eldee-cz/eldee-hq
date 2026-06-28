@@ -129,6 +129,17 @@
       </div>
       <div class="gridwrap"><table class="grid"><thead><tr><th>Datum</th><th>Popis</th><th>Platí pro</th><th></th></tr></thead><tbody id="custRows"></tbody></table></div>
     </div>
+    <div class="panel">
+      <div class="panel-head"><h2>💾 Záloha</h2></div>
+      <div class="panel-foot">
+        <button class="btn" id="bkBtn">⬇ Záloha do souboru</button>
+        <button class="btn" id="rsBtn">⬆ Načíst ze souboru</button>
+        <input type="file" id="rsFile" accept="application/json" style="display:none">
+        <span class="grow"></span>
+        <button class="btn" id="zeroBtn" style="border-color:var(--blood);color:var(--blood)">🗑 Vynulovat</button>
+      </div>
+      <div class="panel-foot" style="border-top:none;padding-top:0"><span class="hint">🔒 Data (dodavatelé, šablony, svátky) žijí jen v tomto prohlížeči. Záloha = přenos / sdílení s Hledíkem. Citlivá jména nikdy nejdou na web.</span></div>
+    </div>
   </section>
 
   <footer>eldee · objednávky · 2026-06 · data v prohlížeči (localStorage)</footer>
@@ -159,6 +170,7 @@ let customHolidays = [];    // {country:'CZ'|'*', date:'YYYY-MM-DD', name}
 let stepTypes = ['Pletení','Doprava','Výšivka','Šití','Kompletace','Balení'];   // číselník typů kroků (sjednocený)
 let settings = { defaultCountry:'CZ' };
 function nextId(arr){ return (arr.reduce((m,x)=>Math.max(m, x.id||0), 0)) + 1; }
+function download(blob,name){ const u=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=u; a.download=name; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(u); }
 let savedTimer;
 function saveData(){
   localStorage.setItem(LS_KEY, JSON.stringify({ suppliers, chains, ourVacation, customHolidays, stepTypes, settings, updated:new Date().toISOString() }));
@@ -606,10 +618,17 @@ document.addEventListener('click', e=>{
 
   // ── kalkulačka
   if(t.id==='calcRun'){ runCalc(); return; }
+
+  // ── záloha
+  if(t.id==='bkBtn'){ download(new Blob([localStorage.getItem(LS_KEY)||'{}'],{type:'application/json'}),'eldee-objednavky-zaloha.json'); return; }
+  if(t.id==='rsBtn'){ $('rsFile').click(); return; }
+  if(t.id==='zeroBtn'){ if(confirm('Vynulovat všechna data objednávek (dodavatelé, šablony, svátky)?\nAkce je nevratná — udělej si nejdřív zálohu.')){ suppliers=[]; chains=[]; ourVacation={ranges:[]}; customHolidays=[]; stepTypes=['Pletení','Doprava','Výšivka','Šití','Kompletace','Balení']; settings={defaultCountry:'CZ'}; saveData(); refreshAll(); alert('Vynulováno.'); } return; }
 });
 
 // klik do pole data spolehlivě otevře kalendář
 document.addEventListener('click', e=>{ const t=e.target; if(t && t.tagName==='INPUT' && t.type==='date' && typeof t.showPicker==='function'){ try{ t.showPicker(); }catch(_){} } });
+// načtení zálohy
+document.addEventListener('change', e=>{ if(e.target.id!=='rsFile') return; const f=e.target.files[0]; if(!f) return; const r=new FileReader(); r.onload=()=>{ try{ JSON.parse(r.result); localStorage.setItem(LS_KEY,r.result); loadData(); migrSuppliers(); refreshAll(); alert('Načteno.'); }catch(_){ alert('Soubor není platná záloha.'); } }; r.readAsText(f); e.target.value=''; });
 
 // ───────── START
 loadData();

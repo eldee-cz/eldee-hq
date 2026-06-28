@@ -307,6 +307,17 @@ let COLORS = [ {name:'Bílá'}, {name:'Černá'} ];   // rozšiřitelné
 const FL = { grip:'Grip', kapsa:'Kapsa', dira:'Díra' };
 const FC = { grip:'G', kapsa:'K', dira:'D' };
 
+// ───────── DŮVODY VÝDEJE
+const REASONS = [
+  { id:'prodej',    name:'Prodej' },
+  { id:'vzorek',    name:'Vzorek' },
+  { id:'darek',     name:'Dárek' },
+  { id:'reklamace', name:'Reklamace' },
+  { id:'ztrata',    name:'Ztráta' },
+];
+const REASON_NAME = id => (REASONS.find(r=>r.id===id)||{}).name || id;
+const isProdej = r => r === 'prodej';
+
 // ───────── helpers
 const $ = id => document.getElementById(id);
 const fmt = (n,suf='') => isFinite(n) ? Math.round(n).toLocaleString('cs-CZ')+suf : '—';
@@ -330,11 +341,17 @@ const skuOf = (prodId,color,feat,size) => `${prodDef(prodId).code}-${colorCode(c
 // ───────── DATA
 const LS_KEY = 'eldeeData';
 function emptyLine(){ return { num:'', product:PRODUCTS[0].id, color:(COLORS[0]&&COLORS[0].name)||'Bílá', feat:[], size:PRODUCTS[0].sizes[Math.min(1,PRODUCTS[0].sizes.length-1)], qty:0, net:0, due:'' }; }
+function emptySaleLine(){ return { product:PRODUCTS[0].id, color:(COLORS[0]&&COLORS[0].name)||'Bílá', feat:[], size:PRODUCTS[0].sizes[Math.min(1,PRODUCTS[0].sizes.length-1)], qty:0, reason:'prodej', price:0 }; }
+const saleTotal = l => isProdej(l.reason) ? (+l.qty||0)*(+l.price||0) : 0;
 let invoices = [ emptyLine() ];   // aktivní pracovní příjem (rozpracovaná příjemka)
 let cardStock = {};               // sku -> qty (sklad)
 let receipts = [];                // uzavřené příjemky (doklady) — nejnovější nahoře
 let receiptSeq = 0;
 let vatRate = 21;
+let sales = [ emptySaleLine() ];   // aktivní pracovní výdej (rozpracovaná výdejka)
+let issues = [];                   // uzavřené výdejky (doklady) — nejnovější nahoře
+let issueSeq = 0;
+let lastSalePrice = {};            // sku -> poslední prodejní cena
 const SIZE_MIGR = { '31-34':'S','35-38':'S','39-42':'M','43-46':'L','47-50':'XL' };
 
 function migrInv(inv){
@@ -358,6 +375,16 @@ function makeReceipt(lines, createdISO){
     lines: lines.map(l=>({ product:l.product, color:l.color, feat:(l.feat||[]).slice(), size:l.size, qty:+l.qty||0, net:+l.net||0, num:l.num, due:l.due })),
   };
 }
+function makeIssue(lines, note, createdISO){
+  issueSeq++;
+  return {
+    n: issueSeq,
+    created: createdISO || new Date().toISOString(),
+    by: '—',
+    note: (note||'').trim(),
+    lines: lines.map(l=>({ product:l.product, color:l.color, feat:(l.feat||[]).slice(), size:l.size, qty:+l.qty||0, reason:l.reason||'prodej', price:+l.price||0 })),
+  };
+}
 
 function loadData(){
   try {
@@ -367,6 +394,10 @@ function loadData(){
     if (d.vatRate) vatRate = d.vatRate;
     if (typeof d.receiptSeq === 'number') receiptSeq = d.receiptSeq;
     if (Array.isArray(d.receipts)) receipts = d.receipts;
+    if (Array.isArray(d.issues)) issues = d.issues;
+    if (typeof d.issueSeq === 'number') issueSeq = d.issueSeq;
+    if (d.lastSalePrice && typeof d.lastSalePrice==='object') lastSalePrice = d.lastSalePrice;
+    if (Array.isArray(d.sales)) { const s = d.sales.map(migrInv); sales = s.length ? s : [ emptySaleLine() ]; }
     if (Array.isArray(d.invoices)) {
       const inv = d.invoices.map(migrInv);
       // migrace ze staré verze: dříve napumpované řádky → uzavřená příjemka (cardStock je už má, nepřičítat)
@@ -379,7 +410,7 @@ function loadData(){
 }
 let savedTimer;
 function saveData(){
-  const cur = { invoices, cardStock, receipts, receiptSeq, colorsList: COLORS.map(c=>c.name), vatRate, updated:new Date().toISOString() };
+  const cur = { invoices, cardStock, receipts, receiptSeq, sales, issues, issueSeq, lastSalePrice, colorsList: COLORS.map(c=>c.name), vatRate, updated:new Date().toISOString() };
   localStorage.setItem(LS_KEY, JSON.stringify(cur));
   const el = $('savedNote'); if(el){ el.classList.add('show'); clearTimeout(savedTimer); savedTimer=setTimeout(()=>el.classList.remove('show'),1400); }
 }
@@ -685,6 +716,7 @@ document.addEventListener('click', e=>{
   else if(t.id==='resetBtn'){
     if(confirm('Opravdu VYNULOVAT celý sklad?\n\nSmaže se příjem zboží, historie příjmů i stav všech karet (čistý start). Akce je nevratná — pokud chceš, udělej si nejdřív zálohu.')){
       invoices = [ emptyLine() ]; cardStock = {}; receipts = []; receiptSeq = 0;
+      sales = [ emptySaleLine() ]; issues = []; issueSeq = 0; lastSalePrice = {};
       saveData(); buildInvoices(); refreshAll();
       alert('Sklad vynulován — čistý start. 🧹');
     }

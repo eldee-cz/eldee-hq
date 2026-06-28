@@ -89,6 +89,9 @@
   .stockin.has { color:var(--green); } .stockin.low { color:var(--blood); }
   .delcell { text-align:center; } .del { background:none; border:none; color:#5a5a63; cursor:pointer; font-size:14px; padding:8px; } .del:hover { color:var(--blood); }
   .badge { font-size:10px; padding:2px 7px; border-radius:20px; background:var(--panel2); border:1px solid var(--line2); color:var(--muted); }
+  td.price-hidden .cell, td.price-hidden { visibility:hidden; }
+  .stockcell { padding:0 10px; font-family:ui-monospace,monospace; text-align:right; color:var(--muted); }
+  .stockcell.bad { color:var(--blood); font-weight:700; }
 
   .panel-foot { display:flex; gap:10px; align-items:center; padding:11px 16px; border-top:1px solid var(--line); flex-wrap:wrap; }
   .btn { border-radius:8px; padding:8px 14px; font-size:12.5px; font-weight:700; cursor:pointer; border:1px solid var(--line2); background:var(--panel2); color:var(--bone); }
@@ -122,7 +125,9 @@
     <button data-sec="sklad" class="on">📊 Skladem</button>
     <button data-sec="karty">🗂️ Skladové karty</button>
     <button data-sec="prijem">📦 Příjem zboží</button>
+    <button data-sec="vydej">🛒 Prodej/výdej</button>
     <button data-sec="historie">📜 Historie příjmů</button>
+    <button data-sec="prodeje">🧾 Historie prodejů</button>
     <button data-sec="zaloha">💾 Záloha</button>
   </div>
 
@@ -231,6 +236,45 @@
         <button class="btn gold" id="pumpBtn">✅ Uzavřít příjemku → do skladu</button>
         <span class="grow"></span>
         <span class="hint" id="pumpHint">Naskládej řádky a klikni „Uzavřít příjemku" — kusy jdou do skladu, vznikne doklad v 📜 Historii a plocha se vyčistí pro další příjem.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PRODEJ / VÝDEJ ===== -->
+  <section class="sec" id="sec-vydej">
+    <div class="panel">
+      <div class="panel-head">
+        <h2>🛒 Prodej / výdej</h2>
+        <span class="grow"></span>
+        <span class="sum" id="saleSummary"></span>
+      </div>
+      <div class="filters">
+        <label class="chk" style="gap:8px">Poznámka k dokladu:
+          <input type="text" id="saleNote" placeholder="nepovinné (např. FB — Novák)" style="min-width:220px">
+        </label>
+      </div>
+      <div class="gridwrap">
+        <table class="grid">
+          <thead><tr>
+            <th style="width:150px">Produkt</th>
+            <th style="width:100px">Barva</th>
+            <th style="width:130px">Provedení</th>
+            <th style="width:84px">Velikost</th>
+            <th style="width:74px;text-align:right">Skladem</th>
+            <th style="width:70px">Ks</th>
+            <th style="width:120px">Důvod</th>
+            <th style="width:90px">Cena/ks</th>
+            <th style="width:96px">Tržba</th>
+            <th style="width:38px"></th>
+          </tr></thead>
+          <tbody id="saleRows"></tbody>
+        </table>
+      </div>
+      <div class="panel-foot">
+        <button class="btn" id="saleAdd">+ Přidat řádek</button>
+        <button class="btn gold" id="issueBtn">✅ Uzavřít výdej → odečíst ze skladu</button>
+        <span class="grow"></span>
+        <span class="hint" id="issueHint">Vyplň řádky a klikni „Uzavřít výdej" — kusy se odečtou ze skladu, vznikne doklad v 🧾 Historii prodejů.</span>
       </div>
     </div>
   </section>
@@ -547,6 +591,60 @@ function recalcInvoices(){
   $('invSummary').innerHTML = s;
 }
 
+// ───────── PRODEJ / VÝDEJ
+const saleSku = l => skuOf(l.product, l.color, l.feat, l.size);
+const stockOf = l => cardStock[saleSku(l)] || 0;
+const saleHasGoods = l => l.product && l.color && l.size && (+l.qty||0)>0;
+const saleOverstock = l => saleHasGoods(l) && (+l.qty||0) > stockOf(l);
+
+function buildSales(){
+  $('saleRows').innerHTML = sales.map((l,i)=>{
+    const p = prodDef(l.product);
+    const prodOpts = selOpts(PRODUCTS, l.product, x=>x.id, x=>x.name);
+    const colorOpts = selOpts(COLORS, l.color, c=>c.name, c=>c.name) + `<option value="__new__">➕ nová barva…</option>`;
+    const featOpts = p.feat.map(s=>`<option value="${featKey(s)}"${featKey(s)===featKey(l.feat)?' selected':''}>${featText(s)}</option>`).join('');
+    const sizeOpts = p.sizes.map(s=>`<option value="${s}"${s===l.size?' selected':''}>${s}${SIZE_EU[s]?' ('+SIZE_EU[s]+')':''}</option>`).join('');
+    const reasonOpts = REASONS.map(r=>`<option value="${r.id}"${r.id===l.reason?' selected':''}>${r.name}</option>`).join('');
+    const prodej = isProdej(l.reason);
+    return `
+    <tr>
+      <td><select class="cell" data-sni="${i}" data-snk="product">${prodOpts}</select></td>
+      <td><select class="cell" data-sni="${i}" data-snk="color">${colorOpts}</select></td>
+      <td><select class="cell" data-sni="${i}" data-snk="feat">${featOpts}</select></td>
+      <td><select class="cell" data-sni="${i}" data-snk="size">${sizeOpts}</select></td>
+      <td class="stockcell" id="sstock-${i}">—</td>
+      <td><input class="cell num" type="number" data-sni="${i}" data-snk="qty" value="${l.qty}" step="1" min="0"></td>
+      <td><select class="cell" data-sni="${i}" data-snk="reason">${reasonOpts}</select></td>
+      <td class="${prodej?'':'price-hidden'}"><input class="cell num" type="number" data-sni="${i}" data-snk="price" value="${l.price}" step="5" min="0"></td>
+      <td class="calc total" id="strz-${i}">—</td>
+      <td class="delcell"><button class="del" data-saledel="${i}" title="Smazat řádek">🗑</button></td>
+    </tr>`;
+  }).join('');
+}
+
+function recalcSales(){
+  let ready=0, blocked=0, trzba=0;
+  sales.forEach((l,i)=>{
+    const stock = stockOf(l);
+    const over = saleOverstock(l);
+    const st = $('sstock-'+i);
+    if(st){ st.textContent = stock; st.classList.toggle('bad', over); }
+    const trz = saleTotal(l);
+    if($('strz-'+i)) $('strz-'+i).textContent = isProdej(l.reason) ? fmt(trz) : '—';
+    document.querySelectorAll('[data-sni="'+i+'"]').forEach(el=>{
+      if(el.dataset.snk==='qty') el.classList.toggle('bad', over);
+    });
+    if(saleHasGoods(l)){ ready++; trzba += trz; if(over) blocked++; }
+  });
+  let s = `<strong>${sales.length}</strong> řádků`;
+  if(ready) s += ` · <strong style="color:var(--gold)">${ready}</strong> k výdeji`;
+  if(trzba>0) s += ` · tržba <strong>${fmt(trzba,' Kč')}</strong>`;
+  if(blocked) s += ` · <span class="bad">⚠ ${blocked} překračuje sklad</span>`;
+  $('saleSummary').innerHTML = s;
+  const btn = $('issueBtn');
+  if(btn){ btn.disabled = blocked>0 || ready===0; btn.style.opacity = btn.disabled?'.5':'1'; btn.style.cursor = btn.disabled?'not-allowed':'pointer'; }
+}
+
 // ───────── UZAVŘENÍ PŘÍJEMKY → do skladu + doklad do historie
 function finalizeReceipt(){
   const lines = invoices.filter(invHasGoods);
@@ -662,7 +760,8 @@ function buildFilters(){
   $('sProd').innerHTML = '<option value="">Produkt: vše</option>' + prodOpts;
 }
 
-function refreshAll(){ recalcInvoices(); renderStock(); renderCards(); renderHistory(); recalcKPI(); }
+function renderSalesHistory(){}   // plná verze v Tasku 4
+function refreshAll(){ recalcInvoices(); recalcSales(); renderStock(); renderCards(); renderHistory(); renderSalesHistory(); recalcKPI(); }
 
 // ───────── EVENTS
 document.addEventListener('input', e=>{
@@ -737,6 +836,7 @@ if($('vatRate')) $('vatRate').value = vatRate;
 CARDS = genCards();
 buildFilters();
 buildInvoices();
+buildSales();
 refreshAll();
 saveData();   // ukotvi případnou migraci (staré napumpované řádky → příjemka), ať se nezdvojí
 </script>

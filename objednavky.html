@@ -78,7 +78,18 @@
     <button data-sec="svatky">🗓️ Svátky &amp; volno</button>
   </div>
 
-  <section class="sec on" id="sec-nova"><div class="panel"><div class="panel-body"><span class="hint">Kalkulačka termínů — doplní se v Tasku 5.</span></div></div></section>
+  <section class="sec on" id="sec-nova">
+    <div class="panel">
+      <div class="panel-head"><h2>🧮 Plánování objednávky — kdy dorazí / kdy objednat</h2></div>
+      <div class="panel-body" style="display:flex;gap:14px;flex-wrap:wrap;align-items:flex-end">
+        <label class="fld">Produkt<select id="calcProduct"></select></label>
+        <label class="fld">Režim<select id="calcMode"><option value="fwd">Objednám k datu → kdy dorazí</option><option value="bwd">Chci mít k datu → kdy nejpozději objednat</option></select></label>
+        <label class="fld">Datum<input id="calcDate" type="date"></label>
+        <button class="btn gold" id="calcRun">Spočítat</button>
+      </div>
+      <div class="panel-body" id="calcOut" style="border-top:1px solid var(--line)"><span class="hint">Vyber produkt a datum, klikni „Spočítat". Počítá podle výrobní šablony produktu (kroky, dodavatelé, svátky, dovolené).</span></div>
+    </div>
+  </section>
   <section class="sec" id="sec-dodavatele">
     <div class="panel">
       <div class="panel-head"><h2>👥 Dodavatelé</h2><span class="grow"></span><span class="sum" id="supSum"></span>
@@ -95,7 +106,30 @@
       <div class="panel-foot"><span class="hint">Šablona = kroky výroby za sebou (pletení → doprava → výšivka…). Přiřaď produkty, kterých se týká. Kalkulačka pak počítá termín podle těchto kroků.</span></div>
     </div>
   </section>
-  <section class="sec" id="sec-svatky"><div class="panel"><div class="panel-body"><span class="hint">Svátky — doplní se v Tasku 4.</span></div></div></section>
+  <section class="sec" id="sec-svatky">
+    <div class="panel">
+      <div class="panel-head"><h2>🏖️ Naše dovolená / volno</h2><span class="grow"></span><button class="btn gold" id="ourVacAdd">+ Přidat období</button></div>
+      <div class="panel-body" id="ourVacList"></div>
+      <div class="panel-foot"><span class="hint">Naše volno (kdy neděláme / neodesíláme) — použije se u kroků <strong>bez přiřazeného dodavatele</strong> (např. naše balení/odeslání).</span></div>
+    </div>
+    <div class="panel">
+      <div class="panel-head"><h2>🗓️ Státní svátky (automaticky)</h2><span class="grow"></span>
+        <select id="holCountry"><option value="CZ">Česko</option><option value="SK">Slovensko</option><option value="PL">Polsko</option><option value="DE">Německo</option></select>
+        <input id="holYear" type="number" value="2026" style="width:80px"></div>
+      <div class="gridwrap"><table class="grid"><thead><tr><th>Datum</th><th>Den</th></tr></thead><tbody id="holRows"></tbody></table></div>
+      <div class="panel-foot"><span class="hint">Počítá se automaticky podle země a roku (včetně pohyblivých Velikonoc). U dodavatele řídí svátky jeho země.</span></div>
+    </div>
+    <div class="panel">
+      <div class="panel-head"><h2>➕ Vlastní volné dny</h2></div>
+      <div class="panel-body" style="display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end">
+        <label class="fld">Datum<input id="custDate" type="date"></label>
+        <label class="fld">Popis<input id="custName" placeholder="např. firemní volno"></label>
+        <label class="fld">Platí pro<select id="custCountry"><option value="*">všechny země</option><option value="CZ">Česko</option><option value="SK">Slovensko</option><option value="PL">Polsko</option><option value="DE">Německo</option></select></label>
+        <button class="btn gold" id="custAdd">➕ Přidat</button>
+      </div>
+      <div class="gridwrap"><table class="grid"><thead><tr><th>Datum</th><th>Popis</th><th>Platí pro</th><th></th></tr></thead><tbody id="custRows"></tbody></table></div>
+    </div>
+  </section>
 
   <footer>eldee · objednávky · 2026-06 · data v prohlížeči (localStorage)</footer>
 </div>
@@ -384,6 +418,54 @@ function renderChains(){
   if($('chSum')) $('chSum').textContent = chains.length ? chains.length+' šablon' : '';
 }
 
+// ───────── SVÁTKY & VOLNO
+function renderOurVac(){
+  if(!$('ourVacList')) return;
+  $('ourVacList').innerHTML = (ourVacation.ranges||[]).map((v,i)=>`<div class="vacrow" data-ovi="${i}">
+    <input data-ovk="label" value="${esc(v.label)}" placeholder="popis (letní, vánoční…)">
+    <label class="vlab">od<input data-ovk="from" type="date" value="${esc(v.from)}"></label>
+    <label class="vlab">do<input data-ovk="to" type="date" value="${esc(v.to)}"></label>
+    <label class="vlab vchk"><input data-ovk="yearly" type="checkbox" ${v.yearly?'checked':''}> opakovat každý rok</label>
+    <button class="del" data-ourvacdel="${i}" title="Smazat období">🗑</button>
+  </div>`).join('') || '<div class="hint" style="padding:4px 0">Zatím žádné volno.</div>';
+}
+function renderHolidays(){
+  const dn=['ne','po','út','st','čt','pá','so'];
+  if($('holRows')){
+    const country=($('holCountry')&&$('holCountry').value)||'CZ', year=+($('holYear')&&$('holYear').value)||2026;
+    const list=[...holidaysFor(country,year)].sort();
+    $('holRows').innerHTML=list.map(d=>{ const dt=new Date(d+'T00:00:00'); return `<tr><td>${dt.toLocaleDateString('cs-CZ')}</td><td>${dn[dt.getDay()]}</td></tr>`; }).join('')||'<tr><td colspan="2" class="empty">—</td></tr>';
+  }
+  if($('custRows')){
+    $('custRows').innerHTML=customHolidays.map((h,i)=>`<tr><td>${h.date}</td><td>${escT(h.name)}</td><td>${h.country==='*'?'všechny':countryName(h.country)}</td><td><button class="del" data-custdel="${i}" title="Smazat">🗑</button></td></tr>`).join('')||'<tr><td colspan="4" class="empty">Žádné vlastní volno.</td></tr>';
+  }
+}
+
+// ───────── KALKULAČKA TERMÍNŮ
+function chainForProduct(pid){ return chains.find(c=>(c.productIds||[]).includes(pid)) || null; }
+function renderCalc(){ const sel=$('calcProduct'); if(sel && !sel.dataset.built){ sel.innerHTML=PRODUCTS.map(p=>`<option value="${p.id}">${p.name}</option>`).join(''); sel.dataset.built='1'; } }
+function stepTable(steps, fmtD, dn){
+  return `<div class="gridwrap"><table class="grid"><thead><tr><th>#</th><th>Krok</th><th>Dodavatel</th><th>Od</th><th>Do</th><th style="text-align:right">Dní</th><th>Typ</th></tr></thead><tbody>`
+    + steps.map((s,i)=>`<tr><td>${i+1}</td><td style="font-weight:600">${escT(s.name)||'—'}</td><td>${escT(s.supplier)}</td><td>${fmtD(s.from)} ${dn[s.from.getDay()]}</td><td>${fmtD(s.to)} ${dn[s.to.getDay()]}</td><td style="text-align:right">${s.days}</td><td><span class="pill">${s.dayType==='cal'?'kalendářní':'pracovní'}</span></td></tr>`).join('')
+    + '</tbody></table></div>';
+}
+function runCalc(){
+  const out=$('calcOut'); if(!out) return;
+  const pid=$('calcProduct').value, mode=$('calcMode').value, dateStr=$('calcDate').value;
+  if(!dateStr){ out.innerHTML='<span class="hint">Zadej datum.</span>'; return; }
+  const chain=chainForProduct(pid);
+  if(!chain || !(chain.steps||[]).length){ out.innerHTML='<span class="hint">Produkt nemá přiřazenou výrobní šablonu (s kroky). Přiřaď ji v záložce 🏭 Výrobní šablony.</span>'; return; }
+  const date=new Date(dateStr+'T00:00:00');
+  const fmtD=d=>d.toLocaleDateString('cs-CZ'); const dn=['ne','po','út','st','čt','pá','so'];
+  if(mode==='fwd'){
+    const r=calcChainForward(chain,date);
+    out.innerHTML=`<div style="margin-bottom:10px;font-size:14px">Objednáš <strong>${fmtD(date)}</strong> → dorazí <strong style="color:var(--gold)">${fmtD(r.end)}</strong> (${dn[r.end.getDay()]}).</div>`+stepTable(r.steps,fmtD,dn);
+  } else {
+    const r=calcChainBackward(chain,date);
+    out.innerHTML=`<div style="margin-bottom:10px;font-size:14px">Chceš mít <strong>${fmtD(date)}</strong> → objednej nejpozději <strong style="color:var(--gold)">${fmtD(r.start)}</strong> (${dn[r.start.getDay()]}).</div>`+stepTable(r.steps,fmtD,dn);
+  }
+}
+
 // ───────── TABY
 document.addEventListener('click', e=>{
   const t=e.target;
@@ -394,7 +476,14 @@ document.addEventListener('click', e=>{
 });
 
 // ───────── render
-function refreshAll(){ renderSuppliers(); if(typeof renderChains==='function') renderChains(); if(typeof renderHolidays==='function') renderHolidays(); if(typeof renderCalc==='function') renderCalc(); }
+function refreshAll(){ renderSuppliers(); renderChains(); renderOurVac(); renderHolidays(); renderCalc(); }
+function applyOurVac(t){
+  if(!t.dataset.ovk) return false;
+  const r=t.closest && t.closest('[data-ovi]'); if(!r) return false;
+  const v=ourVacation.ranges[+r.dataset.ovi]; if(!v) return false;
+  if(t.dataset.ovk==='yearly') v.yearly=t.checked; else v[t.dataset.ovk]=t.value;
+  saveData(); return true;
+}
 
 // ───────── HANDLERY
 document.addEventListener('input', e=>{
@@ -413,6 +502,7 @@ document.addEventListener('input', e=>{
     return;
   }
   if(applyVacField(t)) return;
+  if(applyOurVac(t)){ renderCalc(); return; }
   if(t.dataset.chfk && chDraft){ chDraft.name=t.value; return; }
   if(applyStepField(t)){ if(typeof renderCalc==='function') renderCalc(); return; }
 });
@@ -455,6 +545,8 @@ document.addEventListener('change', e=>{
     else chDraft.productIds=chDraft.productIds.filter(x=>x!==pid);
     return;
   }
+  if(applyOurVac(t)) return;
+  if(t.id==='holCountry'||t.id==='holYear'){ renderHolidays(); return; }
 });
 document.addEventListener('click', e=>{
   const t=e.target;
@@ -505,6 +597,15 @@ document.addEventListener('click', e=>{
   if(t.dataset && t.dataset.chdel!=null){ if(confirm('Smazat šablonu?')){ chains=chains.filter(x=>x.id!==+t.dataset.chdel); saveData(); renderChains(); if(typeof renderCalc==='function') renderCalc(); } return; }
   const cer = t.closest && t.closest('[data-chedit]');
   if(cer){ const id=+cer.dataset.chedit; const c=chains.find(x=>x.id===id); if(c){ chEditId=id; chDraft=JSON.parse(JSON.stringify(c)); renderChains(); } return; }
+
+  // ── svátky & volno
+  if(t.id==='ourVacAdd'){ ourVacation.ranges.push(blankVacation()); saveData(); renderOurVac(); return; }
+  if(t.dataset && t.dataset.ourvacdel!=null){ ourVacation.ranges.splice(+t.dataset.ourvacdel,1); saveData(); renderOurVac(); renderCalc(); return; }
+  if(t.id==='custAdd'){ const d=$('custDate').value; if(!d){ alert('Vyber datum.'); return; } customHolidays.push({ date:d, name:$('custName').value||'volno', country:$('custCountry').value||'*' }); $('custName').value=''; saveData(); renderHolidays(); return; }
+  if(t.dataset && t.dataset.custdel!=null){ customHolidays.splice(+t.dataset.custdel,1); saveData(); renderHolidays(); return; }
+
+  // ── kalkulačka
+  if(t.id==='calcRun'){ runCalc(); return; }
 });
 
 // klik do pole data spolehlivě otevře kalendář

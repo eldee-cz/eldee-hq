@@ -315,6 +315,39 @@
     </div>
   </section>
 
+  <!-- ===== HISTORIE PRODEJŮ ===== -->
+  <section class="sec" id="sec-prodeje">
+    <div class="panel">
+      <div class="panel-head">
+        <h2>🧾 Historie prodejů</h2>
+        <span class="grow"></span>
+        <span class="sum" id="saleHistSum"></span>
+      </div>
+      <div class="filters">
+        <input type="text" id="phSearch" placeholder="Hledat (výdejka, datum, produkt, SKU, poznámka…)" style="min-width:280px">
+        <select id="phReason"><option value="">Důvod: vše</option></select>
+      </div>
+      <div class="gridwrap">
+        <table class="grid">
+          <thead><tr>
+            <th style="width:40px"></th>
+            <th style="width:110px">Výdejka</th>
+            <th style="width:150px">Datum</th>
+            <th style="width:120px">Důvod</th>
+            <th style="width:180px">Poznámka</th>
+            <th style="width:70px;text-align:right">Položek</th>
+            <th style="width:70px;text-align:right">Ks</th>
+            <th style="width:110px;text-align:right">Tržba</th>
+          </tr></thead>
+          <tbody id="saleHistRows"></tbody>
+        </table>
+      </div>
+      <div class="panel-foot">
+        <span class="hint">Každá výdejka = uzavřený výdej (doklad VY). Klikni na <strong>▸</strong> pro rozbalení položek. Tržba se počítá jen z řádků s důvodem <strong>Prodej</strong>.</span>
+      </div>
+    </div>
+  </section>
+
   <!-- ===== ZÁLOHA ===== -->
   <section class="sec" id="sec-zaloha">
     <div class="panel">
@@ -787,9 +820,58 @@ function buildFilters(){
   $('fFeat').innerHTML = '<option value="">Provedení: vše</option>' + ALL8.map(f=>`<option value="${featKey(f)}">${featText(f)}</option>`).join('');
   $('sColor').innerHTML = '<option value="">Barva: vše</option>' + colorOpts;
   $('sProd').innerHTML = '<option value="">Produkt: vše</option>' + prodOpts;
+  if($('phReason')) $('phReason').innerHTML = '<option value="">Důvod: vše</option>' + REASONS.map(r=>`<option value="${r.id}">${r.name}</option>`).join('');
 }
 
-function renderSalesHistory(){}   // plná verze v Tasku 4
+// ───────── HISTORIE PRODEJŮ
+function reasonSummary(lines){
+  const set = [...new Set(lines.map(l=>l.reason||'prodej'))];
+  return set.length===1 ? REASON_NAME(set[0]) : 'smíšený';
+}
+function renderSalesHistory(){
+  if(!issues.length){ $('saleHistRows').innerHTML='<tr><td colspan="8" class="empty">Zatím žádná výdejka. Udělej výdej v 🛒 Prodej/výdej a klikni „Uzavřít výdej".</td></tr>'; if($('saleHistSum')) $('saleHistSum').innerHTML=''; return; }
+  const fs = (($('phSearch')&&$('phSearch').value)||'').trim().toLowerCase();
+  const fr = $('phReason') && $('phReason').value;
+  const list = issues.filter(r=>{
+    if(fr && !r.lines.some(l=>(l.reason||'prodej')===fr)) return false;
+    if(fs){
+      const hay = ('VY-'+String(r.n).padStart(4,'0')+' '+fmtDate(r.created)+' '+(r.created||'')+' '+(r.note||'')+' '
+        + r.lines.map(l=>prodDef(l.product).name+' '+l.color+' '+featText(l.feat)+' '+l.size+' '+skuOf(l.product,l.color,l.feat,l.size)+' '+REASON_NAME(l.reason)).join(' ')).toLowerCase();
+      if(!hay.includes(fs)) return false;
+    }
+    return true;
+  });
+  $('saleHistRows').innerHTML = list.map(r=>{
+    const ks = r.lines.reduce((s,l)=>s+(+l.qty||0),0);
+    const trz = r.lines.reduce((s,l)=>s+saleTotal(l),0);
+    const head = `<tr class="srow" data-sid="${r.n}" style="cursor:pointer">
+      <td class="center"><span class="sexp" data-sid="${r.n}" style="color:var(--gold);font-weight:700">▸</span></td>
+      <td style="padding:0 10px;font-family:ui-monospace,monospace;color:var(--gold);font-weight:700">VY-${String(r.n).padStart(4,'0')}</td>
+      <td style="padding:0 10px">${fmtDate(r.created)}</td>
+      <td style="padding:0 10px">${reasonSummary(r.lines)}</td>
+      <td style="padding:0 10px;color:var(--muted)">${r.note||'—'}</td>
+      <td class="cnum">${r.lines.length}</td>
+      <td class="cnum">${ks}</td>
+      <td class="calc">${trz>0?fmt(trz,' Kč'):'—'}</td>
+    </tr>`;
+    const det = `<tr class="sdet" data-sid="${r.n}" style="display:none"><td></td><td colspan="7" style="padding:8px 10px;background:var(--ink)">
+      <table class="grid" style="min-width:0"><thead><tr><th>Produkt</th><th>Barva</th><th>Provedení</th><th>Vel.</th><th>SKU</th><th>Důvod</th><th style="text-align:right">Ks</th><th style="text-align:right">Cena/ks</th><th style="text-align:right">Tržba</th></tr></thead>
+      <tbody>${r.lines.map(l=>`<tr>
+        <td style="padding:0 10px;font-weight:600">${prodDef(l.product).name}</td>
+        <td style="padding:0 10px">${l.color}</td>
+        <td style="padding:0 10px">${featText(l.feat)}</td>
+        <td style="padding:0 10px">${l.size}</td>
+        <td class="skucell">${skuOf(l.product,l.color,l.feat,l.size)}</td>
+        <td style="padding:0 10px">${REASON_NAME(l.reason)}</td>
+        <td class="cnum">${l.qty}</td>
+        <td class="cnum">${isProdej(l.reason)?fmt(l.price,' Kč'):'—'}</td>
+        <td class="cnum" style="color:var(--gold)">${isProdej(l.reason)?fmt(saleTotal(l),' Kč'):'—'}</td>
+      </tr>`).join('')}</tbody></table>
+    </td></tr>`;
+    return head+det;
+  }).join('') || '<tr><td colspan="8" class="empty">Žádná výdejka neodpovídá filtru.</td></tr>';
+  if($('saleHistSum')) $('saleHistSum').innerHTML = `<strong>${list.length}</strong>${list.length!==issues.length?' / '+issues.length:''} výdejek`;
+}
 function refreshAll(){ recalcInvoices(); recalcSales(); renderStock(); renderCards(); renderHistory(); renderSalesHistory(); recalcKPI(); }
 
 // ───────── EVENTS
@@ -800,6 +882,7 @@ document.addEventListener('input', e=>{
   if(['fColor','fProd','fFeat','fSearch','fStock','fLow','lowLevel'].includes(t.id)){ renderCards(); if(t.id==='lowLevel') renderStock(); return; }
   if(['sColor','sProd','sSearch'].includes(t.id)){ renderStock(); return; }
   if(['hSearch','hPaid'].includes(t.id)){ renderHistory(); return; }
+  if(['phSearch','phReason'].includes(t.id)){ renderSalesHistory(); return; }
   if(t.dataset.ini!=null){
     const inv=invoices[+t.dataset.ini], k=t.dataset.ink;
     if(k==='paid') inv.paid=t.checked;
@@ -855,6 +938,13 @@ document.addEventListener('click', e=>{
   if(hrow && t.type!=='checkbox' && !(t.classList&&t.classList.contains('paidchk'))){
     const rid=hrow.dataset.rid; const det=document.querySelector('tr.hdet[data-rid="'+rid+'"]');
     if(det){ const open=det.style.display!=='none'; det.style.display=open?'none':'table-row'; const ex=hrow.querySelector('.exp'); if(ex) ex.textContent=open?'▸':'▾'; }
+    return;
+  }
+  // rozbalení položek výdejky v historii prodejů
+  const srow = t.closest && t.closest('tr.srow');
+  if(srow){
+    const sid=srow.dataset.sid; const det=document.querySelector('tr.sdet[data-sid="'+sid+'"]');
+    if(det){ const open=det.style.display!=='none'; det.style.display=open?'none':'table-row'; const ex=srow.querySelector('.sexp'); if(ex) ex.textContent=open?'▸':'▾'; }
     return;
   }
   if(t.id==='invAdd'){ invoices.push(emptyLine()); buildInvoices(); refreshAll(); saveData(); }

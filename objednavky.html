@@ -72,13 +72,16 @@
   </div>
 
   <div class="tabs" id="tabs">
-    <button data-sec="nova" class="on">🧮 Nová objednávka</button>
+    <button data-sec="objednavky" class="on">📦 Objednávky</button>
+    <button data-sec="nova">🧮 Kalkulačka termínů</button>
     <button data-sec="dodavatele">👥 Dodavatelé</button>
     <button data-sec="sablony">🏭 Výrobní šablony</button>
     <button data-sec="svatky">🗓️ Svátky &amp; volno</button>
   </div>
 
-  <section class="sec on" id="sec-nova">
+  <section class="sec on" id="sec-objednavky"><div class="panel"><div class="panel-body"><span class="hint">Objednávky — doplní se v Tasku 2.</span></div></div></section>
+
+  <section class="sec" id="sec-nova">
     <div class="panel">
       <div class="panel-head"><h2>🧮 Plánování objednávky — kdy dorazí / kdy objednat</h2></div>
       <div class="panel-body" style="display:flex;gap:14px;flex-wrap:wrap;align-items:flex-end">
@@ -145,20 +148,37 @@
   <footer>eldee · objednávky · 2026-06 · data v prohlížeči (localStorage)</footer>
 </div>
 <script>
-// ───────── ČÍSELNÍKY
+// ───────── VARIANTNÍ ČÍSELNÍK (sdílený se skladem — SKU musí sedět 1:1)
+const ALL8 = [[],['grip'],['kapsa'],['dira'],['grip','kapsa'],['grip','dira'],['kapsa','dira'],['grip','kapsa','dira']];
+const TUBE_FEAT = [[],['kapsa'],['dira'],['kapsa','dira']];
+const SOCK_SIZES = ['S','M','L','XL'];
+const TUBE_SIZES = ['S','M','L'];
+const SIZE_EU = { S:'35-38', M:'39-42', L:'43-46', XL:'47-50' };
 const PRODUCTS = [
-  { id:'navlek',  name:'Návlek/tunel' },
-  { id:'ponozka', name:'Tréninková ponožka' },
-  { id:'nizka',   name:'Nízká štulpna' },
-  { id:'vysoka',  name:'Vysoká štulpna' },
-  { id:'bundle',  name:'Set' },
+  { id:'navlek',  name:'Návlek/tunel',        code:'NAV', feat:TUBE_FEAT, sizes:TUBE_SIZES },
+  { id:'ponozka', name:'Tréninková ponožka',  code:'PON', feat:ALL8,      sizes:SOCK_SIZES },
+  { id:'nizka',   name:'Nízká štulpna',       code:'NIZ', feat:ALL8,      sizes:SOCK_SIZES },
+  { id:'vysoka',  name:'Vysoká štulpna',      code:'VYS', feat:ALL8,      sizes:SOCK_SIZES },
+  { id:'bundle',  name:'Set',                 code:'BND', feat:ALL8,      sizes:SOCK_SIZES },
 ];
+let COLORS = [ {name:'Bílá'}, {name:'Černá'} ];
+const FL = { grip:'Grip', kapsa:'Kapsa', dira:'Díra' };
+const FC = { grip:'G', kapsa:'K', dira:'D' };
+const FEAT_ORDER = ['grip','kapsa','dira'];
+const noDia = s => (s||'').normalize('NFD').split('').filter(c=>{const n=c.charCodeAt(0);return n<768||n>879;}).join('');
+const colorCode = name => (noDia(name).substring(0,3).toUpperCase())||'XXX';
+const featNorm = a => FEAT_ORDER.filter(f=>(a||[]).includes(f));
+const featKey = a => (a||[]).slice().sort().join(',');
+const featText = a => { const n=featNorm(a); return n.length ? n.map(f=>FL[f]).join('+') : 'Základní'; };
+const featCode = a => { const n=featNorm(a); return n.length ? n.map(f=>FC[f]).join('') : '0'; };
+const prodDef = id => PRODUCTS.find(p=>p.id===id) || PRODUCTS[0];
+const prodName = id => prodDef(id).name;
+const skuOf = (prodId,color,feat,size) => `${prodDef(prodId).code}-${colorCode(color)}-${featCode(feat)}-${size}`;
 const COUNTRIES = [
   { code:'CZ', name:'Česko' }, { code:'SK', name:'Slovensko' },
   { code:'PL', name:'Polsko' }, { code:'DE', name:'Německo' },
 ];
 const $ = id => document.getElementById(id);
-const prodName = id => (PRODUCTS.find(p=>p.id===id)||{}).name || id;
 const countryName = c => (COUNTRIES.find(x=>x.code===c)||{}).name || c;
 
 // ───────── DATA
@@ -169,11 +189,13 @@ let ourVacation = { ranges:[] };   // [{from,to,label,yearly}]
 let customHolidays = [];    // {country:'CZ'|'*', date:'YYYY-MM-DD', name}
 let stepTypes = ['Pletení','Doprava','Výšivka','Šití','Kompletace','Balení'];   // číselník typů kroků (sjednocený)
 let settings = { defaultCountry:'CZ' };
+let orders = [];     // {id,supplierId,status,created,ordered,eta,received,note,items:[{product,color,feat,size,qty,price}]}
+let orderSeq = 0;
 function nextId(arr){ return (arr.reduce((m,x)=>Math.max(m, x.id||0), 0)) + 1; }
 function download(blob,name){ const u=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=u; a.download=name; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(u); }
 let savedTimer;
 function saveData(){
-  localStorage.setItem(LS_KEY, JSON.stringify({ suppliers, chains, ourVacation, customHolidays, stepTypes, settings, updated:new Date().toISOString() }));
+  localStorage.setItem(LS_KEY, JSON.stringify({ suppliers, chains, ourVacation, customHolidays, stepTypes, settings, orders, orderSeq, updated:new Date().toISOString() }));
   const el=$('savedNote'); if(el){ el.classList.add('show'); clearTimeout(savedTimer); savedTimer=setTimeout(()=>el.classList.remove('show'),1400); }
 }
 function loadData(){
@@ -185,8 +207,14 @@ function loadData(){
     if(Array.isArray(d.customHolidays)) customHolidays=d.customHolidays;
     if(Array.isArray(d.stepTypes) && d.stepTypes.length) stepTypes=d.stepTypes;
     if(d.settings && typeof d.settings==='object') settings=Object.assign(settings,d.settings);
+    if(Array.isArray(d.orders)) orders=d.orders;
+    if(typeof d.orderSeq==='number') orderSeq=d.orderSeq;
   }catch(e){}
 }
+// čtení skladu (sdílený localStorage eldeeData) — barvy, stav, zápis příjemky
+function loadStock(){ try{ return JSON.parse(localStorage.getItem('eldeeData')||'{}'); }catch(e){ return {}; } }
+function syncColorsFromStock(){ const sd=loadStock(); if(Array.isArray(sd.colorsList)&&sd.colorsList.length) COLORS=sd.colorsList.map(n=>({name:n})); }
+function stockQty(sku){ const sd=loadStock(); return (sd.cardStock&&sd.cardStock[sku])||0; }
 
 // ───────── VÝPOČETNÍ JÁDRO
 function fmtISO(d){ const z=n=>String(n).padStart(2,'0'); return d.getFullYear()+'-'+z(d.getMonth()+1)+'-'+z(d.getDate()); }
@@ -622,7 +650,7 @@ document.addEventListener('click', e=>{
   // ── záloha
   if(t.id==='bkBtn'){ download(new Blob([localStorage.getItem(LS_KEY)||'{}'],{type:'application/json'}),'eldee-objednavky-zaloha.json'); return; }
   if(t.id==='rsBtn'){ $('rsFile').click(); return; }
-  if(t.id==='zeroBtn'){ if(confirm('Vynulovat všechna data objednávek (dodavatelé, šablony, svátky)?\nAkce je nevratná — udělej si nejdřív zálohu.')){ suppliers=[]; chains=[]; ourVacation={ranges:[]}; customHolidays=[]; stepTypes=['Pletení','Doprava','Výšivka','Šití','Kompletace','Balení']; settings={defaultCountry:'CZ'}; saveData(); refreshAll(); alert('Vynulováno.'); } return; }
+  if(t.id==='zeroBtn'){ if(confirm('Vynulovat všechna data objednávek (dodavatelé, šablony, svátky, objednávky)?\nAkce je nevratná — udělej si nejdřív zálohu.')){ suppliers=[]; chains=[]; ourVacation={ranges:[]}; customHolidays=[]; stepTypes=['Pletení','Doprava','Výšivka','Šití','Kompletace','Balení']; settings={defaultCountry:'CZ'}; orders=[]; orderSeq=0; saveData(); refreshAll(); alert('Vynulováno.'); } return; }
 });
 
 // klik do pole data spolehlivě otevře kalendář
@@ -633,6 +661,7 @@ document.addEventListener('change', e=>{ if(e.target.id!=='rsFile') return; cons
 // ───────── START
 loadData();
 migrSuppliers();
+syncColorsFromStock();
 refreshAll();
 </script>
 </body>

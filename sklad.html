@@ -256,10 +256,12 @@
       <div class="gridwrap">
         <table class="grid">
           <thead><tr>
+            <th style="width:46px;text-align:right">#</th>
             <th style="width:150px">Produkt</th>
             <th style="width:100px">Barva</th>
             <th style="width:130px">Provedení</th>
             <th style="width:84px">Velikost</th>
+            <th style="width:130px">SKU</th>
             <th style="width:74px;text-align:right">Skladem</th>
             <th style="width:70px">Ks</th>
             <th style="width:120px">Důvod</th>
@@ -594,6 +596,7 @@ function recalcInvoices(){
 // ───────── PRODEJ / VÝDEJ
 const saleSku = l => skuOf(l.product, l.color, l.feat, l.size);
 const stockOf = l => cardStock[saleSku(l)] || 0;
+const cardNumOf = sku => { const c = CARDS.find(x=>x.sku===sku); return c ? c.n : null; };
 const saleHasGoods = l => l.product && l.color && l.size && (+l.qty||0)>0;
 const saleOverstock = l => saleHasGoods(l) && (+l.qty||0) > stockOf(l);
 
@@ -608,10 +611,12 @@ function buildSales(){
     const prodej = isProdej(l.reason);
     return `
     <tr>
+      <td class="cnum" id="scard-${i}">—</td>
       <td><select class="cell" data-sni="${i}" data-snk="product">${prodOpts}</select></td>
       <td><select class="cell" data-sni="${i}" data-snk="color">${colorOpts}</select></td>
       <td><select class="cell" data-sni="${i}" data-snk="feat">${featOpts}</select></td>
       <td><select class="cell" data-sni="${i}" data-snk="size">${sizeOpts}</select></td>
+      <td class="skucell" id="ssku-${i}">—</td>
       <td class="stockcell" id="sstock-${i}">—</td>
       <td><input class="cell num" type="number" data-sni="${i}" data-snk="qty" value="${l.qty}" step="1" min="0"></td>
       <td><select class="cell" data-sni="${i}" data-snk="reason">${reasonOpts}</select></td>
@@ -627,6 +632,10 @@ function recalcSales(){
   sales.forEach((l,i)=>{
     const stock = stockOf(l);
     const over = saleOverstock(l);
+    const sku = saleSku(l);
+    const complete = l.product && l.color && l.size;
+    const cn = $('scard-'+i); if(cn) cn.textContent = complete ? (cardNumOf(sku) ?? '—') : '—';
+    const sk = $('ssku-'+i); if(sk) sk.textContent = complete ? sku : '—';
     const st = $('sstock-'+i);
     if(st){ st.textContent = stock; st.classList.toggle('bad', over); }
     const trz = saleTotal(l);

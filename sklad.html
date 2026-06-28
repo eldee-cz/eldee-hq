@@ -668,6 +668,26 @@ function finalizeReceipt(){
   alert(`Příjemka PR-${String(r.n).padStart(4,'0')} uzavřena.\n+${ks} ks do skladu, doklad uložen do 📜 Historie příjmů.`);
 }
 
+// ───────── UZAVŘENÍ VÝDEJE → odečet ze skladu + doklad do historie prodejů
+function finalizeIssue(){
+  const lines = sales.filter(saleHasGoods);
+  if(!lines.length){ alert('Není co vydat — vyplň aspoň jeden řádek (produkt, barva, velikost, ks > 0).'); return; }
+  const over = lines.filter(saleOverstock);
+  if(over.length){ alert('Některé řádky překračují sklad — výdej nelze uzavřít. Sniž počet kusů (červené pole), nebo nejdřív naskladni.'); return; }
+  lines.forEach(l=>{ const sku=saleSku(l); cardStock[sku]=(cardStock[sku]||0)-(+l.qty||0); if(cardStock[sku]<0) cardStock[sku]=0; });
+  lines.forEach(l=>{ if(isProdej(l.reason) && (+l.price||0)>0) lastSalePrice[saleSku(l)] = +l.price; });
+  const note = ($('saleNote') && $('saleNote').value) || '';
+  const r = makeIssue(lines, note);
+  issues.unshift(r);
+  const ks = lines.reduce((s,l)=>s+(+l.qty||0),0);
+  const trz = lines.reduce((s,l)=>s+saleTotal(l),0);
+  sales = sales.filter(x=>!saleHasGoods(x));
+  if(!sales.length) sales = [ emptySaleLine() ];
+  if($('saleNote')) $('saleNote').value = '';
+  saveData(); buildSales(); refreshAll();
+  alert(`Výdejka VY-${String(r.n).padStart(4,'0')} uzavřena.\n−${ks} ks ze skladu${trz>0?`, tržba ${fmt(trz,' Kč')}`:''}. Doklad v 🧾 Historii prodejů.`);
+}
+
 // ───────── HISTORIE PŘÍJMŮ
 function renderHistory(){
   if(!receipts.length){ $('histRows').innerHTML='<tr><td colspan="9" class="empty">Zatím žádná příjemka. Udělej příjem v 📦 Příjem zboží a klikni „Uzavřít příjemku".</td></tr>'; $('histSum').innerHTML=''; return; }
@@ -796,6 +816,27 @@ document.addEventListener('input', e=>{
     else inv[k]=t.value;
     refreshAll(); saveData();
   }
+  if(t.dataset.sni!=null){
+    const l=sales[+t.dataset.sni], k=t.dataset.snk;
+    if(k==='qty'||k==='price') l[k]=+t.value||0;
+    else if(k==='feat') l.feat = t.value?t.value.split(','):[];
+    else if(k==='reason'){ l.reason=t.value; buildSales(); }
+    else if(k==='product'){ l.product=t.value; const p=prodDef(t.value);
+      if(!p.feat.some(f=>featKey(f)===featKey(l.feat))) l.feat=[];
+      if(!p.sizes.includes(l.size)) l.size=p.sizes[Math.min(1,p.sizes.length-1)];
+      buildSales(); }
+    else if(k==='color'){
+      if(t.value==='__new__'){ const nv=(prompt('Název nové barvy:')||'').trim(); if(nv&&!COLORS.some(c=>c.name===nv)) COLORS.push({name:nv}); l.color=nv||COLORS[0].name; CARDS=genCards(); buildFilters(); buildSales(); }
+      else l.color=t.value;
+    }
+    else l[k]=t.value;
+    // předvyplnění poslední prodejní ceny při změně varianty (jen prodej, jen když cena 0)
+    if(['product','color','feat','size'].includes(k) && isProdej(l.reason) && (+l.price||0)===0){
+      const lp = lastSalePrice[saleSku(l)]; if(lp){ l.price = lp; buildSales(); }
+    }
+    refreshAll(); saveData();
+    return;
+  }
 });
 document.addEventListener('change', e=>{
   const t=e.target;
@@ -817,6 +858,9 @@ document.addEventListener('click', e=>{
     return;
   }
   if(t.id==='invAdd'){ invoices.push(emptyLine()); buildInvoices(); refreshAll(); saveData(); }
+  else if(t.id==='saleAdd'){ sales.push(emptySaleLine()); buildSales(); refreshAll(); saveData(); }
+  else if(t.id==='issueBtn'){ finalizeIssue(); }
+  else if(t.dataset.saledel!=null){ sales.splice(+t.dataset.saledel,1); if(!sales.length) sales=[emptySaleLine()]; buildSales(); refreshAll(); saveData(); }
   else if(t.id==='pumpBtn'){ finalizeReceipt(); }
   else if(t.id==='shoptetExport'){ shoptetExport(); }
   else if(t.id==='backupBtn'){ backup(); }

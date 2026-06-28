@@ -611,11 +611,15 @@ function itemRow(it,i){
 }
 function orderForm(d){
   const eta=etaForOrder(d, d.ordered||null);
+  const haveSkus=new Set((d.items||[]).map(it=>skuOf(it.product,it.color,it.feat,it.size)));
+  const sugMissing=buildSuggestions().filter(s=>!haveSkus.has(s.sku));
+  const sugBanner = sugMissing.length ? `<div style="background:var(--gold-dim);border:1px solid var(--gold);border-radius:8px;padding:10px 12px;margin-bottom:12px;font-size:13px">🔔 <strong>${sugMissing.length}</strong> ${sugMissing.length===1?'varianta je':'variant je'} pod hladinou a ${sugMissing.length===1?'není':'nejsou'} v této objednávce. <button class="btn" id="ordFillSug" style="margin-left:8px">+ Doplnit doporučené</button></div>` : '';
   return `<div class="supcard" data-ordform="1">
     <div class="supcard-head">
       <span class="supnum">${ordEditId==='new'?'NOVÁ':'ÚPRAVA'}</span>
       <select data-ofk="supplierId" class="supname" style="max-width:280px">${suppliers.map(s=>`<option value="${s.id}"${s.id===d.supplierId?' selected':''}>${escT(s.name)||'(bez jména)'}</option>`).join('')||'<option value="">— nejdřív přidej dodavatele —</option>'}</select>
     </div>
+    ${sugBanner}
     <div class="gridwrap"><table class="grid">
       <thead><tr><th>Produkt</th><th>Barva</th><th>Provedení</th><th>Vel.</th><th>SKU</th><th style="text-align:right">Sklad</th><th>Ks</th><th>Cena/ks</th><th style="text-align:right">Hodnota</th><th></th></tr></thead>
       <tbody>${(d.items||[]).map((it,i)=>itemRow(it,i)).join('')||'<tr><td colspan="10" class="empty">Bez položek.</td></tr>'}</tbody>
@@ -985,6 +989,13 @@ document.addEventListener('click', e=>{
   if(t.id==='ordAdd'){ if(!suppliers.length){ alert('Nejdřív přidej aspoň jednoho dodavatele (záložka Dodavatelé).'); return; } ordEditId='new'; ordDraft=blankOrder(); renderOrders(); return; }
   if(t.id==='ordCancel'){ ordEditId=null; ordDraft=null; renderOrders(); return; }
   if(t.id==='itemAdd' && ordDraft){ ordDraft.items.push(blankItem()); renderOrders(); return; }
+  if(t.id==='ordFillSug' && ordDraft){
+    const have=new Set((ordDraft.items||[]).map(it=>skuOf(it.product,it.color,it.feat,it.size)));
+    ordDraft.items=(ordDraft.items||[]).filter(itemValid);   // zahoď prázdný řádek
+    buildSuggestions().forEach(s=>{ if(!have.has(s.sku)) ordDraft.items.push({ product:s.variant.product, color:s.variant.color, feat:s.variant.feat.slice(), size:s.variant.size, qty:(s.tip?s.tip.minQty:s.need), price:0 }); });
+    if(!ordDraft.items.length) ordDraft.items=[blankItem()];
+    renderOrders(); return;
+  }
   if(t.dataset && t.dataset.itemdel!=null && ordDraft){ ordDraft.items.splice(+t.dataset.itemdel,1); if(!ordDraft.items.length) ordDraft.items=[blankItem()]; renderOrders(); return; }
   if(t.id==='ordSaveDraft'){ saveOrder(); return; }
   if(t.id==='ordPlace'){

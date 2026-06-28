@@ -49,6 +49,7 @@
   .supgrid{ display:grid; grid-template-columns:repeat(4,1fr); gap:10px 12px; }
   .supgrid .fld.span2{ grid-column:span 2; }
   .supgrid input{ width:100%; }
+  tr.suprow:hover td{ background:rgba(201,162,39,.06); }
   @media (max-width:880px){ .supgrid{ grid-template-columns:repeat(2,1fr); } }
   @media (max-width:680px){ input,select,textarea{ font-size:16px; } .tabs button{ font-size:13px; padding:10px 13px; }
     .supgrid{ grid-template-columns:1fr; } .supgrid .fld.span2{ grid-column:span 1; } }
@@ -213,27 +214,49 @@ function calcChainBackward(chain, target){
 function parseWeeks(str){ return String(str||'').split(/[,\s]+/).map(s=>parseInt(s.replace(/\D/g,''),10)).filter(n=>n>=1&&n<=53); }
 function weeksToStr(arr){ return (arr||[]).map(w=>'W'+w).join(', '); }
 const esc = v => String(v==null?'':v).replace(/"/g,'&quot;');
+const escT = v => String(v==null?'':v).replace(/&/g,'&amp;').replace(/</g,'&lt;');
+let supEditId = null;   // null = tabulka; 'new' nebo id dodavatele = formulář
+let supDraft = null;    // rozpracovaná kopie ve formuláři (Zrušit ji zahodí)
+function blankSupplier(){ return { id:null, name:'', country:settings.defaultCountry, ico:'', address:'', phone:'', email:'', web:'', ltDays:0, vacationWeeks:[], note:'' }; }
+
+function supForm(d){
+  return `<div class="supcard" data-form="1">
+    <div class="supcard-head">
+      <span class="supnum">${supEditId==='new'?'NOVÝ':'ÚPRAVA'}</span>
+      <input data-fk="name" class="supname" value="${esc(d.name)}" placeholder="Jméno / název dodavatele">
+      <select data-fk="country" title="Země (řídí státní svátky)">${COUNTRIES.map(c=>`<option value="${c.code}"${c.code===d.country?' selected':''}>${c.name}</option>`).join('')}</select>
+    </div>
+    <div class="supgrid">
+      <label class="fld">IČO<input data-fk="ico" value="${esc(d.ico)}" placeholder="12345678"></label>
+      <label class="fld">Telefon<input data-fk="phone" value="${esc(d.phone)}" placeholder="+420…"></label>
+      <label class="fld">E-mail<input data-fk="email" type="email" value="${esc(d.email)}" placeholder="info@…"></label>
+      <label class="fld">Web<input data-fk="web" value="${esc(d.web)}" placeholder="https://…"></label>
+      <label class="fld span2">Adresa<input data-fk="address" value="${esc(d.address)}" placeholder="ulice, město, PSČ"></label>
+      <label class="fld">Lead time (dní)<input data-fk="ltDays" type="number" min="0" value="${d.ltDays||0}"></label>
+      <label class="fld">Dovolená (týdny)<input data-fk="vac" value="${weeksToStr(d.vacationWeeks)}" placeholder="28, 29"></label>
+      <label class="fld span2">Poznámka<input data-fk="note" value="${esc(d.note)}" placeholder="materiály, podmínky, kontakt na osobu…"></label>
+    </div>
+    <div class="panel-foot" style="border-top:none;padding:14px 0 0">
+      <button class="btn gold" id="supSave">💾 Uložit dodavatele</button>
+      <button class="btn ghost" id="supCancel">Zrušit</button>
+    </div>
+  </div>`;
+}
 function renderSuppliers(){
   if(!$('supList')) return;
-  $('supList').innerHTML = suppliers.map((s,i)=>`
-    <div class="supcard" data-sid="${s.id}">
-      <div class="supcard-head">
-        <span class="supnum">#${i+1}</span>
-        <input data-sk="name" class="supname" value="${esc(s.name)}" placeholder="Jméno / název dodavatele">
-        <select data-sk="country" title="Země (řídí státní svátky)">${COUNTRIES.map(c=>`<option value="${c.code}"${c.code===s.country?' selected':''}>${c.name}</option>`).join('')}</select>
-        <button class="del" data-supdel="${s.id}" title="Smazat dodavatele">🗑</button>
-      </div>
-      <div class="supgrid">
-        <label class="fld">IČO<input data-sk="ico" value="${esc(s.ico)}" placeholder="12345678"></label>
-        <label class="fld">Telefon<input data-sk="phone" value="${esc(s.phone)}" placeholder="+420…"></label>
-        <label class="fld">E-mail<input data-sk="email" type="email" value="${esc(s.email)}" placeholder="info@…"></label>
-        <label class="fld">Web<input data-sk="web" value="${esc(s.web)}" placeholder="https://…"></label>
-        <label class="fld span2">Adresa<input data-sk="address" value="${esc(s.address)}" placeholder="ulice, město, PSČ"></label>
-        <label class="fld">Lead time (dní)<input data-sk="ltDays" type="number" min="0" value="${s.ltDays||0}"></label>
-        <label class="fld">Dovolená (týdny)<input data-sk="vac" value="${weeksToStr(s.vacationWeeks)}" placeholder="28, 29"></label>
-        <label class="fld span2">Poznámka<input data-sk="note" value="${esc(s.note)}" placeholder="materiály, podmínky, kontakt na osobu…"></label>
-      </div>
-    </div>`).join('') || '<div class="empty">Zatím žádný dodavatel. Přidej přes „➕ Nový dodavatel".</div>';
+  if(supEditId!==null && supDraft){ $('supList').innerHTML = supForm(supDraft); $('supSum').textContent=''; return; }
+  $('supList').innerHTML = suppliers.length ? `<div class="gridwrap"><table class="grid">
+    <thead><tr><th>#</th><th>Jméno</th><th>Země</th><th style="text-align:right">LT</th><th>Dovolená</th><th>Telefon</th><th>E-mail</th><th style="text-align:right">Akce</th></tr></thead>
+    <tbody>${suppliers.map((s,i)=>`<tr class="suprow" data-edit="${s.id}" style="cursor:pointer">
+      <td>${i+1}</td>
+      <td style="font-weight:600">${escT(s.name)||'<span class="hint">(bez jména)</span>'}</td>
+      <td>${countryName(s.country)}</td>
+      <td style="text-align:right">${s.ltDays||0} dní</td>
+      <td>${weeksToStr(s.vacationWeeks)||'—'}</td>
+      <td>${escT(s.phone)||'—'}</td>
+      <td>${escT(s.email)||'—'}</td>
+      <td style="text-align:right;white-space:nowrap"><button class="del" data-edit="${s.id}" title="Upravit">✏️</button><button class="del" data-supdel="${s.id}" title="Smazat">🗑</button></td>
+    </tr>`).join('')}</tbody></table></div>` : '<div class="empty">Zatím žádný dodavatel. Přidej přes „➕ Nový dodavatel".</div>';
   $('supSum').textContent = suppliers.length ? suppliers.length+' dodavatelů' : '';
 }
 
@@ -252,39 +275,43 @@ function refreshAll(){ renderSuppliers(); if(typeof renderChains==='function') r
 // ───────── HANDLERY
 document.addEventListener('input', e=>{
   const t=e.target;
-  const row=t.closest && t.closest('[data-sid]');
-  if(row && t.dataset.sk){
-    const s=suppliers.find(x=>x.id===+row.dataset.sid); if(!s) return;
-    const k=t.dataset.sk;
-    if(k==='ltDays') s.ltDays=+t.value||0;
-    else if(k==='vac') s.vacationWeeks=parseWeeks(t.value);
-    else if(k==='country') s.country=t.value;
-    else s[k]=t.value;   // name, ico, address, phone, email, web, note
-    saveData();
-    if(typeof renderCalc==='function') renderCalc();
+  if(t.dataset.fk && supDraft){
+    const k=t.dataset.fk;
+    if(k==='ltDays') supDraft.ltDays=+t.value||0;
+    else if(k==='vac') supDraft.vacationWeeks=parseWeeks(t.value);
+    else supDraft[k]=t.value;   // name, country, ico, address, phone, email, web, note
     return;
   }
 });
 document.addEventListener('change', e=>{
   const t=e.target;
-  if(t.dataset && t.dataset.sk==='country'){
-    const row=t.closest('[data-sid]'); const s=row && suppliers.find(x=>x.id===+row.dataset.sid);
-    if(s){ s.country=t.value; saveData(); }
-    return;
-  }
+  if(t.dataset && t.dataset.fk==='country' && supDraft){ supDraft.country=t.value; return; }
 });
 document.addEventListener('click', e=>{
   const t=e.target;
-  if(t.id==='supAdd'){ suppliers.push({ id:nextId(suppliers), name:'', country:settings.defaultCountry, ico:'', address:'', phone:'', email:'', web:'', ltDays:0, vacationWeeks:[], note:'' }); saveData(); renderSuppliers(); return; }
+  if(t.id==='supAdd'){ supEditId='new'; supDraft=blankSupplier(); renderSuppliers(); return; }
+  if(t.id==='supCancel'){ supEditId=null; supDraft=null; renderSuppliers(); return; }
+  if(t.id==='supSave'){
+    if(!supDraft) return;
+    if(!(supDraft.name||'').trim()){ alert('Vyplň aspoň jméno dodavatele.'); return; }
+    if(supEditId==='new'){ supDraft.id=nextId(suppliers); suppliers.push(supDraft); }
+    else { const idx=suppliers.findIndex(x=>x.id===supEditId); if(idx>=0) suppliers[idx]=supDraft; }
+    supEditId=null; supDraft=null; saveData(); renderSuppliers();
+    if(typeof renderChains==='function') renderChains();
+    if(typeof renderCalc==='function') renderCalc();
+    return;
+  }
   if(t.dataset && t.dataset.supdel!=null){
     const id=+t.dataset.supdel;
     const used = chains.some(c=>(c.steps||[]).some(st=>st.supplierId===id));
-    if(used && !confirm('Dodavatel je použit v některé výrobní šabloně. Opravdu smazat? V krocích zůstane „—".')) return;
+    if(!confirm('Smazat dodavatele?'+(used?'\n\nJe použit v některé výrobní šabloně — v krocích zůstane „—".':''))) return;
     suppliers=suppliers.filter(x=>x.id!==id);
     chains.forEach(c=>(c.steps||[]).forEach(st=>{ if(st.supplierId===id) st.supplierId=null; }));
     saveData(); renderSuppliers(); if(typeof renderChains==='function') renderChains();
     return;
   }
+  const er = t.closest && t.closest('[data-edit]');
+  if(er){ const id=+er.dataset.edit; const s=suppliers.find(x=>x.id===id); if(s){ supEditId=id; supDraft=JSON.parse(JSON.stringify(s)); renderSuppliers(); } return; }
 });
 
 // ───────── START

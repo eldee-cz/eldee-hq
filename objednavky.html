@@ -84,6 +84,11 @@
   </div>
 
   <section class="sec on" id="sec-objednavky">
+    <div class="panel" id="suggestPanel">
+      <div class="panel-head"><h2>🔔 Doporučujeme objednat</h2><span class="grow"></span><span class="sum" id="suggestSum"></span>
+        <button class="btn gold" id="suggestToDraft">📝 Vytvořit koncept z návrhů</button></div>
+      <div class="panel-body" id="suggestBody"></div>
+    </div>
     <div class="panel">
       <div class="panel-head"><h2>📦 Objednávky</h2><span class="grow"></span><span class="sum" id="ordSum"></span>
         <button class="btn gold" id="ordAdd">➕ Nová objednávka</button></div>
@@ -562,6 +567,16 @@ function buildSuggestions(){
   });
   return out;
 }
+function renderSuggestions(){
+  const body=$('suggestBody'); if(!body) return;
+  const sug=buildSuggestions();
+  const btn=$('suggestToDraft'); if(btn) btn.style.display = sug.length?'':'none';
+  if(!sug.length){ body.innerHTML='<div class="hint" style="padding:4px 0">✓ Vše nad hladinou — není co objednat.</div>'; if($('suggestSum'))$('suggestSum').textContent=''; return; }
+  body.innerHTML=`<div class="gridwrap"><table class="grid"><thead><tr><th>Varianta</th><th style="text-align:right">Sklad</th><th style="text-align:right">Na cestě</th><th style="text-align:right">Hladina/cíl</th><th style="text-align:right">Návrh ks</th><th>Tip ceník</th><th>Vydrží / objednej</th></tr></thead><tbody>`
+    + sug.map(s=>`<tr${s.urgent?' style="background:rgba(224,82,79,.08)"':''}><td>${escT(skuLabel(s.sku))}</td><td style="text-align:right">${s.stock}</td><td style="text-align:right">${s.transit}</td><td style="text-align:right">${s.min}/${s.target}</td><td style="text-align:right;font-weight:700;color:var(--gold)">${s.need}</td><td class="hint">${s.tip?`dorovnej na ${s.tip.minQty} ks (${s.tip.price}/ks)`:'—'}</td><td class="hint">${s.daysLeft!=null?`~${s.daysLeft} d${s.orderBy?' · do '+s.orderBy.toLocaleDateString('cs-CZ'):''}`:'—'}</td></tr>`).join('')
+    + '</tbody></table></div>';
+  if($('suggestSum')) $('suggestSum').textContent = sug.length+' k objednání';
+}
 function etaForOrder(o, fromISO){
   const from=new Date((fromISO||fmtISO(new Date()))+'T00:00:00');
   let latest=null;
@@ -959,6 +974,14 @@ document.addEventListener('click', e=>{
   if(t.dataset && t.dataset.custdel!=null){ customHolidays.splice(+t.dataset.custdel,1); saveData(); renderHolidays(); return; }
 
   // ── objednávky
+  if(t.id==='suggestToDraft'){
+    const sug=buildSuggestions(); if(!sug.length) return;
+    if(!suppliers.length){ alert('Nejdřív přidej aspoň jednoho dodavatele (záložka Dodavatelé).'); return; }
+    ordEditId='new';
+    ordDraft={ id:null, supplierId:(suppliers[0]&&suppliers[0].id)||null, status:'koncept', created:new Date().toISOString(), ordered:'', eta:'', received:'', note:'Z návrhu doplnění zásob', items: sug.map(s=>({ product:s.variant.product, color:s.variant.color, feat:s.variant.feat.slice(), size:s.variant.size, qty:(s.tip?s.tip.minQty:s.need), price:0 })) };
+    renderOrders(); window.scrollTo(0,0);
+    return;
+  }
   if(t.id==='ordAdd'){ if(!suppliers.length){ alert('Nejdřív přidej aspoň jednoho dodavatele (záložka Dodavatelé).'); return; } ordEditId='new'; ordDraft=blankOrder(); renderOrders(); return; }
   if(t.id==='ordCancel'){ ordEditId=null; ordDraft=null; renderOrders(); return; }
   if(t.id==='itemAdd' && ordDraft){ ordDraft.items.push(blankItem()); renderOrders(); return; }

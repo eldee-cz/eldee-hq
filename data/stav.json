@@ -1,6 +1,6 @@
 {
   "meta": {
-    "aktualizovano": "26. 6. 2026",
+    "aktualizovano": "28. 6. 2026",
     "pilulky": [
       {
         "label": "Brand book",
@@ -61,6 +61,12 @@
     }
   ],
   "timeline": [
+    {
+      "datum": "28. 6. 2026",
+      "minor": false,
+      "nadpis": "Sklad — Prodej/výdej spuštěn",
+      "text": "Sklad dostal druhou půlku příběhu: <strong>🛒 Prodej/výdej</strong>. Ruční výdej na výjimky (volný prodej, vzorek, dárek, reklamace, ztráta) s důvodem u řádku, cena jen u prodeje, <strong>blok přečerpání skladu</strong> (nic do minusu) a doklady <strong>VY</strong>. Nová záložka <strong>🧾 Historie prodejů</strong> (rozbalovací položky, filtr důvodu, tržba jen z prodeje). <strong>🔌 Příprava na Shoptet</strong>: tlačítko „Stáhnout data ze Shoptetu“ načte export objednávek, založí prodeje a odečte sklad — <strong>hlídá duplicity přes číslo objednávky</strong> (stejnou objednávku nezpracuje 2×). Sklad nikdy nejde pod nulu. <em>Data zatím jen v prohlížeči; testuje se cvičně.</em>"
+    },
     {
       "datum": "26. 6. 2026",
       "nadpis": "Sklad přestavěn (skladové karty + příjemky) + Finance kokpit",
@@ -200,7 +206,7 @@
       "text": "Sklad — další etapa (až bude Shoptet živý): odpis prodejů (sklad klesá), Shoptet API propsání stavů, analýzy „co se nejvíc prodává“",
       "stav": "fronta",
       "kdo": "Lukáš + Jarvis",
-      "pozn": "Teď sklad eviduje jen naskladnění, data v localStorage. Sdílení s Hledíkem zatím přes Zálohu. Plné cloud/heslování až s reálným prodejem.",
+      "pozn": "Odpis prodejů hotovo 28. 6. (ruční výdej + import objednávek). Zbývá živé Shoptet API + analytika.",
       "vzniklo": "2026-06-24",
       "hotovo": null,
       "priorita": "nizka",
@@ -485,14 +491,32 @@
     },
     {
       "id": "sklad-prodej-bestsellery",
-      "text": "Sklad: prodej/výdej + prodejní analytika (bestsellery) → napojit na Finance",
-      "stav": "fronta",
+      "text": "Sklad: prodej/výdej — ruční výdej (výjimky) + import objednávek ze Shoptetu s hlídáním duplicit + historie prodejů (doklady VY)",
+      "stav": "hotovo",
       "kdo": "Lukáš + Jarvis",
       "pozn": "Další fáze po skladových kartách + Finance kokpitu (26.6.). Přidat do Skladu prodej/výdej (odečítá stav): manuální výdej teď, import Shoptet CSV (párování přes SKU) až bude eshop živý. Pak prodejní analytika: bestsellery s rozpadem na prvky (díra v X % prodejů), sell-through, reorder, marže po variantě. Finance: záložka Kam jdou peníze pak doplnit o tržby/zisk. Zatím se Sklad+Finance testují lokálně, doladí za provozu.",
       "vzniklo": "2026-06-26",
-      "hotovo": null,
+      "hotovo": "28. 6. 2026",
       "priorita": "stredni",
       "poradi": 23
+    },
+    {
+      "id": "sklad-prodejni-analytika",
+      "stav": "fronta",
+      "priorita": "střední",
+      "kdo": "Doležal",
+      "vzniklo": "28. 6. 2026",
+      "text": "Sklad: prodejní analytika (bestsellery, sell-through, reorder, „díra v X % prodejů“) + napojit tržby/zisk do Finance „Kam jdou peníze“",
+      "pozn": ""
+    },
+    {
+      "id": "shoptet-automatizace",
+      "stav": "fronta",
+      "priorita": "střední",
+      "kdo": "Doležal",
+      "vzniklo": "28. 6. 2026",
+      "text": "Plná Shoptet automatizace: živé napojení (server/cloud) — real-time odečet objednávek + sync skladových stavů DO Shoptetu (nikdy nepřeprodat). Teď hotová příprava: import přes soubor + hlídání duplicit přes číslo objednávky",
+      "pozn": ""
     }
   ],
   "odkazy": [

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>eldee · objednávky</title>
+<style>
+  :root{ --ink:#08080A; --panel:#101013; --panel2:#16161B; --line:#26262e; --line2:#33333d;
+    --bone:#F2F2EE; --muted:#85858f; --gold:#C9A227; --gold-dim:rgba(201,162,39,.13);
+    --blood:#E0524F; --coach:#6fb3a0; --green:#4FAE84; }
+  *{ box-sizing:border-box; }
+  body{ margin:0; background:var(--ink); color:var(--bone); font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif; line-height:1.45; font-size:14px; }
+  .wrap{ max-width:1320px; margin:0 auto; padding:22px 22px 80px; }
+  .topbar{ display:flex; align-items:center; gap:14px; margin-bottom:16px; flex-wrap:wrap; }
+  .topbar .back{ color:var(--muted); text-decoration:none; font-size:13px; font-weight:600; }
+  .topbar .back:hover{ color:var(--bone); }
+  .brand{ font-size:20px; font-weight:900; letter-spacing:-0.4px; } .brand em{ color:var(--gold); font-style:normal; }
+  .spacer{ flex:1; } .saved{ font-size:11.5px; color:var(--coach); opacity:0; transition:opacity .3s; } .saved.show{ opacity:1; }
+  .tabs{ display:flex; gap:6px; margin-bottom:18px; flex-wrap:wrap; background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:5px; }
+  .tabs button{ background:transparent; border:none; color:var(--muted); font:inherit; font-weight:800; font-size:14px; padding:10px 18px; border-radius:8px; cursor:pointer; }
+  .tabs button.on{ background:var(--gold); color:#1a1400; }
+  .tabs button:hover:not(.on){ color:var(--bone); background:var(--panel2); }
+  .sec{ display:none; } .sec.on{ display:block; }
+  .panel{ background:var(--panel); border:1px solid var(--line); border-radius:13px; overflow:hidden; margin-bottom:18px; }
+  .panel-head{ display:flex; align-items:center; gap:12px; padding:13px 16px; border-bottom:1px solid var(--line); flex-wrap:wrap; }
+  .panel-head h2{ font-size:12px; margin:0; color:var(--gold); text-transform:uppercase; letter-spacing:1.3px; font-family:ui-monospace,monospace; font-weight:700; }
+  .panel-head .sum{ font-size:12px; color:var(--muted); } .grow{ flex:1; }
+  .panel-body{ padding:14px 16px; } .panel-foot{ display:flex; gap:10px; align-items:center; padding:11px 16px; border-top:1px solid var(--line); flex-wrap:wrap; }
+  .btn{ border-radius:8px; padding:8px 14px; font-size:12.5px; font-weight:700; cursor:pointer; border:1px solid var(--line2); background:var(--panel2); color:var(--bone); }
+  .btn:hover{ border-color:var(--gold); } .btn.gold{ background:var(--gold); color:#1a1400; border-color:var(--gold); } .btn.ghost{ background:transparent; }
+  .hint{ color:var(--muted); font-size:11.5px; } .empty{ padding:26px 16px; color:var(--muted); font-size:13px; text-align:center; }
+  label.fld{ display:flex; flex-direction:column; gap:4px; font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:.5px; }
+  input,select,textarea{ background:var(--ink); border:1px solid var(--line2); color:var(--bone); border-radius:7px; padding:8px 9px; font:inherit; font-size:13px; }
+  input:focus,select:focus,textarea:focus{ outline:none; border-color:var(--gold); }
+  table.grid{ width:100%; border-collapse:collapse; font-size:12.5px; }
+  table.grid th{ text-align:left; background:#1b1b21; color:var(--muted); font-weight:700; font-size:10px; text-transform:uppercase; letter-spacing:.5px; padding:8px 10px; white-space:nowrap; border-bottom:1px solid var(--line2); }
+  table.grid td{ padding:8px 10px; border-bottom:1px solid var(--line); }
+  .gridwrap{ overflow-x:auto; }
+  .del{ background:none; border:none; color:#5a5a63; cursor:pointer; font-size:14px; padding:6px; } .del:hover{ color:var(--blood); }
+  .pill{ font-size:10px; padding:2px 8px; border-radius:20px; background:var(--panel2); border:1px solid var(--line2); color:var(--muted); }
+  a{ color:var(--gold); }
+  footer{ color:#4a4a52; font-size:11.5px; font-family:ui-monospace,monospace; margin-top:30px; }
+  @media (max-width:680px){ input,select,textarea{ font-size:16px; } .tabs button{ font-size:13px; padding:10px 13px; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <a href="index.html" class="back">← HQ</a>
+    <div class="brand">eldee · <em>objednávky</em></div>
+    <div class="spacer"></div>
+    <span class="saved" id="savedNote">✓ uloženo</span>
+  </div>
+
+  <div class="tabs" id="tabs">
+    <button data-sec="nova" class="on">🧮 Nová objednávka</button>
+    <button data-sec="dodavatele">👥 Dodavatelé</button>
+    <button data-sec="sablony">🏭 Výrobní šablony</button>
+    <button data-sec="svatky">🗓️ Svátky &amp; volno</button>
+  </div>
+
+  <section class="sec on" id="sec-nova"><div class="panel"><div class="panel-body"><span class="hint">Kalkulačka termínů — doplní se v Tasku 5.</span></div></div></section>
+  <section class="sec" id="sec-dodavatele"><div class="panel"><div class="panel-body"><span class="hint">Dodavatelé — doplní se v Tasku 2.</span></div></div></section>
+  <section class="sec" id="sec-sablony"><div class="panel"><div class="panel-body"><span class="hint">Šablony — doplní se v Tasku 3.</span></div></div></section>
+  <section class="sec" id="sec-svatky"><div class="panel"><div class="panel-body"><span class="hint">Svátky — doplní se v Tasku 4.</span></div></div></section>
+
+  <footer>eldee · objednávky · 2026-06 · data v prohlížeči (localStorage)</footer>
+</div>
+<script>
+// ───────── ČÍSELNÍKY
+const PRODUCTS = [
+  { id:'navlek',  name:'Návlek/tunel' },
+  { id:'ponozka', name:'Tréninková ponožka' },
+  { id:'nizka',   name:'Nízká štulpna' },
+  { id:'vysoka',  name:'Vysoká štulpna' },
+  { id:'bundle',  name:'Bundle' },
+];
+const COUNTRIES = [
+  { code:'CZ', name:'Česko' }, { code:'SK', name:'Slovensko' },
+  { code:'PL', name:'Polsko' }, { code:'DE', name:'Německo' },
+];
+const $ = id => document.getElementById(id);
+const prodName = id => (PRODUCTS.find(p=>p.id===id)||{}).name || id;
+const countryName = c => (COUNTRIES.find(x=>x.code===c)||{}).name || c;
+
+// ───────── DATA
+const LS_KEY = 'eldeeOrders';
+let suppliers = [];         // {id,name,country,ltDays,vacationWeeks:[],note}
+let chains = [];            // {id,name,steps:[{name,supplierId,days,dayType}],productIds:[]}
+let ourVacation = { weeks:[], days:[] };
+let customHolidays = [];    // {country:'CZ'|'*', date:'YYYY-MM-DD', name}
+let settings = { defaultCountry:'CZ' };
+function nextId(arr){ return (arr.reduce((m,x)=>Math.max(m, x.id||0), 0)) + 1; }
+let savedTimer;
+function saveData(){
+  localStorage.setItem(LS_KEY, JSON.stringify({ suppliers, chains, ourVacation, customHolidays, settings, updated:new Date().toISOString() }));
+  const el=$('savedNote'); if(el){ el.classList.add('show'); clearTimeout(savedTimer); savedTimer=setTimeout(()=>el.classList.remove('show'),1400); }
+}
+function loadData(){
+  try{
+    const d = JSON.parse(localStorage.getItem(LS_KEY)||'{}');
+    if(Array.isArray(d.suppliers)) suppliers=d.suppliers;
+    if(Array.isArray(d.chains)) chains=d.chains;
+    if(d.ourVacation && typeof d.ourVacation==='object'){ ourVacation.weeks=d.ourVacation.weeks||[]; ourVacation.days=d.ourVacation.days||[]; }
+    if(Array.isArray(d.customHolidays)) customHolidays=d.customHolidays;
+    if(d.settings && typeof d.settings==='object') settings=Object.assign(settings,d.settings);
+  }catch(e){}
+}
+
+// ───────── TABY
+document.addEventListener('click', e=>{
+  const t=e.target;
+  if(t.dataset && t.dataset.sec!=null && t.closest('#tabs')){
+    [...document.querySelectorAll('#tabs button')].forEach(b=>b.classList.toggle('on',b===t));
+    document.querySelectorAll('.sec').forEach(s=>s.classList.toggle('on', s.id==='sec-'+t.dataset.sec));
+  }
+});
+
+// ───────── render placeholder (přepíšou ho další tasky)
+function refreshAll(){}
+
+// ───────── START
+loadData();
+refreshAll();
+</script>
+</body>
+</html>

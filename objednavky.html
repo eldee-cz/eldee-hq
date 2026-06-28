@@ -636,6 +636,7 @@ function orderForm(d){
 }
 function renderOrders(){
   if(!$('ordList')) return;
+  const sp=$('suggestPanel'); if(sp) sp.style.display = (ordEditId!==null && ordDraft) ? 'none' : '';
   if(ordEditId!==null && ordDraft){ $('ordList').innerHTML=orderForm(ordDraft); if($('ordSum'))$('ordSum').textContent=''; return; }
   const head=t=>`<div class="chead" style="font-size:11px;color:var(--gold);text-transform:uppercase;letter-spacing:.6px;font-weight:700;margin:16px 0 8px">${t}</div>`;
   const drafts=orders.filter(o=>o.status==='koncept');

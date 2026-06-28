@@ -116,7 +116,7 @@
       <div class="panel-head"><h2>🗓️ Státní svátky (automaticky)</h2><span class="grow"></span>
         <select id="holCountry"><option value="CZ">Česko</option><option value="SK">Slovensko</option><option value="PL">Polsko</option><option value="DE">Německo</option></select>
         <input id="holYear" type="number" value="2026" style="width:80px"></div>
-      <div class="gridwrap"><table class="grid"><thead><tr><th>Datum</th><th>Den</th></tr></thead><tbody id="holRows"></tbody></table></div>
+      <div class="gridwrap"><table class="grid"><thead><tr><th>Datum</th><th>Den</th><th>Svátek</th></tr></thead><tbody id="holRows"></tbody></table></div>
       <div class="panel-foot"><span class="hint">Počítá se automaticky podle země a roku (včetně pohyblivých Velikonoc). U dodavatele řídí svátky jeho země.</span></div>
     </div>
     <div class="panel">
@@ -186,27 +186,27 @@ function easter(y){
   return new Date(y, mo-1, da);
 }
 function addDaysTo(d,n){ const x=new Date(d); x.setDate(x.getDate()+n); return x; }
-// pevné svátky [měsíc,den] per země + pohyblivé od Velikonoc
+// pevné svátky [měsíc,den,název] per země + pohyblivé od Velikonoc
 const FIXED_HOLIDAYS = {
-  CZ:[[1,1],[5,1],[5,8],[7,5],[7,6],[9,28],[10,28],[11,17],[12,24],[12,25],[12,26]],
-  SK:[[1,1],[1,6],[5,1],[5,8],[7,5],[8,29],[9,1],[9,15],[11,1],[11,17],[12,24],[12,25],[12,26]],
-  PL:[[1,1],[1,6],[5,1],[5,3],[8,15],[11,1],[11,11],[12,25],[12,26]],
-  DE:[[1,1],[5,1],[10,3],[12,25],[12,26]],
+  CZ:[[1,1,'Nový rok / Den obnovy ČR'],[5,1,'Svátek práce'],[5,8,'Den vítězství'],[7,5,'Cyril a Metoděj'],[7,6,'Jan Hus'],[9,28,'Den české státnosti'],[10,28,'Vznik ČSR'],[11,17,'Den boje za svobodu'],[12,24,'Štědrý den'],[12,25,'1. svátek vánoční'],[12,26,'2. svátek vánoční']],
+  SK:[[1,1,'Deň vzniku SR'],[1,6,'Zjavenie Pána'],[5,1,'Sviatok práce'],[5,8,'Deň víťazstva'],[7,5,'Cyril a Metod'],[8,29,'SNP'],[9,1,'Deň ústavy'],[9,15,'Sedembolestná Panna Mária'],[11,1,'Sviatok všetkých svätých'],[11,17,'Deň boja za slobodu'],[12,24,'Štedrý deň'],[12,25,'1. sviatok vianočný'],[12,26,'2. sviatok vianočný']],
+  PL:[[1,1,'Nowy Rok'],[1,6,'Trzech Króli'],[5,1,'Święto Pracy'],[5,3,'Święto Konstytucji 3 Maja'],[8,15,'Wniebowzięcie NMP'],[11,1,'Wszystkich Świętych'],[11,11,'Święto Niepodległości'],[12,25,'Boże Narodzenie'],[12,26,'2. dzień Bożego Narodzenia']],
+  DE:[[1,1,'Neujahr'],[5,1,'Tag der Arbeit'],[10,3,'Tag der Deutschen Einheit'],[12,25,'1. Weihnachtstag'],[12,26,'2. Weihnachtstag']],
 };
-// pohyblivé (offset dní od Velikonoční neděle) per země
+// pohyblivé (offset dní od Velikonoční neděle) per země [offset, název]
 const EASTER_OFFSETS = {
-  CZ:[-2, 1],            // Velký pátek, Velikonoční pondělí
-  SK:[-2, 1],
-  PL:[ 0, 1, 60],        // neděle, pondělí, Boží tělo (+60)
-  DE:[-2, 1, 39, 50],    // Velký pátek, pondělí, Nanebevstoupení (+39), Svatodušní pondělí (+50)
+  CZ:[[-2,'Velký pátek'],[1,'Velikonoční pondělí']],
+  SK:[[-2,'Veľký piatok'],[1,'Veľkonočný pondelok']],
+  PL:[[0,'Wielkanoc'],[1,'Poniedziałek Wielkanocny'],[60,'Boże Ciało']],
+  DE:[[-2,'Karfreitag'],[1,'Ostermontag'],[39,'Christi Himmelfahrt'],[50,'Pfingstmontag']],
 };
 function holidaysFor(country, year){
-  const set=new Set();
-  (FIXED_HOLIDAYS[country]||FIXED_HOLIDAYS.CZ).forEach(([m,da])=>set.add(fmtISO(new Date(year,m-1,da))));
+  const map=new Map();
+  (FIXED_HOLIDAYS[country]||FIXED_HOLIDAYS.CZ).forEach(([m,da,nm])=>map.set(fmtISO(new Date(year,m-1,da)), nm));
   const e=easter(year);
-  (EASTER_OFFSETS[country]||EASTER_OFFSETS.CZ).forEach(off=>set.add(fmtISO(addDaysTo(e,off))));
-  customHolidays.forEach(h=>{ if((h.country===country||h.country==='*') && h.date) set.add(h.date); });
-  return set;
+  (EASTER_OFFSETS[country]||EASTER_OFFSETS.CZ).forEach(([off,nm])=>map.set(fmtISO(addDaysTo(e,off)), nm));
+  customHolidays.forEach(h=>{ if((h.country===country||h.country==='*') && h.date) map.set(h.date, h.name||'volno'); });
+  return map;
 }
 // ISO 8601 číslo týdne
 function isoWeekOf(d){
@@ -433,8 +433,8 @@ function renderHolidays(){
   const dn=['ne','po','út','st','čt','pá','so'];
   if($('holRows')){
     const country=($('holCountry')&&$('holCountry').value)||'CZ', year=+($('holYear')&&$('holYear').value)||2026;
-    const list=[...holidaysFor(country,year)].sort();
-    $('holRows').innerHTML=list.map(d=>{ const dt=new Date(d+'T00:00:00'); return `<tr><td>${dt.toLocaleDateString('cs-CZ')}</td><td>${dn[dt.getDay()]}</td></tr>`; }).join('')||'<tr><td colspan="2" class="empty">—</td></tr>';
+    const list=[...holidaysFor(country,year).entries()].sort((a,b)=>a[0]<b[0]?-1:1);
+    $('holRows').innerHTML=list.map(([d,nm])=>{ const dt=new Date(d+'T00:00:00'); return `<tr><td>${dt.toLocaleDateString('cs-CZ')}</td><td>${dn[dt.getDay()]}</td><td>${escT(nm)}</td></tr>`; }).join('')||'<tr><td colspan="3" class="empty">—</td></tr>';
   }
   if($('custRows')){
     $('custRows').innerHTML=customHolidays.map((h,i)=>`<tr><td>${h.date}</td><td>${escT(h.name)}</td><td>${h.country==='*'?'všechny':countryName(h.country)}</td><td><button class="del" data-custdel="${i}" title="Smazat">🗑</button></td></tr>`).join('')||'<tr><td colspan="4" class="empty">Žádné vlastní volno.</td></tr>';

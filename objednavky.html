@@ -87,7 +87,14 @@
       <div class="panel-foot"><span class="hint">🔒 Funguje jako kartotéka dodavatelů — kontakt, IČO i logistika. Data zůstávají jen v tomto prohlížeči (citlivé). Dovolená: čísla týdnů oddělená čárkou, např. 28, 29.</span></div>
     </div>
   </section>
-  <section class="sec" id="sec-sablony"><div class="panel"><div class="panel-body"><span class="hint">Šablony — doplní se v Tasku 3.</span></div></div></section>
+  <section class="sec" id="sec-sablony">
+    <div class="panel">
+      <div class="panel-head"><h2>🏭 Výrobní šablony</h2><span class="grow"></span><span class="sum" id="chSum"></span>
+        <button class="btn gold" id="chAdd">➕ Nová šablona</button></div>
+      <div class="panel-body" id="chList"></div>
+      <div class="panel-foot"><span class="hint">Šablona = kroky výroby za sebou (pletení → doprava → výšivka…). Přiřaď produkty, kterých se týká. Kalkulačka pak počítá termín podle těchto kroků.</span></div>
+    </div>
+  </section>
   <section class="sec" id="sec-svatky"><div class="panel"><div class="panel-body"><span class="hint">Svátky — doplní se v Tasku 4.</span></div></div></section>
 
   <footer>eldee · objednávky · 2026-06 · data v prohlížeči (localStorage)</footer>
@@ -318,6 +325,55 @@ function renderSuppliers(){
   $('supSum').textContent = suppliers.length ? suppliers.length+' dodavatelů' : '';
 }
 
+// ───────── VÝROBNÍ ŠABLONY
+let chEditId = null, chDraft = null;
+function blankStep(){ return { name:'', supplierId:null, days:0, dayType:'work' }; }
+function blankChain(){ return { id:null, name:'', steps:[ blankStep() ], productIds:[] }; }
+function supOptions(sel){ return `<option value=""${sel==null?' selected':''}>— (bez / doprava)</option>`+suppliers.map(s=>`<option value="${s.id}"${s.id===sel?' selected':''}>${escT(s.name)||'(bez jména)'}</option>`).join(''); }
+function chForm(d){
+  return `<div class="supcard" data-chform="1">
+    <div class="supcard-head">
+      <span class="supnum">${chEditId==='new'?'NOVÁ':'ÚPRAVA'}</span>
+      <input data-chfk="name" class="supname" value="${esc(d.name)}" placeholder="Název šablony (např. Štulpna s výšivkou)">
+    </div>
+    <div class="chead" style="font-size:11px;color:var(--gold);text-transform:uppercase;letter-spacing:.6px;font-weight:700;margin-bottom:8px">Kroky výroby (po sobě)</div>
+    <div class="gridwrap"><table class="grid">
+      <thead><tr><th style="width:30px">#</th><th>Krok</th><th>Dodavatel</th><th style="width:80px">Dní</th><th>Typ dní</th><th></th></tr></thead>
+      <tbody>${(d.steps||[]).map((st,i)=>`<tr data-si="${i}">
+        <td>${i+1}</td>
+        <td><input data-stk="name" value="${esc(st.name)}" placeholder="Pletení / Doprava / Výšivka" style="min-width:140px;width:100%"></td>
+        <td><select data-stk="supplierId">${supOptions(st.supplierId)}</select></td>
+        <td><input data-stk="days" type="number" min="0" value="${st.days||0}" style="width:70px"></td>
+        <td><select data-stk="dayType"><option value="work"${st.dayType==='work'?' selected':''}>pracovní</option><option value="cal"${st.dayType==='cal'?' selected':''}>kalendářní</option></select></td>
+        <td><button class="del" data-stepdel="${i}" title="Smazat krok">🗑</button></td>
+      </tr>`).join('')||'<tr><td colspan="6" class="empty">Zatím bez kroků.</td></tr>'}</tbody>
+    </table></div>
+    <button class="btn" id="stepAdd" style="margin-top:8px">+ Krok</button>
+    <div class="chead" style="font-size:11px;color:var(--gold);text-transform:uppercase;letter-spacing:.6px;font-weight:700;margin:16px 0 8px">Platí pro produkty</div>
+    <div style="display:flex;gap:14px;flex-wrap:wrap">${PRODUCTS.map(p=>`<label class="vchk" style="display:inline-flex;align-items:center;gap:6px;font-size:12.5px;color:var(--bone)"><input type="checkbox" data-cprod="${p.id}" ${(d.productIds||[]).includes(p.id)?'checked':''}> ${p.name}</label>`).join('')}</div>
+    <div class="panel-foot" style="border-top:none;padding:16px 0 0">
+      <button class="btn gold" id="chSave">💾 Uložit šablonu</button>
+      <button class="btn ghost" id="chCancel">Zrušit</button>
+    </div>
+  </div>`;
+}
+function renderChains(){
+  if(!$('chList')) return;
+  if(chEditId!==null && chDraft){ $('chList').innerHTML = chForm(chDraft); if($('chSum')) $('chSum').textContent=''; return; }
+  $('chList').innerHTML = chains.length ? `<div class="gridwrap"><table class="grid">
+    <thead><tr><th>#</th><th>Název</th><th style="text-align:right">Kroků</th><th>Platí pro produkty</th><th style="text-align:right">Akce</th></tr></thead>
+    <tbody>${chains.map((c,i)=>{
+      const prods=(c.productIds||[]).map(prodName).join(', ')||'<span class="hint">—</span>';
+      return `<tr class="suprow" data-chedit="${c.id}" style="cursor:pointer">
+        <td>${i+1}</td>
+        <td style="font-weight:600">${escT(c.name)||'<span class="hint">(bez názvu)</span>'}</td>
+        <td style="text-align:right">${(c.steps||[]).length}</td>
+        <td>${prods}</td>
+        <td style="text-align:right;white-space:nowrap"><button class="del" data-chedit="${c.id}" title="Upravit">✏️</button><button class="del" data-chdel="${c.id}" title="Smazat">🗑</button></td>
+      </tr>`;}).join('')}</tbody></table></div>` : '<div class="empty">Zatím žádná šablona. Přidej přes „➕ Nová šablona".</div>';
+  if($('chSum')) $('chSum').textContent = chains.length ? chains.length+' šablon' : '';
+}
+
 // ───────── TABY
 document.addEventListener('click', e=>{
   const t=e.target;
@@ -347,7 +403,19 @@ document.addEventListener('input', e=>{
     return;
   }
   if(applyVacField(t)) return;
+  if(t.dataset.chfk && chDraft){ chDraft.name=t.value; return; }
+  if(applyStepField(t)){ if(typeof renderCalc==='function') renderCalc(); return; }
 });
+function applyStepField(t){
+  if(!(t.dataset.stk && chDraft)) return false;
+  const sr=t.closest && t.closest('[data-si]'); if(!sr) return false;
+  const st=chDraft.steps[+sr.dataset.si]; if(!st) return false;
+  const k=t.dataset.stk;
+  if(k==='days') st.days=+t.value||0;
+  else if(k==='supplierId') st.supplierId = t.value==='' ? null : +t.value;
+  else st[k]=t.value;   // name, dayType
+  return true;
+}
 function applyVacField(t){
   if(!(t.dataset.vk && supDraft)) return false;
   const vr=t.closest && t.closest('[data-vi]'); if(!vr) return false;
@@ -360,6 +428,13 @@ document.addEventListener('change', e=>{
   const t=e.target;
   if(t.dataset && t.dataset.fk==='country' && supDraft){ supDraft.country=t.value; return; }
   if(applyVacField(t)) return;
+  if(applyStepField(t)){ if(typeof renderCalc==='function') renderCalc(); return; }
+  if(t.dataset && t.dataset.cprod && chDraft){
+    const pid=t.dataset.cprod; chDraft.productIds=chDraft.productIds||[];
+    if(t.checked){ if(!chDraft.productIds.includes(pid)) chDraft.productIds.push(pid); }
+    else chDraft.productIds=chDraft.productIds.filter(x=>x!==pid);
+    return;
+  }
 });
 document.addEventListener('click', e=>{
   const t=e.target;
@@ -390,6 +465,26 @@ document.addEventListener('click', e=>{
   }
   const er = t.closest && t.closest('[data-edit]');
   if(er){ const id=+er.dataset.edit; const s=suppliers.find(x=>x.id===id); if(s){ supEditId=id; supDraft=JSON.parse(JSON.stringify(s)); renderSuppliers(); } return; }
+
+  // ── šablony
+  if(t.id==='chAdd'){ chEditId='new'; chDraft=blankChain(); renderChains(); return; }
+  if(t.id==='chCancel'){ chEditId=null; chDraft=null; renderChains(); return; }
+  if(t.id==='chSave'){
+    if(!chDraft) return;
+    if(!(chDraft.name||'').trim()){ alert('Vyplň název šablony.'); return; }
+    if(chEditId==='new'){ chDraft.id=nextId(chains); chains.push(chDraft); }
+    else { const idx=chains.findIndex(x=>x.id===chEditId); if(idx>=0) chains[idx]=chDraft; }
+    // jeden produkt smí mít jen jednu šablonu — odeber ho z ostatních
+    (chDraft.productIds||[]).forEach(pid=>chains.forEach(c=>{ if(c.id!==chDraft.id) c.productIds=(c.productIds||[]).filter(x=>x!==pid); }));
+    chEditId=null; chDraft=null; saveData(); renderChains();
+    if(typeof renderCalc==='function') renderCalc();
+    return;
+  }
+  if(t.id==='stepAdd' && chDraft){ chDraft.steps=chDraft.steps||[]; chDraft.steps.push(blankStep()); renderChains(); return; }
+  if(t.dataset && t.dataset.stepdel!=null && chDraft){ chDraft.steps.splice(+t.dataset.stepdel,1); renderChains(); return; }
+  if(t.dataset && t.dataset.chdel!=null){ if(confirm('Smazat šablonu?')){ chains=chains.filter(x=>x.id!==+t.dataset.chdel); saveData(); renderChains(); if(typeof renderCalc==='function') renderCalc(); } return; }
+  const cer = t.closest && t.closest('[data-chedit]');
+  if(cer){ const id=+cer.dataset.chedit; const c=chains.find(x=>x.id===id); if(c){ chEditId=id; chDraft=JSON.parse(JSON.stringify(c)); renderChains(); } return; }
 });
 
 // klik do pole data spolehlivě otevře kalendář

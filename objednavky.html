@@ -50,6 +50,10 @@
   .supgrid .fld.span2{ grid-column:span 2; }
   .supgrid input{ width:100%; }
   tr.suprow:hover td{ background:rgba(201,162,39,.06); }
+  .contacts{ margin-top:14px; border-top:1px dashed var(--line2); padding-top:12px; }
+  .contacts .chead{ font-size:11px; color:var(--gold); text-transform:uppercase; letter-spacing:.6px; font-weight:700; margin-bottom:8px; }
+  .contactrow{ display:grid; grid-template-columns:1fr 1fr 1.1fr 1.2fr auto; gap:8px; margin-bottom:8px; align-items:center; }
+  @media (max-width:680px){ .contactrow{ grid-template-columns:1fr 1fr; } }
   @media (max-width:880px){ .supgrid{ grid-template-columns:repeat(2,1fr); } }
   @media (max-width:680px){ input,select,textarea{ font-size:16px; } .tabs button{ font-size:13px; padding:10px 13px; }
     .supgrid{ grid-template-columns:1fr; } .supgrid .fld.span2{ grid-column:span 1; } }
@@ -215,9 +219,22 @@ function parseWeeks(str){ return String(str||'').split(/[,\s]+/).map(s=>parseInt
 function weeksToStr(arr){ return (arr||[]).map(w=>'W'+w).join(', '); }
 const esc = v => String(v==null?'':v).replace(/"/g,'&quot;');
 const escT = v => String(v==null?'':v).replace(/&/g,'&amp;').replace(/</g,'&lt;');
+// telefon po trojicích: +420 123 456 789
+function fmtPhone(p){
+  if(!p) return '';
+  const s=String(p).trim();
+  const pm=s.match(/^\+\d{1,3}/);
+  const prefix=pm?pm[0]:'';
+  const digits=s.slice(prefix.length).replace(/\D/g,'');
+  const grouped=digits.replace(/(\d{3})(?=\d)/g,'$1 ');
+  return (prefix?prefix+' ':'')+grouped;
+}
 let supEditId = null;   // null = tabulka; 'new' nebo id dodavatele = formulář
 let supDraft = null;    // rozpracovaná kopie ve formuláři (Zrušit ji zahodí)
-function blankSupplier(){ return { id:null, name:'', country:settings.defaultCountry, ico:'', address:'', phone:'', email:'', web:'', ltDays:0, vacationWeeks:[], note:'' }; }
+function blankContact(){ return { role:'', name:'', phone:'', email:'' }; }
+function blankSupplier(){ return { id:null, name:'', country:settings.defaultCountry, ico:'', address:'', web:'', ltDays:0, vacationWeeks:[], note:'', contacts:[ blankContact() ] }; }
+// migrace: starý jeden telefon/email -> první kontakt
+function migrSuppliers(){ suppliers.forEach(s=>{ if(!Array.isArray(s.contacts)){ s.contacts = (s.phone||s.email) ? [{ role:'', name:'', phone:s.phone||'', email:s.email||'' }] : []; delete s.phone; delete s.email; } }); }
 
 function supForm(d){
   return `<div class="supcard" data-form="1">
@@ -228,13 +245,22 @@ function supForm(d){
     </div>
     <div class="supgrid">
       <label class="fld">IČO<input data-fk="ico" value="${esc(d.ico)}" placeholder="12345678"></label>
-      <label class="fld">Telefon<input data-fk="phone" value="${esc(d.phone)}" placeholder="+420…"></label>
-      <label class="fld">E-mail<input data-fk="email" type="email" value="${esc(d.email)}" placeholder="info@…"></label>
       <label class="fld">Web<input data-fk="web" value="${esc(d.web)}" placeholder="https://…"></label>
       <label class="fld span2">Adresa<input data-fk="address" value="${esc(d.address)}" placeholder="ulice, město, PSČ"></label>
       <label class="fld">Lead time (dní)<input data-fk="ltDays" type="number" min="0" value="${d.ltDays||0}"></label>
       <label class="fld">Dovolená (týdny)<input data-fk="vac" value="${weeksToStr(d.vacationWeeks)}" placeholder="28, 29"></label>
-      <label class="fld span2">Poznámka<input data-fk="note" value="${esc(d.note)}" placeholder="materiály, podmínky, kontakt na osobu…"></label>
+      <label class="fld span2">Poznámka<input data-fk="note" value="${esc(d.note)}" placeholder="materiály, podmínky…"></label>
+    </div>
+    <div class="contacts">
+      <div class="chead">📇 Kontakty (osoby ve firmě)</div>
+      ${(d.contacts||[]).map((c,ci)=>`<div class="contactrow" data-ci="${ci}">
+        <input data-ck="role" value="${esc(c.role)}" placeholder="role (objednávky, ředitel…)">
+        <input data-ck="name" value="${esc(c.name)}" placeholder="jméno">
+        <input data-ck="phone" value="${esc(c.phone)}" placeholder="+420 123 456 789">
+        <input data-ck="email" type="email" value="${esc(c.email)}" placeholder="e-mail">
+        <button class="del" data-cdel="${ci}" title="Smazat kontakt">🗑</button>
+      </div>`).join('')||'<div class="hint" style="padding:4px 0">Zatím žádný kontakt.</div>'}
+      <button class="btn" id="contactAdd" style="margin-top:8px">+ Přidat kontakt</button>
     </div>
     <div class="panel-foot" style="border-top:none;padding:14px 0 0">
       <button class="btn gold" id="supSave">💾 Uložit dodavatele</button>
@@ -246,17 +272,19 @@ function renderSuppliers(){
   if(!$('supList')) return;
   if(supEditId!==null && supDraft){ $('supList').innerHTML = supForm(supDraft); $('supSum').textContent=''; return; }
   $('supList').innerHTML = suppliers.length ? `<div class="gridwrap"><table class="grid">
-    <thead><tr><th>#</th><th>Jméno</th><th>Země</th><th style="text-align:right">LT</th><th>Dovolená</th><th>Telefon</th><th>E-mail</th><th style="text-align:right">Akce</th></tr></thead>
-    <tbody>${suppliers.map((s,i)=>`<tr class="suprow" data-edit="${s.id}" style="cursor:pointer">
+    <thead><tr><th>#</th><th>Jméno</th><th>Země</th><th style="text-align:right">LT</th><th>Dovolená</th><th>Hlavní kontakt</th><th style="text-align:right">Akce</th></tr></thead>
+    <tbody>${suppliers.map((s,i)=>{
+      const cs=s.contacts||[]; const c0=cs[0];
+      const contactCell = c0 ? `${escT([c0.role,c0.name].filter(Boolean).join(' · ')||'—')}<br><span class="hint">${escT(fmtPhone(c0.phone))||''}${c0.phone&&c0.email?' · ':''}${escT(c0.email)||''}</span>${cs.length>1?` <span class="pill">+${cs.length-1}</span>`:''}` : '<span class="hint">—</span>';
+      return `<tr class="suprow" data-edit="${s.id}" style="cursor:pointer">
       <td>${i+1}</td>
       <td style="font-weight:600">${escT(s.name)||'<span class="hint">(bez jména)</span>'}</td>
       <td>${countryName(s.country)}</td>
       <td style="text-align:right">${s.ltDays||0} dní</td>
       <td>${weeksToStr(s.vacationWeeks)||'—'}</td>
-      <td>${escT(s.phone)||'—'}</td>
-      <td>${escT(s.email)||'—'}</td>
+      <td>${contactCell}</td>
       <td style="text-align:right;white-space:nowrap"><button class="del" data-edit="${s.id}" title="Upravit">✏️</button><button class="del" data-supdel="${s.id}" title="Smazat">🗑</button></td>
-    </tr>`).join('')}</tbody></table></div>` : '<div class="empty">Zatím žádný dodavatel. Přidej přes „➕ Nový dodavatel".</div>';
+    </tr>`;}).join('')}</tbody></table></div>` : '<div class="empty">Zatím žádný dodavatel. Přidej přes „➕ Nový dodavatel".</div>';
   $('supSum').textContent = suppliers.length ? suppliers.length+' dodavatelů' : '';
 }
 
@@ -279,7 +307,13 @@ document.addEventListener('input', e=>{
     const k=t.dataset.fk;
     if(k==='ltDays') supDraft.ltDays=+t.value||0;
     else if(k==='vac') supDraft.vacationWeeks=parseWeeks(t.value);
-    else supDraft[k]=t.value;   // name, country, ico, address, phone, email, web, note
+    else supDraft[k]=t.value;   // name, country, ico, address, web, note
+    return;
+  }
+  if(t.dataset.ck && supDraft){
+    const cr=t.closest('[data-ci]'); if(!cr) return;
+    const ci=+cr.dataset.ci; if(!supDraft.contacts[ci]) return;
+    supDraft.contacts[ci][t.dataset.ck]=t.value;
     return;
   }
 });
@@ -291,6 +325,8 @@ document.addEventListener('click', e=>{
   const t=e.target;
   if(t.id==='supAdd'){ supEditId='new'; supDraft=blankSupplier(); renderSuppliers(); return; }
   if(t.id==='supCancel'){ supEditId=null; supDraft=null; renderSuppliers(); return; }
+  if(t.id==='contactAdd' && supDraft){ supDraft.contacts=supDraft.contacts||[]; supDraft.contacts.push(blankContact()); renderSuppliers(); return; }
+  if(t.dataset && t.dataset.cdel!=null && supDraft){ supDraft.contacts.splice(+t.dataset.cdel,1); renderSuppliers(); return; }
   if(t.id==='supSave'){
     if(!supDraft) return;
     if(!(supDraft.name||'').trim()){ alert('Vyplň aspoň jméno dodavatele.'); return; }
@@ -316,6 +352,7 @@ document.addEventListener('click', e=>{
 
 // ───────── START
 loadData();
+migrSuppliers();
 refreshAll();
 </script>
 </body>

@@ -53,7 +53,10 @@
   .contacts{ margin-top:14px; border-top:1px dashed var(--line2); padding-top:12px; }
   .contacts .chead{ font-size:11px; color:var(--gold); text-transform:uppercase; letter-spacing:.6px; font-weight:700; margin-bottom:8px; }
   .contactrow{ display:grid; grid-template-columns:1fr 1fr 1.1fr 1.2fr auto; gap:8px; margin-bottom:8px; align-items:center; }
-  @media (max-width:680px){ .contactrow{ grid-template-columns:1fr 1fr; } }
+  .vacrow{ display:grid; grid-template-columns:1.3fr auto auto auto auto; gap:10px; margin-bottom:8px; align-items:end; }
+  .vacrow .vlab{ display:inline-flex; flex-direction:column; font-size:10px; color:var(--muted); gap:3px; text-transform:uppercase; letter-spacing:.4px; }
+  .vacrow .vchk{ flex-direction:row; align-items:center; gap:6px; text-transform:none; letter-spacing:0; font-size:11.5px; }
+  @media (max-width:680px){ .contactrow{ grid-template-columns:1fr 1fr; } .vacrow{ grid-template-columns:1fr 1fr; } }
   @media (max-width:880px){ .supgrid{ grid-template-columns:repeat(2,1fr); } }
   @media (max-width:680px){ input,select,textarea{ font-size:16px; } .tabs button{ font-size:13px; padding:10px 13px; }
     .supgrid{ grid-template-columns:1fr; } .supgrid .fld.span2{ grid-column:span 1; } }
@@ -110,7 +113,7 @@ const countryName = c => (COUNTRIES.find(x=>x.code===c)||{}).name || c;
 const LS_KEY = 'eldeeOrders';
 let suppliers = [];         // {id,name,country,ltDays,vacationWeeks:[],note}
 let chains = [];            // {id,name,steps:[{name,supplierId,days,dayType}],productIds:[]}
-let ourVacation = { weeks:[], days:[] };
+let ourVacation = { ranges:[] };   // [{from,to,label,yearly}]
 let customHolidays = [];    // {country:'CZ'|'*', date:'YYYY-MM-DD', name}
 let settings = { defaultCountry:'CZ' };
 function nextId(arr){ return (arr.reduce((m,x)=>Math.max(m, x.id||0), 0)) + 1; }
@@ -124,7 +127,7 @@ function loadData(){
     const d = JSON.parse(localStorage.getItem(LS_KEY)||'{}');
     if(Array.isArray(d.suppliers)) suppliers=d.suppliers;
     if(Array.isArray(d.chains)) chains=d.chains;
-    if(d.ourVacation && typeof d.ourVacation==='object'){ ourVacation.weeks=d.ourVacation.weeks||[]; ourVacation.days=d.ourVacation.days||[]; }
+    if(d.ourVacation && typeof d.ourVacation==='object'){ ourVacation.ranges=Array.isArray(d.ourVacation.ranges)?d.ourVacation.ranges:[]; }
     if(Array.isArray(d.customHolidays)) customHolidays=d.customHolidays;
     if(d.settings && typeof d.settings==='object') settings=Object.assign(settings,d.settings);
   }catch(e){}
@@ -171,10 +174,21 @@ function isoWeekOf(d){
   return 1+Math.round((date-firstThu)/(7*86400000));
 }
 function isWeekend(d){ const g=d.getDay(); return g===0||g===6; }
-function isOff(date, country, vacWeeks){
+// dovolená = pole období {from:'YYYY-MM-DD', to:'YYYY-MM-DD', label, yearly}
+function monthDay(iso){ const p=String(iso).split('-'); return (+p[1])*100 + (+p[2]); }
+function inVacation(date, vacations){
+  const x=(date.getMonth()+1)*100+date.getDate(); const ds=fmtISO(date);
+  for(const v of (vacations||[])){
+    if(!v.from||!v.to) continue;
+    if(v.yearly){ const f=monthDay(v.from), t=monthDay(v.to); if(f<=t ? (x>=f&&x<=t) : (x>=f||x<=t)) return true; }
+    else if(ds>=v.from && ds<=v.to) return true;
+  }
+  return false;
+}
+function isOff(date, country, vacations){
   if(isWeekend(date)) return true;
   if(holidaysFor(country, date.getFullYear()).has(fmtISO(date))) return true;
-  if((vacWeeks||[]).includes(isoWeekOf(date))) return true;
+  if(inVacation(date, vacations)) return true;
   return false;
 }
 function addStep(start, days, dayType, country, vacWeeks){
@@ -191,7 +205,7 @@ function subStep(end, days, dayType, country, vacWeeks){
 }
 function stepCtx(st){
   const sup = st.supplierId!=null ? suppliers.find(s=>s.id===st.supplierId) : null;
-  return { sup, country: sup?sup.country:settings.defaultCountry, vac: sup?(sup.vacationWeeks||[]):(ourVacation.weeks||[]) };
+  return { sup, country: sup?sup.country:settings.defaultCountry, vac: sup?(sup.vacations||[]):(ourVacation.ranges||[]) };
 }
 function calcChainForward(chain, start){
   let cur=new Date(start); const steps=[];
@@ -232,9 +246,13 @@ function fmtPhone(p){
 let supEditId = null;   // null = tabulka; 'new' nebo id dodavatele = formulář
 let supDraft = null;    // rozpracovaná kopie ve formuláři (Zrušit ji zahodí)
 function blankContact(){ return { role:'', name:'', phone:'', email:'' }; }
-function blankSupplier(){ return { id:null, name:'', country:settings.defaultCountry, ico:'', address:'', web:'', ltDays:0, vacationWeeks:[], note:'', contacts:[ blankContact() ] }; }
-// migrace: starý jeden telefon/email -> první kontakt
-function migrSuppliers(){ suppliers.forEach(s=>{ if(!Array.isArray(s.contacts)){ s.contacts = (s.phone||s.email) ? [{ role:'', name:'', phone:s.phone||'', email:s.email||'' }] : []; delete s.phone; delete s.email; } }); }
+function blankVacation(){ return { from:'', to:'', label:'', yearly:false }; }
+function blankSupplier(){ return { id:null, name:'', country:settings.defaultCountry, ico:'', address:'', web:'', ltDays:0, vacations:[], note:'', contacts:[ blankContact() ] }; }
+// migrace: starý jeden telefon/email -> první kontakt; staré týdny dovolené -> zahodit (zadá nově přes kalendář)
+function migrSuppliers(){ suppliers.forEach(s=>{
+  if(!Array.isArray(s.contacts)){ s.contacts = (s.phone||s.email) ? [{ role:'', name:'', phone:s.phone||'', email:s.email||'' }] : []; delete s.phone; delete s.email; }
+  if(!Array.isArray(s.vacations)){ s.vacations=[]; delete s.vacationWeeks; }
+}); }
 
 function supForm(d){
   return `<div class="supcard" data-form="1">
@@ -248,7 +266,6 @@ function supForm(d){
       <label class="fld">Web<input data-fk="web" value="${esc(d.web)}" placeholder="https://…"></label>
       <label class="fld span2">Adresa<input data-fk="address" value="${esc(d.address)}" placeholder="ulice, město, PSČ"></label>
       <label class="fld">Lead time (dní)<input data-fk="ltDays" type="number" min="0" value="${d.ltDays||0}"></label>
-      <label class="fld">Dovolená (týdny)<input data-fk="vac" value="${weeksToStr(d.vacationWeeks)}" placeholder="28, 29"></label>
       <label class="fld span2">Poznámka<input data-fk="note" value="${esc(d.note)}" placeholder="materiály, podmínky…"></label>
     </div>
     <div class="contacts">
@@ -261,6 +278,17 @@ function supForm(d){
         <button class="del" data-cdel="${ci}" title="Smazat kontakt">🗑</button>
       </div>`).join('')||'<div class="hint" style="padding:4px 0">Zatím žádný kontakt.</div>'}
       <button class="btn" id="contactAdd" style="margin-top:8px">+ Přidat kontakt</button>
+    </div>
+    <div class="contacts">
+      <div class="chead">🏖️ Dovolená / odstávky</div>
+      ${(d.vacations||[]).map((v,vi)=>`<div class="vacrow" data-vi="${vi}">
+        <input data-vk="label" value="${esc(v.label)}" placeholder="popis (letní, vánoční…)">
+        <label class="vlab">od<input data-vk="from" type="date" value="${esc(v.from)}"></label>
+        <label class="vlab">do<input data-vk="to" type="date" value="${esc(v.to)}"></label>
+        <label class="vlab vchk"><input data-vk="yearly" type="checkbox" ${v.yearly?'checked':''}> opakovat každý rok</label>
+        <button class="del" data-vacdel="${vi}" title="Smazat období">🗑</button>
+      </div>`).join('')||'<div class="hint" style="padding:4px 0">Zatím žádná dovolená.</div>'}
+      <button class="btn" id="vacAdd" style="margin-top:8px">+ Přidat období</button>
     </div>
     <div class="panel-foot" style="border-top:none;padding:14px 0 0">
       <button class="btn gold" id="supSave">💾 Uložit dodavatele</button>
@@ -276,12 +304,14 @@ function renderSuppliers(){
     <tbody>${suppliers.map((s,i)=>{
       const cs=s.contacts||[]; const c0=cs[0];
       const contactCell = c0 ? `${escT([c0.role,c0.name].filter(Boolean).join(' · ')||'—')}<br><span class="hint">${escT(fmtPhone(c0.phone))||''}${c0.phone&&c0.email?' · ':''}${escT(c0.email)||''}</span>${cs.length>1?` <span class="pill">+${cs.length-1}</span>`:''}` : '<span class="hint">—</span>';
+      const vac=s.vacations||[];
+      const vacCell = vac.length ? escT(vac.map(v=>v.label||'období').slice(0,2).join(', '))+(vac.length>2?` <span class="pill">+${vac.length-2}</span>`:'') : '—';
       return `<tr class="suprow" data-edit="${s.id}" style="cursor:pointer">
       <td>${i+1}</td>
       <td style="font-weight:600">${escT(s.name)||'<span class="hint">(bez jména)</span>'}</td>
       <td>${countryName(s.country)}</td>
       <td style="text-align:right">${s.ltDays||0} dní</td>
-      <td>${weeksToStr(s.vacationWeeks)||'—'}</td>
+      <td>${vacCell}</td>
       <td>${contactCell}</td>
       <td style="text-align:right;white-space:nowrap"><button class="del" data-edit="${s.id}" title="Upravit">✏️</button><button class="del" data-supdel="${s.id}" title="Smazat">🗑</button></td>
     </tr>`;}).join('')}</tbody></table></div>` : '<div class="empty">Zatím žádný dodavatel. Přidej přes „➕ Nový dodavatel".</div>';
@@ -316,10 +346,20 @@ document.addEventListener('input', e=>{
     supDraft.contacts[ci][t.dataset.ck]=t.value;
     return;
   }
+  if(applyVacField(t)) return;
 });
+function applyVacField(t){
+  if(!(t.dataset.vk && supDraft)) return false;
+  const vr=t.closest && t.closest('[data-vi]'); if(!vr) return false;
+  const vi=+vr.dataset.vi; if(!supDraft.vacations[vi]) return false;
+  if(t.dataset.vk==='yearly') supDraft.vacations[vi].yearly=t.checked;
+  else supDraft.vacations[vi][t.dataset.vk]=t.value;
+  return true;
+}
 document.addEventListener('change', e=>{
   const t=e.target;
   if(t.dataset && t.dataset.fk==='country' && supDraft){ supDraft.country=t.value; return; }
+  if(applyVacField(t)) return;
 });
 document.addEventListener('click', e=>{
   const t=e.target;
@@ -327,6 +367,8 @@ document.addEventListener('click', e=>{
   if(t.id==='supCancel'){ supEditId=null; supDraft=null; renderSuppliers(); return; }
   if(t.id==='contactAdd' && supDraft){ supDraft.contacts=supDraft.contacts||[]; supDraft.contacts.push(blankContact()); renderSuppliers(); return; }
   if(t.dataset && t.dataset.cdel!=null && supDraft){ supDraft.contacts.splice(+t.dataset.cdel,1); renderSuppliers(); return; }
+  if(t.id==='vacAdd' && supDraft){ supDraft.vacations=supDraft.vacations||[]; supDraft.vacations.push(blankVacation()); renderSuppliers(); return; }
+  if(t.dataset && t.dataset.vacdel!=null && supDraft){ supDraft.vacations.splice(+t.dataset.vacdel,1); renderSuppliers(); return; }
   if(t.id==='supSave'){
     if(!supDraft) return;
     if(!(supDraft.name||'').trim()){ alert('Vyplň aspoň jméno dodavatele.'); return; }
@@ -349,6 +391,9 @@ document.addEventListener('click', e=>{
   const er = t.closest && t.closest('[data-edit]');
   if(er){ const id=+er.dataset.edit; const s=suppliers.find(x=>x.id===id); if(s){ supEditId=id; supDraft=JSON.parse(JSON.stringify(s)); renderSuppliers(); } return; }
 });
+
+// klik do pole data spolehlivě otevře kalendář
+document.addEventListener('click', e=>{ const t=e.target; if(t && t.tagName==='INPUT' && t.type==='date' && typeof t.showPicker==='function'){ try{ t.showPicker(); }catch(_){} } });
 
 // ───────── START
 loadData();

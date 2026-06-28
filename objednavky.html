@@ -77,6 +77,7 @@
     <button data-sec="objednavky" class="on">📦 Objednávky</button>
     <button data-sec="nova">🧮 Kalkulačka termínů</button>
     <button data-sec="dodavatele">👥 Dodavatelé</button>
+    <button data-sec="cenik">💰 Ceníky</button>
     <button data-sec="sablony">🏭 Výrobní šablony</button>
     <button data-sec="svatky">🗓️ Svátky &amp; volno</button>
   </div>
@@ -114,6 +115,15 @@
       <div class="panel-foot"><span class="hint">🔒 Funguje jako kartotéka dodavatelů — kontakt, IČO i logistika. Data zůstávají jen v tomto prohlížeči (citlivé). Dovolená: čísla týdnů oddělená čárkou, např. 28, 29.</span></div>
     </div>
   </section>
+  <section class="sec" id="sec-cenik">
+    <div class="panel">
+      <div class="panel-head"><h2>💰 Ceníky dodavatelů</h2><span class="grow"></span>
+        <label class="hint" style="display:flex;align-items:center;gap:8px">Dodavatel: <select id="pricingSup"></select></label></div>
+      <div class="panel-body" id="pricingBody"></div>
+      <div class="panel-foot"><span class="hint">Množstevní pásma „od množství → cena/ks". V objednávce u tohoto dodavatele cena/ks naskočí sama podle množství. Bez ceníku zůstane cena ruční.</span></div>
+    </div>
+  </section>
+
   <section class="sec" id="sec-sablony">
     <div class="panel">
       <div class="panel-head"><h2>🏭 Výrobní šablony</h2><span class="grow"></span><span class="sum" id="chSum"></span>
@@ -397,16 +407,6 @@ function supForm(d){
       </div>`).join('')||'<div class="hint" style="padding:4px 0">Zatím žádná dovolená.</div>'}
       <button class="btn" id="vacAdd" style="margin-top:8px">+ Přidat období</button>
     </div>
-    <div class="contacts">
-      <div class="chead">💰 Ceník (množstevní pásma)</div>
-      ${(d.priceTiers||[]).map((t,ti)=>`<div class="ptrow" data-pti="${ti}">
-        <select data-ptk="product">${PRODUCTS.map(p=>`<option value="${p.id}"${p.id===t.product?' selected':''}>${p.name}</option>`).join('')}</select>
-        <label class="vlab">od množství<input data-ptk="minQty" type="number" min="0" value="${t.minQty}"></label>
-        <label class="vlab">cena/ks (Kč)<input data-ptk="price" type="number" min="0" value="${t.price}"></label>
-        <button class="del" data-ptdel="${ti}" title="Smazat pásmo">🗑</button>
-      </div>`).join('')||'<div class="hint" style="padding:4px 0">Zatím bez ceníku → cena/ks v objednávce zůstane ruční. Přidej pásma (např. od 0 → 90, od 100 → 75, od 300 → 65).</div>'}
-      <button class="btn" id="ptAdd" style="margin-top:8px">+ Přidat pásmo</button>
-    </div>
     <div class="panel-foot" style="border-top:none;padding:14px 0 0">
       <button class="btn gold" id="supSave">💾 Uložit dodavatele</button>
       <button class="btn ghost" id="supCancel">Zrušit</button>
@@ -634,6 +634,25 @@ function applyItemField(t){
   return true;
 }
 
+// ───────── CENÍKY
+let pricingSupId=null;
+function renderPricing(){
+  const supSel=$('pricingSup');
+  if(pricingSupId==null || !suppliers.find(s=>s.id===pricingSupId)) pricingSupId = suppliers[0] ? suppliers[0].id : null;
+  if(supSel) supSel.innerHTML = suppliers.map(s=>`<option value="${s.id}"${s.id===pricingSupId?' selected':''}>${escT(s.name)||'(bez jména)'}</option>`).join('');
+  const body=$('pricingBody'); if(!body) return;
+  if(!suppliers.length){ body.innerHTML='<div class="empty">Nejdřív přidej dodavatele (záložka 👥 Dodavatelé).</div>'; return; }
+  const s=suppliers.find(x=>x.id===pricingSupId); if(!s){ body.innerHTML=''; return; }
+  s.priceTiers=s.priceTiers||[];
+  body.innerHTML = (s.priceTiers.length ? s.priceTiers.map((t,ti)=>`<div class="ptrow" data-pti="${ti}">
+      <select data-ptk="product">${PRODUCTS.map(p=>`<option value="${p.id}"${p.id===t.product?' selected':''}>${p.name}</option>`).join('')}</select>
+      <label class="vlab">od množství<input data-ptk="minQty" type="number" min="0" value="${t.minQty}"></label>
+      <label class="vlab">cena/ks (Kč)<input data-ptk="price" type="number" min="0" value="${t.price}"></label>
+      <button class="del" data-ptdel="${ti}" title="Smazat pásmo">🗑</button>
+    </div>`).join('') : '<div class="hint" style="padding:4px 0">Zatím bez ceníku → cena/ks v objednávce zůstane ruční. Přidej pásma (např. od 0 → 90, od 100 → 75, od 300 → 65).</div>')
+    + '<button class="btn" id="ptAdd" style="margin-top:10px">+ Přidat pásmo</button>';
+}
+
 // ───────── SVÁTKY & VOLNO
 function renderOurVac(){
   if(!$('ourVacList')) return;
@@ -692,7 +711,7 @@ document.addEventListener('click', e=>{
 });
 
 // ───────── render
-function refreshAll(){ renderOrders(); renderTransit(); renderSuppliers(); renderChains(); renderOurVac(); renderHolidays(); renderCalc(); }
+function refreshAll(){ renderOrders(); renderTransit(); renderSuppliers(); renderChains(); renderPricing(); renderOurVac(); renderHolidays(); renderCalc(); }
 function applyOurVac(t){
   if(!t.dataset.ovk) return false;
   const r=t.closest && t.closest('[data-ovi]'); if(!r) return false;
@@ -745,11 +764,13 @@ function applyVacField(t){
   return true;
 }
 function applyPtField(t){
-  if(!(t.dataset.ptk && supDraft)) return false;
+  if(!t.dataset.ptk) return false;
+  const s=suppliers.find(x=>x.id===pricingSupId); if(!s) return false;
   const r=t.closest && t.closest('[data-pti]'); if(!r) return false;
-  const pt=supDraft.priceTiers[+r.dataset.pti]; if(!pt) return false;
+  const pt=(s.priceTiers||[])[+r.dataset.pti]; if(!pt) return false;
   const k=t.dataset.ptk;
   if(k==='minQty'||k==='price') pt[k]=+t.value||0; else pt[k]=t.value;
+  saveData(); renderOrders();
   return true;
 }
 document.addEventListener('change', e=>{
@@ -775,6 +796,7 @@ document.addEventListener('change', e=>{
   }
   if(applyOurVac(t)) return;
   if(t.id==='holCountry'||t.id==='holYear'){ renderHolidays(); return; }
+  if(t.id==='pricingSup'){ pricingSupId=+t.value; renderPricing(); return; }
   if(t.dataset.ofk==='supplierId' && ordDraft){ ordDraft.supplierId=+t.value; return; }
   if(applyItemField(t)){ renderOrders(); return; }
 });
@@ -786,8 +808,8 @@ document.addEventListener('click', e=>{
   if(t.dataset && t.dataset.cdel!=null && supDraft){ supDraft.contacts.splice(+t.dataset.cdel,1); renderSuppliers(); return; }
   if(t.id==='vacAdd' && supDraft){ supDraft.vacations=supDraft.vacations||[]; supDraft.vacations.push(blankVacation()); renderSuppliers(); return; }
   if(t.dataset && t.dataset.vacdel!=null && supDraft){ supDraft.vacations.splice(+t.dataset.vacdel,1); renderSuppliers(); return; }
-  if(t.id==='ptAdd' && supDraft){ supDraft.priceTiers=supDraft.priceTiers||[]; supDraft.priceTiers.push(blankPriceTier()); renderSuppliers(); return; }
-  if(t.dataset && t.dataset.ptdel!=null && supDraft){ supDraft.priceTiers.splice(+t.dataset.ptdel,1); renderSuppliers(); return; }
+  if(t.id==='ptAdd'){ const s=suppliers.find(x=>x.id===pricingSupId); if(s){ s.priceTiers=s.priceTiers||[]; s.priceTiers.push(blankPriceTier()); saveData(); renderPricing(); } return; }
+  if(t.dataset && t.dataset.ptdel!=null){ const s=suppliers.find(x=>x.id===pricingSupId); if(s){ s.priceTiers.splice(+t.dataset.ptdel,1); saveData(); renderPricing(); } return; }
   if(t.id==='supSave'){
     if(!supDraft) return;
     if(!(supDraft.name||'').trim()){ alert('Vyplň aspoň jméno dodavatele.'); return; }

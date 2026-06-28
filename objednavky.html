@@ -79,7 +79,18 @@
     <button data-sec="svatky">🗓️ Svátky &amp; volno</button>
   </div>
 
-  <section class="sec on" id="sec-objednavky"><div class="panel"><div class="panel-body"><span class="hint">Objednávky — doplní se v Tasku 2.</span></div></div></section>
+  <section class="sec on" id="sec-objednavky">
+    <div class="panel">
+      <div class="panel-head"><h2>📦 Objednávky</h2><span class="grow"></span><span class="sum" id="ordSum"></span>
+        <button class="btn gold" id="ordAdd">➕ Nová objednávka</button></div>
+      <div class="panel-body" id="ordList"></div>
+      <div class="panel-foot"><span class="hint">Objednávka u dodavatele po variantách (SKU). Koncept = rozpracováno; „Objednat" → na cestě (spočítá termín dodání); „Přijato" → naskladní do Skladu.</span></div>
+    </div>
+    <div class="panel">
+      <div class="panel-head"><h2>🚚 Zboží na cestě</h2><span class="grow"></span><span class="sum" id="transitSum"></span></div>
+      <div class="panel-body" id="transitList"></div>
+    </div>
+  </section>
 
   <section class="sec" id="sec-nova">
     <div class="panel">
@@ -458,6 +469,96 @@ function renderChains(){
   if($('chSum')) $('chSum').textContent = chains.length ? chains.length+' šablon' : '';
 }
 
+// ───────── OBJEDNÁVKY
+let ordEditId=null, ordDraft=null;
+function fmtKc(n){ return (isFinite(n)?Math.round(n).toLocaleString('cs-CZ'):'0')+' Kč'; }
+function blankItem(){ return { product:PRODUCTS[0].id, color:(COLORS[0]&&COLORS[0].name)||'Bílá', feat:[], size:PRODUCTS[0].sizes[Math.min(1,PRODUCTS[0].sizes.length-1)], qty:0, price:0 }; }
+function blankOrder(){ return { id:null, supplierId:(suppliers[0]&&suppliers[0].id)||null, status:'koncept', created:new Date().toISOString(), ordered:'', eta:'', received:'', note:'', items:[ blankItem() ] }; }
+const itemValid = it => it.product && it.color && it.size && (+it.qty||0)>0;
+function orderValue(o){ return (o.items||[]).reduce((s,it)=>s+(+it.qty||0)*(+it.price||0),0); }
+function orderKs(o){ return (o.items||[]).reduce((s,it)=>s+(+it.qty||0),0); }
+function supName(id){ const s=suppliers.find(x=>x.id===id); return s?(s.name||'(bez jména)'):'—'; }
+function etaForOrder(o, fromISO){
+  const from=new Date((fromISO||fmtISO(new Date()))+'T00:00:00');
+  let latest=null;
+  (o.items||[]).filter(itemValid).forEach(it=>{
+    const chain=chainForProduct(it.product);
+    const end=(chain && (chain.steps||[]).length) ? calcChainForward(chain, from).end : new Date(from);
+    if(!latest || end>latest) latest=end;
+  });
+  return latest;
+}
+function itemRow(it,i){
+  const p=prodDef(it.product);
+  const sel=(list,val,mv,ml)=>list.map(x=>{const v=mv?mv(x):x,l=ml?ml(x):x;return `<option value="${v}"${v===val?' selected':''}>${l}</option>`;}).join('');
+  const sku=skuOf(it.product,it.color,it.feat,it.size);
+  return `<tr data-ii="${i}">
+    <td><select data-ik="product">${sel(PRODUCTS,it.product,x=>x.id,x=>x.name)}</select></td>
+    <td><select data-ik="color">${sel(COLORS,it.color,c=>c.name,c=>c.name)}</select></td>
+    <td><select data-ik="feat">${p.feat.map(f=>`<option value="${featKey(f)}"${featKey(f)===featKey(it.feat)?' selected':''}>${featText(f)}</option>`).join('')}</select></td>
+    <td><select data-ik="size">${p.sizes.map(s=>`<option value="${s}"${s===it.size?' selected':''}>${s}</option>`).join('')}</select></td>
+    <td class="skucell" style="font-family:ui-monospace,monospace;color:var(--gold);font-size:11px">${sku}</td>
+    <td style="text-align:right;color:var(--muted)">${stockQty(sku)}</td>
+    <td><input data-ik="qty" type="number" min="0" value="${it.qty}" style="width:70px"></td>
+    <td><input data-ik="price" type="number" min="0" value="${it.price}" style="width:80px"></td>
+    <td style="text-align:right;color:var(--gold)">${fmtKc((+it.qty||0)*(+it.price||0))}</td>
+    <td><button class="del" data-itemdel="${i}">🗑</button></td>
+  </tr>`;
+}
+function orderForm(d){
+  const eta=etaForOrder(d, d.ordered||null);
+  return `<div class="supcard" data-ordform="1">
+    <div class="supcard-head">
+      <span class="supnum">${ordEditId==='new'?'NOVÁ':'ÚPRAVA'}</span>
+      <select data-ofk="supplierId" class="supname" style="max-width:280px">${suppliers.map(s=>`<option value="${s.id}"${s.id===d.supplierId?' selected':''}>${escT(s.name)||'(bez jména)'}</option>`).join('')||'<option value="">— nejdřív přidej dodavatele —</option>'}</select>
+    </div>
+    <div class="gridwrap"><table class="grid">
+      <thead><tr><th>Produkt</th><th>Barva</th><th>Provedení</th><th>Vel.</th><th>SKU</th><th style="text-align:right">Sklad</th><th>Ks</th><th>Cena/ks</th><th style="text-align:right">Hodnota</th><th></th></tr></thead>
+      <tbody>${(d.items||[]).map((it,i)=>itemRow(it,i)).join('')||'<tr><td colspan="10" class="empty">Bez položek.</td></tr>'}</tbody>
+    </table></div>
+    <button class="btn" id="itemAdd" style="margin-top:8px">+ Položka</button>
+    <div style="margin-top:12px"><label class="fld">Poznámka<input data-ofk="note" value="${esc(d.note)}" placeholder="nepovinné"></label></div>
+    <div style="margin-top:12px;font-size:13px">Položek: <strong>${(d.items||[]).filter(itemValid).length}</strong> · Kusů: <strong>${orderKs(d)}</strong> · Hodnota: <strong style="color:var(--gold)">${fmtKc(orderValue(d))}</strong>${eta?` · ETA: <strong style="color:var(--gold)">${eta.toLocaleDateString('cs-CZ')}</strong>${d.ordered?'':' (kdyby ses objednal dnes)'}`:''}</div>
+    <div class="panel-foot" style="border-top:none;padding:14px 0 0">
+      <button class="btn" id="ordSaveDraft">💾 Uložit koncept</button>
+      <button class="btn gold" id="ordPlace">✅ Objednat</button>
+      <button class="btn ghost" id="ordCancel">Zrušit</button>
+    </div>
+  </div>`;
+}
+function renderOrders(){
+  if(!$('ordList')) return;
+  if(ordEditId!==null && ordDraft){ $('ordList').innerHTML=orderForm(ordDraft); if($('ordSum'))$('ordSum').textContent=''; return; }
+  const head=t=>`<div class="chead" style="font-size:11px;color:var(--gold);text-transform:uppercase;letter-spacing:.6px;font-weight:700;margin:16px 0 8px">${t}</div>`;
+  const drafts=orders.filter(o=>o.status==='koncept');
+  let html=head('📝 Koncepty').replace('margin:16px','margin:4px');
+  html+= drafts.length ? `<div class="gridwrap"><table class="grid"><thead><tr><th>Dodavatel</th><th style="text-align:right">Položek</th><th style="text-align:right">Kusů</th><th style="text-align:right">Hodnota</th><th style="text-align:right">Akce</th></tr></thead><tbody>`
+    + drafts.map(o=>`<tr><td style="font-weight:600">${escT(supName(o.supplierId))}</td><td style="text-align:right">${(o.items||[]).filter(itemValid).length}</td><td style="text-align:right">${orderKs(o)}</td><td style="text-align:right;color:var(--gold)">${fmtKc(orderValue(o))}</td><td style="text-align:right;white-space:nowrap"><button class="del" data-ordedit="${o.id}" title="Upravit">✏️</button><button class="del" data-orddel="${o.id}" title="Smazat">🗑</button></td></tr>`).join('')
+    + '</tbody></table></div>' : '<div class="hint" style="padding:4px 0 10px">Žádný koncept.</div>';
+  $('ordList').innerHTML=html;
+  if($('ordSum')) $('ordSum').textContent = orders.length ? orders.length+' objednávek' : '';
+}
+function renderTransit(){}
+function saveOrder(){
+  if(!ordDraft) return;
+  if(!ordDraft.supplierId){ alert('Vyber dodavatele.'); return; }
+  if(!(ordDraft.items||[]).some(itemValid)){ alert('Přidej aspoň jednu položku (produkt, barva, velikost, ks > 0).'); return; }
+  if(ordEditId==='new'){ ordDraft.id=++orderSeq; orders.push(ordDraft); }
+  else { const idx=orders.findIndex(o=>o.id===ordEditId); if(idx>=0) orders[idx]=ordDraft; }
+  ordEditId=null; ordDraft=null; saveData(); renderOrders(); renderTransit();
+}
+function applyItemField(t){
+  if(!(t.dataset.ik && ordDraft)) return false;
+  const ir=t.closest && t.closest('[data-ii]'); if(!ir) return false;
+  const it=ordDraft.items[+ir.dataset.ii]; if(!it) return false;
+  const k=t.dataset.ik;
+  if(k==='qty'||k==='price') it[k]=+t.value||0;
+  else if(k==='feat') it.feat = t.value?t.value.split(','):[];
+  else if(k==='product'){ it.product=t.value; const p=prodDef(t.value); if(!p.feat.some(f=>featKey(f)===featKey(it.feat))) it.feat=[]; if(!p.sizes.includes(it.size)) it.size=p.sizes[Math.min(1,p.sizes.length-1)]; }
+  else it[k]=t.value;
+  return true;
+}
+
 // ───────── SVÁTKY & VOLNO
 function renderOurVac(){
   if(!$('ourVacList')) return;
@@ -516,7 +617,7 @@ document.addEventListener('click', e=>{
 });
 
 // ───────── render
-function refreshAll(){ renderSuppliers(); renderChains(); renderOurVac(); renderHolidays(); renderCalc(); }
+function refreshAll(){ renderOrders(); renderTransit(); renderSuppliers(); renderChains(); renderOurVac(); renderHolidays(); renderCalc(); }
 function applyOurVac(t){
   if(!t.dataset.ovk) return false;
   const r=t.closest && t.closest('[data-ovi]'); if(!r) return false;
@@ -545,6 +646,8 @@ document.addEventListener('input', e=>{
   if(applyOurVac(t)){ renderCalc(); return; }
   if(t.dataset.chfk && chDraft){ chDraft.name=t.value; return; }
   if(applyStepField(t)){ if(typeof renderCalc==='function') renderCalc(); return; }
+  if(t.dataset.ofk && ordDraft){ if(t.dataset.ofk==='supplierId') ordDraft.supplierId=+t.value; else ordDraft[t.dataset.ofk]=t.value; return; }
+  if(applyItemField(t)){ renderOrders(); return; }
 });
 function applyStepField(t){
   if(!(t.dataset.stk && chDraft)) return false;
@@ -587,6 +690,8 @@ document.addEventListener('change', e=>{
   }
   if(applyOurVac(t)) return;
   if(t.id==='holCountry'||t.id==='holYear'){ renderHolidays(); return; }
+  if(t.dataset.ofk==='supplierId' && ordDraft){ ordDraft.supplierId=+t.value; return; }
+  if(applyItemField(t)){ renderOrders(); return; }
 });
 document.addEventListener('click', e=>{
   const t=e.target;
@@ -643,6 +748,15 @@ document.addEventListener('click', e=>{
   if(t.dataset && t.dataset.ourvacdel!=null){ ourVacation.ranges.splice(+t.dataset.ourvacdel,1); saveData(); renderOurVac(); renderCalc(); return; }
   if(t.id==='custAdd'){ const d=$('custDate').value; if(!d){ alert('Vyber datum.'); return; } customHolidays.push({ date:d, name:$('custName').value||'volno', country:$('custCountry').value||'*' }); $('custName').value=''; saveData(); renderHolidays(); return; }
   if(t.dataset && t.dataset.custdel!=null){ customHolidays.splice(+t.dataset.custdel,1); saveData(); renderHolidays(); return; }
+
+  // ── objednávky
+  if(t.id==='ordAdd'){ if(!suppliers.length){ alert('Nejdřív přidej aspoň jednoho dodavatele (záložka Dodavatelé).'); return; } ordEditId='new'; ordDraft=blankOrder(); renderOrders(); return; }
+  if(t.id==='ordCancel'){ ordEditId=null; ordDraft=null; renderOrders(); return; }
+  if(t.id==='itemAdd' && ordDraft){ ordDraft.items.push(blankItem()); renderOrders(); return; }
+  if(t.dataset && t.dataset.itemdel!=null && ordDraft){ ordDraft.items.splice(+t.dataset.itemdel,1); if(!ordDraft.items.length) ordDraft.items=[blankItem()]; renderOrders(); return; }
+  if(t.id==='ordSaveDraft'){ saveOrder(); return; }
+  if(t.dataset && t.dataset.orddel!=null){ if(confirm('Smazat objednávku?')){ orders=orders.filter(o=>o.id!==+t.dataset.orddel); saveData(); renderOrders(); renderTransit(); } return; }
+  { const oer=t.closest && t.closest('[data-ordedit]'); if(oer){ const o=orders.find(x=>x.id===+oer.dataset.ordedit); if(o){ ordEditId=o.id; ordDraft=JSON.parse(JSON.stringify(o)); renderOrders(); } return; } }
 
   // ── kalkulačka
   if(t.id==='calcRun'){ runCalc(); return; }

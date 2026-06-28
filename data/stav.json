@@ -64,6 +64,12 @@
     {
       "datum": "28. 6. 2026",
       "minor": false,
+      "nadpis": "Objednávky — Krok A (objednávky + zboží na cestě)",
+      "text": "Objednávky dostaly doklad: <strong>📦 nová objednávka</strong> u dodavatele po variantách (SKU), životní cyklus <strong>koncept → objednáno → přijato</strong>. ETA (termín dodání) se počítá z výrobní šablony. <strong>🚚 Zboží na cestě</strong> sčítá objednané kusy a nejbližší dodání. <strong>Přijetí → naskladní do Skladu</strong> (vznikne příjemka s nákupní cenou) → a tím i do Financí (čtou sklad) = jedno zadání, data všude. <strong>💰 Množstevní ceník</strong> u dodavatele (pásma od množství → cena/ks) → cena v objednávce naskočí sama podle množství. Vše jen v prohlížeči. Krok B (hladiny + návrh co objednat + upozornění) ve frontě."
+    },
+    {
+      "datum": "28. 6. 2026",
+      "minor": false,
       "nadpis": "Objednávky — Fáze 1 (plánování výroby)",
       "text": "Nová dlaždice <strong>📋 Objednávky</strong> — mozek dodavatelského řetězce. <strong>Kartotéka dodavatelů</strong> (víc kontaktů/osob, IČO, adresa, web, telefon po trojicích, lead time, dovolené přes kalendář s volbou „opakovat každý rok\"). <strong>Výrobní šablony</strong> = kroky výroby za sebou (pletení → doprava → výšivka), sjednocený číselník kroků, přiřazení produktům, u každého kroku pracovní/kalendářní dny. <strong>Státní svátky automaticky</strong> pro ČR/SK/PL/DE včetně pohyblivých Velikonoc (počítá se, ne online) + vlastní volné dny. <strong>Kalkulačka termínů</strong> počítá oba směry: „objednám → kdy dorazí\" i „chci k datu → kdy objednat\", s rozpadem po krocích a přeskakováním víkendů/svátků/dovolených. Data jen v prohlížeči (citlivé). Fáze 2–4 (zakládání objednávek, reorder, peníze) ve frontě."
     },
@@ -535,12 +541,13 @@
     },
     {
       "id": "objednavky-faze2",
-      "stav": "fronta",
+      "stav": "hotovo",
       "priorita": "střední",
       "kdo": "Doležal",
       "vzniklo": "28. 6. 2026",
-      "text": "Objednávky — Fáze 2: zakládání objednávek + „zboží na cestě\" + propsání dodávky do skladu",
-      "pozn": ""
+      "text": "Objednávky — Krok A: objednávky jako doklad (koncept → objednáno → přijato) + zboží na cestě + naskladnění do skladu + množstevní ceník dodavatele",
+      "pozn": "",
+      "hotovo": "28. 6. 2026"
     },
     {
       "id": "objednavky-faze3",
@@ -558,6 +565,15 @@
       "kdo": "Doležal",
       "vzniklo": "28. 6. 2026",
       "text": "Objednávky — Fáze 4: finanční strop návrhu (nenavrhnout nákup nad možnosti firmy, napojení na Finance)",
+      "pozn": ""
+    },
+    {
+      "id": "objednavky-faze2b",
+      "stav": "fronta",
+      "priorita": "střední",
+      "kdo": "Doležal",
+      "vzniklo": "28. 6. 2026",
+      "text": "Objednávky — Krok B (mozek): skladové hladiny (reorder point) + rychlost prodeje z výdejek + zboží na cestě → návrh „co/kolik/kdy objednat\" + proaktivní upozornění",
       "pozn": ""
     }
   ],

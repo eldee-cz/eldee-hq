@@ -122,11 +122,12 @@ let suppliers = [];         // {id,name,country,ltDays,vacationWeeks:[],note}
 let chains = [];            // {id,name,steps:[{name,supplierId,days,dayType}],productIds:[]}
 let ourVacation = { ranges:[] };   // [{from,to,label,yearly}]
 let customHolidays = [];    // {country:'CZ'|'*', date:'YYYY-MM-DD', name}
+let stepTypes = ['Pletení','Doprava','Výšivka','Šití','Kompletace','Balení'];   // číselník typů kroků (sjednocený)
 let settings = { defaultCountry:'CZ' };
 function nextId(arr){ return (arr.reduce((m,x)=>Math.max(m, x.id||0), 0)) + 1; }
 let savedTimer;
 function saveData(){
-  localStorage.setItem(LS_KEY, JSON.stringify({ suppliers, chains, ourVacation, customHolidays, settings, updated:new Date().toISOString() }));
+  localStorage.setItem(LS_KEY, JSON.stringify({ suppliers, chains, ourVacation, customHolidays, stepTypes, settings, updated:new Date().toISOString() }));
   const el=$('savedNote'); if(el){ el.classList.add('show'); clearTimeout(savedTimer); savedTimer=setTimeout(()=>el.classList.remove('show'),1400); }
 }
 function loadData(){
@@ -136,6 +137,7 @@ function loadData(){
     if(Array.isArray(d.chains)) chains=d.chains;
     if(d.ourVacation && typeof d.ourVacation==='object'){ ourVacation.ranges=Array.isArray(d.ourVacation.ranges)?d.ourVacation.ranges:[]; }
     if(Array.isArray(d.customHolidays)) customHolidays=d.customHolidays;
+    if(Array.isArray(d.stepTypes) && d.stepTypes.length) stepTypes=d.stepTypes;
     if(d.settings && typeof d.settings==='object') settings=Object.assign(settings,d.settings);
   }catch(e){}
 }
@@ -330,6 +332,14 @@ let chEditId = null, chDraft = null;
 function blankStep(){ return { name:'', supplierId:null, days:0, dayType:'work' }; }
 function blankChain(){ return { id:null, name:'', steps:[ blankStep() ], productIds:[] }; }
 function supOptions(sel){ return `<option value=""${sel==null?' selected':''}>— (bez / doprava)</option>`+suppliers.map(s=>`<option value="${s.id}"${s.id===sel?' selected':''}>${escT(s.name)||'(bez jména)'}</option>`).join(''); }
+function stepNameSelect(val){
+  const opts = stepTypes.slice();
+  if(val && !opts.includes(val)) opts.unshift(val);   // zachovej i starý/vlastní název
+  return `<select data-stk="name" style="min-width:150px;width:100%">`
+    + `<option value=""${!val?' selected':''}>— vyber krok —</option>`
+    + opts.map(o=>`<option value="${esc(o)}"${o===val?' selected':''}>${escT(o)}</option>`).join('')
+    + `<option value="__new__">➕ nový typ…</option></select>`;
+}
 function chForm(d){
   return `<div class="supcard" data-chform="1">
     <div class="supcard-head">
@@ -341,7 +351,7 @@ function chForm(d){
       <thead><tr><th style="width:30px">#</th><th>Krok</th><th>Dodavatel</th><th style="width:80px">Dní</th><th>Typ dní</th><th></th></tr></thead>
       <tbody>${(d.steps||[]).map((st,i)=>`<tr data-si="${i}">
         <td>${i+1}</td>
-        <td><input data-stk="name" value="${esc(st.name)}" placeholder="Pletení / Doprava / Výšivka" style="min-width:140px;width:100%"></td>
+        <td>${stepNameSelect(st.name)}</td>
         <td><select data-stk="supplierId">${supOptions(st.supplierId)}</select></td>
         <td><input data-stk="days" type="number" min="0" value="${st.days||0}" style="width:70px"></td>
         <td><select data-stk="dayType"><option value="work"${st.dayType==='work'?' selected':''}>pracovní</option><option value="cal"${st.dayType==='cal'?' selected':''}>kalendářní</option></select></td>
@@ -411,9 +421,10 @@ function applyStepField(t){
   const sr=t.closest && t.closest('[data-si]'); if(!sr) return false;
   const st=chDraft.steps[+sr.dataset.si]; if(!st) return false;
   const k=t.dataset.stk;
+  if(k==='name') return false;   // name řeší change handler (kvůli „nový typ…")
   if(k==='days') st.days=+t.value||0;
   else if(k==='supplierId') st.supplierId = t.value==='' ? null : +t.value;
-  else st[k]=t.value;   // name, dayType
+  else st[k]=t.value;   // dayType
   return true;
 }
 function applyVacField(t){
@@ -428,6 +439,15 @@ document.addEventListener('change', e=>{
   const t=e.target;
   if(t.dataset && t.dataset.fk==='country' && supDraft){ supDraft.country=t.value; return; }
   if(applyVacField(t)) return;
+  if(t.dataset && t.dataset.stk==='name' && chDraft){
+    const sr=t.closest('[data-si]'); const st=sr && chDraft.steps[+sr.dataset.si];
+    if(st){
+      if(t.value==='__new__'){ const nv=(prompt('Nový typ kroku:')||'').trim(); if(nv && !stepTypes.includes(nv)) stepTypes.push(nv); st.name=nv||''; }
+      else st.name=t.value;
+      saveData(); renderChains(); if(typeof renderCalc==='function') renderCalc();
+    }
+    return;
+  }
   if(applyStepField(t)){ if(typeof renderCalc==='function') renderCalc(); return; }
   if(t.dataset && t.dataset.cprod && chDraft){
     const pid=t.dataset.cprod; chDraft.productIds=chDraft.productIds||[];

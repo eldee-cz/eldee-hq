@@ -214,11 +214,13 @@ let stepTypes = ['Pletení','Doprava','Výšivka','Šití','Kompletace','Balení
 let settings = { defaultCountry:'CZ' };
 let orders = [];     // {id,supplierId,status,created,ordered,eta,received,note,items:[{product,color,feat,size,qty,price}]}
 let orderSeq = 0;
+let levels = {};        // sku -> { variant:{product,color,feat,size}, min, target }
+let salesWindow = 30;   // okno pro rychlost prodeje (dny)
 function nextId(arr){ return (arr.reduce((m,x)=>Math.max(m, x.id||0), 0)) + 1; }
 function download(blob,name){ const u=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=u; a.download=name; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(u); }
 let savedTimer;
 function saveData(){
-  localStorage.setItem(LS_KEY, JSON.stringify({ suppliers, chains, ourVacation, customHolidays, stepTypes, settings, orders, orderSeq, updated:new Date().toISOString() }));
+  localStorage.setItem(LS_KEY, JSON.stringify({ suppliers, chains, ourVacation, customHolidays, stepTypes, settings, orders, orderSeq, levels, salesWindow, updated:new Date().toISOString() }));
   const el=$('savedNote'); if(el){ el.classList.add('show'); clearTimeout(savedTimer); savedTimer=setTimeout(()=>el.classList.remove('show'),1400); }
 }
 function loadData(){
@@ -232,6 +234,8 @@ function loadData(){
     if(d.settings && typeof d.settings==='object') settings=Object.assign(settings,d.settings);
     if(Array.isArray(d.orders)) orders=d.orders;
     if(typeof d.orderSeq==='number') orderSeq=d.orderSeq;
+    if(d.levels && typeof d.levels==='object') levels=d.levels;
+    if(typeof d.salesWindow==='number') salesWindow=d.salesWindow;
   }catch(e){}
 }
 // čtení skladu (sdílený localStorage eldeeData) — barvy, stav, zápis příjemky
@@ -501,6 +505,52 @@ const itemValid = it => it.product && it.color && it.size && (+it.qty||0)>0;
 function orderValue(o){ return (o.items||[]).reduce((s,it)=>s+(+it.qty||0)*(+it.price||0),0); }
 function orderKs(o){ return (o.items||[]).reduce((s,it)=>s+(+it.qty||0),0); }
 function supName(id){ const s=suppliers.find(x=>x.id===id); return s?(s.name||'(bez jména)'):'—'; }
+// ── mozek Kroku B
+function transitQty(sku){
+  let q=0;
+  orders.filter(o=>o.status==='objednano').forEach(o=>(o.items||[]).forEach(it=>{ if(itemValid(it) && skuOf(it.product,it.color,it.feat,it.size)===sku) q+=(+it.qty||0); }));
+  return q;
+}
+function salesPerDay(sku){
+  const sd=loadStock(); const issues=Array.isArray(sd.issues)?sd.issues:[];
+  const since=new Date(); since.setDate(since.getDate()-salesWindow);
+  let sold=0;
+  issues.forEach(r=>{ const d=new Date(r.created); if(isNaN(d)||d<since) return;
+    (r.lines||[]).forEach(l=>{ if((l.reason||'prodej')==='prodej' && skuOf(l.product,l.color,l.feat,l.size)===sku) sold+=(+l.qty||0); }); });
+  return salesWindow>0 ? sold/salesWindow : 0;
+}
+function leadDaysForProduct(product){
+  const chain=chainForProduct(product); if(!chain||!(chain.steps||[]).length) return null;
+  const today=new Date(); today.setHours(0,0,0,0);
+  return Math.round((calcChainForward(chain, today).end - today)/86400000);
+}
+function skuLabel(sku){ const v=levels[sku]&&levels[sku].variant; return v ? `${prodDef(v.product).name} ${v.color} ${featText(v.feat)} ${v.size}` : sku; }
+function suggestTier(product, need){
+  const tiers=[];
+  suppliers.forEach(s=>(s.priceTiers||[]).forEach(t=>{ if(t.product===product && t.price!=='' && t.price!=null) tiers.push({minQty:+t.minQty||0, price:+t.price||0}); }));
+  if(!tiers.length) return null;
+  const atNeed=Math.min(...tiers.filter(t=>t.minQty<=need).map(t=>t.price).concat([Infinity]));
+  const higher=tiers.filter(t=>t.minQty>need && t.price < atNeed).sort((a,b)=>a.minQty-b.minQty);
+  return higher.length ? { minQty:higher[0].minQty, price:higher[0].price } : null;
+}
+function buildSuggestions(){
+  const today=new Date(); today.setHours(0,0,0,0);
+  const out=[];
+  Object.keys(levels).forEach(sku=>{
+    const lv=levels[sku]; if(!lv||!lv.variant) return;
+    const min=+lv.min||0, target=+lv.target||0;
+    const stock=stockQty(sku), transit=transitQty(sku), avail=stock+transit;
+    if(avail> min) return;
+    const need=Math.max(0, target-avail); if(need<=0) return;
+    const perDay=salesPerDay(sku);
+    const daysLeft = perDay>0 ? Math.floor(stock/perDay) : null;
+    const leadDays = leadDaysForProduct(lv.variant.product);
+    let orderBy=null;
+    if(perDay>0 && leadDays!=null){ const slack=Math.max(0,(daysLeft||0)-leadDays); const d=new Date(today); d.setDate(d.getDate()+slack); orderBy=d; }
+    out.push({ sku, variant:lv.variant, stock, transit, min, target, need, tip:suggestTier(lv.variant.product, need), daysLeft, leadDays, orderBy, urgent: leadDays!=null && daysLeft!=null && daysLeft<leadDays });
+  });
+  return out;
+}
 function etaForOrder(o, fromISO){
   const from=new Date((fromISO||fmtISO(new Date()))+'T00:00:00');
   let latest=null;
@@ -886,7 +936,7 @@ document.addEventListener('click', e=>{
   // ── záloha
   if(t.id==='bkBtn'){ download(new Blob([localStorage.getItem(LS_KEY)||'{}'],{type:'application/json'}),'eldee-objednavky-zaloha.json'); return; }
   if(t.id==='rsBtn'){ $('rsFile').click(); return; }
-  if(t.id==='zeroBtn'){ if(confirm('Vynulovat všechna data objednávek (dodavatelé, šablony, svátky, objednávky)?\nAkce je nevratná — udělej si nejdřív zálohu.')){ suppliers=[]; chains=[]; ourVacation={ranges:[]}; customHolidays=[]; stepTypes=['Pletení','Doprava','Výšivka','Šití','Kompletace','Balení']; settings={defaultCountry:'CZ'}; orders=[]; orderSeq=0; saveData(); refreshAll(); alert('Vynulováno.'); } return; }
+  if(t.id==='zeroBtn'){ if(confirm('Vynulovat všechna data objednávek (dodavatelé, šablony, svátky, objednávky)?\nAkce je nevratná — udělej si nejdřív zálohu.')){ suppliers=[]; chains=[]; ourVacation={ranges:[]}; customHolidays=[]; stepTypes=['Pletení','Doprava','Výšivka','Šití','Kompletace','Balení']; settings={defaultCountry:'CZ'}; orders=[]; orderSeq=0; levels={}; salesWindow=30; saveData(); refreshAll(); alert('Vynulováno.'); } return; }
 });
 
 // klik do pole data spolehlivě otevře kalendář

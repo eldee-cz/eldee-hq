@@ -45,6 +45,11 @@
   .fgrid .fld.span2{ grid-column:span 2; }
   .fgrid input,.fgrid select,.fgrid textarea{ width:100%; }
   .fbar{ max-width:170px; }
+  details.panel > summary{ list-style:none; cursor:pointer; padding:13px 16px; color:var(--muted); font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:1.1px; font-family:ui-monospace,monospace; }
+  details.panel > summary::-webkit-details-marker{ display:none; }
+  details.panel > summary::before{ content:"▸ "; color:var(--gold); }
+  details.panel[open] > summary::before{ content:"▾ "; }
+  details.panel > summary:hover{ color:var(--bone); }
   @media (max-width:880px){ .fgrid{ grid-template-columns:repeat(2,1fr); } }
   @media (max-width:680px){ input,select,textarea{ font-size:16px; } .tabs button{ font-size:13px; padding:10px 13px; }
     .fgrid{ grid-template-columns:1fr; } .fgrid .fld.span2{ grid-column:span 1; } }
@@ -208,11 +213,31 @@ function stockLine(c){ if(!c.sku) return '';
   const cs=claimStockOf(c.sku);
   return `<span class="hint">📦 ${escT(c.sku)} · 🟢 prodejní ${skuStock(c.sku)} · 🔧 u nás ${cs.own||0} · 🚚 u dodavatele ${cs.supplier||0}</span>`; }
 
+// ───────── rozdělení otevřené / uzavřené + skládání sekce
+function splitClaims(typ){ const all=STORE.claims.filter(c=>c.typ===typ); return { open:all.filter(c=>!isDone(c)), closed:all.filter(isDone) }; }
+function tableHead(typ){
+  if(typ==='RD') return '<th>Číslo</th><th>Dodavatel</th><th>Zboží</th><th>Vada</th><th>Stav</th><th>Zbývá</th><th></th>';
+  if(typ==='VR') return '<th>Číslo</th><th>Zákazník</th><th>Zboží</th><th>Částka</th><th>Stav</th><th>Zbývá</th><th></th>';
+  return '<th>Číslo</th><th>Zákazník</th><th>Zboží</th><th>Vada</th><th>Stav</th><th>Zbývá</th><th></th>';
+}
+function rowsFn(typ,list){ return typ==='RD'?rowsRD(list):typ==='VR'?rowsVR(list):rowsRZ(list); }
+function gridTable(typ, rowsHtml){ return `<div class="gridwrap"><table class="grid"><thead><tr>${tableHead(typ)}</tr></thead><tbody>${rowsHtml}</tbody></table></div>`; }
+function sectionHTML(typ, title, addBtnId, addLabel){
+  const {open,closed}=splitClaims(typ);
+  const openRows = open.length ? rowsFn(typ,open) : '<tr><td colspan="7" class="empty">Žádná otevřená položka — vše vyřešené 🎉</td></tr>';
+  const main = `<div class="panel"><div class="panel-head"><h2>${title}</h2>
+    <span class="sum">${rowSummary(typ)}</span><span class="grow"></span>
+    <button class="btn gold" id="${addBtnId}">${addLabel}</button></div>
+    <div class="panel-body">${gridTable(typ, openRows)}</div></div>`;
+  const closedHtml = closed.length
+    ? `<details class="panel"><summary>Uzavřené (${closed.length})</summary><div class="panel-body">${gridTable(typ, rowsFn(typ,closed))}</div></details>`
+    : '';
+  return main + closedHtml;
+}
+
 // ═════════ ZÁLOŽKA RZ — reklamace zákazníka ═════════
-function rowsRZ(){
+function rowsRZ(list){
   const today=todayISO();
-  const list = STORE.claims.filter(c=>c.typ==='RZ');
-  if(!list.length) return '<tr><td colspan="7" class="empty">Zatím žádná reklamace zákazníka.</td></tr>';
   return list.map(c=>{
     const dl=window.daysLeft(c.datumUplatneni, c.lhutaDni, today);
     return `<tr>
@@ -258,14 +283,9 @@ function formRZ(c){
 }
 function renderRZ(){
   const root=$('rzRoot'); if(!root) return;
-  const open = editId!=null && STORE.claims.find(c=>c.id===editId&&c.typ==='RZ');
-  root.innerHTML = `<div class="panel"><div class="panel-head"><h2>🙋 Reklamace zákazníka</h2>
-    <span class="sum">${rowSummary('RZ')}</span><span class="grow"></span>
-    <button class="btn gold" id="rzAdd">+ Nová reklamace</button></div>
-    <div class="panel-body"><div class="gridwrap"><table class="grid"><thead><tr>
-      <th>Číslo</th><th>Zákazník</th><th>Zboží</th><th>Vada</th><th>Stav</th><th>Zbývá</th><th></th>
-    </tr></thead><tbody>${rowsRZ()}</tbody></table></div></div></div>`
-    + (open ? formRZ(open) : '');
+  const editing = editId!=null && STORE.claims.find(c=>c.id===editId&&c.typ==='RZ');
+  root.innerHTML = sectionHTML('RZ','🙋 Reklamace zákazníka','rzAdd','+ Nová reklamace')
+    + (editing ? formRZ(editing) : '');
 }
 
 // souhrn nad záložkou (otevřené / po termínu) — filtr doplní Blok D
@@ -282,10 +302,8 @@ function renderActive(){ const t=activeTyp(); if(t==='RZ') renderRZ(); else if(t
 function renderAll(){ renderRZ(); renderRD(); renderVR(); renderSettings(); renderZaloha(); }
 
 // ═════════ ZÁLOŽKA RD — reklamace u dodavatele ═════════
-function rowsRD(){
+function rowsRD(list){
   const today=todayISO();
-  const list=STORE.claims.filter(c=>c.typ==='RD');
-  if(!list.length) return '<tr><td colspan="7" class="empty">Zatím žádná reklamace u dodavatele.</td></tr>';
   return list.map(c=>{
     const dl=window.daysLeft(c.datumReklamace, c.terminDni, today);
     return `<tr>
@@ -328,21 +346,14 @@ function formRD(c){
 }
 function renderRD(){
   const root=$('rdRoot'); if(!root) return;
-  const open = editId!=null && STORE.claims.find(c=>c.id===editId&&c.typ==='RD');
-  root.innerHTML = `<div class="panel"><div class="panel-head"><h2>🏭 Reklamace u dodavatele</h2>
-    <span class="sum">${rowSummary('RD')}</span><span class="grow"></span>
-    <button class="btn gold" id="rdAdd">+ Nová reklamace</button></div>
-    <div class="panel-body"><div class="gridwrap"><table class="grid"><thead><tr>
-      <th>Číslo</th><th>Dodavatel</th><th>Zboží</th><th>Vada</th><th>Stav</th><th>Zbývá</th><th></th>
-    </tr></thead><tbody>${rowsRD()}</tbody></table></div></div></div>`
-    + (open ? formRD(open) : '');
+  const editing = editId!=null && STORE.claims.find(c=>c.id===editId&&c.typ==='RD');
+  root.innerHTML = sectionHTML('RD','🏭 Reklamace u dodavatele','rdAdd','+ Nová reklamace')
+    + (editing ? formRD(editing) : '');
 }
 
 // ═════════ ZÁLOŽKA VR — vrácení do 14 dnů ═════════
-function rowsVR(){
+function rowsVR(list){
   const today=todayISO();
-  const list=STORE.claims.filter(c=>c.typ==='VR');
-  if(!list.length) return '<tr><td colspan="7" class="empty">Zatím žádné vrácení.</td></tr>';
   return list.map(c=>{
     const dl=window.daysLeft(c.datumPrevzeti||today, c.lhutaDni, today);
     return `<tr>
@@ -385,14 +396,9 @@ function formVR(c){
 }
 function renderVR(){
   const root=$('vrRoot'); if(!root) return;
-  const open = editId!=null && STORE.claims.find(c=>c.id===editId&&c.typ==='VR');
-  root.innerHTML = `<div class="panel"><div class="panel-head"><h2>↩️ Vrácení do 14 dnů</h2>
-    <span class="sum">${rowSummary('VR')}</span><span class="grow"></span>
-    <button class="btn gold" id="vrAdd">+ Nové vrácení</button></div>
-    <div class="panel-body"><div class="gridwrap"><table class="grid"><thead><tr>
-      <th>Číslo</th><th>Zákazník</th><th>Zboží</th><th>Částka</th><th>Stav</th><th>Zbývá</th><th></th>
-    </tr></thead><tbody>${rowsVR()}</tbody></table></div></div></div>`
-    + (open ? formVR(open) : '');
+  const editing = editId!=null && STORE.claims.find(c=>c.id===editId&&c.typ==='VR');
+  root.innerHTML = sectionHTML('VR','↩️ Vrácení do 14 dnů','vrAdd','+ Nové vrácení')
+    + (editing ? formVR(editing) : '');
 }
 
 function renderSettings(){ const r=$('setRoot'); if(r&&!r.innerHTML) r.innerHTML='<div class="empty">Připravuje se…</div>'; }

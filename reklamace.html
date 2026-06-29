@@ -120,6 +120,7 @@ const DEFAULT_SETTINGS = { lhutaVyrizeni:30, zarukaMesice:24, lhutaOdstoupeni:14
   zpusoby:['oprava','výměna','sleva','vrácení peněz','dobropis','zamítnuto'] };
 let STORE = { seq:{RZ:0,RD:0,VR:0}, claims:[], settings:Object.assign({},DEFAULT_SETTINGS), updated:'' };
 let editId = null;   // id právě otevřeného případu (napříč záložkami)
+const FILTER = { RZ:{q:'',stav:'',termin:''}, RD:{q:'',stav:'',termin:''}, VR:{q:'',stav:'',termin:''} };
 
 function load(){
   try{
@@ -254,7 +255,13 @@ function doStockMove(claim, actionId){
 }
 
 // ───────── rozdělení otevřené / uzavřené + skládání sekce
-function splitClaims(typ){ const all=STORE.claims.filter(c=>c.typ===typ); return { open:all.filter(c=>!isDone(c)), closed:all.filter(isDone) }; }
+function splitClaims(typ){ const today=todayISO(); const all=STORE.claims.filter(c=>c.typ===typ && window.matchesFilter(c, FILTER[typ], today)); return { open:all.filter(c=>!isDone(c)), closed:all.filter(isDone) }; }
+function filterBar(typ){
+  const f=FILTER[typ]; const stavy=statusOptions(typ);
+  return `<input class="fbar" data-ft="q" data-typ="${typ}" placeholder="🔍 hledat…" value="${escT(f.q)}">
+    <select class="fbar" data-ft="stav" data-typ="${typ}"><option value="">stav: vše</option>${stavy.map(s=>`<option${s===f.stav?' selected':''}>${s}</option>`).join('')}</select>
+    <select class="fbar" data-ft="termin" data-typ="${typ}"><option value="">termín: vše</option><option value="over"${f.termin==='over'?' selected':''}>po termínu</option><option value="soon"${f.termin==='soon'?' selected':''}>blíží se (≤3 d)</option></select>`;
+}
 function tableHead(typ){
   if(typ==='RD') return '<th>Číslo</th><th>Dodavatel</th><th>Zboží</th><th>Vada</th><th>Stav</th><th>Zbývá</th><th></th>';
   if(typ==='VR') return '<th>Číslo</th><th>Zákazník</th><th>Zboží</th><th>Částka</th><th>Stav</th><th>Zbývá</th><th></th>';
@@ -267,6 +274,7 @@ function sectionHTML(typ, title, addBtnId, addLabel){
   const openRows = open.length ? rowsFn(typ,open) : '<tr><td colspan="7" class="empty">Žádná otevřená položka — vše vyřešené 🎉</td></tr>';
   const main = `<div class="panel"><div class="panel-head"><h2>${title}</h2>
     <span class="sum">${rowSummary(typ)}</span><span class="grow"></span>
+    ${filterBar(typ)}
     <button class="btn gold" id="${addBtnId}">${addLabel}</button></div>
     <div class="panel-body">${gridTable(typ, openRows)}</div></div>`;
   const closedHtml = closed.length
@@ -456,8 +464,33 @@ function renderVR(){
     + (editing ? formVR(editing) : '');
 }
 
-function renderSettings(){ const r=$('setRoot'); if(r&&!r.innerHTML) r.innerHTML='<div class="empty">Připravuje se…</div>'; }
-function renderZaloha(){ const r=$('zalRoot'); if(r&&!r.innerHTML) r.innerHTML='<div class="empty">Připravuje se…</div>'; }
+function renderSettings(){
+  const s=STORE.settings; const root=$('setRoot'); if(!root) return;
+  root.innerHTML = `<div class="panel"><div class="panel-head"><h2>⚙️ Lhůty &amp; nastavení</h2></div>
+  <div class="panel-body fgrid">
+    <label class="fld">Vyřízení reklamace (dní)<input type="number" data-s="lhutaVyrizeni" value="${s.lhutaVyrizeni}"></label>
+    <label class="fld">Reklamační lhůta (měsíců)<input type="number" data-s="zarukaMesice" value="${s.zarukaMesice}"></label>
+    <label class="fld">Odstoupení od smlouvy (dní)<input type="number" data-s="lhutaOdstoupeni" value="${s.lhutaOdstoupeni}"></label>
+    <label class="fld">Vrácení peněz po odstoupení (dní)<input type="number" data-s="lhutaVraceniPenez" value="${s.lhutaVraceniPenez}"></label>
+    <label class="fld span2" style="grid-column:1/-1">Způsoby vyřízení (oddělené čárkou)<input data-s="zpusoby" value="${escT(s.zpusoby.join(', '))}"></label>
+  </div>
+  <div class="panel-foot"><button class="btn gold" id="setSave">💾 Uložit nastavení</button>
+    <span class="grow"></span>
+    <span class="hint">Přednastaveno dle českého práva 2026 — orientační pomůcka, ne právní poradenství. Lhůty se použijí u nově založených případů.</span></div></div>`;
+}
+function renderZaloha(){
+  const root=$('zalRoot'); if(!root) return;
+  const cnt=STORE.claims.length;
+  root.innerHTML = `<div class="panel"><div class="panel-head"><h2>💾 Záloha</h2><span class="sum">${cnt} ${cnt===1?'případ':cnt>=2&&cnt<=4?'případy':'případů'}</span></div>
+  <div class="panel-body">
+    <p class="hint" style="margin-top:0">Data (vč. jmen zákazníků) jsou <strong>jen v tomto prohlížeči</strong> — citlivé, nikdy nejdou do veřejného repa. Přenos na jiný počítač / sdílení jen přes stažený soubor.</p>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      <button class="btn gold" id="zalExp">⬇ Stáhnout zálohu (JSON)</button>
+      <label class="btn" style="display:inline-flex;align-items:center">⬆ Načíst zálohu<input type="file" id="zalImp" accept="application/json" style="display:none"></label>
+      <button class="btn ghost" id="zalReset" style="color:var(--blood)">🗑 Vynulovat vše</button>
+    </div>
+  </div></div>`;
+}
 
 // ───────── události
 $('tabs').addEventListener('click', e=>{
@@ -521,6 +554,59 @@ $('vrRoot').addEventListener('click', e=>{
 $('vrRoot').addEventListener('change', e=>{
   if(e.target.dataset && e.target.dataset.status){ if(setStatusFromRow(Number(e.target.dataset.status), e.target.value)) renderVR(); return; }
   if(e.target.dataset && e.target.dataset.vf==='produkt'){ saveForm('VR'); renderVR(); }
+});
+
+// Nastavení
+$('setRoot').addEventListener('click', e=>{
+  if(e.target.id!=='setSave') return;
+  document.querySelectorAll('#setRoot [data-s]').forEach(el=>{
+    const k=el.dataset.s;
+    if(k==='zpusoby') STORE.settings.zpusoby = el.value.split(',').map(x=>x.trim()).filter(Boolean);
+    else STORE.settings[k] = Number(el.value)||0;
+  });
+  save(); toast('✓ Nastavení uloženo');
+});
+
+// Záloha
+$('zalRoot').addEventListener('click', e=>{
+  if(e.target.id==='zalExp'){
+    const blob=new Blob([JSON.stringify(STORE,null,1)],{type:'application/json'});
+    const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='eldee-reklamace-'+todayISO()+'.json'; a.click();
+    toast('⬇ Záloha stažena');
+  }
+  if(e.target.id==='zalReset'){
+    if(confirm('Opravdu smazat VŠECHNY reklamace a vrácení? Nevratné.')){
+      STORE={ seq:{RZ:0,RD:0,VR:0}, claims:[], settings:Object.assign({},DEFAULT_SETTINGS), updated:'' };
+      editId=null; save(); renderAll(); toast('Vynulováno');
+    }
+  }
+});
+$('zalRoot').addEventListener('change', e=>{
+  if(e.target.id!=='zalImp' || !e.target.files[0]) return;
+  const fr=new FileReader();
+  fr.onload=()=>{ try{
+      const d=JSON.parse(fr.result);
+      if(d && Array.isArray(d.claims)){
+        STORE = Object.assign({ seq:{RZ:0,RD:0,VR:0} }, d);
+        STORE.settings = Object.assign({}, DEFAULT_SETTINGS, d.settings||{});
+        editId=null; save(); renderAll(); alert('Záloha načtena ('+d.claims.length+' případů).');
+      } else alert('Neplatný soubor zálohy.');
+    }catch(err){ alert('Chyba při načítání: '+err.message); } };
+  fr.readAsText(e.target.files[0]);
+});
+
+// Filtr / hledání (delegovaně přes .fbar)
+function renderByTyp(typ){ if(typ==='RZ') renderRZ(); else if(typ==='RD') renderRD(); else renderVR(); }
+document.addEventListener('input', e=>{
+  const el=e.target; if(!el.classList || !el.classList.contains('fbar')) return;
+  const typ=el.dataset.typ, ft=el.dataset.ft;
+  FILTER[typ][ft]=el.value; renderByTyp(typ);
+  const back=document.querySelector('#'+rootIdForTyp(typ)+' .fbar[data-ft="'+ft+'"]');
+  if(back){ back.focus(); const n=back.value.length; try{ back.setSelectionRange(n,n); }catch(_){} }
+});
+document.addEventListener('change', e=>{
+  const el=e.target; if(!el.classList || !el.classList.contains('fbar') || el.tagName!=='SELECT') return;
+  FILTER[el.dataset.typ][el.dataset.ft]=el.value; renderByTyp(el.dataset.typ);
 });
 
 // klik kamkoliv do datumového pole otevře kalendář (PC i mobil)

@@ -209,6 +209,11 @@ function termCell(dl, done){
 function isDone(c){ return c.stav==='vyřízeno'||c.stav==='zamítnuto'; }
 function zboziCell(c){ return `${escT(c.sku||'—')} ×${c.pocet}`; }
 function zpusobOpts(sel){ return '<option value=""></option>'+STORE.settings.zpusoby.map(z=>`<option${z===sel?' selected':''}>${escT(z)}</option>`).join(''); }
+function statusOptions(typ){ return typ==='VR' ? ['oznámeno','zboží přijato','vyřízeno','zamítnuto'] : ['přijato','v řešení','vyřízeno','zamítnuto']; }
+function statusSelect(c){ return `<select data-status="${c.id}" style="font-size:11px;padding:5px 7px;min-width:104px">${statusOptions(c.typ).map(s=>`<option${s===c.stav?' selected':''}>${s}</option>`).join('')}</select>`; }
+// rychlá změna stavu z řádku (uzavřené automaticky dostanou datum vyřízení)
+function setStatusFromRow(id, val){ const c=STORE.claims.find(x=>x.id===id); if(!c) return false;
+  c.stav=val; if((val==='vyřízeno'||val==='zamítnuto')&&!c.datumVyrizeni) c.datumVyrizeni=todayISO(); save(); return true; }
 function stockLine(c){ if(!c.sku) return '';
   const cs=claimStockOf(c.sku);
   return `<span class="hint">📦 ${escT(c.sku)} · 🟢 prodejní ${skuStock(c.sku)} · 🔧 u nás ${cs.own||0} · 🚚 u dodavatele ${cs.supplier||0}</span>`; }
@@ -245,7 +250,7 @@ function rowsRZ(list){
       <td>${escT(c.zakaznik.jmeno||'—')}<div class="hint">${escT(c.zakaznik.kontakt||'')}</div></td>
       <td>${zboziCell(c)}</td>
       <td>${escT(c.popis||'')}</td>
-      <td><span class="pill">${escT(c.stav)}</span></td>
+      <td>${statusSelect(c)}</td>
       ${termCell(dl, isDone(c))}
       <td style="white-space:nowrap"><button class="del" data-edit="${c.id}" title="Otevřít">✏️</button><button class="del" data-del="${c.id}" title="Smazat">🗑</button></td>
     </tr>`;
@@ -311,7 +316,7 @@ function rowsRD(list){
       <td>${escT(supName(c.supplierId))}</td>
       <td>${zboziCell(c)}</td>
       <td>${escT(c.popis||'')}</td>
-      <td><span class="pill">${escT(c.stav)}</span></td>
+      <td>${statusSelect(c)}</td>
       ${termCell(dl, isDone(c))}
       <td style="white-space:nowrap"><button class="del" data-edit="${c.id}" title="Otevřít">✏️</button><button class="del" data-del="${c.id}" title="Smazat">🗑</button></td>
     </tr>`;
@@ -361,7 +366,7 @@ function rowsVR(list){
       <td>${escT(c.zakaznik.jmeno||'—')}<div class="hint">${escT(c.zakaznik.kontakt||'')}</div></td>
       <td>${zboziCell(c)}</td>
       <td style="text-align:right">${(Number(c.castka)||0).toLocaleString('cs-CZ')} Kč</td>
-      <td><span class="pill">${escT(c.stav)}</span></td>
+      <td>${statusSelect(c)}</td>
       ${termCell(dl, isDone(c))}
       <td style="white-space:nowrap"><button class="del" data-edit="${c.id}" title="Otevřít">✏️</button><button class="del" data-del="${c.id}" title="Smazat">🗑</button></td>
     </tr>`;
@@ -433,6 +438,7 @@ $('rzRoot').addEventListener('click', e=>{
   }
 });
 $('rzRoot').addEventListener('change', e=>{
+  if(e.target.dataset && e.target.dataset.status){ if(setStatusFromRow(Number(e.target.dataset.status), e.target.value)) renderRZ(); return; }
   if(e.target.dataset && e.target.dataset.vf==='produkt'){ saveForm('RZ'); renderRZ(); }
 });
 
@@ -446,6 +452,7 @@ $('rdRoot').addEventListener('click', e=>{
   if(t.id==='frmSave'){ saveForm('RD'); renderRD(); return; }
 });
 $('rdRoot').addEventListener('change', e=>{
+  if(e.target.dataset && e.target.dataset.status){ if(setStatusFromRow(Number(e.target.dataset.status), e.target.value)) renderRD(); return; }
   if(e.target.dataset && e.target.dataset.vf==='produkt'){ saveForm('RD'); renderRD(); }
 });
 
@@ -459,6 +466,7 @@ $('vrRoot').addEventListener('click', e=>{
   if(t.id==='frmSave'){ saveForm('VR'); renderVR(); return; }
 });
 $('vrRoot').addEventListener('change', e=>{
+  if(e.target.dataset && e.target.dataset.status){ if(setStatusFromRow(Number(e.target.dataset.status), e.target.value)) renderVR(); return; }
   if(e.target.dataset && e.target.dataset.vf==='produkt'){ saveForm('VR'); renderVR(); }
 });
 

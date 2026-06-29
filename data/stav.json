@@ -1,6 +1,6 @@
 {
   "meta": {
-    "aktualizovano": "28. 6. 2026",
+    "aktualizovano": "29. 6. 2026",
     "pilulky": [
       {
         "label": "Brand book",
@@ -61,6 +61,12 @@
     }
   ],
   "timeline": [
+    {
+      "datum": "29. 6. 2026",
+      "minor": false,
+      "nadpis": "Nová dlaždice Reklamace & vrácení (V1)",
+      "text": "Vznikla dlaždice <strong>🛠 Reklamace &amp; vrácení</strong> (reklamace.html) — příprava na ostrý provoz e-shopu. Tři evidence s automatickým číslováním: <strong>reklamace zákazníka (RZ)</strong>, <strong>reklamace u dodavatele (RD)</strong> a <strong>vrácení do 14 dnů (VR)</strong>. Hlídá lhůty (kolik zbývá, barevně po termínu), nárok (24 měsíců reklamace / 14 dní odstoupení), navrhované vs provedené řešení, otevřené × sbalené uzavřené. Z RZ se na klik založí navázaná RD. <strong>Jádro celého systému:</strong> dvoukbelíkový sklad — 🟢 prodejní (jen ten jde na Shoptet) a 🔧 reklamační (u nás / u dodavatele); vadný kus se přesouvá <strong>převodkou</strong>, takže ho Shoptet nikdy nenabídne k prodeji. Sklad to read-only zobrazuje. Lhůty editovatelné, filtr/hledání, záloha. Data jen v prohlížeči (citlivé — jména zákazníků). Přehled kvality (% uznaných, nejčastější vada) odložen na V2."
+    },
     {
       "datum": "28. 6. 2026",
       "minor": false,

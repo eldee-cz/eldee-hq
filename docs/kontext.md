@@ -38,6 +38,10 @@ Co umi:
 - Import objednavek ze Shoptetu ze souboru CSV — hlida duplicity pres cislo objednavky.
 - Produkt "Bundle" prejmenovan na "Set".
 
+**Novy od 2026-06-29 (reklamacni sklad):**
+- Read-only sekce "Na reklamaci" — prehled kusu v reklamacnim skladu (presunute prevodkou z reklamace.html).
+- Pri ukladani dat zachovava `claimStock` v `eldeeData` — neplise reklamacni zbozi s prodejnim.
+
 ### Objednavky (`objednavky.html`) — dlazdice "Objednavky" — NOVA od 2026-06-28
 Sprava dodavatelu, vyrobnich sablon a objednavek. Data jen v localStorage prohlizece (klic `eldeeData`).
 
@@ -58,6 +62,27 @@ Sprava dodavatelu, vyrobnich sablon a objednavek. Data jen v localStorage prohli
 - Sekce "Doporucujeme objednat": navrhne co a kolik objednat — bere v uvahu stav skladu, zbozi na ceste, rychlost prodeje a lead time z vyrobni sablony. Cenikovy tip na vyhodnejsi pasmo.
 - Upozorneni na podhladinove varianty primo ve formulari objednavky.
 - Tlacitko "Vytvorit koncept z navrhu" — jeden klik ze sekce doporuceni rovnou do konceptu objednavky.
+
+### Reklamace & vraceni (`reklamace.html`) — dlazdice "Reklamace & vraceni" — NOVA od 2026-06-29
+
+Sprava reklamaci od zakaznika, reklamaci u dodavatele a vraceni do 14 dni. Data jen v localStorage prohlizece (klic `eldeeData`).
+
+Co umi:
+1. Tri evidence s auto-cislovanim: RZ (reklamace od zakaznika), RD (reklamace u dodavatele), VR (vraceni do 14 dni).
+2. Hlidani lhut — kolik dni zbyvat, barevne zvyrazneni po terminu.
+3. Narok automaticky dle typu: 24 mesicu reklamace, 14 dni pro odstoupeni od smlouvy.
+4. Navrzene × provedene reseni, rychla zmena stavu primo v radku.
+5. Otevrene zaznamy oddelene od uzavrenych (sbalene pod poctem).
+6. Z RZ se na klik zalozi navazana RD — propojeni dokladu.
+7. Editovatelne lhuty + cislelnik zpusobu vyrieseni, filtr/hledani, zaloha export/import.
+8. 20 strojovych testu jadra (`tests/reklamace-core.test.js`).
+
+**Jadro — dvoukeblikov sklad:**
+- Prodejni sklad (ten jde na Shoptet) + reklamacni sklad (u nas / u dodavatele).
+- Vadny kus se presouva prevodkou (vzdy potvrzenou tlacitkem) → Shoptet ho neuvidi → nepreprodá se.
+- Sklad (`sklad.html`) dostal read-only sekci "Na reklamaci".
+
+*V2 (odlozeno): prehled kvality — % uznavanych reklamaci, nejcastejsi vady.*
 
 ### Ostatni stranky
 - `kluby-vyhledavac.html` — hledac fotbalovych klubu (+ `data/kluby-data.json`)
@@ -91,6 +116,12 @@ Sdileni s Hledikerm: tlacitko Zaloha (JSON soubor) → prenest do eldee-business
 
 ## Aktualni stav / posledni zmeny
 
+### 2026-06-29
+- **Reklamace & vraceni V1** (reklamace.html) — nova dlazdice, plne funkci, 20 testu jadra. Viz popis sekce vyse.
+- **Sklad** dostal read-only sekci "Na reklamaci" (zbozi presunute prevodkou) + oprava ukladani `claimStock`.
+- **Objednavky Faze 3/4 opusteny** — velka prace za maly prinos; davaji smysl az s realnym prodejem. Zustava ve fronte ukolu (nemazat).
+- Milnik zaznamenan v `data/stav.json`.
+
 ### 2026-06-28
 - **Sklad** rozsiren o Prodej/vydej, Historii prodejů a Shoptet CSV import (viz sekce vyse).
 - **Objednavky** (objednavky.html) — nova dlazdice, hotova Faze 1 + Krok A + Krok B (mozek). Kompletni celek.
@@ -109,7 +140,12 @@ Sdileni s Hledikerm: tlacitko Zaloha (JSON soubor) → prenest do eldee-business
 
 ## Rozpracovane veci / co dal
 
+- **Reklamace V2** — prehled kvality (% uznavanych, nejcastejsi vady). Odlozeno, bude davat smysl az s daty.
+- **Objednavky Faze 3/4** — ve fronte, ceka na realny prodej (nemazat).
 - **Shoptet live API** — online prenos skladu, nenabizet varianty ktere nejsou skladem. Potrebuje Shoptet pristupy (zatim jen CSV export/import).
 - **Propojeni s rodinnym kalendarem** — pravidelne terminy (DPH, danove priznani, splatnosti faktur) automaticky do kalendare.
 - **Cloud sharing / heslovani skladu** — az se rozjede realny prodej.
 - **Drop 001 launch** — launch = jen diry, kapsa na chranice az pozdeji.
+
+### Otevrene k rozhodnuti
+- **Automatika WIP push** — eldee automatika pushuje prubeznne na zive HQ i rozdelane veci. Zvazte, jestli to takto chcete, nebo push az po dokonceni celku.

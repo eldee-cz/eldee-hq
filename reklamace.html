@@ -456,6 +456,12 @@ $('vrRoot').addEventListener('change', e=>{
   if(e.target.dataset && e.target.dataset.vf==='produkt'){ saveForm('VR'); renderVR(); }
 });
 
+// klik kamkoliv do datumového pole otevře kalendář (PC i mobil)
+document.addEventListener('click', e=>{
+  const el=e.target;
+  if(el && el.tagName==='INPUT' && el.type==='date' && typeof el.showPicker==='function'){ try{ el.showPicker(); }catch(_){} }
+});
+
 syncColorsFromStock();
 load();
 renderAll();

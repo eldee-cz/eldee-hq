@@ -50,6 +50,8 @@
   details.panel > summary::before{ content:"▸ "; color:var(--gold); }
   details.panel[open] > summary::before{ content:"▾ "; }
   details.panel > summary:hover{ color:var(--bone); }
+  .toast{ position:fixed; left:50%; bottom:24px; transform:translateX(-50%) translateY(8px); background:var(--green); color:#04130c; font-weight:800; font-size:13px; padding:11px 20px; border-radius:10px; box-shadow:0 6px 24px rgba(0,0,0,.5); opacity:0; pointer-events:none; transition:opacity .22s, transform .22s; z-index:60; }
+  .toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
   @media (max-width:880px){ .fgrid{ grid-template-columns:repeat(2,1fr); } }
   @media (max-width:680px){ input,select,textarea{ font-size:16px; } .tabs button{ font-size:13px; padding:10px 13px; }
     .fgrid{ grid-template-columns:1fr; } .fgrid .fld.span2{ grid-column:span 1; } }
@@ -80,6 +82,7 @@
 
   <footer>eldee HQ · reklamace · data jen v tomto prohlížeči (citlivé — nesdílet)</footer>
 </div>
+<div class="toast" id="toast"></div>
 
 <script src="reklamace-core.js"></script>
 <script>
@@ -133,6 +136,7 @@ function save(){
   const el = $('savedNote'); if(el){ el.classList.add('show'); clearTimeout(savedTimer); savedTimer=setTimeout(()=>el.classList.remove('show'),1400); }
 }
 function todayISO(){ const d=new Date(); d.setHours(0,0,0,0); return d.toISOString().slice(0,10); }
+function toast(msg){ const el=$('toast'); if(!el) return; el.textContent=msg; el.classList.add('show'); clearTimeout(el._t); el._t=setTimeout(()=>el.classList.remove('show'),1700); }
 function escT(s){ return String(s==null?'':s).replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
 
 // sklad (read-only) + dodavatelé (read-only)
@@ -246,6 +250,7 @@ function doStockMove(claim, actionId){
   claim.history = claim.history||[];
   claim.history.push({ ts:new Date().toISOString(), text:act.label+' (×'+qty+' '+claim.sku+')' });
   save();
+  toast('📦 Sklad aktualizován');
 }
 
 // ───────── rozdělení otevřené / uzavřené + skládání sekce
@@ -468,7 +473,7 @@ $('rzRoot').addEventListener('click', e=>{
   if(t.dataset.edit!=null){ openClaim(Number(t.dataset.edit)); return; }
   if(t.dataset.del!=null){ delClaim(Number(t.dataset.del),'RZ'); return; }
   if(t.id==='frmClose'){ editId=null; renderRZ(); return; }
-  if(t.id==='frmSave'){ saveForm('RZ'); renderRZ(); return; }
+  if(t.id==='frmSave'){ saveForm('RZ'); editId=null; renderRZ(); toast('✓ Uloženo'); return; }
   if(t.dataset.move){ const c=STORE.claims.find(x=>x.id===editId); if(c){ saveForm('RZ'); if(confirm(window.STOCK_ACTIONS[t.dataset.move].label+'\n\nZapsat tento pohyb do skladu?')){ doStockMove(c,t.dataset.move); renderRZ(); } } return; }
   if(t.id==='rzToRd'){
     saveForm('RZ');
@@ -495,7 +500,7 @@ $('rdRoot').addEventListener('click', e=>{
   if(t.dataset.edit!=null){ openClaim(Number(t.dataset.edit)); return; }
   if(t.dataset.del!=null){ delClaim(Number(t.dataset.del),'RD'); return; }
   if(t.id==='frmClose'){ editId=null; renderRD(); return; }
-  if(t.id==='frmSave'){ saveForm('RD'); renderRD(); return; }
+  if(t.id==='frmSave'){ saveForm('RD'); editId=null; renderRD(); toast('✓ Uloženo'); return; }
   if(t.dataset.move){ const c=STORE.claims.find(x=>x.id===editId); if(c){ saveForm('RD'); if(confirm(window.STOCK_ACTIONS[t.dataset.move].label+'\n\nZapsat tento pohyb do skladu?')){ doStockMove(c,t.dataset.move); renderRD(); } } return; }
 });
 $('rdRoot').addEventListener('change', e=>{
@@ -510,7 +515,7 @@ $('vrRoot').addEventListener('click', e=>{
   if(t.dataset.edit!=null){ openClaim(Number(t.dataset.edit)); return; }
   if(t.dataset.del!=null){ delClaim(Number(t.dataset.del),'VR'); return; }
   if(t.id==='frmClose'){ editId=null; renderVR(); return; }
-  if(t.id==='frmSave'){ saveForm('VR'); renderVR(); return; }
+  if(t.id==='frmSave'){ saveForm('VR'); editId=null; renderVR(); toast('✓ Uloženo'); return; }
   if(t.dataset.move){ const c=STORE.claims.find(x=>x.id===editId); if(c){ saveForm('VR'); if(confirm(window.STOCK_ACTIONS[t.dataset.move].label+'\n\nZapsat tento pohyb do skladu?')){ doStockMove(c,t.dataset.move); renderVR(); } } return; }
 });
 $('vrRoot').addEventListener('change', e=>{

@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>eldee · reklamace</title>
+<style>
+  :root{ --ink:#08080A; --panel:#101013; --panel2:#16161B; --line:#26262e; --line2:#33333d;
+    --bone:#F2F2EE; --muted:#85858f; --gold:#C9A227; --gold-dim:rgba(201,162,39,.13);
+    --blood:#E0524F; --coach:#6fb3a0; --green:#4FAE84; }
+  *{ box-sizing:border-box; }
+  body{ margin:0; background:var(--ink); color:var(--bone); font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif; line-height:1.45; font-size:14px; }
+  .wrap{ max-width:1320px; margin:0 auto; padding:22px 22px 80px; }
+  .topbar{ display:flex; align-items:center; gap:14px; margin-bottom:16px; flex-wrap:wrap; }
+  .topbar .back{ color:var(--muted); text-decoration:none; font-size:13px; font-weight:600; }
+  .topbar .back:hover{ color:var(--bone); }
+  .brand{ font-size:20px; font-weight:900; letter-spacing:-0.4px; } .brand em{ color:var(--gold); font-style:normal; }
+  .spacer{ flex:1; } .saved{ font-size:11.5px; color:var(--coach); opacity:0; transition:opacity .3s; } .saved.show{ opacity:1; }
+  .tabs{ display:flex; gap:6px; margin-bottom:18px; flex-wrap:wrap; background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:5px; }
+  .tabs button{ background:transparent; border:none; color:var(--muted); font:inherit; font-weight:800; font-size:14px; padding:10px 18px; border-radius:8px; cursor:pointer; }
+  .tabs button.on{ background:var(--gold); color:#1a1400; }
+  .tabs button:hover:not(.on){ color:var(--bone); background:var(--panel2); }
+  .sec{ display:none; } .sec.on{ display:block; }
+  .panel{ background:var(--panel); border:1px solid var(--line); border-radius:13px; overflow:hidden; margin-bottom:18px; }
+  .panel-head{ display:flex; align-items:center; gap:12px; padding:13px 16px; border-bottom:1px solid var(--line); flex-wrap:wrap; }
+  .panel-head h2{ font-size:12px; margin:0; color:var(--gold); text-transform:uppercase; letter-spacing:1.3px; font-family:ui-monospace,monospace; font-weight:700; }
+  .panel-head .sum{ font-size:12px; color:var(--muted); } .grow{ flex:1; }
+  .panel-body{ padding:14px 16px; } .panel-foot{ display:flex; gap:10px; align-items:center; padding:11px 16px; border-top:1px solid var(--line); flex-wrap:wrap; }
+  .btn{ border-radius:8px; padding:8px 14px; font-size:12.5px; font-weight:700; cursor:pointer; border:1px solid var(--line2); background:var(--panel2); color:var(--bone); }
+  .btn:hover{ border-color:var(--gold); } .btn.gold{ background:var(--gold); color:#1a1400; border-color:var(--gold); } .btn.ghost{ background:transparent; }
+  .hint{ color:var(--muted); font-size:11.5px; } .empty{ padding:26px 16px; color:var(--muted); font-size:13px; text-align:center; }
+  label.fld{ display:flex; flex-direction:column; gap:4px; font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:.5px; }
+  input,select,textarea{ background:var(--ink); border:1px solid var(--line2); color:var(--bone); border-radius:7px; padding:8px 9px; font:inherit; font-size:13px; }
+  input:focus,select:focus,textarea:focus{ outline:none; border-color:var(--gold); }
+  table.grid{ width:100%; border-collapse:collapse; font-size:12.5px; }
+  table.grid th{ text-align:left; background:#1b1b21; color:var(--muted); font-weight:700; font-size:10px; text-transform:uppercase; letter-spacing:.5px; padding:8px 10px; white-space:nowrap; border-bottom:1px solid var(--line2); }
+  table.grid td{ padding:8px 10px; border-bottom:1px solid var(--line); vertical-align:top; }
+  .gridwrap{ overflow-x:auto; }
+  .del{ background:none; border:none; color:#5a5a63; cursor:pointer; font-size:14px; padding:6px; } .del:hover{ color:var(--blood); }
+  .pill{ font-size:10px; padding:2px 8px; border-radius:20px; background:var(--panel2); border:1px solid var(--line2); color:var(--muted); }
+  a{ color:var(--gold); }
+  footer{ color:#4a4a52; font-size:11.5px; font-family:ui-monospace,monospace; margin-top:30px; }
+  .fgrid{ display:grid; grid-template-columns:repeat(4,1fr); gap:10px 12px; }
+  .fgrid .fld.span2{ grid-column:span 2; }
+  .fgrid input,.fgrid select,.fgrid textarea{ width:100%; }
+  .fbar{ max-width:170px; }
+  @media (max-width:880px){ .fgrid{ grid-template-columns:repeat(2,1fr); } }
+  @media (max-width:680px){ input,select,textarea{ font-size:16px; } .tabs button{ font-size:13px; padding:10px 13px; }
+    .fgrid{ grid-template-columns:1fr; } .fgrid .fld.span2{ grid-column:span 1; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <a href="index.html" class="back">← HQ</a>
+    <div class="brand">eldee · <em>reklamace &amp; vrácení</em></div>
+    <div class="spacer"></div>
+    <span class="saved" id="savedNote">✓ uloženo</span>
+  </div>
+
+  <div class="tabs" id="tabs">
+    <button data-sec="rz" class="on">🙋 Reklamace zákazníka</button>
+    <button data-sec="rd">🏭 Reklamace dodavateli</button>
+    <button data-sec="vr">↩️ Vrácení do 14 dnů</button>
+    <button data-sec="nastaveni">⚙️ Lhůty &amp; nastavení</button>
+    <button data-sec="zaloha">💾 Záloha</button>
+  </div>
+
+  <section class="sec on" data-sec="rz"><div id="rzRoot"></div></section>
+  <section class="sec" data-sec="rd"><div id="rdRoot"></div></section>
+  <section class="sec" data-sec="vr"><div id="vrRoot"></div></section>
+  <section class="sec" data-sec="nastaveni"><div id="setRoot"></div></section>
+  <section class="sec" data-sec="zaloha"><div id="zalRoot"></div></section>
+
+  <footer>eldee HQ · reklamace · data jen v tomto prohlížeči (citlivé — nesdílet)</footer>
+</div>
+
+<script src="reklamace-core.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+
+// ───────── VARIANTNÍ ČÍSELNÍK (sdílený se Skladem/Objednávkami — SKU sedí 1:1)
+const ALL8 = [[],['grip'],['kapsa'],['dira'],['grip','kapsa'],['grip','dira'],['kapsa','dira'],['grip','kapsa','dira']];
+const TUBE_FEAT = [[],['kapsa'],['dira'],['kapsa','dira']];
+const SOCK_SIZES = ['S','M','L','XL'];
+const TUBE_SIZES = ['S','M','L'];
+const PRODUCTS = [
+  { id:'navlek',  name:'Návlek/tunel',        code:'NAV', feat:TUBE_FEAT, sizes:TUBE_SIZES },
+  { id:'ponozka', name:'Tréninková ponožka',  code:'PON', feat:ALL8,      sizes:SOCK_SIZES },
+  { id:'nizka',   name:'Nízká štulpna',       code:'NIZ', feat:ALL8,      sizes:SOCK_SIZES },
+  { id:'vysoka',  name:'Vysoká štulpna',      code:'VYS', feat:ALL8,      sizes:SOCK_SIZES },
+  { id:'bundle',  name:'Set',                 code:'BND', feat:ALL8,      sizes:SOCK_SIZES },
+];
+let COLORS = [ {name:'Bílá'}, {name:'Černá'} ];
+const FL = { grip:'Grip', kapsa:'Kapsa', dira:'Díra' };
+const FC = { grip:'G', kapsa:'K', dira:'D' };
+const FEAT_ORDER = ['grip','kapsa','dira'];
+const noDia = s => (s||'').normalize('NFD').split('').filter(c=>{const n=c.charCodeAt(0);return n<768||n>879;}).join('');
+const colorCode = name => (noDia(name).substring(0,3).toUpperCase())||'XXX';
+const featNorm = a => FEAT_ORDER.filter(f=>(a||[]).includes(f));
+const featKey = a => featNorm(a).join(',');
+const featText = a => { const n=featNorm(a); return n.length ? n.map(f=>FL[f]).join('+') : 'Základní'; };
+const featCode = a => { const n=featNorm(a); return n.length ? n.map(f=>FC[f]).join('') : '0'; };
+const prodDef = id => PRODUCTS.find(p=>p.id===id) || PRODUCTS[0];
+const skuOf = (prodId,color,feat,size) => `${prodDef(prodId).code}-${colorCode(color)}-${featCode(feat)}-${size}`;
+const recompSku = c => { c.sku = (c.produkt && c.color && c.size) ? skuOf(c.produkt, c.color, c.feat, c.size) : ''; return c.sku; };
+
+// ───────── ÚLOŽIŠTĚ
+const LS_KEY = 'eldeeReklamace';
+const DEFAULT_SETTINGS = { lhutaVyrizeni:30, zarukaMesice:24, lhutaOdstoupeni:14, lhutaVraceniPenez:14,
+  zpusoby:['oprava','výměna','sleva','vrácení peněz','dobropis','zamítnuto'] };
+let STORE = { seq:{RZ:0,RD:0,VR:0}, claims:[], settings:Object.assign({},DEFAULT_SETTINGS), updated:'' };
+let editId = null;   // id právě otevřeného případu (napříč záložkami)
+
+function load(){
+  try{
+    const d = JSON.parse(localStorage.getItem(LS_KEY) || '{}');
+    if (d.seq) STORE.seq = Object.assign({RZ:0,RD:0,VR:0}, d.seq);
+    if (Array.isArray(d.claims)) STORE.claims = d.claims;
+    STORE.settings = Object.assign({}, DEFAULT_SETTINGS, d.settings||{});
+  }catch(e){}
+}
+let savedTimer;
+function save(){
+  STORE.updated = new Date().toISOString();
+  localStorage.setItem(LS_KEY, JSON.stringify(STORE));
+  const el = $('savedNote'); if(el){ el.classList.add('show'); clearTimeout(savedTimer); savedTimer=setTimeout(()=>el.classList.remove('show'),1400); }
+}
+function todayISO(){ const d=new Date(); d.setHours(0,0,0,0); return d.toISOString().slice(0,10); }
+function escT(s){ return String(s==null?'':s).replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+
+// sklad (read-only) + dodavatelé (read-only)
+function loadStock(){ try{ return JSON.parse(localStorage.getItem('eldeeData')||'{}'); }catch(e){ return {}; } }
+function loadSuppliers(){ try{ const o=JSON.parse(localStorage.getItem('eldeeOrders')||'{}'); return Array.isArray(o.suppliers)?o.suppliers:[]; }catch(e){ return []; } }
+function syncColorsFromStock(){ const sd=loadStock(); if(Array.isArray(sd.colorsList)&&sd.colorsList.length) COLORS=sd.colorsList.map(n=>({name:n})); }
+function skuStock(sku){ const sd=loadStock(); return (sd.cardStock && sd.cardStock[sku]) || 0; }
+function claimStockOf(sku){ const sd=loadStock(); return (sd.claimStock && sd.claimStock[sku]) || {own:0,supplier:0}; }
+function supName(id){ const s=loadSuppliers().find(x=>String(x.id)===String(id)); return s? (s.name||('#'+id)) : '—'; }
+
+// ───────── VÝBĚR VARIANTY (produkt + barva + provedení + velikost) → SKU se dopočítá
+function variantPicker(c){
+  const p = prodDef(c.produkt || PRODUCTS[2].id);
+  if(!c.produkt) c.produkt = p.id;
+  const prodOpts = PRODUCTS.map(x=>`<option value="${x.id}"${x.id===c.produkt?' selected':''}>${escT(x.name)}</option>`).join('');
+  const colOpts = COLORS.map(x=>`<option value="${escT(x.name)}"${x.name===c.color?' selected':''}>${escT(x.name)}</option>`).join('');
+  const curFeatKey = featKey(c.feat||[]);
+  const featOpts = p.feat.map((f,i)=>`<option value="${i}"${featKey(f)===curFeatKey?' selected':''}>${escT(featText(f))}</option>`).join('');
+  const sizeOpts = p.sizes.map(s=>`<option value="${s}"${s===c.size?' selected':''}>${s}</option>`).join('');
+  return `<label class="fld">Produkt<select data-vf="produkt">${prodOpts}</select></label>
+    <label class="fld">Barva<select data-vf="color">${colOpts}</select></label>
+    <label class="fld">Provedení<select data-vf="feat">${featOpts}</select></label>
+    <label class="fld">Velikost<select data-vf="size">${sizeOpts}</select></label>`;
+}
+// přečte výběr varianty z DOM do claimu (volá saveForm)
+function readVariant(root, c){
+  const g = sel => root.querySelector('[data-vf="'+sel+'"]');
+  if(!g('produkt')) return;
+  c.produkt = g('produkt').value;
+  c.color = g('color').value;
+  const p = prodDef(c.produkt);
+  const fi = Math.min(Number(g('feat').value)||0, p.feat.length-1);
+  c.feat = (p.feat[fi]||[]).slice();
+  const szVal = g('size').value;
+  c.size = p.sizes.includes(szVal) ? szVal : p.sizes[0];
+  recompSku(c);
+}
+
+// ───────── SPOLEČNÉ: založení a uložení případu
+function newClaim(typ){
+  const r = window.nextNumber(typ, STORE.seq[typ]); STORE.seq[typ] = r.seq;
+  const base = { id:Date.now(), typ, cislo:r.cislo, created:new Date().toISOString(),
+    stav:(typ==='VR'?'oznámeno':'přijato'),
+    produkt:PRODUCTS[2].id, color:(COLORS[0]&&COLORS[0].name)||'Bílá', feat:[], size:'M', sku:'',
+    pocet:1, popis:'', navrh:'', provedeni:'', datumVyrizeni:'', pozn:'', history:[] };
+  recompSku(base);
+  if (typ==='RZ') Object.assign(base, { zakaznik:{jmeno:'',kontakt:''}, cisloObj:'', datumNakupu:'', datumUplatneni:todayISO(), lhutaDni:STORE.settings.lhutaVyrizeni, rdId:null });
+  if (typ==='RD') Object.assign(base, { supplierId:null, datumReklamace:todayISO(), datumOdeslani:'', terminDni:30, objId:'', rzId:null });
+  if (typ==='VR') Object.assign(base, { zakaznik:{jmeno:'',kontakt:''}, cisloObj:'', datumPrevzeti:'', datumOdstoupeni:todayISO(), lhutaDni:STORE.settings.lhutaVraceniPenez, castka:0 });
+  STORE.claims.unshift(base); return base;
+}
+function rootIdForTyp(typ){ return ({RZ:'rzRoot',RD:'rdRoot',VR:'vrRoot'})[typ]; }
+function activeTyp(){ const on=document.querySelector('#tabs button.on'); return ({rz:'RZ',rd:'RD',vr:'VR'})[on.dataset.sec] || 'RZ'; }
+function saveForm(typ){
+  const c = STORE.claims.find(x=>x.id===editId); if(!c) return;
+  const root = $(rootIdForTyp(typ));
+  root.querySelectorAll('[data-f]').forEach(el=>{
+    const path=el.dataset.f; const val = el.type==='number' ? Number(el.value) : el.value;
+    if (path.includes('.')){ const [a,b]=path.split('.'); c[a]=c[a]||{}; c[a][b]=val; } else c[path]=val;
+  });
+  readVariant(root, c);
+  save();
+}
+function openClaim(id){ editId=id; renderActive(); }
+function delClaim(id, typ){ if(confirm('Smazat tento případ?')){ STORE.claims=STORE.claims.filter(c=>c.id!==id); if(editId===id) editId=null; save(); renderActive(); } }
+
+// ───────── pomůcky pro řádky / lhůty
+function termCell(dl, done){
+  if(done) return '<td>—</td>';
+  const cls = window.deadlineClass(dl);
+  const style = cls==='over'?'color:var(--blood);font-weight:700':cls==='warn'?'color:var(--gold);font-weight:700':'';
+  return `<td style="${style}">${dl} d</td>`;
+}
+function isDone(c){ return c.stav==='vyřízeno'||c.stav==='zamítnuto'; }
+function zboziCell(c){ return `${escT(c.sku||'—')} ×${c.pocet}`; }
+function zpusobOpts(sel){ return '<option value=""></option>'+STORE.settings.zpusoby.map(z=>`<option${z===sel?' selected':''}>${escT(z)}</option>`).join(''); }
+function stockLine(c){ if(!c.sku) return '';
+  const cs=claimStockOf(c.sku);
+  return `<span class="hint">📦 ${escT(c.sku)} · 🟢 prodejní ${skuStock(c.sku)} · 🔧 u nás ${cs.own||0} · 🚚 u dodavatele ${cs.supplier||0}</span>`; }
+
+// ═════════ ZÁLOŽKA RZ — reklamace zákazníka ═════════
+function rowsRZ(){
+  const today=todayISO();
+  const list = STORE.claims.filter(c=>c.typ==='RZ');
+  if(!list.length) return '<tr><td colspan="7" class="empty">Zatím žádná reklamace zákazníka.</td></tr>';
+  return list.map(c=>{
+    const dl=window.daysLeft(c.datumUplatneni, c.lhutaDni, today);
+    return `<tr>
+      <td style="font-family:ui-monospace,monospace;color:var(--gold)">${c.cislo}${c.rdId?'<br><span class="hint">→ RD</span>':''}</td>
+      <td>${escT(c.zakaznik.jmeno||'—')}<div class="hint">${escT(c.zakaznik.kontakt||'')}</div></td>
+      <td>${zboziCell(c)}</td>
+      <td>${escT(c.popis||'')}</td>
+      <td><span class="pill">${escT(c.stav)}</span></td>
+      ${termCell(dl, isDone(c))}
+      <td style="white-space:nowrap"><button class="del" data-edit="${c.id}" title="Otevřít">✏️</button><button class="del" data-del="${c.id}" title="Smazat">🗑</button></td>
+    </tr>`;
+  }).join('');
+}
+function formRZ(c){
+  const today=todayISO();
+  const warn = c.datumNakupu ? (window.withinWarranty(c.datumNakupu, STORE.settings.zarukaMesice, today)
+    ? '<span class="pill" style="color:var(--green);border-color:var(--green)">✓ v reklamační lhůtě</span>'
+    : '<span class="pill" style="color:var(--blood);border-color:var(--blood)">⚠ po reklamační lhůtě (24 m)</span>') : '';
+  return `<div class="panel"><div class="panel-head"><h2>Případ ${c.cislo}</h2><span class="grow"></span>${warn}</div>
+  <div class="panel-body fgrid">
+    <label class="fld">Jméno zákazníka<input data-f="zakaznik.jmeno" value="${escT(c.zakaznik.jmeno)}"></label>
+    <label class="fld">E-mail / telefon<input data-f="zakaznik.kontakt" value="${escT(c.zakaznik.kontakt)}"></label>
+    <label class="fld">Číslo objednávky<input data-f="cisloObj" value="${escT(c.cisloObj)}"></label>
+    <label class="fld">Datum nákupu<input type="date" data-f="datumNakupu" value="${escT(c.datumNakupu)}"></label>
+    <label class="fld">Datum uplatnění<input type="date" data-f="datumUplatneni" value="${escT(c.datumUplatneni)}"></label>
+    <label class="fld">Lhůta vyřízení (dní)<input type="number" data-f="lhutaDni" value="${c.lhutaDni}"></label>
+    ${variantPicker(c)}
+    <label class="fld">Počet<input type="number" min="1" data-f="pocet" value="${c.pocet}"></label>
+    <label class="fld span2">Popis vady<textarea data-f="popis" rows="2">${escT(c.popis)}</textarea></label>
+    <label class="fld">Navrhované řešení<select data-f="navrh">${zpusobOpts(c.navrh)}</select></label>
+    <label class="fld">Provedené řešení<select data-f="provedeni">${zpusobOpts(c.provedeni)}</select></label>
+    <label class="fld">Stav<select data-f="stav">${['přijato','v řešení','vyřízeno','zamítnuto'].map(s=>`<option${s===c.stav?' selected':''}>${s}</option>`).join('')}</select></label>
+    <label class="fld">Datum vyřízení<input type="date" data-f="datumVyrizeni" value="${escT(c.datumVyrizeni)}"></label>
+    <label class="fld span2">Poznámka<textarea data-f="pozn" rows="2">${escT(c.pozn)}</textarea></label>
+  </div>
+  <div class="panel-foot">
+    <button class="btn gold" id="frmSave">💾 Uložit</button>
+    <button class="btn ghost" id="frmClose">Zavřít</button>
+    ${c.rdId?'':'<button class="btn" id="rzToRd">→ Reklamovat u dodavatele</button>'}
+    <span class="grow"></span>
+    ${stockLine(c)}
+  </div></div>`;
+}
+function renderRZ(){
+  const root=$('rzRoot'); if(!root) return;
+  const open = editId!=null && STORE.claims.find(c=>c.id===editId&&c.typ==='RZ');
+  root.innerHTML = `<div class="panel"><div class="panel-head"><h2>🙋 Reklamace zákazníka</h2>
+    <span class="sum">${rowSummary('RZ')}</span><span class="grow"></span>
+    <button class="btn gold" id="rzAdd">+ Nová reklamace</button></div>
+    <div class="panel-body"><div class="gridwrap"><table class="grid"><thead><tr>
+      <th>Číslo</th><th>Zákazník</th><th>Zboží</th><th>Vada</th><th>Stav</th><th>Zbývá</th><th></th>
+    </tr></thead><tbody>${rowsRZ()}</tbody></table></div></div></div>`
+    + (open ? formRZ(open) : '');
+}
+
+// souhrn nad záložkou (otevřené / po termínu) — filtr doplní Blok D
+function rowSummary(typ){
+  const today=todayISO();
+  const all=STORE.claims.filter(c=>c.typ===typ);
+  const open=all.filter(c=>!isDone(c)).length;
+  const over=all.filter(c=>window.matchesFilter(c,{q:'',stav:'',termin:'over'},today)).length;
+  return `otevřených ${open}${over?` · <span style="color:var(--blood)">po termínu ${over}</span>`:''}`;
+}
+
+// ───────── render přepínání
+function renderActive(){ const t=activeTyp(); if(t==='RZ') renderRZ(); else if(t==='RD') renderRD(); else renderVR(); }
+function renderAll(){ renderRZ(); renderRD(); renderVR(); renderSettings(); renderZaloha(); }
+
+// ═════════ ZÁLOŽKA RD — reklamace u dodavatele ═════════
+function rowsRD(){
+  const today=todayISO();
+  const list=STORE.claims.filter(c=>c.typ==='RD');
+  if(!list.length) return '<tr><td colspan="7" class="empty">Zatím žádná reklamace u dodavatele.</td></tr>';
+  return list.map(c=>{
+    const dl=window.daysLeft(c.datumReklamace, c.terminDni, today);
+    return `<tr>
+      <td style="font-family:ui-monospace,monospace;color:var(--gold)">${c.cislo}${c.rzId?'<br><span class="hint">z '+escT(rzCislo(c.rzId))+'</span>':''}</td>
+      <td>${escT(supName(c.supplierId))}</td>
+      <td>${zboziCell(c)}</td>
+      <td>${escT(c.popis||'')}</td>
+      <td><span class="pill">${escT(c.stav)}</span></td>
+      ${termCell(dl, isDone(c))}
+      <td style="white-space:nowrap"><button class="del" data-edit="${c.id}" title="Otevřít">✏️</button><button class="del" data-del="${c.id}" title="Smazat">🗑</button></td>
+    </tr>`;
+  }).join('');
+}
+function rzCislo(id){ const r=STORE.claims.find(x=>x.id===id); return r?r.cislo:'?'; }
+function formRD(c){
+  const sup=loadSuppliers();
+  const supOpts='<option value="">— vyber dodavatele —</option>'+sup.map(s=>`<option value="${s.id}"${String(s.id)===String(c.supplierId)?' selected':''}>${escT(s.name||('#'+s.id))}</option>`).join('');
+  return `<div class="panel"><div class="panel-head"><h2>Případ ${c.cislo}</h2><span class="grow"></span>${c.rzId?'<span class="pill">z '+escT(rzCislo(c.rzId))+'</span>':''}</div>
+  <div class="panel-body fgrid">
+    <label class="fld span2">Dodavatel<select data-f="supplierId">${supOpts}</select></label>
+    <label class="fld">Datum reklamace<input type="date" data-f="datumReklamace" value="${escT(c.datumReklamace)}"></label>
+    <label class="fld">Datum odeslání<input type="date" data-f="datumOdeslani" value="${escT(c.datumOdeslani)}"></label>
+    <label class="fld">Termín vyřízení (dní)<input type="number" data-f="terminDni" value="${c.terminDni}"></label>
+    <label class="fld">Vazba na objednávku<input data-f="objId" value="${escT(c.objId)}" placeholder="např. OBJ-0007"></label>
+    ${variantPicker(c)}
+    <label class="fld">Počet<input type="number" min="1" data-f="pocet" value="${c.pocet}"></label>
+    <label class="fld span2">Popis vady<textarea data-f="popis" rows="2">${escT(c.popis)}</textarea></label>
+    <label class="fld">Navrhované řešení<select data-f="navrh">${zpusobOpts(c.navrh)}</select></label>
+    <label class="fld">Provedené řešení<select data-f="provedeni">${zpusobOpts(c.provedeni)}</select></label>
+    <label class="fld">Stav<select data-f="stav">${['přijato','v řešení','vyřízeno','zamítnuto'].map(s=>`<option${s===c.stav?' selected':''}>${s}</option>`).join('')}</select></label>
+    <label class="fld">Datum vyřízení<input type="date" data-f="datumVyrizeni" value="${escT(c.datumVyrizeni)}"></label>
+    <label class="fld span2">Poznámka<textarea data-f="pozn" rows="2">${escT(c.pozn)}</textarea></label>
+  </div>
+  <div class="panel-foot">
+    <button class="btn gold" id="frmSave">💾 Uložit</button>
+    <button class="btn ghost" id="frmClose">Zavřít</button>
+    <span class="grow"></span>
+    ${stockLine(c)}
+  </div></div>`;
+}
+function renderRD(){
+  const root=$('rdRoot'); if(!root) return;
+  const open = editId!=null && STORE.claims.find(c=>c.id===editId&&c.typ==='RD');
+  root.innerHTML = `<div class="panel"><div class="panel-head"><h2>🏭 Reklamace u dodavatele</h2>
+    <span class="sum">${rowSummary('RD')}</span><span class="grow"></span>
+    <button class="btn gold" id="rdAdd">+ Nová reklamace</button></div>
+    <div class="panel-body"><div class="gridwrap"><table class="grid"><thead><tr>
+      <th>Číslo</th><th>Dodavatel</th><th>Zboží</th><th>Vada</th><th>Stav</th><th>Zbývá</th><th></th>
+    </tr></thead><tbody>${rowsRD()}</tbody></table></div></div></div>`
+    + (open ? formRD(open) : '');
+}
+
+// ═════════ ZÁLOŽKA VR — vrácení do 14 dnů ═════════
+function rowsVR(){
+  const today=todayISO();
+  const list=STORE.claims.filter(c=>c.typ==='VR');
+  if(!list.length) return '<tr><td colspan="7" class="empty">Zatím žádné vrácení.</td></tr>';
+  return list.map(c=>{
+    const dl=window.daysLeft(c.datumPrevzeti||today, c.lhutaDni, today);
+    return `<tr>
+      <td style="font-family:ui-monospace,monospace;color:var(--gold)">${c.cislo}</td>
+      <td>${escT(c.zakaznik.jmeno||'—')}<div class="hint">${escT(c.zakaznik.kontakt||'')}</div></td>
+      <td>${zboziCell(c)}</td>
+      <td style="text-align:right">${(Number(c.castka)||0).toLocaleString('cs-CZ')} Kč</td>
+      <td><span class="pill">${escT(c.stav)}</span></td>
+      ${termCell(dl, isDone(c))}
+      <td style="white-space:nowrap"><button class="del" data-edit="${c.id}" title="Otevřít">✏️</button><button class="del" data-del="${c.id}" title="Smazat">🗑</button></td>
+    </tr>`;
+  }).join('');
+}
+function formVR(c){
+  const today=todayISO();
+  const warn = c.datumPrevzeti ? (window.withinWithdrawal(c.datumPrevzeti, STORE.settings.lhutaOdstoupeni, today)
+    ? '<span class="pill" style="color:var(--green);border-color:var(--green)">✓ v 14denní lhůtě</span>'
+    : '<span class="pill" style="color:var(--blood);border-color:var(--blood)">⚠ po lhůtě pro odstoupení</span>') : '';
+  return `<div class="panel"><div class="panel-head"><h2>Případ ${c.cislo}</h2><span class="grow"></span>${warn}</div>
+  <div class="panel-body fgrid">
+    <label class="fld">Jméno zákazníka<input data-f="zakaznik.jmeno" value="${escT(c.zakaznik.jmeno)}"></label>
+    <label class="fld">E-mail / telefon<input data-f="zakaznik.kontakt" value="${escT(c.zakaznik.kontakt)}"></label>
+    <label class="fld">Číslo objednávky<input data-f="cisloObj" value="${escT(c.cisloObj)}"></label>
+    <label class="fld">Datum převzetí<input type="date" data-f="datumPrevzeti" value="${escT(c.datumPrevzeti)}"></label>
+    <label class="fld">Datum odstoupení<input type="date" data-f="datumOdstoupeni" value="${escT(c.datumOdstoupeni)}"></label>
+    <label class="fld">Lhůta vrácení peněz (dní)<input type="number" data-f="lhutaDni" value="${c.lhutaDni}"></label>
+    ${variantPicker(c)}
+    <label class="fld">Počet<input type="number" min="1" data-f="pocet" value="${c.pocet}"></label>
+    <label class="fld">Částka k vrácení (Kč)<input type="number" data-f="castka" value="${c.castka}"></label>
+    <label class="fld">Stav<select data-f="stav">${['oznámeno','zboží přijato','vyřízeno','zamítnuto'].map(s=>`<option${s===c.stav?' selected':''}>${s}</option>`).join('')}</select></label>
+    <label class="fld">Datum vyřízení<input type="date" data-f="datumVyrizeni" value="${escT(c.datumVyrizeni)}"></label>
+    <label class="fld span2">Poznámka<textarea data-f="pozn" rows="2">${escT(c.pozn)}</textarea></label>
+  </div>
+  <div class="panel-foot">
+    <button class="btn gold" id="frmSave">💾 Uložit</button>
+    <button class="btn ghost" id="frmClose">Zavřít</button>
+    <span class="grow"></span>
+    ${stockLine(c)}
+  </div></div>`;
+}
+function renderVR(){
+  const root=$('vrRoot'); if(!root) return;
+  const open = editId!=null && STORE.claims.find(c=>c.id===editId&&c.typ==='VR');
+  root.innerHTML = `<div class="panel"><div class="panel-head"><h2>↩️ Vrácení do 14 dnů</h2>
+    <span class="sum">${rowSummary('VR')}</span><span class="grow"></span>
+    <button class="btn gold" id="vrAdd">+ Nové vrácení</button></div>
+    <div class="panel-body"><div class="gridwrap"><table class="grid"><thead><tr>
+      <th>Číslo</th><th>Zákazník</th><th>Zboží</th><th>Částka</th><th>Stav</th><th>Zbývá</th><th></th>
+    </tr></thead><tbody>${rowsVR()}</tbody></table></div></div></div>`
+    + (open ? formVR(open) : '');
+}
+
+function renderSettings(){ const r=$('setRoot'); if(r&&!r.innerHTML) r.innerHTML='<div class="empty">Připravuje se…</div>'; }
+function renderZaloha(){ const r=$('zalRoot'); if(r&&!r.innerHTML) r.innerHTML='<div class="empty">Připravuje se…</div>'; }
+
+// ───────── události
+$('tabs').addEventListener('click', e=>{
+  const b=e.target.closest('button[data-sec]'); if(!b) return;
+  document.querySelectorAll('#tabs button').forEach(x=>x.classList.toggle('on', x===b));
+  document.querySelectorAll('section.sec').forEach(s=>s.classList.toggle('on', s.dataset.sec===b.dataset.sec));
+});
+
+// RZ root: klik + změna výběru produktu (přepočítá provedení/velikost)
+$('rzRoot').addEventListener('click', e=>{
+  const t=e.target;
+  if(t.id==='rzAdd'){ const c=newClaim('RZ'); editId=c.id; save(); renderRZ(); return; }
+  if(t.dataset.edit!=null){ openClaim(Number(t.dataset.edit)); return; }
+  if(t.dataset.del!=null){ delClaim(Number(t.dataset.del),'RZ'); return; }
+  if(t.id==='frmClose'){ editId=null; renderRZ(); return; }
+  if(t.id==='frmSave'){ saveForm('RZ'); renderRZ(); return; }
+  if(t.id==='rzToRd'){
+    saveForm('RZ');
+    const rz=STORE.claims.find(x=>x.id===editId); if(!rz) return;
+    const rd=newClaim('RD');
+    Object.assign(rd, { produkt:rz.produkt, color:rz.color, feat:(rz.feat||[]).slice(), size:rz.size, pocet:rz.pocet, popis:rz.popis, rzId:rz.id });
+    recompSku(rd); rz.rdId=rd.id;
+    rd.history.push({ts:new Date().toISOString(), text:'Vzniklo z '+rz.cislo});
+    save();
+    document.querySelector('#tabs button[data-sec="rd"]').click();
+    editId=rd.id; renderRD();
+    return;
+  }
+});
+$('rzRoot').addEventListener('change', e=>{
+  if(e.target.dataset && e.target.dataset.vf==='produkt'){ saveForm('RZ'); renderRZ(); }
+});
+
+// RD root
+$('rdRoot').addEventListener('click', e=>{
+  const t=e.target;
+  if(t.id==='rdAdd'){ const c=newClaim('RD'); editId=c.id; save(); renderRD(); return; }
+  if(t.dataset.edit!=null){ openClaim(Number(t.dataset.edit)); return; }
+  if(t.dataset.del!=null){ delClaim(Number(t.dataset.del),'RD'); return; }
+  if(t.id==='frmClose'){ editId=null; renderRD(); return; }
+  if(t.id==='frmSave'){ saveForm('RD'); renderRD(); return; }
+});
+$('rdRoot').addEventListener('change', e=>{
+  if(e.target.dataset && e.target.dataset.vf==='produkt'){ saveForm('RD'); renderRD(); }
+});
+
+// VR root
+$('vrRoot').addEventListener('click', e=>{
+  const t=e.target;
+  if(t.id==='vrAdd'){ const c=newClaim('VR'); editId=c.id; save(); renderVR(); return; }
+  if(t.dataset.edit!=null){ openClaim(Number(t.dataset.edit)); return; }
+  if(t.dataset.del!=null){ delClaim(Number(t.dataset.del),'VR'); return; }
+  if(t.id==='frmClose'){ editId=null; renderVR(); return; }
+  if(t.id==='frmSave'){ saveForm('VR'); renderVR(); return; }
+});
+$('vrRoot').addEventListener('change', e=>{
+  if(e.target.dataset && e.target.dataset.vf==='produkt'){ saveForm('VR'); renderVR(); }
+});
+
+syncColorsFromStock();
+load();
+renderAll();
+</script>
+</body>
+</html>

@@ -118,9 +118,9 @@ Nad každou záložkou: fulltext (číslo, jméno, SKU, text) + filtr podle **st
 
 ---
 
-## 7. Bonus — přehled kvality (volitelné, lze odložit do v2)
+## 7. Přehled kvality — ODLOŽENO NA V2
 
-Malý panel: počet reklamací, **% uznaných**, **nejčastěji reklamovaná varianta/vada**. Munice pro jednání s dodavatelem („tahle barva má 8 % reklamací") a signál o kvalitě produktu. Levné na dodělání, ale není kritické pro spuštění.
+Malý panel: počet reklamací, **% uznaných**, **nejčastěji reklamovaná varianta/vada**. Munice pro jednání s dodavatelem („tahle barva má 8 % reklamací") a signál o kvalitě produktu. **Rozhodnuto 2026-06-29: NENÍ součástí první verze, přidá se až ve V2.** V1 musí být na to připravená (data o uznání/zamítnutí a o variantě se evidují od začátku).
 
 ---
 
@@ -152,7 +152,8 @@ Malý panel: počet reklamací, **% uznaných**, **nejčastěji reklamovaná var
 
 ---
 
-## 11. Otevřené otázky k potvrzení
+## 11. Rozhodnuto (2026-06-29)
 
-1. **Bonus přehled kvality (§7)** — udělat rovnou, nebo odložit na v2?
-2. Prefix vrácení **VR** vyhovuje? (alternativa: VZ)
+1. **Přehled kvality (§7)** — odloženo na V2. V1 jen připraví data.
+2. **Prefix vrácení = VR** — potvrzeno.
+3. Skladový model (dva kbelíky + převodky), správa v dlaždici Reklamace, Sklad read-only — potvrzeno.

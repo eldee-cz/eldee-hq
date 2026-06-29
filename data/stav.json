@@ -650,6 +650,14 @@
       "extern": false
     },
     {
+      "nadpis": "Reklamace & vrácení",
+      "text": "Evidence reklamací zákazníka (RZ), reklamací u dodavatele (RD) a vrácení do 14 dnů (VR). Automatické číslování, hlídání lhůt (kolik zbývá), navrhované vs provedené vyřízení. Vadné zboží se přesouvá do <strong>reklamačního skladu</strong> (převodky), takže ho Shoptet nikdy nenabídne k prodeji. Data v prohlížeči (citlivé — jména zákazníků, nesdílet ven).",
+      "stav": "on",
+      "stavText": "online · interní data",
+      "href": "reklamace.html",
+      "extern": false
+    },
+    {
       "nadpis": "Finance",
       "text": "Kalkulačka: produkty, ceny, prvky, marže, MOQ ceník, mix prodejů, klubové kódy, cíle, hlídač DPH, nejbližší termíny + sekce <strong>DPH: vyplatí se mi být plátcem?</strong> (3 scénáře plátce/neplátce).",
       "stav": "on",

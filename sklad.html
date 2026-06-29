@@ -171,6 +171,7 @@
         <span class="hint">Vidíš jen varianty, co máš skladem (kusy &gt; 0). Stav doladíš v záložce 🗂️ Skladové karty (inventura) nebo napumpováním z příjmu.</span>
       </div>
     </div>
+    <div id="claimStockHost"></div>
   </section>
 
   <!-- ===== SKLADOVÉ KARTY (všechny + inventura) ===== -->
@@ -443,7 +444,8 @@ function emptyLine(){ return { num:'', product:PRODUCTS[0].id, color:(COLORS[0]&
 function emptySaleLine(){ return { product:PRODUCTS[0].id, color:(COLORS[0]&&COLORS[0].name)||'Bílá', feat:[], size:PRODUCTS[0].sizes[Math.min(1,PRODUCTS[0].sizes.length-1)], qty:0, reason:'prodej', price:0 }; }
 const saleTotal = l => isProdej(l.reason) ? (+l.qty||0)*(+l.price||0) : 0;
 let invoices = [ emptyLine() ];   // aktivní pracovní příjem (rozpracovaná příjemka)
-let cardStock = {};               // sku -> qty (sklad)
+let cardStock = {};               // sku -> qty (prodejní sklad)
+let claimStock = {};              // sku -> {own,supplier} (reklamační sklad; spravuje dlaždice Reklamace, tady jen čteme/zachováváme)
 let receipts = [];                // uzavřené příjemky (doklady) — nejnovější nahoře
 let receiptSeq = 0;
 let vatRate = 21;
@@ -491,6 +493,7 @@ function loadData(){
     const d = JSON.parse(localStorage.getItem(LS_KEY)||'{}');
     if (Array.isArray(d.colorsList) && d.colorsList.length) COLORS = d.colorsList.map(n=>({name:n}));
     if (d.cardStock && typeof d.cardStock==='object'){ const fix={}; for(const k in d.cardStock){ const ck=canonSku(k); fix[ck]=(fix[ck]||0)+(+d.cardStock[k]||0); } cardStock=fix; }
+    if (d.claimStock && typeof d.claimStock==='object') claimStock = d.claimStock;
     if (d.vatRate) vatRate = d.vatRate;
     if (typeof d.receiptSeq === 'number') receiptSeq = d.receiptSeq;
     if (Array.isArray(d.receipts)) receipts = d.receipts;
@@ -511,7 +514,7 @@ function loadData(){
 }
 let savedTimer;
 function saveData(){
-  const cur = { invoices, cardStock, receipts, receiptSeq, sales, issues, issueSeq, lastSalePrice, shoptetOrders, colorsList: COLORS.map(c=>c.name), vatRate, updated:new Date().toISOString() };
+  const cur = { invoices, cardStock, claimStock, receipts, receiptSeq, sales, issues, issueSeq, lastSalePrice, shoptetOrders, colorsList: COLORS.map(c=>c.name), vatRate, updated:new Date().toISOString() };
   localStorage.setItem(LS_KEY, JSON.stringify(cur));
   const el = $('savedNote'); if(el){ el.classList.add('show'); clearTimeout(savedTimer); savedTimer=setTimeout(()=>el.classList.remove('show'),1400); }
 }
@@ -963,7 +966,18 @@ function renderSalesHistory(){
   }).join('') || '<tr><td colspan="8" class="empty">Žádná výdejka neodpovídá filtru.</td></tr>';
   if($('saleHistSum')) $('saleHistSum').innerHTML = `<strong>${list.length}</strong>${list.length!==issues.length?' / '+issues.length:''} výdejek`;
 }
-function refreshAll(){ recalcInvoices(); recalcSales(); renderStock(); renderCards(); renderHistory(); renderSalesHistory(); recalcKPI();
+// read-only přehled reklamačního skladu (spravuje dlaždice Reklamace; tady jen čteme)
+function renderClaimStock(){
+  const host=$('claimStockHost'); if(!host) return;
+  const cs = (claimStock && typeof claimStock==='object') ? claimStock : {};
+  const keys = Object.keys(cs).filter(sku=>((cs[sku].own||0)+(cs[sku].supplier||0))>0);
+  if(!keys.length){ host.innerHTML=''; return; }
+  const rows = keys.map(sku=>`<tr><td style="font-family:ui-monospace,monospace;color:var(--gold)">${sku}</td><td style="text-align:right">${cs[sku].own||0}</td><td style="text-align:right">${cs[sku].supplier||0}</td></tr>`).join('');
+  host.innerHTML = `<div class="panel"><div class="panel-head"><h2>🔧 Na reklamaci — mimo prodej</h2><span class="grow"></span><span class="hint">read-only · spravuje dlaždice Reklamace</span></div>
+    <div class="gridwrap"><table class="grid"><thead><tr><th>SKU</th><th style="width:90px;text-align:right">U nás</th><th style="width:110px;text-align:right">U dodavatele</th></tr></thead><tbody>${rows}</tbody></table></div>
+    <div class="panel-foot"><span class="hint">Tyhle kusy nejsou v prodejním skladu (Shoptet je nenabídne). Pohyb řeš v dlaždici 🛠 Reklamace.</span></div></div>`;
+}
+function refreshAll(){ recalcInvoices(); recalcSales(); renderStock(); renderCards(); renderHistory(); renderSalesHistory(); recalcKPI(); renderClaimStock();
   if($('shoptetSum')) $('shoptetSum').innerHTML = shoptetOrders.length?`zpracováno objednávek: <strong>${shoptetOrders.length}</strong>`:''; }
 
 // ───────── EVENTS

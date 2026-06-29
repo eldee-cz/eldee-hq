@@ -217,6 +217,36 @@ function setStatusFromRow(id, val){ const c=STORE.claims.find(x=>x.id===id); if(
 function stockLine(c){ if(!c.sku) return '';
   const cs=claimStockOf(c.sku);
   return `<span class="hint">📦 ${escT(c.sku)} · 🟢 prodejní ${skuStock(c.sku)} · 🔧 u nás ${cs.own||0} · 🚚 u dodavatele ${cs.supplier||0}</span>`; }
+function moveBtns(ids){ return ids.map(id=>`<button class="btn" data-move="${id}">${escT(window.STOCK_ACTIONS[id].label)}</button>`).join(' '); }
+function historyHTML(c){ if(!c.history||!c.history.length) return '';
+  return `<div class="panel-body" style="border-top:1px solid var(--line)"><div class="hint" style="margin-bottom:6px">📜 Historie pohybů:</div>`
+    + c.history.slice().reverse().map(h=>`<div class="hint">• ${new Date(h.ts).toLocaleString('cs-CZ')} — ${escT(h.text)}</div>`).join('') + `</div>`; }
+// Skladový pohyb (převodka): přes ověřené jádro applyMove + doklad ve Skladu při pohybu přes prodejní kbelík
+function doStockMove(claim, actionId){
+  const act = window.STOCK_ACTIONS[actionId]; if(!act) return;
+  if(!claim.sku){ alert('Nejdřív vyber zboží (produkt + barva + provedení + velikost).'); return; }
+  const qty = Number(claim.pocet)||0; if(qty<=0){ alert('Počet musí být větší než 0.'); return; }
+  const sd = loadStock();
+  sd.cardStock = sd.cardStock || {};
+  sd.claimStock = sd.claimStock || {};
+  const after = window.applyMove({cardStock:sd.cardStock, claimStock:sd.claimStock}, claim.sku, qty, act.from, act.to);
+  sd.cardStock = after.cardStock; sd.claimStock = after.claimStock;
+  if(act.from==='prodej'){ // výdej z prodejního skladu (doklad VY s důvodem reklamace)
+    sd.issues = Array.isArray(sd.issues)?sd.issues:[]; sd.issueSeq=(sd.issueSeq||0)+1;
+    sd.issues.unshift({ n:sd.issueSeq, created:new Date().toISOString(), by:'Reklamace '+claim.cislo, note:act.label,
+      lines:[{ product:claim.produkt, color:claim.color, feat:(claim.feat||[]).slice(), size:claim.size, qty, reason:'reklamace', price:0 }] });
+  }
+  if(act.to==='prodej'){ // příjem do prodejního skladu (doklad příjemky)
+    sd.receipts = Array.isArray(sd.receipts)?sd.receipts:[]; sd.receiptSeq=(sd.receiptSeq||0)+1;
+    sd.receipts.unshift({ n:sd.receiptSeq, created:new Date().toISOString(), by:'Reklamace '+claim.cislo, faktura:claim.cislo, due:'', paid:false,
+      lines:[{ product:claim.produkt, color:claim.color, feat:(claim.feat||[]).slice(), size:claim.size, qty, net:0, num:claim.cislo, due:'' }] });
+  }
+  sd.updated=new Date().toISOString();
+  localStorage.setItem('eldeeData', JSON.stringify(sd));
+  claim.history = claim.history||[];
+  claim.history.push({ ts:new Date().toISOString(), text:act.label+' (×'+qty+' '+claim.sku+')' });
+  save();
+}
 
 // ───────── rozdělení otevřené / uzavřené + skládání sekce
 function splitClaims(typ){ const all=STORE.claims.filter(c=>c.typ===typ); return { open:all.filter(c=>!isDone(c)), closed:all.filter(isDone) }; }
@@ -284,7 +314,12 @@ function formRZ(c){
     ${c.rdId?'':'<button class="btn" id="rzToRd">→ Reklamovat u dodavatele</button>'}
     <span class="grow"></span>
     ${stockLine(c)}
-  </div></div>`;
+  </div>
+  <div class="panel-foot" style="border-top:1px dashed var(--line2)">
+    <span class="hint">📦 Sklad:</span> ${moveBtns(['RZ_prijem_vadny','RZ_vymena'])}
+  </div>
+  ${historyHTML(c)}
+  </div>`;
 }
 function renderRZ(){
   const root=$('rzRoot'); if(!root) return;
@@ -347,7 +382,12 @@ function formRD(c){
     <button class="btn ghost" id="frmClose">Zavřít</button>
     <span class="grow"></span>
     ${stockLine(c)}
-  </div></div>`;
+  </div>
+  <div class="panel-foot" style="border-top:1px dashed var(--line2)">
+    <span class="hint">📦 Sklad:</span> ${moveBtns(['RD_stahnout','RD_odeslano','RD_vraceno','RD_dobropis'])}
+  </div>
+  ${historyHTML(c)}
+  </div>`;
 }
 function renderRD(){
   const root=$('rdRoot'); if(!root) return;
@@ -397,7 +437,12 @@ function formVR(c){
     <button class="btn ghost" id="frmClose">Zavřít</button>
     <span class="grow"></span>
     ${stockLine(c)}
-  </div></div>`;
+  </div>
+  <div class="panel-foot" style="border-top:1px dashed var(--line2)">
+    <span class="hint">📦 Sklad:</span> ${moveBtns(['VR_prijem'])}
+  </div>
+  ${historyHTML(c)}
+  </div>`;
 }
 function renderVR(){
   const root=$('vrRoot'); if(!root) return;
@@ -424,6 +469,7 @@ $('rzRoot').addEventListener('click', e=>{
   if(t.dataset.del!=null){ delClaim(Number(t.dataset.del),'RZ'); return; }
   if(t.id==='frmClose'){ editId=null; renderRZ(); return; }
   if(t.id==='frmSave'){ saveForm('RZ'); renderRZ(); return; }
+  if(t.dataset.move){ const c=STORE.claims.find(x=>x.id===editId); if(c){ saveForm('RZ'); if(confirm(window.STOCK_ACTIONS[t.dataset.move].label+'\n\nZapsat tento pohyb do skladu?')){ doStockMove(c,t.dataset.move); renderRZ(); } } return; }
   if(t.id==='rzToRd'){
     saveForm('RZ');
     const rz=STORE.claims.find(x=>x.id===editId); if(!rz) return;
@@ -450,6 +496,7 @@ $('rdRoot').addEventListener('click', e=>{
   if(t.dataset.del!=null){ delClaim(Number(t.dataset.del),'RD'); return; }
   if(t.id==='frmClose'){ editId=null; renderRD(); return; }
   if(t.id==='frmSave'){ saveForm('RD'); renderRD(); return; }
+  if(t.dataset.move){ const c=STORE.claims.find(x=>x.id===editId); if(c){ saveForm('RD'); if(confirm(window.STOCK_ACTIONS[t.dataset.move].label+'\n\nZapsat tento pohyb do skladu?')){ doStockMove(c,t.dataset.move); renderRD(); } } return; }
 });
 $('rdRoot').addEventListener('change', e=>{
   if(e.target.dataset && e.target.dataset.status){ if(setStatusFromRow(Number(e.target.dataset.status), e.target.value)) renderRD(); return; }
@@ -464,6 +511,7 @@ $('vrRoot').addEventListener('click', e=>{
   if(t.dataset.del!=null){ delClaim(Number(t.dataset.del),'VR'); return; }
   if(t.id==='frmClose'){ editId=null; renderVR(); return; }
   if(t.id==='frmSave'){ saveForm('VR'); renderVR(); return; }
+  if(t.dataset.move){ const c=STORE.claims.find(x=>x.id===editId); if(c){ saveForm('VR'); if(confirm(window.STOCK_ACTIONS[t.dataset.move].label+'\n\nZapsat tento pohyb do skladu?')){ doStockMove(c,t.dataset.move); renderVR(); } } return; }
 });
 $('vrRoot').addEventListener('change', e=>{
   if(e.target.dataset && e.target.dataset.status){ if(setStatusFromRow(Number(e.target.dataset.status), e.target.value)) renderVR(); return; }

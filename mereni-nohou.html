@@ -184,7 +184,54 @@ gEl('f-save').addEventListener('click', () => {
 gEl('f-cancel').addEventListener('click', clearForm);
 
 // stuby — dokreslí Task 4/5
-function renderSeznam(){ /* Task 4 */ }
+function renderSeznam(){
+  const d = loadData();
+  const box = gEl('seznam-box');
+  if(!d.zaznamy.length){ box.innerHTML = '<div class="empty">Zatím žádná měření. Přidej první v záložce ➕ Nové měření.</div>'; return; }
+  const html = ['<div class="sub">Celkem ' + d.zaznamy.length + ' měření (nejnovější nahoře).</div>'];
+  d.zaznamy.slice().reverse().forEach(z => {
+    const s = MereniCore.sizeFromShoe(z.cisloBoty);
+    const sLabel = s === '' ? 'bez vel.' : (s === 'mimo' ? 'mimo' : s);
+    html.push(
+      '<div class="row">' +
+        '<div><b>' + sLabel + '</b> · bota ' + (z.cisloBoty ?? '—') + ' · ' +
+          (z.pohlavi || '—') + (z.vek != null ? ', ' + z.vek + ' let' : '') + '</div>' +
+        '<div class="meta">stehno ' + (z.stehno ?? '—') + ' · lýtko ' + (z.lytkoSpodni ?? '—') + '–' + (z.lytkoHorni ?? '—') + ' cm' +
+          (z.poznamka ? ' · ' + z.poznamka : '') + '</div>' +
+        '<div class="acts">' +
+          '<button onclick="editRecord(\'' + z.id + '\')">✏ Upravit</button>' +
+          '<button onclick="deleteRecord(\'' + z.id + '\')">🗑 Smazat</button>' +
+        '</div>' +
+      '</div>'
+    );
+  });
+  box.innerHTML = html.join('');
+}
+
+window.editRecord = function(id){
+  const z = loadData().zaznamy.find(x => x.id === id);
+  if(!z) return;
+  gEl('f-id').value = z.id;
+  gEl('f-vek').value = z.vek ?? ''; gEl('f-vyskaTela').value = z.vyskaTela ?? '';
+  gEl('f-cisloBoty').value = z.cisloBoty ?? ''; gEl('f-stehno').value = z.stehno ?? '';
+  gEl('f-lytkoHorni').value = z.lytkoHorni ?? ''; gEl('f-lytkoSpodni').value = z.lytkoSpodni ?? '';
+  gEl('f-poznamka').value = z.poznamka || '';
+  _pohlavi = z.pohlavi || '';
+  document.querySelectorAll('#f-pohlavi button').forEach(x => x.classList.toggle('on', x.dataset.val === _pohlavi));
+  gEl('f-cisloBoty').dispatchEvent(new Event('input'));
+  gEl('f-cancel').style.display = 'block'; gEl('f-save').textContent = 'Uložit změny';
+  switchTab('nove');
+  window.scrollTo(0,0);
+};
+
+window.deleteRecord = function(id){
+  if(!confirm('Smazat tohle měření?')) return;
+  const d = loadData();
+  d.zaznamy = d.zaznamy.filter(x => x.id !== id);
+  saveData(d);
+  renderSeznam();
+};
+
 function renderVysledky(){ /* Task 5 */ }
 function renderAll(){ renderSeznam(); renderVysledky(); }
 </script>

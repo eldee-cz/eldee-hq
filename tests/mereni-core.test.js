@@ -72,5 +72,16 @@ t('computeResults má celkem + skupiny', ()=>{
   assert.deepStrictEqual(Object.keys(r.skupiny), C.SIZE_ORDER);
 });
 
+t('deriveSizeStats střed/délka = skutečný medián per záznam', ()=>{
+  const recs = [
+    {stehno:60, lytkoHorni:40, lytkoSpodni:30},  // střed 35, délka 10
+    {stehno:60, lytkoHorni:34, lytkoSpodni:34},  // střed 34, délka 0
+    {stehno:60, lytkoHorni:50, lytkoSpodni:50}   // střed 50, délka 0
+  ];
+  const d = C.deriveSizeStats(recs);
+  near(d.odvozene.diry.stred.median, 35); // per záznam [35,34,50] → medián 35 (ne 37 z mediánů hran)
+  near(d.odvozene.diry.delka.median, 0);  // per záznam [10,0,0] → medián 0
+});
+
 console.log(`${pass} OK, ${fail} chyb`);
 process.exit(fail ? 1 : 0);

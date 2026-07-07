@@ -54,20 +54,24 @@
     const stehno      = stats(recs.map(r => r.stehno));
     const lytkoHorni  = stats(recs.map(r => r.lytkoHorni));
     const lytkoSpodni = stats(recs.map(r => r.lytkoSpodni));
-    const _stred = (a,b) => (a != null && b != null) ? (a+b)/2 : null;
-    const _delka = (a,b) => (a != null && b != null) ? (b-a)   : null;
+    // střed a délka se počítají PER ZÁZNAM (jen z kompletních párů), aby medián byl skutečný medián
+    const _pair = (r, kind) => {
+      const a = Number(r.lytkoSpodni), b = Number(r.lytkoHorni);
+      if(!Number.isFinite(a) || !Number.isFinite(b)) return null;
+      return kind === 'stred' ? (a + b) / 2 : (b - a);
+    };
+    const stredS = stats(recs.map(r => _pair(r, 'stred')));
+    const delkaS = stats(recs.map(r => _pair(r, 'delka')));
     return {
       n: recs.length,
       stehno, lytkoHorni, lytkoSpodni,
       odvozene: {
         vyskaStulpny: { mean: stehno.mean, median: stehno.median },
         diry: {
-          spodek: { mean: lytkoSpodni.mean,   median: lytkoSpodni.median },
-          vrsek:  { mean: lytkoHorni.mean,    median: lytkoHorni.median },
-          stred:  { mean: _stred(lytkoSpodni.mean,   lytkoHorni.mean),
-                    median: _stred(lytkoSpodni.median, lytkoHorni.median) },
-          delka:  { mean: _delka(lytkoSpodni.mean,   lytkoHorni.mean),
-                    median: _delka(lytkoSpodni.median, lytkoHorni.median) }
+          spodek: { mean: lytkoSpodni.mean, median: lytkoSpodni.median },
+          vrsek:  { mean: lytkoHorni.mean,  median: lytkoHorni.median },
+          stred:  { mean: stredS.mean, median: stredS.median },
+          delka:  { mean: delkaS.mean, median: delkaS.median }
         }
       }
     };

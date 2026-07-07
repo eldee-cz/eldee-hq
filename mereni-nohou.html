@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex">
 <title>📏 Měření nohou — eldee HQ</title>
 <style>
-  :root{ --bg:#0e0e0d; --ink2:#191917; --line:#2a2a27; --bone:#f4f1ea; --muted:#b8b4a8; --dim:#8a877d; --gold:#c9a227; --red:#c0392b; --ok:#2e7d32; }
+  :root{ --bg:#0e0e0d; --ink2:#191917; --line:#2a2a27; --bone:#f4f1ea; --muted:#b8b4a8; --dim:#8a877d; --gold:#c9a227; --red:#c0392b; }
   *{ box-sizing:border-box; }
   body{ margin:0; background:var(--bg); color:var(--bone); font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif; }
   .wrap{ max-width:760px; margin:0 auto; padding:16px; }
@@ -130,6 +130,7 @@ document.querySelectorAll('#f-pohlavi button').forEach(b => b.addEventListener('
 
 const gEl = id => document.getElementById(id);
 function numOrNull(id){ const v = gEl(id).value.trim(); return v === '' ? null : Number(v); }
+function esc(s){ return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 
 gEl('f-cisloBoty').addEventListener('input', () => {
   const s = MereniCore.sizeFromShoe(gEl('f-cisloBoty').value);
@@ -148,7 +149,11 @@ function readForm(){
     lytkoHorni: numOrNull('f-lytkoHorni'),
     lytkoSpodni: numOrNull('f-lytkoSpodni'),
     poznamka: gEl('f-poznamka').value.trim(),
-    vytvoreno: new Date().toISOString().slice(0,10)
+    vytvoreno: (function(){
+      const ex = gEl('f-id').value;
+      if(ex){ const z = loadData().zaznamy.find(x => x.id === ex); if(z && z.vytvoreno) return z.vytvoreno; }
+      return new Date().toISOString().slice(0,10);
+    })()
   };
 }
 
@@ -183,7 +188,6 @@ gEl('f-save').addEventListener('click', () => {
 
 gEl('f-cancel').addEventListener('click', clearForm);
 
-// stuby — dokreslí Task 4/5
 function renderSeznam(){
   const d = loadData();
   const box = gEl('seznam-box');
@@ -195,9 +199,9 @@ function renderSeznam(){
     html.push(
       '<div class="row">' +
         '<div><b>' + sLabel + '</b> · bota ' + (z.cisloBoty ?? '—') + ' · ' +
-          (z.pohlavi || '—') + (z.vek != null ? ', ' + z.vek + ' let' : '') + '</div>' +
+          (z.pohlavi || '—') + (z.vek != null ? ', ' + z.vek + ' let' : '') + (z.vyskaTela != null ? ', ' + z.vyskaTela + ' cm' : '') + '</div>' +
         '<div class="meta">stehno ' + (z.stehno ?? '—') + ' · lýtko ' + (z.lytkoSpodni ?? '—') + '–' + (z.lytkoHorni ?? '—') + ' cm' +
-          (z.poznamka ? ' · ' + z.poznamka : '') + '</div>' +
+          (z.poznamka ? ' · ' + esc(z.poznamka) : '') + '</div>' +
         '<div class="acts">' +
           '<button onclick="editRecord(\'' + z.id + '\')">✏ Upravit</button>' +
           '<button onclick="deleteRecord(\'' + z.id + '\')">🗑 Smazat</button>' +

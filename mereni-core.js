@@ -27,7 +27,60 @@
   function minMax(arr){ const a = _nums(arr); if(!a.length) return {min:null,max:null}; return {min:Math.min(...a), max:Math.max(...a)}; }
   function stats(arr){ const mm = minMax(arr); return { n:_nums(arr).length, mean:mean(arr), median:median(arr), min:mm.min, max:mm.max }; }
 
-  const API = { sizeFromShoe, mean, median, minMax, stats };
+  // ── Kontrola pořadí výšek (jen upozornění) ──────────────────────
+  function orderOk(rec){
+    const vals = [rec.lytkoSpodni, rec.lytkoHorni, rec.stehno];
+    // null/undefined/'' → nekompletní, nehlídáme (Number(null) by jinak dal 0, což je finite)
+    if(vals.some(v => v === null || v === undefined || v === '')) return true;
+    const [a,b,c] = vals.map(Number);
+    if(![a,b,c].every(Number.isFinite)) return true; // nekompletní → nehlídáme
+    return a < b && b < c;
+  }
+
+  // ── Seskupení podle velikosti ───────────────────────────────────
+  const SIZE_ORDER = ['S','M','L','XL','mimo','bez'];
+  function groupBySize(zaznamy){
+    const g = { S:[], M:[], L:[], XL:[], mimo:[], bez:[] };
+    (zaznamy||[]).forEach(z => {
+      const s = sizeFromShoe(z.cisloBoty);
+      g[s === '' ? 'bez' : s].push(z);
+    });
+    return g;
+  }
+
+  // ── Agregace skupiny + odvozené výrobní rozměry ─────────────────
+  function deriveSizeStats(records){
+    const recs = records || [];
+    const stehno      = stats(recs.map(r => r.stehno));
+    const lytkoHorni  = stats(recs.map(r => r.lytkoHorni));
+    const lytkoSpodni = stats(recs.map(r => r.lytkoSpodni));
+    const _stred = (a,b) => (a != null && b != null) ? (a+b)/2 : null;
+    const _delka = (a,b) => (a != null && b != null) ? (b-a)   : null;
+    return {
+      n: recs.length,
+      stehno, lytkoHorni, lytkoSpodni,
+      odvozene: {
+        vyskaStulpny: { mean: stehno.mean, median: stehno.median },
+        diry: {
+          spodek: { mean: lytkoSpodni.mean,   median: lytkoSpodni.median },
+          vrsek:  { mean: lytkoHorni.mean,    median: lytkoHorni.median },
+          stred:  { mean: _stred(lytkoSpodni.mean,   lytkoHorni.mean),
+                    median: _stred(lytkoSpodni.median, lytkoHorni.median) },
+          delka:  { mean: _delka(lytkoSpodni.mean,   lytkoHorni.mean),
+                    median: _delka(lytkoSpodni.median, lytkoHorni.median) }
+        }
+      }
+    };
+  }
+
+  function computeResults(zaznamy){
+    const g = groupBySize(zaznamy);
+    const skupiny = {};
+    SIZE_ORDER.forEach(s => skupiny[s] = deriveSizeStats(g[s]));
+    return { celkem: deriveSizeStats(zaznamy || []), skupiny };
+  }
+
+  const API = { sizeFromShoe, mean, median, minMax, stats, orderOk, groupBySize, deriveSizeStats, computeResults, SIZE_ORDER };
   root.MereniCore = API;
   if (typeof module !== 'undefined' && module.exports) module.exports = API;
 })(typeof self !== 'undefined' ? self : this);

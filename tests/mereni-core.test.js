@@ -28,5 +28,49 @@ t('minMax prázdné', ()=>{ assert.deepStrictEqual(C.minMax([]), {min:null,max:n
 t('stats komplet', ()=>{ assert.deepStrictEqual(C.stats([2,4,6]), {n:3,mean:4,median:4,min:2,max:6}); });
 t('stats prázdné', ()=>{ assert.deepStrictEqual(C.stats([]), {n:0,mean:null,median:null,min:null,max:null}); });
 
+// ── Task 2: seskupení + odvozené rozměry ────────────────────────
+t('orderOk správné pořadí', ()=>{ assert.strictEqual(C.orderOk({lytkoSpodni:30,lytkoHorni:38,stehno:45}), true); });
+t('orderOk špatné pořadí', ()=>{ assert.strictEqual(C.orderOk({lytkoSpodni:38,lytkoHorni:30,stehno:45}), false); });
+t('orderOk nekompletní → nehlídá', ()=>{ assert.strictEqual(C.orderOk({lytkoSpodni:30,lytkoHorni:null,stehno:45}), true); });
+
+t('groupBySize roztřídí', ()=>{
+  const z = [{cisloBoty:36},{cisloBoty:40},{cisloBoty:44},{cisloBoty:48},{cisloBoty:60},{cisloBoty:null}];
+  const g = C.groupBySize(z);
+  assert.strictEqual(g.S.length,1); assert.strictEqual(g.M.length,1);
+  assert.strictEqual(g.L.length,1); assert.strictEqual(g.XL.length,1);
+  assert.strictEqual(g.mimo.length,1); assert.strictEqual(g.bez.length,1);
+});
+
+t('deriveSizeStats odvozené', ()=>{
+  const recs = [
+    {stehno:44, lytkoHorni:38, lytkoSpodni:30},
+    {stehno:46, lytkoHorni:40, lytkoSpodni:32}
+  ];
+  const d = C.deriveSizeStats(recs);
+  assert.strictEqual(d.n, 2);
+  near(d.odvozene.vyskaStulpny.mean, 45);        // (44+46)/2
+  near(d.odvozene.diry.spodek.mean, 31);         // (30+32)/2
+  near(d.odvozene.diry.vrsek.mean, 39);          // (38+40)/2
+  near(d.odvozene.diry.stred.mean, 35);          // (31+39)/2
+  near(d.odvozene.diry.delka.mean, 8);           // 39-31
+  near(d.odvozene.diry.stred.median, 35);        // (31+39)/2
+});
+
+t('deriveSizeStats prázdná skupina → nully', ()=>{
+  const d = C.deriveSizeStats([]);
+  assert.strictEqual(d.n, 0);
+  assert.strictEqual(d.odvozene.vyskaStulpny.mean, null);
+  assert.strictEqual(d.odvozene.diry.stred.mean, null);
+  assert.strictEqual(d.odvozene.diry.delka.median, null);
+});
+
+t('computeResults má celkem + skupiny', ()=>{
+  const r = C.computeResults([{cisloBoty:36, stehno:44, lytkoHorni:38, lytkoSpodni:30}]);
+  assert.strictEqual(r.celkem.n, 1);
+  assert.strictEqual(r.skupiny.S.n, 1);
+  assert.strictEqual(r.skupiny.M.n, 0);
+  assert.deepStrictEqual(Object.keys(r.skupiny), C.SIZE_ORDER);
+});
+
 console.log(`${pass} OK, ${fail} chyb`);
 process.exit(fail ? 1 : 0);

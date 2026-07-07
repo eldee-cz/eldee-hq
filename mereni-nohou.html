@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>📏 Měření nohou — eldee HQ</title>
+<style>
+  :root{ --bg:#0e0e0d; --ink2:#191917; --line:#2a2a27; --bone:#f4f1ea; --muted:#b8b4a8; --dim:#8a877d; --gold:#c9a227; --red:#c0392b; --ok:#2e7d32; }
+  *{ box-sizing:border-box; }
+  body{ margin:0; background:var(--bg); color:var(--bone); font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,sans-serif; }
+  .wrap{ max-width:760px; margin:0 auto; padding:16px; }
+  h1{ font-size:22px; margin:8px 0 4px; }
+  .sub{ color:var(--dim); font-size:14px; margin-bottom:16px; }
+  .tabs{ display:flex; gap:8px; overflow-x:auto; padding-bottom:8px; margin-bottom:16px; }
+  .tab{ flex:0 0 auto; min-height:44px; padding:10px 16px; border-radius:10px; border:1px solid var(--line);
+        background:var(--ink2); color:var(--bone); font-size:15px; cursor:pointer; }
+  .tab.active{ border-color:var(--gold); color:var(--gold); }
+  section{ display:none; } section.active{ display:block; }
+  label{ display:block; font-size:14px; color:var(--muted); margin:14px 0 6px; }
+  input[type=number], input[type=text], textarea{
+    width:100%; min-height:48px; padding:12px; font-size:16px; border-radius:10px;
+    border:1px solid var(--line); background:var(--ink2); color:var(--bone); }
+  textarea{ min-height:70px; }
+  .seg{ display:flex; gap:10px; }
+  .seg button{ flex:1; min-height:48px; border-radius:10px; border:1px solid var(--line);
+    background:var(--ink2); color:var(--bone); font-size:16px; cursor:pointer; }
+  .seg button.on{ border-color:var(--gold); color:var(--gold); background:#211f16; }
+  .sizehint{ font-size:14px; color:var(--gold); margin-top:6px; min-height:18px; }
+  .warn{ color:var(--gold); font-size:14px; margin:10px 0; min-height:18px; }
+  .btn{ min-height:52px; width:100%; margin-top:20px; border-radius:12px; border:none;
+    background:var(--gold); color:#1a1400; font-size:18px; font-weight:700; cursor:pointer; }
+  .btn.sec{ background:var(--ink2); color:var(--bone); border:1px solid var(--line); font-weight:500; }
+  .btn.danger{ background:var(--ink2); color:var(--red); border:1px solid var(--red); }
+  .row{ border:1px solid var(--line); border-radius:10px; padding:12px; margin-bottom:10px; background:var(--ink2); }
+  .row .meta{ font-size:13px; color:var(--dim); }
+  .row .acts{ display:flex; gap:8px; margin-top:10px; }
+  .row .acts button{ flex:1; min-height:44px; border-radius:8px; border:1px solid var(--line); background:var(--bg); color:var(--bone); }
+  table{ width:100%; border-collapse:collapse; font-size:14px; }
+  th,td{ padding:8px 6px; text-align:right; border-bottom:1px solid var(--line); }
+  th:first-child,td:first-child{ text-align:left; }
+  .grp{ margin:18px 0; }
+  .grp h3{ margin:0 0 8px; font-size:16px; color:var(--gold); }
+  .grp .n{ color:var(--dim); font-weight:400; font-size:14px; }
+  .empty{ color:var(--dim); padding:20px 0; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>📏 Měření nohou</h1>
+  <div class="sub">Velikostní studie — měř děti přímo do mobilu. Data zůstávají jen v tomhle prohlížeči.</div>
+
+  <div class="tabs">
+    <button class="tab active" data-tab="nove">➕ Nové měření</button>
+    <button class="tab" data-tab="seznam">📋 Seznam</button>
+    <button class="tab" data-tab="vysledky">📊 Výsledky</button>
+    <button class="tab" data-tab="zaloha">💾 Záloha</button>
+  </div>
+
+  <!-- ➕ NOVÉ MĚŘENÍ -->
+  <section id="tab-nove" class="active">
+    <input type="hidden" id="f-id">
+    <label>Pohlaví</label>
+    <div class="seg" id="f-pohlavi">
+      <button type="button" data-val="kluk">Kluk</button>
+      <button type="button" data-val="holka">Holka</button>
+    </div>
+    <label>Věk (roky)</label>
+    <input type="number" id="f-vek" inputmode="decimal" step="1" min="0">
+    <label>Výška dítěte (cm)</label>
+    <input type="number" id="f-vyskaTela" inputmode="decimal" step="0.5" min="0">
+    <label>Číslo boty</label>
+    <input type="number" id="f-cisloBoty" inputmode="decimal" step="0.5" min="0">
+    <div class="sizehint" id="f-sizehint"></div>
+    <label>Výška začátku stehenního svalu (cm od podlahy) — vršek štulpny</label>
+    <input type="number" id="f-stehno" inputmode="decimal" step="0.5" min="0">
+    <label>Výška horní hrany lýtkového svalu (cm)</label>
+    <input type="number" id="f-lytkoHorni" inputmode="decimal" step="0.5" min="0">
+    <label>Výška spodní hrany lýtkového svalu (cm)</label>
+    <input type="number" id="f-lytkoSpodni" inputmode="decimal" step="0.5" min="0">
+    <label>Poznámka (nepovinná)</label>
+    <textarea id="f-poznamka"></textarea>
+    <div class="warn" id="f-warn"></div>
+    <button class="btn" id="f-save">Uložit měření</button>
+    <button class="btn sec" id="f-cancel" style="display:none">Zrušit úpravu</button>
+  </section>
+
+  <!-- 📋 SEZNAM -->
+  <section id="tab-seznam">
+    <div id="seznam-box"></div>
+  </section>
+
+  <!-- 📊 VÝSLEDKY -->
+  <section id="tab-vysledky">
+    <div id="vysledky-box"></div>
+  </section>
+
+  <!-- 💾 ZÁLOHA -->
+  <section id="tab-zaloha">
+    <button class="btn" id="z-export">⬇ Exportovat data (JSON)</button>
+    <label>Import ze souboru</label>
+    <input type="file" id="z-import" accept="application/json">
+    <button class="btn danger" id="z-reset">🗑 Vynulovat všechna měření</button>
+  </section>
+</div>
+
+<script src="mereni-core.js"></script>
+<script>
+const KEY = 'eldee-mereni-v1';
+let _seq = 0;
+function newId(){ _seq++; return 'm' + Date.now() + '-' + _seq; }
+function loadData(){ try{ return JSON.parse(localStorage.getItem(KEY)) || {zaznamy:[]}; }catch(e){ return {zaznamy:[]}; } }
+function saveData(d){ localStorage.setItem(KEY, JSON.stringify(d)); }
+
+// ── Záložky ─────────────────────────────────────────────────────
+function switchTab(name){
+  document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.tab === name));
+  document.querySelectorAll('section').forEach(s => s.classList.toggle('active', s.id === 'tab-' + name));
+  if(name === 'seznam') renderSeznam();
+  if(name === 'vysledky') renderVysledky();
+}
+document.querySelectorAll('.tab').forEach(t => t.addEventListener('click', () => switchTab(t.dataset.tab)));
+
+// ── Formulář ────────────────────────────────────────────────────
+let _pohlavi = '';
+document.querySelectorAll('#f-pohlavi button').forEach(b => b.addEventListener('click', () => {
+  _pohlavi = b.dataset.val;
+  document.querySelectorAll('#f-pohlavi button').forEach(x => x.classList.toggle('on', x === b));
+}));
+
+const gEl = id => document.getElementById(id);
+function numOrNull(id){ const v = gEl(id).value.trim(); return v === '' ? null : Number(v); }
+
+gEl('f-cisloBoty').addEventListener('input', () => {
+  const s = MereniCore.sizeFromShoe(gEl('f-cisloBoty').value);
+  const map = { S:'velikost S', M:'velikost M', L:'velikost L', XL:'velikost XL', mimo:'mimo rozsah (35–50)', '':'' };
+  gEl('f-sizehint').textContent = s ? '→ ' + map[s] : '';
+});
+
+function readForm(){
+  return {
+    id: gEl('f-id').value || newId(),
+    pohlavi: _pohlavi,
+    vek: numOrNull('f-vek'),
+    vyskaTela: numOrNull('f-vyskaTela'),
+    cisloBoty: numOrNull('f-cisloBoty'),
+    stehno: numOrNull('f-stehno'),
+    lytkoHorni: numOrNull('f-lytkoHorni'),
+    lytkoSpodni: numOrNull('f-lytkoSpodni'),
+    poznamka: gEl('f-poznamka').value.trim(),
+    vytvoreno: new Date().toISOString().slice(0,10)
+  };
+}
+
+function clearForm(){
+  ['f-id','f-vek','f-vyskaTela','f-cisloBoty','f-stehno','f-lytkoHorni','f-lytkoSpodni','f-poznamka'].forEach(id => gEl(id).value = '');
+  _pohlavi = '';
+  document.querySelectorAll('#f-pohlavi button').forEach(x => x.classList.remove('on'));
+  gEl('f-sizehint').textContent = ''; gEl('f-warn').textContent = '';
+  gEl('f-cancel').style.display = 'none'; gEl('f-save').textContent = 'Uložit měření';
+}
+
+gEl('f-save').addEventListener('click', () => {
+  const rec = readForm();
+  // povinné: číslo boty + tři výšky
+  if(rec.cisloBoty == null || rec.stehno == null || rec.lytkoHorni == null || rec.lytkoSpodni == null){
+    gEl('f-warn').textContent = '⚠ Vyplň číslo boty a všechny tři výšky.'; return;
+  }
+  if(!MereniCore.orderOk(rec)){
+    // jen upozornění (ne blok) — necháme rozhodnout uživatele
+    if(!confirm('Výšky nejdou po sobě (spodek lýtka < vršek lýtka < stehno). Uložit i tak?')){
+      gEl('f-warn').textContent = '⚠ Zkontroluj výšky.'; return;
+    }
+  }
+  const d = loadData();
+  const i = d.zaznamy.findIndex(z => z.id === rec.id);
+  if(i >= 0) d.zaznamy[i] = rec; else d.zaznamy.push(rec);
+  saveData(d);
+  clearForm();
+  gEl('f-warn').textContent = '✓ Uloženo (' + d.zaznamy.length + ' měření).';
+  setTimeout(() => { if(gEl('f-warn').textContent.startsWith('✓')) gEl('f-warn').textContent=''; }, 2500);
+});
+
+gEl('f-cancel').addEventListener('click', clearForm);
+
+// stuby — dokreslí Task 4/5
+function renderSeznam(){ /* Task 4 */ }
+function renderVysledky(){ /* Task 5 */ }
+function renderAll(){ renderSeznam(); renderVysledky(); }
+</script>
+</body>
+</html>

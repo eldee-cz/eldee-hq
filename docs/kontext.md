@@ -84,6 +84,17 @@ Co umi:
 
 *V2 (odlozeno): prehled kvality — % uznavanych reklamaci, nejcastejsi vady.*
 
+### Mereni nohou (`mereni-nohou.html`) — dlazdice "Mereni nohou" — NOVA od 2026-07-07
+
+Zivy formular pro velikostni studii. Luky meri detske nohy v terenu primo do mobilu; z dat appka pocita idealni vysku stulpny a pasmo pro diry na lytku, zvlast pro kazdou velikost S/M/L/XL.
+
+Co umi:
+1. Jedno dite = jeden zaznam, jedna noha, vsechny vysky od podlahy. Kolonky: pohlavi, vek, vyska ditete, cislo boty (→ auto S/M/L/XL), vyska zacatku stehenniho svalu (= vrsek stulpny), vyska horni a spodni hrany lytkoveho svalu, poznamka.
+2. Ctyri obrazovky: Nove mereni / Seznam (uprava, smazani) / Vysledky (prumer + median + min-max po velikostech, celkovy prehled) / Zaloha (export/import se sloucenim podle id).
+3. Cisté jadro `mereni-core.js` + 23 testu (`tests/mereni-core.test.js`). Spec a plan v `docs/superpowers/`.
+
+Data jen v prohlizeci (localStorage `eldee-mereni-v1`), prenos pres Zalohu. **Jmena se nesbiraji.** Do tohoto (verejneho) repa nejdou zadna namerena data — jen kod nastroje.
+
 ### Ostatni stranky
 - `kluby-vyhledavac.html` — hledac fotbalovych klubu (+ `data/kluby-data.json`)
 - `kniha.html` — studijni material (kap. 8 knihy)
@@ -115,6 +126,9 @@ Sdileni s Hledikerm: tlacitko Zaloha (JSON soubor) → prenest do eldee-business
 ---
 
 ## Aktualni stav / posledni zmeny
+
+### 2026-07-07
+- **Nova dlazdice Mereni nohou** (mereni-nohou.html) — viz popis sekce vyse. Zive na HQ, ukol `mereni-nohou` v stav.json odskrtnuty jako hotovo + milnik v timeline.
 
 ### 2026-06-29
 - **Reklamace & vraceni V1** (reklamace.html) — nova dlazdice, plne funkci, 20 testu jadra. Viz popis sekce vyse.

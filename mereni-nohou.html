@@ -232,7 +232,39 @@ window.deleteRecord = function(id){
   renderSeznam();
 };
 
-function renderVysledky(){ /* Task 5 */ }
+function fmt(v){ return v == null ? '—' : (Math.round(v * 10) / 10).toFixed(1); }
+const SIZE_LABEL = { S:'S (35–38)', M:'M (39–42)', L:'L (43–46)', XL:'XL (47–50)', mimo:'Mimo rozsah', bez:'Bez velikosti' };
+
+function grpBlock(nadpis, d){
+  if(d.n === 0) return '';
+  const o = d.odvozene;
+  return (
+    '<div class="grp">' +
+      '<h3>' + nadpis + ' <span class="n">· ' + d.n + ' dětí</span></h3>' +
+      '<table><thead><tr><th>Rozměr</th><th>Průměr</th><th>Medián</th><th>Min</th><th>Max</th></tr></thead><tbody>' +
+        row('Výška štulpny (stehno)', d.stehno) +
+        row('Vršek lýtka', d.lytkoHorni) +
+        row('Spodek lýtka', d.lytkoSpodni) +
+      '</tbody></table>' +
+      '<table style="margin-top:8px"><thead><tr><th>Pro díry</th><th>Průměr</th><th>Medián</th><th></th><th></th></tr></thead><tbody>' +
+        '<tr><td>Střed lýtka</td><td>' + fmt(o.diry.stred.mean) + '</td><td>' + fmt(o.diry.stred.median) + '</td><td></td><td></td></tr>' +
+        '<tr><td>Délka svalu</td><td>' + fmt(o.diry.delka.mean) + '</td><td>' + fmt(o.diry.delka.median) + '</td><td></td><td></td></tr>' +
+      '</tbody></table>' +
+    '</div>'
+  );
+}
+function row(name, s){ return '<tr><td>' + name + '</td><td>' + fmt(s.mean) + '</td><td>' + fmt(s.median) + '</td><td>' + fmt(s.min) + '</td><td>' + fmt(s.max) + '</td></tr>'; }
+
+function renderVysledky(){
+  const d = loadData();
+  const box = gEl('vysledky-box');
+  if(!d.zaznamy.length){ box.innerHTML = '<div class="empty">Zatím není z čeho počítat — přidej měření.</div>'; return; }
+  const r = MereniCore.computeResults(d.zaznamy);
+  let html = '<div class="sub">Ideální rozměry z ' + d.zaznamy.length + ' měření. Výška = cm od podlahy. Dvě díry si rozmístíš po „délce svalu" podle velikosti díry.</div>';
+  html += grpBlock('📊 Celkem (všechny děti)', r.celkem);
+  MereniCore.SIZE_ORDER.forEach(s => { html += grpBlock(SIZE_LABEL[s], r.skupiny[s]); });
+  box.innerHTML = html;
+}
 function renderAll(){ renderSeznam(); renderVysledky(); }
 </script>
 </body>

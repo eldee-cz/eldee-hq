@@ -62,6 +62,12 @@
   ],
   "timeline": [
     {
+      "datum": "7. 7. 2026",
+      "minor": true,
+      "nadpis": "Nová dlaždice Měření nohou",
+      "text": "Vznikla dlaždice <strong>📏 Měření nohou</strong> (mereni-nohou.html) — živý formulář pro velikostní studii: měření dětských nohou → ideální výška štulpny a pásmo děr po velikostech (S/M/L/XL), výsledky průměr+medián. Data v prohlížeči, přenos přes Zálohu."
+    },
+    {
       "datum": "30. 6. 2026",
       "minor": true,
       "nadpis": "Video obsah — sada scénářů pro AI maskota",
@@ -600,7 +606,8 @@
       "text": "Objednávky — Krok B (mozek): skladové hladiny (min/cíl) + rychlost prodeje + zboží na cestě → návrh co/kolik/kdy objednat (ceníkový tip) + upozornění + koncept z návrhů",
       "pozn": "",
       "hotovo": "28. 6. 2026"
-    }
+    },
+    { "id": "mereni-nohou", "text": "📏 Dlaždice Měření nohou — živý formulář pro velikostní studii (ideální výška štulpny + pásmo děr po velikostech)", "stav": "hotovo", "kdo": "Doležal", "pozn": "Data v prohlížeči (localStorage), přenos přes Zálohu. Jádro mereni-core.js + testy. Výsledky prumer+median po S/M/L/XL.", "vzniklo": "2026-07-07", "hotovo": "2026-07-07" }
   ],
   "odkazy": [
     {
@@ -673,6 +680,14 @@
       "stav": "on",
       "stavText": "online · interní data",
       "href": "reklamace.html",
+      "extern": false
+    },
+    {
+      "nadpis": "Měření nohou",
+      "text": "Velikostní studie — měření dětských nohou → ideální výška štulpny a pásmo děr po velikostech (S/M/L/XL). Živý formulář, výsledky průměr+medián. Data v prohlížeči, přenos přes Zálohu.",
+      "stav": "on",
+      "stavText": "online",
+      "href": "mereni-nohou.html",
       "extern": false
     },
     {

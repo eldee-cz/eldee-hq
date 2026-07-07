@@ -266,6 +266,42 @@ function renderVysledky(){
   box.innerHTML = html;
 }
 function renderAll(){ renderSeznam(); renderVysledky(); }
+
+// ── Záloha ──────────────────────────────────────────────────────
+gEl('z-export').addEventListener('click', () => {
+  const blob = new Blob([JSON.stringify(loadData(), null, 2)], {type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'eldee-mereni-' + new Date().toISOString().slice(0,10) + '.json';
+  a.click();
+});
+
+gEl('z-import').addEventListener('change', (e) => {
+  const file = e.target.files[0]; if(!file) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    let imp;
+    try{ imp = JSON.parse(reader.result); }catch(err){ alert('Soubor se nepodařilo přečíst (není to platný JSON).'); return; }
+    const incoming = (imp && Array.isArray(imp.zaznamy)) ? imp.zaznamy : null;
+    if(!incoming){ alert('Soubor nevypadá jako záloha měření.'); return; }
+    const d = loadData();
+    const byId = {}; d.zaznamy.forEach(z => byId[z.id] = z);
+    incoming.forEach(z => { if(z && z.id) byId[z.id] = z; });
+    d.zaznamy = Object.values(byId);
+    saveData(d);
+    renderAll();
+    alert('Naimportováno. Celkem ' + d.zaznamy.length + ' měření.');
+    e.target.value = '';
+  };
+  reader.readAsText(file);
+});
+
+gEl('z-reset').addEventListener('click', () => {
+  if(!confirm('Opravdu smazat VŠECHNA měření? Nejde vzít zpět.')) return;
+  saveData({zaznamy:[]});
+  renderAll();
+  alert('Vynulováno.');
+});
 </script>
 </body>
 </html>

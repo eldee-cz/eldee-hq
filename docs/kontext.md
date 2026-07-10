@@ -96,6 +96,7 @@ Co umi:
 Data jen v prohlizeci (localStorage `eldee-mereni-v1`), prenos pres Zalohu. **Jmena se nesbiraji.** Do tohoto (verejneho) repa nejdou zadna namerena data — jen kod nastroje.
 
 ### Ostatni stranky
+- `media/` — AI generovana videa maskota (testy pro socialni site), napr. prvni test zonglovani z 2026-07-10
 - `kluby-vyhledavac.html` — hledac fotbalovych klubu (+ `data/kluby-data.json`)
 - `kniha.html` — studijni material (kap. 8 knihy)
 - `pruzkum-cilovky.html` — pruzkum cilove skupiny
@@ -127,6 +128,11 @@ Sdileni s Hledikerm: tlacitko Zaloha (JSON soubor) → prenest do eldee-business
 
 ## Aktualni stav / posledni zmeny
 
+### 2026-07-10
+- **Mezinarodni strategie rozhodnuta:** hlavni domena bude **eldee.eu** (eldee.cz na ni pozdeji 301 presmeruje). Rámec: znacku stavet od zacatku globalne, ale prodej a marketing cilit nejdriv doma v CR. Web zustava **jeden vicejazycny** (CZ vychozi + EN/DE/ES/PL podle trakce), ne samostatne weby po zemich. Socialni site: **jeden globalni ucet na kazdou sit** (obsah je vizualne/jazykove neutralni, site si popisky prekladaji samy) — solo ucty pro konkretni zemi az podle realne trakce. Novy ukol v `stav.json`: koupit eldee.eu.
+- **AI videa s maskotem — rozjeto.** Po pruzkumu padlo rozhodnuti jit cestou **AI generovanych videi s maskotem Eldee ve 3D "Pixar" stylu** (jednodussi 2D loutkova animace zamitnuta — byla by plocha a musel by ji Luky delat rucne). Nastroje: Higgsfield — Nano Banana Pro (obrazky) + Kling 3.0 v PRO modu (video, 1080p). Vznikl **prvni test — Eldee zongluje s micem** (`media/eldee-prvni-AI-video-zonglovani-2026-07-10.mp4`). Konzistence maskota pres referencni obrazek funguje, 3D vzhled sedi. Limit: akcni pohyb lehce driftuje, jemnejsi pohyby vychazeji lip. Dalsi krok: z jednoho z 10 hotovych scenaru udelat prvni kompletni video v PRO kvalite.
+- (Mezitim Hledik dokoncil svuj OKTAGON MMA benchmark — inspiracni reserse pro eldee brand/komunikaci, vystup v privatnim repu, na nastence 3 nove ukoly z toho vzesle.)
+
 ### 2026-07-07
 - **Nova dlazdice Mereni nohou** (mereni-nohou.html) — viz popis sekce vyse. Zive na HQ, ukol `mereni-nohou` v stav.json odskrtnuty jako hotovo + milnik v timeline.
 
@@ -154,6 +160,8 @@ Sdileni s Hledikerm: tlacitko Zaloha (JSON soubor) → prenest do eldee-business
 
 ## Rozpracovane veci / co dal
 
+- **Koupit eldee.eu** (hlavni domena) + zvazit pojistkove domeny, pak presmerovat eldee.cz → eldee.eu.
+- **Prvni kompletni AI video maskota v PRO kvalite** — vybrat scenar z pripravene desitky, vygenerovat a vyladit pohyb.
 - **Reklamace V2** — prehled kvality (% uznavanych, nejcastejsi vady). Odlozeno, bude davat smysl az s daty.
 - **Objednavky Faze 3/4** — ve fronte, ceka na realny prodej (nemazat).
 - **Shoptet live API** — online prenos skladu, nenabizet varianty ktere nejsou skladem. Potrebuje Shoptet pristupy (zatim jen CSV export/import).

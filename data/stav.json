@@ -70,6 +70,12 @@
     {
       "datum": "10. 7. 2026",
       "minor": false,
+      "nadpis": "🦥⚽ První AI video maskota Eldee (Pixar styl)",
+      "text": "Rozjeli jsme testování <strong>AI animovaných videí s maskotem</strong> pro sociální sítě. Přes Higgsfield (Nano Banana Pro na obrázky + Kling 3.0 na pohyb) vznikl <strong>úplně první test — Eldee ve 3D „Pixar\" stylu žongluje s míčem</strong>. Ověřeno: konzistence maskota přes referenční obrázek funguje výborně, stylizovaný 3D vzhled sedí. Zbývá doladit plynulost pohybu (jemnější pohyby). Památné první video uloženo v <code>media/</code>."
+    },
+    {
+      "datum": "10. 7. 2026",
+      "minor": false,
       "nadpis": "Mezinárodní strategie — eldee.eu jako hlavní doména",
       "text": "Strategické rozhodnutí o expanzi: <strong>stavět značku od začátku globálně, prodávat nejdřív doma (ČR)</strong>. <strong>Doména:</strong> hlavní bude <strong>eldee.eu</strong> (Google ji čte jako celoevropskou; eldee.com je zabraná), eldee.cz na ni 301 přesměruje — ať se firma později bolestivě nestěhuje. <strong>Web:</strong> jeden vícejazyčný web (CZ výchozí + EN/DE/ES/PL dle trakce), ne weby per zemi. <strong>Sociální sítě:</strong> jeden globální účet na síť (obsah je vizuální/jazykově neutrální, algoritmy globální, sítě samy překládají popisky i titulky) — solo účty pro konkrétní zemi až podle reálné trakce. Náklady navíc za připravenost na Evropu = pár set Kč/rok za domény."
     },
@@ -626,6 +632,14 @@
     { "id": "blok-c-rytmus-obsah", "text": "📆 Blok C (z OKTAGON benchmarku): vybrat 1 kanál + 1 formát + 1 frekvenci, kterou UDRŽÍŠ, a rozjet pravidelný rytmus obsahu", "stav": "fronta", "kdo": "Lukáš + Jarvis", "pozn": "OKTAGON rytmus (běh 3): pevná kadence + recyklace záběrů + drop jako mini-event. Realisticky pro 5–7 h/týden: radši 1×/týden natrvalo než 4×/týden na 3 týdny. TikTok pro cílovku 10–19.", "vzniklo": "2026-07-10", "hotovo": null, "priorita": "stredni", "poradi": 25 }
   ],
   "odkazy": [
+    {
+      "nadpis": "🦥 První AI video maskota",
+      "text": "Památné úplně první AI animované video Eldeeho — 3D „Pixar\" styl, žonglování s míčem. Vytvořeno přes Higgsfield (Nano Banana Pro + Kling 3.0), test pipeline pro sociální sítě (10. 7. 2026).",
+      "stav": "on",
+      "stavText": "video — památka",
+      "href": "media/eldee-prvni-AI-video-zonglovani-2026-07-10.mp4",
+      "extern": false
+    },
     {
       "nadpis": "Logomanual",
       "text": "Osekaný brandbook pro dodavatele a partnery — logo, barvy, fonty, vzor a jak s eldee vizuálně pracovat. Tohle se sdílí ven.",

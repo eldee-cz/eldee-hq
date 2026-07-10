@@ -62,6 +62,12 @@
   ],
   "timeline": [
     {
+      "datum": "10. 7. 2026",
+      "minor": false,
+      "nadpis": "Mezinárodní strategie — eldee.eu jako hlavní doména",
+      "text": "Strategické rozhodnutí o expanzi: <strong>stavět značku od začátku globálně, prodávat nejdřív doma (ČR)</strong>. <strong>Doména:</strong> hlavní bude <strong>eldee.eu</strong> (Google ji čte jako celoevropskou; eldee.com je zabraná), eldee.cz na ni 301 přesměruje — ať se firma později bolestivě nestěhuje. <strong>Web:</strong> jeden vícejazyčný web (CZ výchozí + EN/DE/ES/PL dle trakce), ne weby per zemi. <strong>Sociální sítě:</strong> jeden globální účet na síť (obsah je vizuální/jazykově neutrální, algoritmy globální, sítě samy překládají popisky i titulky) — solo účty pro konkrétní zemi až podle reálné trakce. Náklady navíc za připravenost na Evropu = pár set Kč/rok za domény."
+    },
+    {
       "datum": "7. 7. 2026",
       "minor": true,
       "nadpis": "Nová dlaždice Měření nohou",
@@ -607,7 +613,8 @@
       "pozn": "",
       "hotovo": "28. 6. 2026"
     },
-    { "id": "mereni-nohou", "text": "📏 Dlaždice Měření nohou — živý formulář pro velikostní studii (ideální výška štulpny + pásmo děr po velikostech)", "stav": "hotovo", "kdo": "Doležal", "pozn": "Data v prohlížeči (localStorage), přenos přes Zálohu. Jádro mereni-core.js + testy. Výsledky prumer+median po S/M/L/XL.", "vzniklo": "2026-07-07", "hotovo": "2026-07-07" }
+    { "id": "mereni-nohou", "text": "📏 Dlaždice Měření nohou — živý formulář pro velikostní studii (ideální výška štulpny + pásmo děr po velikostech)", "stav": "hotovo", "kdo": "Doležal", "pozn": "Data v prohlížeči (localStorage), přenos přes Zálohu. Jádro mereni-core.js + testy. Výsledky prumer+median po S/M/L/XL.", "vzniklo": "2026-07-07", "hotovo": "2026-07-07" },
+    { "id": "domena-eu-hlavni", "text": "🌐 Koupit eldee.eu (hlavní doména) + pojistky eldee.shop/.store, pak přesměrovat eldee.cz → eldee.eu (301)", "stav": "další", "kdo": "Lukáš", "pozn": "Strategické rozhodnutí 10.7.: eldee.eu = hlavní doména (Google ji čte jako celoevropskou), eldee.cz na ni 301 přesměruje. Wedos ~150–200 Kč/rok, .eu vyžaduje EU adresu (má). Přesměrování nastavit s Jarvisem.", "vzniklo": "2026-07-10", "hotovo": null, "priorita": "stredni", "poradi": 8 }
   ],
   "odkazy": [
     {

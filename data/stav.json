@@ -1,6 +1,6 @@
 {
   "meta": {
-    "aktualizovano": "10. 7. 2026",
+    "aktualizovano": "21. 7. 2026",
     "pilulky": [
       {
         "label": "Brand book",
@@ -61,6 +61,12 @@
     }
   ],
   "timeline": [
+    {
+      "datum": "21. 7. 2026",
+      "minor": false,
+      "nadpis": "📏 Měření nohou v2 — obvod lýtka + silnější výstup",
+      "text": "Rozšíření dlaždice <strong>📏 Měření nohou</strong>: přibyl <strong>obvod lýtka</strong> (nejširší místo), rychlejší sběr v terénu (skok „další“ mezi číselnými poli, pohlaví drží z minulého dítěte, počítadlo naměřených), silnější Výsledky (<strong>tečkový pás</strong> rozložení + <strong>pokrytí vzorku</strong> se semaforem, práh 5 dětí/velikost) a nová záložka <strong>🏭 Výrobce</strong> = tisknutelný souhrn (medián = doporučení) + CSV export. Postaveno přes brainstorming → spec → plán → 4 tasky se samostatnými agenty + task review + finální whole-branch revize (Ready to merge). Jádro s node testy (28 OK). Data dál jen v prohlížeči."
+    },
     {
       "datum": "10. 7. 2026",
       "minor": true,
@@ -267,6 +273,15 @@
     }
   ],
   "ukoly": [
+    {
+      "id": "mereni-nohou-v2",
+      "text": "📏 Měření nohou v2 — obvod lýtka + rychlejší sběr + tečkový pás/pokrytí + souhrn pro výrobce (tisk + CSV)",
+      "stav": "hotovo",
+      "kdo": "Hledík",
+      "pozn": "Zpětně kompatibilní (staré zálohy bez obvodu jedou dál). Doporučená hodnota = medián. Spec+plán v docs/superpowers/.",
+      "vzniklo": "2026-07-21",
+      "hotovo": "2026-07-21"
+    },
     {
       "id": "sklad-dalsi-etapa",
       "text": "Sklad — další etapa (až bude Shoptet živý): odpis prodejů (sklad klesá), Shoptet API propsání stavů, analýzy „co se nejvíc prodává“",

@@ -28,6 +28,7 @@
   .seg button.on{ border-color:var(--gold); color:var(--gold); background:#211f16; }
   .sizehint{ font-size:14px; color:var(--gold); margin-top:6px; min-height:18px; }
   .warn{ color:var(--gold); font-size:14px; margin:10px 0; min-height:18px; }
+  .counter{ font-size:14px; color:var(--dim); margin-top:16px; }
   .btn{ min-height:52px; width:100%; margin-top:20px; border-radius:12px; border:none;
     background:var(--gold); color:#1a1400; font-size:18px; font-weight:700; cursor:pointer; }
   .btn.sec{ background:var(--ink2); color:var(--bone); border:1px solid var(--line); font-weight:500; }
@@ -66,20 +67,23 @@
       <button type="button" data-val="holka">Holka</button>
     </div>
     <label>Věk (roky)</label>
-    <input type="number" id="f-vek" inputmode="decimal" step="1" min="0">
+    <input type="number" id="f-vek" inputmode="decimal" step="1" min="0" enterkeyhint="next">
     <label>Výška dítěte (cm)</label>
-    <input type="number" id="f-vyskaTela" inputmode="decimal" step="0.5" min="0">
+    <input type="number" id="f-vyskaTela" inputmode="decimal" step="0.5" min="0" enterkeyhint="next">
     <label>Číslo boty</label>
-    <input type="number" id="f-cisloBoty" inputmode="decimal" step="0.5" min="0">
+    <input type="number" id="f-cisloBoty" inputmode="decimal" step="0.5" min="0" enterkeyhint="next">
     <div class="sizehint" id="f-sizehint"></div>
     <label>Výška začátku stehenního svalu (cm od podlahy) — vršek štulpny</label>
-    <input type="number" id="f-stehno" inputmode="decimal" step="0.5" min="0">
+    <input type="number" id="f-stehno" inputmode="decimal" step="0.5" min="0" enterkeyhint="next">
     <label>Výška horní hrany lýtkového svalu (cm)</label>
-    <input type="number" id="f-lytkoHorni" inputmode="decimal" step="0.5" min="0">
+    <input type="number" id="f-lytkoHorni" inputmode="decimal" step="0.5" min="0" enterkeyhint="next">
     <label>Výška spodní hrany lýtkového svalu (cm)</label>
-    <input type="number" id="f-lytkoSpodni" inputmode="decimal" step="0.5" min="0">
+    <input type="number" id="f-lytkoSpodni" inputmode="decimal" step="0.5" min="0" enterkeyhint="next">
+    <label>Obvod lýtka — nejširší místo (cm) <span style="color:var(--dim)">· nepovinné</span></label>
+    <input type="number" id="f-obvod" inputmode="decimal" step="0.5" min="0" enterkeyhint="done">
     <label>Poznámka (nepovinná)</label>
     <textarea id="f-poznamka"></textarea>
+    <div class="counter" id="f-counter"></div>
     <div class="warn" id="f-warn"></div>
     <button class="btn" id="f-save">Uložit měření</button>
     <button class="btn sec" id="f-cancel" style="display:none">Zrušit úpravu</button>
@@ -148,6 +152,7 @@ function readForm(){
     stehno: numOrNull('f-stehno'),
     lytkoHorni: numOrNull('f-lytkoHorni'),
     lytkoSpodni: numOrNull('f-lytkoSpodni'),
+    obvodLytka: numOrNull('f-obvod'),
     poznamka: gEl('f-poznamka').value.trim(),
     vytvoreno: (function(){
       const ex = gEl('f-id').value;
@@ -158,11 +163,29 @@ function readForm(){
 }
 
 function clearForm(){
-  ['f-id','f-vek','f-vyskaTela','f-cisloBoty','f-stehno','f-lytkoHorni','f-lytkoSpodni','f-poznamka'].forEach(id => gEl(id).value = '');
-  _pohlavi = '';
-  document.querySelectorAll('#f-pohlavi button').forEach(x => x.classList.remove('on'));
+  ['f-id','f-vek','f-vyskaTela','f-cisloBoty','f-stehno','f-lytkoHorni','f-lytkoSpodni','f-obvod','f-poznamka'].forEach(id => gEl(id).value = '');
+  // pohlaví záměrně necháváme (drží z minulého dítěte)
   gEl('f-sizehint').textContent = ''; gEl('f-warn').textContent = '';
   gEl('f-cancel').style.display = 'none'; gEl('f-save').textContent = 'Uložit měření';
+}
+
+// přeskakování mezi číselnými poli klávesou „další"
+const FIELD_ORDER = ['f-vek','f-vyskaTela','f-cisloBoty','f-stehno','f-lytkoHorni','f-lytkoSpodni','f-obvod'];
+FIELD_ORDER.forEach((id, idx) => {
+  gEl(id).addEventListener('keydown', (e) => {
+    if(e.key === 'Enter'){
+      e.preventDefault();
+      const next = FIELD_ORDER[idx+1];
+      if(next) gEl(next).focus(); else gEl(id).blur();
+    }
+  });
+});
+
+// počítadlo naměřených
+let _sessionCount = 0;
+function updateCounter(){
+  const total = loadData().zaznamy.length;
+  gEl('f-counter').textContent = 'Naměřeno teď: ' + _sessionCount + ' · celkem ' + total;
 }
 
 gEl('f-save').addEventListener('click', () => {
@@ -179,11 +202,16 @@ gEl('f-save').addEventListener('click', () => {
   }
   const d = loadData();
   const i = d.zaznamy.findIndex(z => z.id === rec.id);
+  const isNew = i < 0;
   if(i >= 0) d.zaznamy[i] = rec; else d.zaznamy.push(rec);
   saveData(d);
   clearForm();
+  if(isNew) _sessionCount++;
+  updateCounter();
   gEl('f-warn').textContent = '✓ Uloženo (' + d.zaznamy.length + ' měření).';
   setTimeout(() => { if(gEl('f-warn').textContent.startsWith('✓')) gEl('f-warn').textContent=''; }, 2500);
+  window.scrollTo(0,0);
+  gEl('f-vek').focus();
 });
 
 gEl('f-cancel').addEventListener('click', clearForm);
@@ -201,6 +229,7 @@ function renderSeznam(){
         '<div><b>' + sLabel + '</b> · bota ' + (z.cisloBoty ?? '—') + ' · ' +
           (z.pohlavi || '—') + (z.vek != null ? ', ' + z.vek + ' let' : '') + (z.vyskaTela != null ? ', ' + z.vyskaTela + ' cm' : '') + '</div>' +
         '<div class="meta">stehno ' + (z.stehno ?? '—') + ' · lýtko ' + (z.lytkoSpodni ?? '—') + '–' + (z.lytkoHorni ?? '—') + ' cm' +
+          (z.obvodLytka != null ? ' · obvod ' + z.obvodLytka + ' cm' : '') +
           (z.poznamka ? ' · ' + esc(z.poznamka) : '') + '</div>' +
         '<div class="acts">' +
           '<button onclick="editRecord(\'' + z.id + '\')">✏ Upravit</button>' +
@@ -219,6 +248,7 @@ window.editRecord = function(id){
   gEl('f-vek').value = z.vek ?? ''; gEl('f-vyskaTela').value = z.vyskaTela ?? '';
   gEl('f-cisloBoty').value = z.cisloBoty ?? ''; gEl('f-stehno').value = z.stehno ?? '';
   gEl('f-lytkoHorni').value = z.lytkoHorni ?? ''; gEl('f-lytkoSpodni').value = z.lytkoSpodni ?? '';
+  gEl('f-obvod').value = z.obvodLytka ?? '';
   gEl('f-poznamka').value = z.poznamka || '';
   _pohlavi = z.pohlavi || '';
   document.querySelectorAll('#f-pohlavi button').forEach(x => x.classList.toggle('on', x.dataset.val === _pohlavi));
@@ -306,6 +336,8 @@ gEl('z-reset').addEventListener('click', () => {
   renderAll();
   alert('Vynulováno.');
 });
+
+updateCounter();
 </script>
 </body>
 </html>

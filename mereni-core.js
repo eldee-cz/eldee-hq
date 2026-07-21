@@ -54,6 +54,7 @@
     const stehno      = stats(recs.map(r => r.stehno));
     const lytkoHorni  = stats(recs.map(r => r.lytkoHorni));
     const lytkoSpodni = stats(recs.map(r => r.lytkoSpodni));
+    const obvodLytka  = stats(recs.map(r => r.obvodLytka));
     // střed a délka se počítají PER ZÁZNAM (jen z kompletních párů), aby medián byl skutečný medián
     const _pair = (r, kind) => {
       const a = Number(r.lytkoSpodni), b = Number(r.lytkoHorni);
@@ -64,7 +65,7 @@
     const delkaS = stats(recs.map(r => _pair(r, 'delka')));
     return {
       n: recs.length,
-      stehno, lytkoHorni, lytkoSpodni,
+      stehno, lytkoHorni, lytkoSpodni, obvodLytka,
       odvozene: {
         vyskaStulpny: { mean: stehno.mean, median: stehno.median },
         diry: {
@@ -84,7 +85,23 @@
     return { celkem: deriveSizeStats(zaznamy || []), skupiny };
   }
 
-  const API = { sizeFromShoe, mean, median, minMax, stats, orderOk, groupBySize, deriveSizeStats, computeResults, SIZE_ORDER };
+  // ── v2: syrové hodnoty pro graf ─────────────────────────────────
+  function pluck(records, key){
+    return (records||[]).map(r => r[key]).filter(v => typeof v === 'number' && Number.isFinite(v));
+  }
+
+  // ── v2: pokrytí vzorku (semafor) ────────────────────────────────
+  function coverage(zaznamy, prah){
+    const p = (typeof prah === 'number' && prah > 0) ? prah : 5;
+    const low = Math.ceil(p * 0.6);
+    const g = groupBySize(zaznamy);
+    const stav = n => n < low ? 'malo' : (n < p ? 'stredni' : 'dost');
+    const out = {};
+    ['S','M','L','XL'].forEach(s => { const n = g[s].length; out[s] = { n, stav: stav(n) }; });
+    return out;
+  }
+
+  const API = { sizeFromShoe, mean, median, minMax, stats, orderOk, groupBySize, deriveSizeStats, computeResults, pluck, coverage, SIZE_ORDER };
   root.MereniCore = API;
   if (typeof module !== 'undefined' && module.exports) module.exports = API;
 })(typeof self !== 'undefined' ? self : this);

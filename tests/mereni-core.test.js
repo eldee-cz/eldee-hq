@@ -83,5 +83,40 @@ t('deriveSizeStats střed/délka = skutečný medián per záznam', ()=>{
   near(d.odvozene.diry.delka.median, 0);  // per záznam [10,0,0] → medián 0
 });
 
+// ── v2: obvod lýtka + pluck + coverage ──────────────────────────
+t('deriveSizeStats — obvod lýtka do statistiky', ()=>{
+  const recs=[{obvodLytka:30},{obvodLytka:34},{obvodLytka:null},{}];
+  const d=C.deriveSizeStats(recs);
+  assert.strictEqual(d.obvodLytka.n, 2);
+  near(d.obvodLytka.mean, 32);
+  assert.strictEqual(d.obvodLytka.median, 32);
+  assert.strictEqual(d.obvodLytka.min, 30);
+  assert.strictEqual(d.obvodLytka.max, 34);
+});
+t('deriveSizeStats — obvod prázdný → nully', ()=>{
+  const d=C.deriveSizeStats([{stehno:44}]);
+  assert.strictEqual(d.obvodLytka.n, 0);
+  assert.strictEqual(d.obvodLytka.mean, null);
+});
+t('pluck vytáhne čísla, ignoruje prázdné', ()=>{
+  const recs=[{stehno:44},{stehno:null},{stehno:46},{}];
+  assert.deepStrictEqual(C.pluck(recs,'stehno'), [44,46]);
+  assert.deepStrictEqual(C.pluck([],'stehno'), []);
+});
+t('coverage — málo/střední/dost (default práh 5)', ()=>{
+  const mk=(bota,n)=>Array.from({length:n},()=>({cisloBoty:bota}));
+  const z=[...mk(36,2),...mk(40,3),...mk(44,5)];
+  const c=C.coverage(z);
+  assert.deepStrictEqual(c.S, {n:2, stav:'malo'});
+  assert.deepStrictEqual(c.M, {n:3, stav:'stredni'});
+  assert.deepStrictEqual(c.L, {n:5, stav:'dost'});
+  assert.deepStrictEqual(c.XL, {n:0, stav:'malo'});
+});
+t('coverage — vlastní práh', ()=>{
+  const mk=(bota,n)=>Array.from({length:n},()=>({cisloBoty:bota}));
+  assert.strictEqual(C.coverage(mk(36,6),10).S.stav, 'stredni'); // 6 < ceil(6)=6? ne → 6<10 → stredni
+  assert.strictEqual(C.coverage(mk(36,10),10).S.stav, 'dost');
+});
+
 console.log(`${pass} OK, ${fail} chyb`);
 process.exit(fail ? 1 : 0);

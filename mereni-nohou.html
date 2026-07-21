@@ -50,6 +50,21 @@
   .cov b{ color:var(--bone); }
   .dotwrap{ margin-top:10px; padding:10px 12px; border:1px solid var(--line); border-radius:10px; background:var(--ink2); }
   .dotcap{ font-size:12px; color:var(--dim); margin-bottom:4px; }
+  .vgrp{ margin:18px 0; }
+  .vgrp h3{ margin:0 0 8px; font-size:16px; color:var(--gold); }
+  .print-head h2{ margin:0 0 4px; font-size:20px; }
+  .print-head .sub{ margin-bottom:12px; }
+  .print-foot{ margin-top:18px; font-size:13px; color:var(--dim); }
+  @media print {
+    body{ background:#fff; color:#111; }
+    .tabs, #v-print, .wrap > h1, .wrap > .sub { display:none !important; }
+    section{ display:none !important; }
+    #tab-vyrobce{ display:block !important; }
+    .vgrp h3{ color:#111; }
+    th,td{ border-color:#ccc; color:#111; }
+    th{ color:#333; }
+    .print-foot{ color:#555; }
+  }
 </style>
 </head>
 <body>
@@ -61,6 +76,7 @@
     <button class="tab active" data-tab="nove">➕ Nové měření</button>
     <button class="tab" data-tab="seznam">📋 Seznam</button>
     <button class="tab" data-tab="vysledky">📊 Výsledky</button>
+    <button class="tab" data-tab="vyrobce">🏭 Výrobce</button>
     <button class="tab" data-tab="zaloha">💾 Záloha</button>
   </div>
 
@@ -105,9 +121,16 @@
     <div id="vysledky-box"></div>
   </section>
 
+  <!-- 🏭 VÝROBCE -->
+  <section id="tab-vyrobce">
+    <button class="btn" id="v-print">🖨 Vytisknout / uložit PDF</button>
+    <div id="vyrobce-box"></div>
+  </section>
+
   <!-- 💾 ZÁLOHA -->
   <section id="tab-zaloha">
     <button class="btn" id="z-export">⬇ Exportovat data (JSON)</button>
+    <button class="btn sec" id="z-csv">⬇ Export CSV (syrová data)</button>
     <label>Import ze souboru</label>
     <input type="file" id="z-import" accept="application/json">
     <button class="btn danger" id="z-reset">🗑 Vynulovat všechna měření</button>
@@ -128,6 +151,7 @@ function switchTab(name){
   document.querySelectorAll('section').forEach(s => s.classList.toggle('active', s.id === 'tab-' + name));
   if(name === 'seznam') renderSeznam();
   if(name === 'vysledky') renderVysledky();
+  if(name === 'vyrobce') renderVyrobce();
 }
 document.querySelectorAll('.tab').forEach(t => t.addEventListener('click', () => switchTab(t.dataset.tab)));
 
@@ -335,6 +359,50 @@ function renderVysledky(){
   box.innerHTML = html;
 }
 function renderAll(){ renderSeznam(); renderVysledky(); }
+
+// ── Výrobce ─────────────────────────────────────────────────────
+function vrow(name, s){
+  return '<tr><td>' + name + '</td><td><b>' + fmt(s.median) + '</b></td><td>' + fmt(s.mean) + '</td><td>' + fmt(s.min) + '–' + fmt(s.max) + '</td></tr>';
+}
+function renderVyrobce(){
+  const d = loadData();
+  const box = gEl('vyrobce-box');
+  if(!d.zaznamy.length){ box.innerHTML = '<div class="empty">Zatím není z čeho dělat souhrn — přidej měření.</div>'; return; }
+  const r = MereniCore.computeResults(d.zaznamy);
+  const dnes = new Date().toISOString().slice(0,10);
+  let html = '<div class="print-head"><h2>eldee — velikostní souhrn</h2>' +
+    '<div class="sub">Vygenerováno ' + dnes + ' · ' + d.zaznamy.length + ' měření · doporučená hodnota = medián</div></div>';
+  ['S','M','L','XL'].forEach(s => {
+    const g = r.skupiny[s]; if(g.n === 0) return;
+    const o = g.odvozene;
+    html += '<div class="vgrp"><h3>' + SIZE_LABEL[s] + ' <span class="n">· ' + g.n + ' dětí</span></h3>' +
+      '<table><thead><tr><th>Rozměr</th><th>Doporučeno (medián)</th><th>Průměr</th><th>Rozpětí</th></tr></thead><tbody>' +
+        vrow('Výška štulpny', g.stehno) +
+        vrow('Obvod lýtka', g.obvodLytka) +
+        '<tr><td>Střed lýtka (díry)</td><td><b>' + fmt(o.diry.stred.median) + '</b></td><td>' + fmt(o.diry.stred.mean) + '</td><td>—</td></tr>' +
+        '<tr><td>Délka svalu (díry)</td><td><b>' + fmt(o.diry.delka.median) + '</b></td><td>' + fmt(o.diry.delka.mean) + '</td><td>—</td></tr>' +
+      '</tbody></table></div>';
+  });
+  html += '<div class="print-foot">Doporučená hodnota = medián (odolný vůči jednomu špatně změřenému dítěti). Finální rozměry volí eldee.</div>';
+  box.innerHTML = html;
+}
+gEl('v-print').addEventListener('click', () => window.print());
+
+gEl('z-csv').addEventListener('click', () => {
+  const d = loadData();
+  const head = ['velikost','pohlavi','vek','vyskaTela','cisloBoty','stehno','lytkoHorni','lytkoSpodni','obvodLytka','poznamka','vytvoreno'];
+  const csvCell = v => { const t = (v == null ? '' : String(v)).replace(/"/g,'""'); return /[";\n]/.test(t) ? '"' + t + '"' : t; };
+  const lines = [head.join(';')];
+  d.zaznamy.forEach(z => {
+    const s = MereniCore.sizeFromShoe(z.cisloBoty);
+    lines.push([s || '', z.pohlavi, z.vek, z.vyskaTela, z.cisloBoty, z.stehno, z.lytkoHorni, z.lytkoSpodni, z.obvodLytka, z.poznamka, z.vytvoreno].map(csvCell).join(';'));
+  });
+  const blob = new Blob(['﻿' + lines.join('\r\n')], {type:'text/csv;charset=utf-8'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'eldee-mereni-' + new Date().toISOString().slice(0,10) + '.csv';
+  a.click();
+});
 
 // ── Záloha ──────────────────────────────────────────────────────
 gEl('z-export').addEventListener('click', () => {

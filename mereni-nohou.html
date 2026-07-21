@@ -362,7 +362,8 @@ function renderAll(){ renderSeznam(); renderVysledky(); }
 
 // ── Výrobce ─────────────────────────────────────────────────────
 function vrow(name, s){
-  return '<tr><td>' + name + '</td><td><b>' + fmt(s.median) + '</b></td><td>' + fmt(s.mean) + '</td><td>' + fmt(s.min) + '–' + fmt(s.max) + '</td></tr>';
+  const rozpeti = (s.min == null) ? '—' : (fmt(s.min) + '–' + fmt(s.max));
+  return '<tr><td>' + name + '</td><td><b>' + fmt(s.median) + '</b></td><td>' + fmt(s.mean) + '</td><td>' + rozpeti + '</td></tr>';
 }
 function renderVyrobce(){
   const d = loadData();
@@ -387,6 +388,7 @@ function renderVyrobce(){
   box.innerHTML = html;
 }
 gEl('v-print').addEventListener('click', () => window.print());
+window.addEventListener('beforeprint', renderVyrobce);
 
 gEl('z-csv').addEventListener('click', () => {
   const d = loadData();

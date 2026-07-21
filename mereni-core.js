@@ -4,14 +4,14 @@
 (function(root){
 
   // ── Mapování čísla boty na velikost ─────────────────────────────
-  // S 35–38, M 39–42, L 43–46, XL 47–50. Pásma bez mezer (půlky spadnou dovnitř).
+  // XS 31–34, S 35–38, M 39–42, L 43–46. Pásma bez mezer (půlky spadnou dovnitř).
   function sizeFromShoe(cislo){
     const n = Number(cislo);
     if(!Number.isFinite(n) || n <= 0) return '';
+    if(n >= 31 && n < 35) return 'XS';
     if(n >= 35 && n < 39) return 'S';
     if(n >= 39 && n < 43) return 'M';
     if(n >= 43 && n < 47) return 'L';
-    if(n >= 47 && n < 51) return 'XL';
     return 'mimo';
   }
 
@@ -38,9 +38,9 @@
   }
 
   // ── Seskupení podle velikosti ───────────────────────────────────
-  const SIZE_ORDER = ['S','M','L','XL','mimo','bez'];
+  const SIZE_ORDER = ['XS','S','M','L','mimo','bez'];
   function groupBySize(zaznamy){
-    const g = { S:[], M:[], L:[], XL:[], mimo:[], bez:[] };
+    const g = { XS:[], S:[], M:[], L:[], mimo:[], bez:[] };
     (zaznamy||[]).forEach(z => {
       const s = sizeFromShoe(z.cisloBoty);
       g[s === '' ? 'bez' : s].push(z);
@@ -97,11 +97,32 @@
     const g = groupBySize(zaznamy);
     const stav = n => n < low ? 'malo' : (n < p ? 'stredni' : 'dost');
     const out = {};
-    ['S','M','L','XL'].forEach(s => { const n = g[s].length; out[s] = { n, stav: stav(n) }; });
+    ['XS','S','M','L'].forEach(s => { const n = g[s].length; out[s] = { n, stav: stav(n) }; });
     return out;
   }
 
-  const API = { sizeFromShoe, mean, median, minMax, stats, orderOk, groupBySize, deriveSizeStats, computeResults, pluck, coverage, SIZE_ORDER };
+  // ── v3: středy 2 děr na lýtku (kaskáda od země) ─────────────────
+  // XS + S: díry na hranách lýtkového svalu. M + L: sval napůl, díra ve středu každé poloviny.
+  // Počítá se per záznam (jako střed/délka), pak medián — proto stats().
+  function holeCenters(records, size){
+    const edges = (size === 'XS' || size === 'S');
+    const num = v => (typeof v === 'number' && Number.isFinite(v)) ? v : null;  // null/undefined/ne-číslo → chybí
+    const spodni = [], vrchni = [];
+    (records || []).forEach(r => {
+      const a = num(r.lytkoSpodni), b = num(r.lytkoHorni);
+      if(edges){
+        spodni.push(a);
+        vrchni.push(b);
+      } else if(a !== null && b !== null){
+        const L = b - a;
+        spodni.push(a + L / 4);
+        vrchni.push(a + 3 * L / 4);
+      } else { spodni.push(null); vrchni.push(null); }
+    });
+    return { spodni: stats(spodni), vrchni: stats(vrchni) };
+  }
+
+  const API = { sizeFromShoe, mean, median, minMax, stats, orderOk, groupBySize, deriveSizeStats, computeResults, pluck, coverage, holeCenters, SIZE_ORDER };
   root.MereniCore = API;
   if (typeof module !== 'undefined' && module.exports) module.exports = API;
 })(typeof self !== 'undefined' ? self : this);

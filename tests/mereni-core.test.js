@@ -8,13 +8,13 @@ function near(a, b){ assert.ok(Math.abs(a-b) < 1e-9, `${a} ≈ ${b}`); }
 
 // ── Task 1: velikosti + statistika ──────────────────────────────
 t('sizeFromShoe hranice S', ()=>{ assert.strictEqual(C.sizeFromShoe(35),'S'); assert.strictEqual(C.sizeFromShoe(38),'S'); });
-t('sizeFromShoe M/L/XL', ()=>{
+t('sizeFromShoe XS/M/L', ()=>{
+  assert.strictEqual(C.sizeFromShoe(31),'XS'); assert.strictEqual(C.sizeFromShoe(34),'XS');
   assert.strictEqual(C.sizeFromShoe(39),'M'); assert.strictEqual(C.sizeFromShoe(42),'M');
   assert.strictEqual(C.sizeFromShoe(43),'L'); assert.strictEqual(C.sizeFromShoe(46),'L');
-  assert.strictEqual(C.sizeFromShoe(47),'XL'); assert.strictEqual(C.sizeFromShoe(50),'XL');
 });
 t('sizeFromShoe půlka spadne do pásma', ()=>{ assert.strictEqual(C.sizeFromShoe(37.5),'S'); assert.strictEqual(C.sizeFromShoe(38.5),'S'); });
-t('sizeFromShoe mimo rozsah', ()=>{ assert.strictEqual(C.sizeFromShoe(34),'mimo'); assert.strictEqual(C.sizeFromShoe(51),'mimo'); });
+t('sizeFromShoe mimo rozsah', ()=>{ assert.strictEqual(C.sizeFromShoe(30),'mimo'); assert.strictEqual(C.sizeFromShoe(47),'mimo'); assert.strictEqual(C.sizeFromShoe(51),'mimo'); });
 t('sizeFromShoe prázdné', ()=>{ assert.strictEqual(C.sizeFromShoe(null),''); assert.strictEqual(C.sizeFromShoe(''),''); assert.strictEqual(C.sizeFromShoe('abc'),''); });
 
 t('mean základ', ()=>{ near(C.mean([2,4,6]), 4); });
@@ -34,10 +34,10 @@ t('orderOk špatné pořadí', ()=>{ assert.strictEqual(C.orderOk({lytkoSpodni:3
 t('orderOk nekompletní → nehlídá', ()=>{ assert.strictEqual(C.orderOk({lytkoSpodni:30,lytkoHorni:null,stehno:45}), true); });
 
 t('groupBySize roztřídí', ()=>{
-  const z = [{cisloBoty:36},{cisloBoty:40},{cisloBoty:44},{cisloBoty:48},{cisloBoty:60},{cisloBoty:null}];
+  const z = [{cisloBoty:32},{cisloBoty:36},{cisloBoty:40},{cisloBoty:44},{cisloBoty:60},{cisloBoty:null}];
   const g = C.groupBySize(z);
-  assert.strictEqual(g.S.length,1); assert.strictEqual(g.M.length,1);
-  assert.strictEqual(g.L.length,1); assert.strictEqual(g.XL.length,1);
+  assert.strictEqual(g.XS.length,1); assert.strictEqual(g.S.length,1);
+  assert.strictEqual(g.M.length,1); assert.strictEqual(g.L.length,1);
   assert.strictEqual(g.mimo.length,1); assert.strictEqual(g.bez.length,1);
 });
 
@@ -107,15 +107,39 @@ t('coverage — málo/střední/dost (default práh 5)', ()=>{
   const mk=(bota,n)=>Array.from({length:n},()=>({cisloBoty:bota}));
   const z=[...mk(36,2),...mk(40,3),...mk(44,5)];
   const c=C.coverage(z);
+  assert.deepStrictEqual(c.XS, {n:0, stav:'malo'});
   assert.deepStrictEqual(c.S, {n:2, stav:'malo'});
   assert.deepStrictEqual(c.M, {n:3, stav:'stredni'});
   assert.deepStrictEqual(c.L, {n:5, stav:'dost'});
-  assert.deepStrictEqual(c.XL, {n:0, stav:'malo'});
 });
 t('coverage — vlastní práh', ()=>{
   const mk=(bota,n)=>Array.from({length:n},()=>({cisloBoty:bota}));
   assert.strictEqual(C.coverage(mk(36,6),10).S.stav, 'stredni'); // 6 < ceil(6)=6? ne → 6<10 → stredni
   assert.strictEqual(C.coverage(mk(36,10),10).S.stav, 'dost');
+});
+
+// ── v3: velikost XS + středy 2 děr ──────────────────────────────
+t('SIZE_ORDER = XS/S/M/L (XL pryč)', ()=>{ assert.deepStrictEqual(C.SIZE_ORDER, ['XS','S','M','L','mimo','bez']); });
+t('holeCenters — XS a S = hrany svalu', ()=>{
+  const recs=[{lytkoSpodni:26,lytkoHorni:35},{lytkoSpodni:27,lytkoHorni:36}];
+  ['XS','S'].forEach(sz => {
+    const h=C.holeCenters(recs,sz);
+    assert.strictEqual(h.spodni.median, 26.5); // medián spodních hran
+    assert.strictEqual(h.vrchni.median, 35.5); // medián horních hran
+  });
+});
+t('holeCenters — M a L = sval napůl (¼ a ¾ délky)', ()=>{
+  const recs=[{lytkoSpodni:30,lytkoHorni:42}]; // délka 12 → spodní 33, vrchní 39
+  ['M','L'].forEach(sz => {
+    const h=C.holeCenters(recs,sz);
+    near(h.spodni.median, 33);
+    near(h.vrchni.median, 39);
+  });
+});
+t('holeCenters — nekompletní hrany se ignorují', ()=>{
+  const h=C.holeCenters([{lytkoSpodni:30,lytkoHorni:null},{lytkoSpodni:31,lytkoHorni:41}],'M');
+  assert.strictEqual(h.spodni.n, 1);
+  near(h.spodni.median, 33.5); // jen druhý záznam: 31 + 10/4
 });
 
 console.log(`${pass} OK, ${fail} chyb`);

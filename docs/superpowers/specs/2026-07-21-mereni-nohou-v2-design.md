@@ -21,7 +21,7 @@ Vše zůstává **mobile-first**, bez jmen (GDPR-light), data jen v prohlížeč
 - **Doporučená hodnota pro výrobce = medián** (odolný vůči jednomu špatně změřenému dítěti). Vedle něj průměr a rozpětí. **Appka nikdy nerozhoduje za Lukáše** — jen doporučuje.
 - **Graf = tečkový pás** (u malých vzorků líp ukáže rozptyl a odlehlé dítě než histogram).
 - **Výstup pro výrobce = tisknutelná stránka + CSV** syrových dat.
-- **Práh pokrytí = ~10 dětí/velikost** (jen vodítko, nic neblokuje).
+- **Práh pokrytí = 5 dětí/velikost** (jen vodítko, nic neblokuje).
 
 ## Rozsah — 4 části
 
@@ -57,7 +57,7 @@ Vše zůstává **mobile-first**, bez jmen (GDPR-light), data jen v prohlížeč
 - Umístění: pod tabulkami v každém bloku velikosti.
 
 **b) Pokrytí vzorku**
-- Nahoře ve Výsledcích souhrnný přehled: pro S/M/L/XL počet dětí + **barevný semafor**. Práh `DOPORUCENO = 10`: `<5` červená („málo"), `5–9` oranžová („střední"), `≥10` zelená („dost"). Text: „Pokrytí S: 3/10 — potřeba víc".
+- Nahoře ve Výsledcích souhrnný přehled: pro S/M/L/XL počet dětí + **barevný semafor**. Práh `DOPORUCENO = 5`: `<3` červená („málo"), `3–4` oranžová („střední"), `≥5` zelená („dost"). Text: „Pokrytí S: 2/5 — potřeba víc".
 - Nic neblokuje — jen vodítko, kdy je vzorek dost velký na rozhodnutí.
 
 ### 4. Souhrn pro výrobce
@@ -89,7 +89,7 @@ Staré záznamy `obvodLytka` nemají (undefined) → v kódu ošetřit jako `nul
 - **`mereni-core.js`** (čisté funkce, bez DOM):
   - `deriveSizeStats` rozšířit o `obvodLytka` (přes stávající `stats()`).
   - `pluck(records, key)` → pole čísel pro graf (bez null).
-  - `coverage(zaznamy, prah=10)` → per velikost `{n, stav:'malo'|'stredni'|'dost'}`.
+  - `coverage(zaznamy, prah=5)` → per velikost `{n, stav:'malo'|'stredni'|'dost'}` (`<3` malo, `3–4` stredni, `≥5` dost).
 - **`mereni-nohou.html`:** nové pole, next-field flow, sticky pohlaví, session counter, SVG tečkový pás (kreslí z hodnot z core), pokrytí, záložka Výrobce, CSV export, print styl.
 - **`tests/mereni-core.test.js`:** rozšířit — obvod v agregaci, `coverage` prahy, `pluck`.
 
@@ -100,7 +100,7 @@ Staré záznamy `obvodLytka` nemají (undefined) → v kódu ošetřit jako `nul
 
 ## Testy (jak ověříme)
 
-- **node testy jádra:** obvod v mean/median/min-max, `coverage` prahy (4 / 7 / 12 dětí → malo/stredni/dost), `pluck` ignoruje null.
+- **node testy jádra:** obvod v mean/median/min-max, `coverage` prahy (2 / 3 / 5 dětí → malo/stredni/dost), `pluck` ignoruje null.
 - **Ruční proklik (mobil):** dítě s obvodem i bez, editace, export/import staré zálohy, graf, pokrytí, tisk do PDF, CSV do Excelu (diakritika, sloupce).
 - **Headless kontrola:** JS syntaxe OK, assety 200, `mereni-core.js` se načte.
 
@@ -112,7 +112,7 @@ Staré záznamy `obvodLytka` nemají (undefined) → v kódu ošetřit jako `nul
 - Víc obvodů (2 nebo 3 body) — teď jen 1.
 - Historie/verzování záznamů, grafy pro každý rozměr.
 
-## Otevřené / na potvrzení Lukášem
+## Rozhodnuto (21.7.)
 
-- Práh pokrytí `10`/velikost — sedí, nebo jiné číslo?
-- Grafy jen pro štulpnu + obvod (ne pro hrany lýtka) — OK?
+- **Práh pokrytí = 5** dětí/velikost (semafor `<3` málo, `3–4` střední, `≥5` dost).
+- **Grafy jen pro výšku štulpny + obvod** (ne pro hrany lýtka) — kvůli přehlednosti.

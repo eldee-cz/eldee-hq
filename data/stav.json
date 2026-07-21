@@ -64,6 +64,12 @@
     {
       "datum": "21. 7. 2026",
       "minor": false,
+      "nadpis": "🦥 Pixar asset kit maskota — zámek identity (Element)",
+      "text": "Rozjet <strong>Pixar asset kit maskota Eldee</strong> jako základ pro AI videa. Zamčena identita: kanonický Pixar master + <strong>Higgsfield Element</strong> (znovupoužitelný pro obrázky i video Kling 3.0), model sheet z 5 úhlů a <strong>12 výrazů</strong> (chill, funky, hype, smutný, guru, žvýká a další). Nová HQ dlaždice <strong>🦥 Maskot</strong> = galerie výrazů, model sheet, pózy (připravuje se) a editor krabice. Kreativní detaily zůstávají v privátním repu eldee-business."
+    },
+    {
+      "datum": "21. 7. 2026",
+      "minor": false,
       "nadpis": "📏 Měření nohou v2 — obvod lýtka + silnější výstup",
       "text": "Rozšíření dlaždice <strong>📏 Měření nohou</strong>: přibyl <strong>obvod lýtka</strong> (nejširší místo), rychlejší sběr v terénu (skok „další“ mezi číselnými poli, pohlaví drží z minulého dítěte, počítadlo naměřených), silnější Výsledky (<strong>tečkový pás</strong> rozložení + <strong>pokrytí vzorku</strong> se semaforem, práh 5 dětí/velikost) a nová záložka <strong>🏭 Výrobce</strong> = tisknutelný souhrn (medián = doporučení) + CSV export. Postaveno přes brainstorming → spec → plán → 4 tasky se samostatnými agenty + task review + finální whole-branch revize (Ready to merge). Jádro s node testy (28 OK). Data dál jen v prohlížeči."
     },
@@ -695,11 +701,11 @@
       "extern": true
     },
     {
-      "nadpis": "Editor maskota",
-      "text": "Ruční editor lenochoda v krabici: klonování děr z obrázku, razítka (čistá díra / LD logo / záplata), export PNG. Nástroj na úpravu maskota.",
+      "nadpis": "🦥 Maskot",
+      "text": "Kokpit maskota Eldee (Pixar registr): galerie 12 výrazů, model sheet z 5 úhlů, pózy (připravuje se) a editor krabice. Identita zamčená přes Higgsfield Element — základ pro AI videa a obsah.",
       "stav": "on",
-      "stavText": "online — nástroj",
-      "href": "maskot-editor/krabice-editor.html",
+      "stavText": "online — kit",
+      "href": "maskot.html",
       "extern": false
     },
     {

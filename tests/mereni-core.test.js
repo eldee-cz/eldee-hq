@@ -118,5 +118,93 @@ t('coverage — vlastní práh', ()=>{
   assert.strictEqual(C.coverage(mk(36,10),10).S.stav, 'dost');
 });
 
+// ── v3: umístění otvorů + obrys nohy pro technický list ─────────
+const L_RECS = [
+  {cisloBoty:45, stehno:61, lytkoHorni:44, lytkoSpodni:30, obvodLytka:38},
+  {cisloBoty:45, stehno:61, lytkoHorni:45, lytkoSpodni:30, obvodLytka:39}
+];  // medián: stehno 61, horní 44,5, spodní 30, obvod 38,5 → délka svalu 14,5
+
+t('holeLayout — varianta čtvrtiny (¼ a ¾ délky svalu)', ()=>{
+  const v = C.holeLayout(C.deriveSizeStats(L_RECS)).ctvrtiny;
+  near(v.spodni, 33.625);        // 30 + 14,5/4
+  near(v.vrchni, 40.875);        // 30 + 3×14,5/4
+  near(v.roztec, 7.25);
+  near(v.prumer, 5);             // floor((7,25−2)×2)/2 = 5,0
+  near(v.mustek, 2.25);
+  assert.strictEqual(v.proveditelna, true);
+});
+
+t('holeLayout — varianta hrany (středy na hranách svalu)', ()=>{
+  const v = C.holeLayout(C.deriveSizeStats(L_RECS)).hrany;
+  near(v.spodni, 30); near(v.vrchni, 44.5); near(v.roztec, 14.5);
+  near(v.prumer, 8);              // strop 8 cm
+  near(v.mustek, 6.5);
+  assert.strictEqual(v.proveditelna, true);
+});
+
+t('holeLayout — průměr nikdy nad 8 cm', ()=>{
+  const recs = [{cisloBoty:45, stehno:70, lytkoHorni:60, lytkoSpodni:20}]; // sval 40 cm
+  const v = C.holeLayout(C.deriveSizeStats(recs));
+  assert.ok(v.ctvrtiny.prumer <= 8, 'čtvrtiny ' + v.ctvrtiny.prumer);
+  assert.ok(v.hrany.prumer <= 8, 'hrany ' + v.hrany.prumer);
+});
+
+t('holeLayout — krátký sval: čtvrtiny neproveditelné, hrany ano', ()=>{
+  const recs = [{cisloBoty:36, stehno:45, lytkoHorni:34, lytkoSpodni:29}]; // sval 5 cm
+  const v = C.holeLayout(C.deriveSizeStats(recs));
+  assert.strictEqual(v.ctvrtiny.proveditelna, false); // rozteč 2,5 − můstek 2 = 0,5 < min. průměr
+  assert.strictEqual(v.ctvrtiny.prumer, null);
+  assert.strictEqual(v.hrany.proveditelna, false);    // rozteč 5 − můstek 4 = 1 < min. průměr
+});
+
+t('holeLayout — chybějící nebo nesmyslná data → null', ()=>{
+  assert.strictEqual(C.holeLayout(C.deriveSizeStats([])), null);
+  assert.strictEqual(C.holeLayout(C.deriveSizeStats([{lytkoSpodni:30}])), null);
+  assert.strictEqual(C.holeLayout(C.deriveSizeStats([{lytkoHorni:30, lytkoSpodni:30}])), null); // nulová délka
+  assert.strictEqual(C.holeLayout(null), null);
+});
+
+t('legProfile — body vzestupně, lýtko nejširší uprostřed svalu', ()=>{
+  const p = C.legProfile(C.deriveSizeStats(L_RECS));
+  assert.ok(p.length >= 7, 'málo bodů: ' + p.length);
+  for(let i=1;i<p.length;i++) assert.ok(p[i].cm > p[i-1].cm, 'pořadí u indexu ' + i);
+  const lytko = p.filter(b => b.cm <= 44.5);              // od podlahy po horní hranu svalu
+  const nej = lytko.reduce((a,b)=> b.sirka > a.sirka ? b : a);
+  near(nej.cm, 37.25);                       // (30 + 44,5) / 2
+  near(nej.sirka, 38.5 / Math.PI);           // šířka = obvod / π
+  // stehno je nad štulpnou širší než lýtko — noha se rozšiřuje
+  assert.ok(p[p.length-1].sirka > nej.sirka, 'stehno musí být širší než lýtko');
+});
+
+t('legProfile — bez obvodu použije odhad z výšky štulpny', ()=>{
+  const recs = [{cisloBoty:45, stehno:61, lytkoHorni:44.5, lytkoSpodni:30}];
+  const p = C.legProfile(C.deriveSizeStats(recs));
+  const nej = p.reduce((a,b)=> b.sirka > a.sirka ? b : a);
+  assert.ok(nej.sirka > 8 && nej.sirka < 16, 'odhad mimo rozsah: ' + nej.sirka);
+});
+
+t('legProfile — sahá od podlahy nad horní okraj štulpny', ()=>{
+  const p = C.legProfile(C.deriveSizeStats(L_RECS));
+  assert.strictEqual(p[0].cm, 0);
+  assert.ok(p[p.length-1].cm > 61, 'nekončí nad štulpnou');
+});
+
+t('legProfile — chybějící data → null', ()=>{
+  assert.strictEqual(C.legProfile(C.deriveSizeStats([])), null);
+  assert.strictEqual(C.legProfile(null), null);
+});
+
+t('smoothPath — hladká křivka bodů', ()=>{
+  const d = C.smoothPath([[0,0],[10,10],[20,0],[30,10]]);
+  assert.ok(d.startsWith('M0,0'), d);
+  assert.strictEqual((d.match(/C/g) || []).length, 3);  // n−1 segmentů
+  assert.ok(d.endsWith('30,10'), d);
+});
+
+t('smoothPath — málo bodů', ()=>{
+  assert.strictEqual(C.smoothPath([[1,2]]), 'M1,2');
+  assert.strictEqual(C.smoothPath([]), '');
+});
+
 console.log(`${pass} OK, ${fail} chyb`);
 process.exit(fail ? 1 : 0);

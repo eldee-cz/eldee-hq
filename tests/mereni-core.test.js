@@ -119,26 +119,27 @@ t('coverage — vlastní práh', ()=>{
 });
 
 // ── v3: umístění otvorů + obrys nohy pro technický list ─────────
+// Smyšlená kulatá data, ať se v testech nepotkáme se skutečnými rozměry produktu.
 const L_RECS = [
-  {cisloBoty:45, stehno:61, lytkoHorni:44, lytkoSpodni:30, obvodLytka:38},
-  {cisloBoty:45, stehno:61, lytkoHorni:45, lytkoSpodni:30, obvodLytka:39}
-];  // medián: stehno 61, horní 44,5, spodní 30, obvod 38,5 → délka svalu 14,5
+  {cisloBoty:45, stehno:50, lytkoHorni:40, lytkoSpodni:20, obvodLytka:30},
+  {cisloBoty:45, stehno:50, lytkoHorni:40, lytkoSpodni:20, obvodLytka:32}
+];  // medián: stehno 50, horní 40, spodní 20, obvod 31 → délka svalu 20
 
 t('holeLayout — varianta čtvrtiny (¼ a ¾ délky svalu)', ()=>{
   const v = C.holeLayout(C.deriveSizeStats(L_RECS)).ctvrtiny;
-  near(v.spodni, 33.625);        // 30 + 14,5/4
-  near(v.vrchni, 40.875);        // 30 + 3×14,5/4
-  near(v.roztec, 7.25);
-  near(v.prumer, 5);             // floor((7,25−2)×2)/2 = 5,0
-  near(v.mustek, 2.25);
+  near(v.spodni, 25);            // 20 + 20/4
+  near(v.vrchni, 35);            // 20 + 3×20/4
+  near(v.roztec, 10);
+  near(v.prumer, 8);             // min(8, floor((10−2)×2)/2)
+  near(v.mustek, 2);
   assert.strictEqual(v.proveditelna, true);
 });
 
 t('holeLayout — varianta hrany (středy na hranách svalu)', ()=>{
   const v = C.holeLayout(C.deriveSizeStats(L_RECS)).hrany;
-  near(v.spodni, 30); near(v.vrchni, 44.5); near(v.roztec, 14.5);
+  near(v.spodni, 20); near(v.vrchni, 40); near(v.roztec, 20);
   near(v.prumer, 8);              // strop 8 cm
-  near(v.mustek, 6.5);
+  near(v.mustek, 12);
   assert.strictEqual(v.proveditelna, true);
 });
 
@@ -168,25 +169,25 @@ t('legProfile — body vzestupně, lýtko nejširší uprostřed svalu', ()=>{
   const p = C.legProfile(C.deriveSizeStats(L_RECS));
   assert.ok(p.length >= 7, 'málo bodů: ' + p.length);
   for(let i=1;i<p.length;i++) assert.ok(p[i].cm > p[i-1].cm, 'pořadí u indexu ' + i);
-  const lytko = p.filter(b => b.cm <= 44.5);              // od podlahy po horní hranu svalu
+  const lytko = p.filter(b => b.cm <= 40);                // od podlahy po horní hranu svalu
   const nej = lytko.reduce((a,b)=> b.sirka > a.sirka ? b : a);
-  near(nej.cm, 37.25);                       // (30 + 44,5) / 2
-  near(nej.sirka, 38.5 / Math.PI);           // šířka = obvod / π
+  near(nej.cm, 30);                          // (20 + 40) / 2
+  near(nej.sirka, 31 / Math.PI);             // šířka = obvod / π
   // stehno je nad štulpnou širší než lýtko — noha se rozšiřuje
   assert.ok(p[p.length-1].sirka > nej.sirka, 'stehno musí být širší než lýtko');
 });
 
 t('legProfile — bez obvodu použije odhad z výšky štulpny', ()=>{
-  const recs = [{cisloBoty:45, stehno:61, lytkoHorni:44.5, lytkoSpodni:30}];
+  const recs = [{cisloBoty:45, stehno:50, lytkoHorni:40, lytkoSpodni:20}];
   const p = C.legProfile(C.deriveSizeStats(recs));
   const nej = p.reduce((a,b)=> b.sirka > a.sirka ? b : a);
-  assert.ok(nej.sirka > 8 && nej.sirka < 16, 'odhad mimo rozsah: ' + nej.sirka);
+  assert.ok(nej.sirka > 6 && nej.sirka < 14, 'odhad mimo rozsah: ' + nej.sirka);
 });
 
 t('legProfile — sahá od podlahy nad horní okraj štulpny', ()=>{
   const p = C.legProfile(C.deriveSizeStats(L_RECS));
   assert.strictEqual(p[0].cm, 0);
-  assert.ok(p[p.length-1].cm > 61, 'nekončí nad štulpnou');
+  assert.ok(p[p.length-1].cm > 50, 'nekončí nad štulpnou');
 });
 
 t('legProfile — chybějící data → null', ()=>{

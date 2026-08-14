@@ -104,11 +104,6 @@
   .tl-fig svg{ width:100%; height:auto; display:block; margin:4px auto 0; }
   .tl-cap{ font-family:var(--tmono); font-size:8.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--tash); display:block; }
   .tl td.tl-side{ font-family:var(--tbody); font-size:10px; color:var(--tash); text-align:right; width:26%; }
-  .tl-ask{ border:2px solid var(--tink); padding:11px 12px; margin-top:14px; background:var(--tbone); page-break-inside:avoid; }
-  .tl-ask h4{ font-family:var(--tdisplay); font-weight:900; font-size:16px; text-transform:uppercase; line-height:1.2; margin:0 0 5px; color:var(--tink); }
-  .tl-ask ol{ margin:5px 0 0 16px; padding:0; font-size:11.5px; }
-  .tl-ask li{ margin-bottom:4px; }
-  .tl-ask li::marker{ font-family:var(--tmono); font-size:10px; color:var(--tgold); }
   .tl-foot{ margin-top:14px; padding-top:8px; border-top:1px solid var(--tline);
             display:flex; justify-content:space-between; gap:12px; font-size:9px; color:var(--tash); line-height:1.5; }
   .tl-foot .tl-mono{ font-family:var(--tmono); white-space:nowrap; }
@@ -607,7 +602,7 @@ function tlNakres(g, lay, brkHigh){
 }
 
 // detail lýtka — výřez kolem otvorů ve větším měřítku
-const TD_S = 13, TD_CX = 150, TD_PAD = 2.2;   // px/cm · osa nohy · kolik cm nad a pod otvory
+const TD_S = 13, TD_CX = 172, TD_W = 348, TD_PAD = 2.2;   // px/cm · osa nohy · šířka plátna · kolik cm nad a pod otvory
 
 function tlDetail(g, lay){
   const o = lay.otvor, prof = MereniCore.legProfile(g);
@@ -648,30 +643,28 @@ function tlDetail(g, lay){
     '<line x1="' + r1(TD_CX-rx) + '" y1="' + r1(yD+ry) + '" x2="' + r1(TD_CX-rx) + '" y2="' + r1(yS+4) + '" stroke="#0A0A0A" stroke-width=".5" stroke-dasharray="3 2.5"/>' +
     '<line x1="' + r1(TD_CX+rx) + '" y1="' + r1(yD+ry) + '" x2="' + r1(TD_CX+rx) + '" y2="' + r1(yS+4) + '" stroke="#0A0A0A" stroke-width=".5" stroke-dasharray="3 2.5"/>' +
     A(TD_CX-rx, yS, TD_CX+rx, yS, '#0A0A0A', '.9') +
-    '<text x="' + TD_CX + '" y="' + r1(yS+13) + '" font-size="11" fill="#0A0A0A" text-anchor="middle">šířka ' + tlFmt(o.sirka) + '</text>';
+    '<text x="' + TD_CX + '" y="' + r1(yS+13) + '" font-size="10.5" fill="#0A0A0A" text-anchor="middle">šířka ' + tlFmt(o.sirka) + '</text>';
 
-  // výška otvoru — svisle vlevo od spodního oválu
-  const xV = TD_CX - rx - 20;
+  // vlevo jeden sloupec kót: nahoře materiál mezi otvory, dole výška otvoru — navazují na sebe
+  const xV = TD_CX - rx - 22;
+  const popis = (y, text) => '<text x="' + r1(xV-5) + '" y="' + r1(y+4) + '" font-size="10.5" fill="#0A0A0A" text-anchor="end">' + text + '</text>';
   const kotaV = pomocna(xV-3, yD-ry, TD_CX-rx) + pomocna(xV-3, yD+ry, TD_CX-rx) +
-    A(xV, yD-ry, xV, yD+ry, '#0A0A0A', '.9') +
-    '<text x="' + r1(xV-5) + '" y="' + r1(yD+4) + '" font-size="11" fill="#0A0A0A" text-anchor="end">výška ' + tlFmt(o.vyska) + '</text>';
-
-  // můstek mezi otvory — na ose nohy
-  const kotaM = A(TD_CX, yH+ry, TD_CX, yD-ry, '#0A0A0A', '.9') +
-    '<text x="' + (TD_CX+5) + '" y="' + r1((yH+ry+yD-ry)/2 + 4) + '" font-size="11" fill="#0A0A0A">materiál ' + tlFmt(lay.mustek) + '</text>';
+    A(xV, yD-ry, xV, yD+ry, '#0A0A0A', '.9') + popis(yD, 'výška ' + tlFmt(o.vyska));
+  const kotaM = pomocna(xV-3, yH+ry, TD_CX) +
+    A(xV, yH+ry, xV, yD-ry, '#0A0A0A', '.9') + popis((yH+yD)/2, 'materiál ' + tlFmt(lay.mustek));
 
   // rozteč středů — vpravo, červeně
-  const xR = TD_CX + rx + 34;
+  const xR = TD_CX + rx + 22;
   const kotaR = '<g stroke="#B91C1C" stroke-width=".5" stroke-dasharray="3 2.5">' +
       '<line x1="' + TD_CX + '" y1="' + r1(yD) + '" x2="' + r1(xR+3) + '" y2="' + r1(yD) + '"/>' +
       '<line x1="' + TD_CX + '" y1="' + r1(yH) + '" x2="' + r1(xR+3) + '" y2="' + r1(yH) + '"/></g>' +
     '<line x1="' + r1(xR) + '" y1="' + r1(yD) + '" x2="' + r1(xR) + '" y2="' + r1(yH) + '" stroke="#B91C1C" stroke-width="1.1" marker-start="url(#tdRS)" marker-end="url(#tdRE)"/>' +
-    '<text x="' + r1(xR+5) + '" y="' + r1((yD+yH)/2 + 4) + '" font-size="11" fill="#B91C1C">rozteč ' + tlFmt(lay.roztec) + '</text>';
+    '<text x="' + r1(xR+5) + '" y="' + r1((yD+yH)/2 + 4) + '" font-size="10.5" fill="#B91C1C">rozteč ' + tlFmt(lay.roztec) + '</text>';
 
   const vyska = mapY(od) + 32;
   const sipka = (id, barva, d) => '<marker id="' + id + '" markerWidth="7" markerHeight="7" refX="' + (d > 0 ? 6 : 1) + '" refY="3.5" orient="auto">' +
     '<path d="' + (d > 0 ? 'M6,3.5 L0,1 L0,6 Z' : 'M1,3.5 L7,1 L7,6 Z') + '" fill="' + barva + '"/></marker>';
-  return '<svg viewBox="0 0 300 ' + r1(vyska) + '" xmlns="http://www.w3.org/2000/svg" font-family="JetBrains Mono, monospace">' +
+  return '<svg viewBox="0 0 ' + TD_W + ' ' + r1(vyska) + '" xmlns="http://www.w3.org/2000/svg" font-family="JetBrains Mono, monospace">' +
     '<defs>' + sipka('tdS','#0A0A0A',1) + sipka('tdE','#0A0A0A',-1) + sipka('tdRS','#B91C1C',1) + sipka('tdRE','#B91C1C',-1) + '</defs>' +
     zona + obrys + oval(yD) + oval(yH) + kotaS + kotaV + kotaM + kotaR + '</svg>';
 }

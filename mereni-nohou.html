@@ -97,8 +97,12 @@
   .tl thead th.tl-live{ background:var(--tgold); color:var(--tink); border-bottom-color:var(--tink); }
   .tl tr.tl-total th, .tl tr.tl-total td{ border-bottom:1.5px solid var(--tink); font-weight:700; }
   .tl-callout{ border-left:3px solid var(--tgold); padding:2px 0 2px 10px; margin:8px 0; font-size:11px; line-height:1.5; }
-  .tl-figure{ border:1px solid var(--tline); padding:8px 10px; margin-top:8px; text-align:center; }
-  .tl-figure svg{ width:100%; max-width:280px; height:auto; display:block; margin:0 auto; }
+  .tl-figures{ display:flex; gap:10px; margin-top:8px; align-items:stretch; }
+  .tl-fig{ border:1px solid var(--tline); padding:8px 10px; text-align:center; min-width:0; }
+  .tl-fig-celek{ flex:0 0 34%; }
+  .tl-fig-detail{ flex:1; }
+  .tl-fig svg{ width:100%; height:auto; display:block; margin:4px auto 0; }
+  .tl-cap{ font-family:var(--tmono); font-size:8.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--tash); display:block; }
   .tl td.tl-side{ font-family:var(--tbody); font-size:10px; color:var(--tash); text-align:right; width:26%; }
   .tl-ask{ border:2px solid var(--tink); padding:11px 12px; margin-top:14px; background:var(--tbone); page-break-inside:avoid; }
   .tl-ask h4{ font-family:var(--tdisplay); font-weight:900; font-size:16px; text-transform:uppercase; line-height:1.2; margin:0 0 5px; color:var(--tink); }
@@ -118,7 +122,8 @@
     .wrap{ max-width:none; padding:0; }
     .tl-page{ padding:0; margin:0; border-radius:0; page-break-after:always; font-size:9.5pt; overflow:hidden; }
     .tl-page:last-child{ page-break-after:auto; }
-    .tl-figure svg{ height:118mm; max-width:none; width:auto; }
+    .tl-fig-celek svg{ height:100mm; width:auto; margin:4px auto 0; }
+    .tl-fig-detail svg{ height:86mm; width:auto; margin:4px auto 0; }
     th,td{ border-color:#ccc; color:#111; }
   }
 </style>
@@ -601,12 +606,74 @@ function tlNakres(g, lay, brkHigh){
     '</defs>' + zona + obrys + zlom + okraj + podlaha + otvory + kotaD + kotaR + kotyV + '</svg>';
 }
 
-function tlOtazky(){
-  return '<div class="tl-ask">' +
-    '<h4>Co ještě potřebujeme vědět</h4>' +
-    '<p class="tl-small" style="margin-bottom:7px">Rozměr otvoru i jeho umístění bereme jako uzavřené. Zbývá nám jediná otázka:</p><ol>' +
-    '<li><b>Jaká je vaše výrobní tolerance pro polohu otvoru?</b> Tedy o kolik milimetrů se může střed otvoru na hotovém kuse lišit od zadané hodnoty. Potřebujeme to vědět, abychom podle toho posuzovali vzorky.</li>' +
-    '</ol></div>';
+// detail lýtka — výřez kolem otvorů ve větším měřítku
+const TD_S = 13, TD_CX = 150, TD_PAD = 2.2;   // px/cm · osa nohy · kolik cm nad a pod otvory
+
+function tlDetail(g, lay){
+  const o = lay.otvor, prof = MereniCore.legProfile(g);
+  if(!prof) return '';
+  const r1 = n => Math.round(n*10)/10;
+  const od = lay.spodni - o.vyska/2 - TD_PAD, doo = lay.vrchni + o.vyska/2 + TD_PAD;
+  const mapY = cm => (doo - cm) * TD_S + 14;
+  const x = (cm, sign) => TD_CX + sign * tlSirkaV(prof, cm)/2 * TD_S;
+
+  // obrys v tomhle úseku — po 0,5 cm, ať je křivka hladká
+  const kroky = [];
+  for(let cm = od; cm <= doo + 0.01; cm += 0.5) kroky.push(cm);
+  let obrys = '';
+  [-1, 1].forEach(sign => {
+    obrys += '<path d="' + MereniCore.smoothPath(kroky.map(cm => [x(cm, sign), mapY(cm)])) +
+             '" fill="none" stroke="#0A0A0A" stroke-width="1.6"/>';
+  });
+
+  // zóna svalu (jen část, co je ve výřezu)
+  const zTop = Math.min(doo, g.lytkoHorni.median), zBot = Math.max(od, g.lytkoSpodni.median);
+  let zona = '';
+  if(zTop > zBot){
+    const xz = TD_CX - Math.max(tlSirkaV(prof, zBot), tlSirkaV(prof, zTop))/2 * TD_S - 4;
+    zona = '<rect x="' + r1(xz) + '" y="' + r1(mapY(zTop)) + '" width="' + r1((TD_CX-xz)*2) +
+           '" height="' + r1(mapY(zBot) - mapY(zTop)) + '" fill="#C9A227" opacity=".12"/>';
+  }
+
+  const rx = o.sirka/2 * TD_S, ry = o.vyska/2 * TD_S, yD = mapY(lay.spodni), yH = mapY(lay.vrchni);
+  const oval = y => '<ellipse cx="' + TD_CX + '" cy="' + r1(y) + '" rx="' + r1(rx) + '" ry="' + r1(ry) + '" fill="#fff" stroke="#0A0A0A" stroke-width="1.8"/>';
+
+  const A = (x1,y1,x2,y2,barva,sirka) => '<line x1="' + r1(x1) + '" y1="' + r1(y1) + '" x2="' + r1(x2) + '" y2="' + r1(y2) +
+    '" stroke="' + barva + '" stroke-width="' + sirka + '" marker-start="url(#tdS)" marker-end="url(#tdE)"/>';
+  const pomocna = (x1,y,x2) => '<line x1="' + r1(x1) + '" y1="' + r1(y) + '" x2="' + r1(x2) + '" y2="' + r1(y) + '" stroke="#0A0A0A" stroke-width=".5" stroke-dasharray="3 2.5"/>';
+
+  // šířka otvoru — vodorovně pod spodním oválem
+  const yS = yD + ry + 13;
+  const kotaS = pomocna(TD_CX-rx, yS+4, TD_CX-rx) + pomocna(TD_CX+rx, yS+4, TD_CX+rx) +
+    '<line x1="' + r1(TD_CX-rx) + '" y1="' + r1(yD+ry) + '" x2="' + r1(TD_CX-rx) + '" y2="' + r1(yS+4) + '" stroke="#0A0A0A" stroke-width=".5" stroke-dasharray="3 2.5"/>' +
+    '<line x1="' + r1(TD_CX+rx) + '" y1="' + r1(yD+ry) + '" x2="' + r1(TD_CX+rx) + '" y2="' + r1(yS+4) + '" stroke="#0A0A0A" stroke-width=".5" stroke-dasharray="3 2.5"/>' +
+    A(TD_CX-rx, yS, TD_CX+rx, yS, '#0A0A0A', '.9') +
+    '<text x="' + TD_CX + '" y="' + r1(yS+13) + '" font-size="11" fill="#0A0A0A" text-anchor="middle">šířka ' + tlFmt(o.sirka) + '</text>';
+
+  // výška otvoru — svisle vlevo od spodního oválu
+  const xV = TD_CX - rx - 20;
+  const kotaV = pomocna(xV-3, yD-ry, TD_CX-rx) + pomocna(xV-3, yD+ry, TD_CX-rx) +
+    A(xV, yD-ry, xV, yD+ry, '#0A0A0A', '.9') +
+    '<text x="' + r1(xV-5) + '" y="' + r1(yD+4) + '" font-size="11" fill="#0A0A0A" text-anchor="end">výška ' + tlFmt(o.vyska) + '</text>';
+
+  // můstek mezi otvory — na ose nohy
+  const kotaM = A(TD_CX, yH+ry, TD_CX, yD-ry, '#0A0A0A', '.9') +
+    '<text x="' + (TD_CX+5) + '" y="' + r1((yH+ry+yD-ry)/2 + 4) + '" font-size="11" fill="#0A0A0A">materiál ' + tlFmt(lay.mustek) + '</text>';
+
+  // rozteč středů — vpravo, červeně
+  const xR = TD_CX + rx + 34;
+  const kotaR = '<g stroke="#B91C1C" stroke-width=".5" stroke-dasharray="3 2.5">' +
+      '<line x1="' + TD_CX + '" y1="' + r1(yD) + '" x2="' + r1(xR+3) + '" y2="' + r1(yD) + '"/>' +
+      '<line x1="' + TD_CX + '" y1="' + r1(yH) + '" x2="' + r1(xR+3) + '" y2="' + r1(yH) + '"/></g>' +
+    '<line x1="' + r1(xR) + '" y1="' + r1(yD) + '" x2="' + r1(xR) + '" y2="' + r1(yH) + '" stroke="#B91C1C" stroke-width="1.1" marker-start="url(#tdRS)" marker-end="url(#tdRE)"/>' +
+    '<text x="' + r1(xR+5) + '" y="' + r1((yD+yH)/2 + 4) + '" font-size="11" fill="#B91C1C">rozteč ' + tlFmt(lay.roztec) + '</text>';
+
+  const vyska = mapY(od) + 32;
+  const sipka = (id, barva, d) => '<marker id="' + id + '" markerWidth="7" markerHeight="7" refX="' + (d > 0 ? 6 : 1) + '" refY="3.5" orient="auto">' +
+    '<path d="' + (d > 0 ? 'M6,3.5 L0,1 L0,6 Z' : 'M1,3.5 L7,1 L7,6 Z') + '" fill="' + barva + '"/></marker>';
+  return '<svg viewBox="0 0 300 ' + r1(vyska) + '" xmlns="http://www.w3.org/2000/svg" font-family="JetBrains Mono, monospace">' +
+    '<defs>' + sipka('tdS','#0A0A0A',1) + sipka('tdE','#0A0A0A',-1) + sipka('tdRS','#B91C1C',1) + sipka('tdRE','#B91C1C',-1) + '</defs>' +
+    zona + obrys + oval(yD) + oval(yH) + kotaS + kotaV + kotaM + kotaR + '</svg>';
 }
 
 function renderVyrobce(){
@@ -639,10 +706,13 @@ function renderVyrobce(){
       html += '<p class="tl-lead">Dva otvory nad sebou na lýtkovém svalu. <b>Rozměr otvoru je váš</b> — udali jste ho jako nejmenší, který dokážete vyrobit a obšít. My z měření nohou dopočítali, <b>kam ho umístit</b>: střed každého otvoru leží v polovině své poloviny svalu.</p>' +
         tlTabulkaZadani(lay) +
         '<p class="tl-small">Hodnoty v centimetrech, na nenatažené štulpně. Umístění spočítané z ' + g.n + ' měření velikosti ' + s + '.</p>' +
-        '<div class="tl-figure">' + tlNakres(g, lay, brk) + '</div>' +
+        '<div class="tl-figures">' +
+          '<div class="tl-fig tl-fig-celek"><span class="tl-cap">Celá noha · kóty od podlahy</span>' + tlNakres(g, lay, brk) + '</div>' +
+          '<div class="tl-fig tl-fig-detail"><span class="tl-cap">Detail lýtka · rozměry otvorů</span>' + tlDetail(g, lay) + '</div>' +
+        '</div>' +
         '<p class="tl-small" style="margin-top:5px">Zlatě podbarvená plocha = lýtkový sval (' + tlFmt(g.lytkoSpodni.median) + ' – ' + tlFmt(g.lytkoHorni.median) +
         ' cm od podlahy). Červená kóta = rozteč středů.' + (brk != null ? ' Klikatá čára u kotníku = přerušení nákresu, kóty jsou i přesto skutečné vzdálenosti od podlahy.' : '') +
-        ' Schéma v poměru, ne střihový podklad. Spodní okraj štulpny neurčujeme.</p>';
+        ' Detail vpravo je ve větším měřítku, obě schémata jsou v poměru — ne střihový podklad. Spodní okraj štulpny neurčujeme.</p>';
       if(lay.tesne){
         html += '<div class="tl-callout"><b>Pozor:</b> mezi otvory zbývá jen ' + tlFmt(lay.mustek) + ' cm materiálu. Řekněte nám, jestli to váš úplet unese.</div>';
       }
@@ -663,8 +733,7 @@ function renderVyrobce(){
       '</b> Rozměry pro ' + chybi.join(', ') + ' doměříme a pošleme zvlášť — tenhle list platí ' +
       (mericke.length ? 'pro velikost ' + mericke.join(', ') + '.' : 'jen jako ukázka struktury.') + '</div>';
   }
-  html += tlOtazky() +
-    tlFoot(stran, stran, 'Uvedená hodnota = medián. Odolává jednomu chybně změřenému člověku lépe než průměr.') + '</div>';
+  html += tlFoot(stran, stran, 'Uvedená hodnota = medián. Odolává jednomu chybně změřenému člověku lépe než průměr.') + '</div>';
 
   box.innerHTML = html + '</div>';
 }

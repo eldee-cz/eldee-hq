@@ -1,6 +1,6 @@
 {
   "meta": {
-    "aktualizovano": "31. 7. 2026",
+    "aktualizovano": "14. 8. 2026",
     "pilulky": [
       {
         "label": "Brand book",
@@ -62,7 +62,13 @@
   ],
   "timeline": [
     {
+      "datum": "14. 8. 2026",
+      "nadpis": "Zadání pro výrobu prototypu — velikost L",
+      "text": "Výrobce udal <strong>nejmenší otvor, který dokáže vyrobit a obšít</strong> (ovál na šířku), a potvrdil, že kóty stačí posílat tak, jak je měříme — od podlahy na stojícím člověku; přepočet na střih si udělá sám. Tím padly obě otevřené neznámé, takže se technický list překlopil z „vyberte si z variant\" na <strong>jedno jasné zadání</strong>: dvě strany, jeden nákres, otvory ve čtvrtinách lýtkového svalu. Zbývá jediná otázka — výrobní tolerance polohy otvoru."
+    },
+    {
       "datum": "31. 7. 2026",
+      "minor": true,
       "nadpis": "Technický list pro výrobce",
       "text": "Prvních 14 měření nohou a z nich tisknutelný podklad pro výrobce: tabulka rozměrů, nákres s kótami od podlahy a dvě varianty umístění otvorů. Dlaždice Měření nohou ho generuje sama z nasbíraných dat."
     },
@@ -663,9 +669,10 @@
     { "id": "blok-b-ambasadori-ugc", "text": "🤝 Blok B (z OKTAGON benchmarku): naplavat 3–5 hráčů-ambasadorů + rozjet UGC mechaniku (hráč se natočí v eldee, my repostujeme)", "stav": "fronta", "kdo": "Lukáš", "pozn": "eldee nemá vlastní zápasníky → musí si je vyrobit. Kritérium jako OKTAGON: ne nejlepší hráč, ale ten, co se umí ukázat. Seed = pár párů zdarma za obsah. Zároveň = delegace (obsah dělají oni). Placené influencery ne.", "vzniklo": "2026-07-10", "hotovo": null, "priorita": "stredni", "poradi": 24 },
     { "id": "blok-c-rytmus-obsah", "text": "📆 Blok C (z OKTAGON benchmarku): vybrat 1 kanál + 1 formát + 1 frekvenci, kterou UDRŽÍŠ, a rozjet pravidelný rytmus obsahu", "stav": "fronta", "kdo": "Lukáš + Jarvis", "pozn": "OKTAGON rytmus (běh 3): pevná kadence + recyklace záběrů + drop jako mini-event. Realisticky pro 5–7 h/týden: radši 1×/týden natrvalo než 4×/týden na 3 týdny. TikTok pro cílovku 10–19.", "vzniklo": "2026-07-10", "hotovo": null, "priorita": "stredni", "poradi": 25 },
     { "id": "ai-video-prvni-scenar", "text": "🎬 AI video maskota — první kompletní video z jednoho z 10 scénářů (Pixar 3D styl, Kling PRO)", "stav": "další", "kdo": "Doležal + Jarvis", "pozn": "Rozhodnuto 10.7. jít cestou AI Pixar videí (Higgsfield: Nano Banana Pro obrázky + Kling 3.0 PRO video 1080p). Jarvis generuje/režíruje, Luky kontroluje pohyb (Jarvis video nevidí). Před sérií dobít kredity. První test (žonglování) hotový v media/.", "vzniklo": "2026-07-10", "hotovo": null, "priorita": "stredni", "poradi": 9 },
-    { "id": "mereni-technicky-list", "text": "📏 Technický list pro výrobce — dlaždice Měření nohou generuje tisknutelný A4 dokument (tabulka rozměrů, nákres s kótami, dvě varianty umístění otvorů, otázky na výrobce)", "stav": "hotovo", "kdo": "Hledík", "pozn": "Šablona je ve veřejném repu, čísla zůstávají v prohlížeči (localStorage) — rozměry se ven nedostanou. Dvě varianty umístění: čtvrtiny svalu (malé otvory) vs. hrany svalu (velké). Výběr necháváme na výrobci.", "vzniklo": "2026-07-31", "hotovo": "2026-07-31", "priorita": "vysoka", "poradi": 1 },
+    { "id": "mereni-technicky-list", "text": "📏 Zadání pro výrobu — dlaždice Měření nohou generuje tisknutelný A4 dokument (rozměr a umístění otvorů, nákres s kótami, podklad z naměřených dat)", "stav": "hotovo", "kdo": "Hledík", "pozn": "Šablona je ve veřejném repu, čísla zůstávají v prohlížeči (localStorage) — rozměry se ven nedostanou. 14. 8. přestavěno na jedno zadání: rozměr otvoru zadává výrobce (pole v dlaždici), umístění = čtvrtiny lýtkového svalu, 2 strany a jeden nákres.", "vzniklo": "2026-07-31", "hotovo": "2026-08-14", "priorita": "vysoka", "poradi": 1 },
     { "id": "mereni-dosbirat-velikosti", "text": "📏 Dosbírat měření pro velikosti S, M a XL — zatím máme jen L", "stav": "další", "kdo": "Lukáš", "pozn": "Prvních 14 měření (31.7.) spadlo všech 14 do L (boty 43–46). Bez dalších velikostí je technický list použitelný jen pro L. Cíl aspoň 5 měření na velikost.", "vzniklo": "2026-07-31", "hotovo": null, "priorita": "vysoka", "poradi": 2 },
-    { "id": "mereni-prumer-otvoru-vyrobce", "text": "🏭 Nechat si od výrobce potvrdit průměr otvoru, minimální můstek a chování po natažení", "stav": "další", "kdo": "Lukáš + Doležal", "pozn": "Pracovní průměr 8 cm nevychází dohromady s umístěním ve čtvrtinách svalu — otvory by se překrývaly. Proto list nabízí dvě varianty a pět otázek na konci.", "vzniklo": "2026-07-31", "hotovo": null, "priorita": "vysoka", "poradi": 3 }
+    { "id": "mereni-prumer-otvoru-vyrobce", "text": "🏭 Nechat si od výrobce potvrdit rozměr otvoru, můstek a chování po natažení", "stav": "hotovo", "kdo": "Lukáš + Doležal", "pozn": "Vyřešeno 14. 8.: výrobce udal nejmenší otvor, který umí vyrobit a obšít (ovál na šířku, změřeno z prototypu), a kóty chce posílat tak, jak je měříme od podlahy — natažení si přepočte sám. Můstek při umístění ve čtvrtinách svalu vychází s rezervou.", "vzniklo": "2026-07-31", "hotovo": "2026-08-14", "priorita": "vysoka", "poradi": 3 },
+    { "id": "prototyp-l-objednat", "text": "🏭 Poslat výrobci zadání pro prototyp velikosti L a nechat ušít další kus", "stav": "teď", "kdo": "Lukáš", "pozn": "Zadání (2 strany, PDF) je hotové — vyroba/eldee-zadani-vyroby-prototyp-L-2026-08-14.pdf. Spolu s ním se ptáme na jedinou zbývající věc: výrobní toleranci polohy otvoru.", "vzniklo": "2026-08-14", "hotovo": null, "priorita": "vysoka", "poradi": 2 }
   ],
   "odkazy": [
     {

@@ -51,6 +51,11 @@
   .dotwrap{ margin-top:10px; padding:10px 12px; border:1px solid var(--line); border-radius:10px; background:var(--ink2); }
   .dotcap{ font-size:12px; color:var(--dim); margin-bottom:4px; }
   .vhint{ font-size:13px; color:var(--dim); margin:10px 0 14px; }
+  .otvor{ border:1px solid var(--line); border-radius:12px; padding:14px; background:var(--ink2); }
+  .otvor-pole{ display:flex; gap:12px; }
+  .otvor-pole > div{ flex:1; min-width:0; }
+  .otvor-pole span{ display:block; font-size:13px; color:var(--dim); margin-bottom:6px; }
+  .otvor-pole input{ background:var(--bg); }
 
   /* ── Technický list pro výrobce (světlý, tiskne se na A4) ─────── */
   @font-face{font-family:'Big Shoulders Display';src:url(data:font/woff2;base64,d09GMgABAAAAADZgAA8AAAAAf+gAADYBAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAGoJoG8cKHIUsBmA/U1RBVCoAhSwRCAqBjQTvfguEEAABNgIkA4gcBCAFhT4HiB8bTG4VY1sWs9sBioh07sSsqBWDFTkSYU6oRCX/f0mQI24Nt3ohHMIlSo2iqFGrRzM659AVJaYZzOBa2JfLy/UPM6Wjv1s7YMCCUrOJi+XCWsaPf7ljH7I9So0A6sbmJ/WrbSjcfex6HrMIjFvsqDPz8ny135Pnds+8vxtAUlHogBUKA8zlUaGM3IoiUInwRA4l/XdEujW7d5ccBEIgIYEeQmkBIiWUIITWJBSRoiBNQKSIwUYvoiLaHzt2RFDwtSM2VKxgRyzv+7zvi/9dpefjYvv+3WV+IlFZk+SBRZRBMxGdUfEPduIXa9M0pUJTGg6OppODAY55ILj3pz/cS8ekJrHvNUR94i6CqNcSYNhrtrEy4RPD9gWTszVstluc2a2QTY0kYw+K/yw04Jy9s7j4gGRJfXKQvNnvl/7f+CpTZcHZvAJp4CPGTVJCv1enyxdEOZHhbN7CuKUEe19zwuHxSmfu3hl3b+3RpChTthIbHiks6Rpr0p0mHTAWFbH9mfyfTf9t92q8Bt7/Q/RYYdvnpCeoPnRpylSjmdFqZ0djrVd67wnsb0V+IPCz6IG89osMAVkhprUdMHw0hBmqtDnpK6I+TVdHzcUsW14F1XsDRuId10zRYrqpyfn/v9Yqw22YlkrJ1gqJ89+ftYdb0+R19c1fc8RKp0KylAil7G7ayDQIDaRsMU1eqAqJcODdBBKSYUP8CUlQHxRCSIzESODrxlNvlj/Qd7fSJVm53b7/t5MIZ9r3XIYgQYKEIJJKsFOxr93D/u1jLUXv2sEE9K7eW8ZWF/rVRoMFEjWm7+C8E2nyXYrwJhBYMrAXyEXYKME8iJkxgFBKlSlXoQZCQpVF51sAU8WAxsSmaQnclJkyqPxP3QKmAmHhQrRZQ8TsIRLOECkpxM1siDdvBDlfSIAASKhQSKy5kIVSIRkyELJkQXLkIOQqgJSqgNWogTVqhLRoQVhrLWSddQidtkC22QHZaSdkt90IPXoghx2GHHUCcsZZyH33IePGIW+9hXz0EeGLvyH/+x/yLQwIgoEjgD0gDN4ytFhnt48QJAcCdmNFAV9wUXgssG+/RpkPbCRg/a6BwIjbbijKB9E3MgkGd+SmF/CA8n8SiEwEY+nTo9T5HAeiWn75xouHeFHDIGZBSA8PG8qS+QnK5dkBRWfRgYzhuBTOa5BNa4YBlksGnAdnwOlwWv0TutJNATQDBsCnY38G+n8fAIH5d+9APi9BQ/PT+ATPHmqyx4sxMe6N0TEy8wsDTkM/HIUebdfYNl8XgOwgm8laspxc2aAIlsCi5ReSiWQsOYcMJn1JT1JKShrYgBkYnTMdUotUIxlkEgPxT3/pj/2+p/pZG/+ox/pGD/c5+CDQB4fhEexbvru3dGe3d2NXd2kv78IGiyEDknvHd3SHd2DLe3u0c9u3VYvAAPgZDujdMEha6pv2d312Tte7mqwn9UC/qG7XtboEnIGT0Lv8wdpTO2oTqJeqteqrsqmrQQn547MrreZXXCnW8aHlX17lVo5cTFwWbdBSQtADHoiBzen6/Bj9nz+7Op/yIW+AFzAB93qPZiQXcjr9ylHS3wLpyS4o6wBpGb0nnJ7XWD0ypw3WhtxLp74nSRbSQPXplQ/5SARK5rHA7ANioxzs1fw3bGvilUq+zAskyR7/OhA4e5oBAJ6/vD/JT6YAOBzTv0KQIBwjn+/FgnzHEijvP1c+QZWqCnOfucnoz9xtL++kkQqAHAlNsKFFvjP0k4+ZAeXYttmugHioGK/7sdfL4Z8drHpakgVe4TXu9NfPbG/bv9jVTc++D3JnTwsBkQCO9n4T/3+XhASS7T0AlPAYj/EFE/Z503x7bnpa/PXJ4d2PQI6JC4D638JNMxCI3R8ASIzDOLm1AKhkx9fp/nORWJR3psubfBACofCKLBDiYPuJ47T6JFHXQp04CAGEGMWXuDss/BQ/sXzBtBe0523F7Gnx+Sx3mPicF+ogwgvrxRYGo+UHAA1NWMAa9uyw9uACN7jDgz0XHnutOvZeb+y/2DhgpSEQESyEYpkhyoo+Oi7GCTAP8UhEEs8HLEDaRjrmY72s8b60elR3dVbHKmnDPpon/hxNrs97+wEKeRNh5tqYyzlO4+jwnugv8SKPDLbP+pNLz84D0/7M44YLdrmyD6X/Ysq9HmSdyX0RT5DtbZTMvOFUtU5YzD3WUcfj3vloian0eiWB0QYiHm1WjTDpJ93edzr+0Nu22d3bqTdRv0QVCPypobPQP9GgI+YW1JtENZNtEWh5NYo/w0YgDqaznfLEFaVQj+ewJ8kimuY2hsCaeq3GsJVWeeD6E93+dYM/ZnNuI0z13iRbnOb9H/4iEE2XgyDMHtnEnE45wXhCc92mpyVyDGmq8ROZCAN7fR2R4EeeReyS5k1biroTSqhI4OitbTry/KzPSNEO7fa5FwZGyXox9WfhT/y987r9qZOFG2bLZqg3LP1uFp4+bLHeHIdnytJdrJU0w/824cQTbXf6rUbT1ul2wb7xqVmnO+bm6Xg1GZyefGHY9MLXjEN3idG1ueSD/eCEXwKvAyXeknSTtfIpq41T+kdt60xv7gpH0247Neuo8ofln/SlazrCDu4D9bPIm/wCuaf80ceot7PHtQZ4umh6NMH3Tg9bg9fj7yP+VZ7d20EmYeUuH0k/b8p0p528NW04TxEH5namZE+Kgecb6O/xW+c1mF6zpmfQN9wjR6FVGWWHNX+D6zWf/Jrf8kXh1TW/IBr+zC+a8LDbvpkpkjEvVZly75ikP713ya8v9jUjb/Xu++n9M+4Mv07ivtOm+ryuVdcvuRbbhNHNTm9Y0VV8+x7xgvXkpM/3/hwwd6Go2th84s8WFIRscIZWPCnzNLmuqdBlOLucPEZyV8zbGZ/k4KlftwxWvHtHpwvUehod7u3/+YtueIDp7tEh9sDURhD6mv6V3EwDHuvoM3Pteo1CvUrsLhqde8pJEE50JvyTiGzOr0YtjHh951vQVKhiUaOOTQOHJi1cPNoMGRExZcacBUtWrNmw/ccIsu8OXEi5cuPOg4ynAx++DX5eYSIpQLz5+1xL5Mnn10sVWUap2AolSlWpVqdeg0ZN1lpvux126nHQIYff/TG9juvzBf7rnMuGXTPqljvuum/cU88899KkV6a89tZPfvbBL6Z98rvPZvznf1998x1BhUhEARYHU0FiUYNp04YZMCAkYg2zTZg9DS7MSWlxHYv+q+qnBy6ZEeQlHJdwXEvHJRwvpjnJSiRrUWPj0e0f35skJubTlApJe9i+ptCl4Ckismw0XSzL0TtSogLHzaWjBhy1I/a2uo7YaaSmCdNaTOuH9Y9Bi7bVo+d+mY7LcDyMo/qOH4xXHF4DTjL4XOR4MVzMMR1MNR1BrrN3k4PRc023jBG4S9M9EvcxPDDLOBVPmHg6jiOtoSM8k8y84mQKy2vO3lL30zAHvoz8xrh8HuN/olqU/0Tqf3xfT119C2Cv4OgahD0PFgtrIw7kUQVBdYzD8cnBpoXEgxVtmgyZMqLFFMmGGTEGe1wOzLiwJqXDdWyis6ls2gcUID4ovncUo5/UBiFbhAQOUExMIWEHiC3Y0UF8wQwNopAuMkd8pArME0sJhUFQkOHl2yNjhGKqtuewiR0RQQgQRtN1SFgkQJnjsD40yoly7IxzcEJ8wYwF8LE0S3c0S3cFH4RGIAQdBeQARolJohAgCVJFsxALcO9pAp984piYoTd+5IT0kTPaE/GGdKFXaXLFCv8ZM/I2Msp1QvGA9TB1CLnyt38Z59yFxtTozTrD558bKwTR1dFhQuCA9bsF3LbkOQOrUuee0CEmEhxNcDh93XV5hZBIHu71+QV5EPu/1lwFQm/PyUoF/9sL0peA12NxtzuL84rAEQjmAxGIBLbs255wgsZisHfaU5oXy444RkX+9sEjYkUy4MI/AE0uIaXPO8WCER1a1NTAdqiAdSqFlShHTIkdygAfNAQNIaATCvch40wVIdCSnu3E9oRYz1JV6hw04JmXfvZ7pBhsVC20x3qKVKt3yEnPTfrgc5Tp5TckGOuPv/xXd8CDRM0wHetnX6nWAf2eeuG9TxFCwRczhl3AHo8Mw/gYAiNGBHBoB9oxd1oKMoU6+eMxBWyzbf4gMwHPHMYjTrJei0KEFPlH8plfG6ND2chWZC/sWhSYB4xe4DX68OsjVjXmvNynwU3ArV5ll9ylAPiM8DhtZu82DmC3M+rJMYBeBoxdixw4BhPqSgMHPCNwBPzQTdlKBA1PArIbUYtLgBZLoqqcrE3AOTF73esp9x3tiakzNVJP6lkjgiRUCNNjVIS7Cw8Q6gmNhCKhhdBJ6CH0Fx5ORCZrk/Wplkj7+3cco/v+3NH14w4gmqC37S/UERqcmqPQfTVrNuD/99f/vmmC/HfjPPl88j+A7z8A3++TV4Dv75N+L0df3nqZ82L8xfoXUYB4+BPk3fQDyK4Hu/RjJnhX/8kqNx2R5RI/91xwUbAR86132asI6PfJe7UqvfBUoQOSPPGD5VpdFwJTxaKOjUcbn4ABQ0aMCYl2NG7nJglmdYVwUQL9o5lMmNitLFei0dq46FtX7qhzrm1Vp731ZWt6lw7DHBEiBUFWi/fGwiCI9li6FKe16TblgV3SXDVjmpc9zhsWZ8iP2g065Rc3MJEoKhhoBDVaW+fi+nTo0sNlwvLJrYH9vZ3N4siJe6KJ767JQ80DPDRXwWa5+BYbdNlohcNO7Iz8rHkmfxD/9oc//eU7/BbA8fok89fC20e7ZVinmNItt43aZwKCVvYGEiYAtReALdjvQYDDvgLjWtB7AGACBa9nWGvcQUEsewtAV0xLEf2Jzfs0nak1KPSz/3NtiwD3V4We2DFFw59BS1zVRZjW0lR9BetEb03P/Eqe6IVWY2bVummRJZ3qjugwg5VexExVaqL68RsTTlUOkjXTS1RKM0EWgu70I8DNNjx6TGs7xRlB3z1uMggmOlhHGJY52a30kgNzW7H7utmOE/umg23NZ0lnFgG/qd1Eq8rkL8YLAtzvWgPY0UUBSnnazLmMgYDGN049drM0GyeRS8+ylUT3Kpfb1VAeh4+crzBIwbzyeQjBw8gRGlC+zha+Rc1KHZI6/ykukyJG5MIqJEIZ18iElAotGRPd7tkOiZ7/KeAH0vOIc3nNezorNV/XldpwUvUmj+/nxSCkK7YoJZ3L0mPNOM0MWylMSvGYU4E7OW9BKfm1e7rBbCZLS83ARAcoeFjoQLL6LHHKtaLKoEIw6Ue3eSdmEl/ZWQ3pMW8u1U31YVxjt7xsuH7B7RWpN5lLlKGmR0eJ6pG9n3ZxNqsvzZ0wzLY/K1zepdAr2h9ozDtZhp5iuGN3TZp0a+ZSHKVQJHdng5tSmCY1OEMJTYgm0h5FsOgs6kpn0rUwjjnLZC2dMPKVKZnMcMjj8RMLaEt5bNKSioYtScGjkTHq4aVp/KGMmC6NmWrjlRf6HD3Pp3e/vR3qi0bQIOuuBqPEuunr7KPQPmkUT1xs7+Cpw6siEJ3/JiUjpNrcPlmmd9b6XhdTMTQftDKjdWdmzt6StzmP3SNUx2ZEjWcyR8MaS+iNmkQPRqOszcrt1kXWB7Ga1USpuEVJ4D3pDJfThmbogDprtDeqeN888ArqNsfr+//ouJ4+fdV8ztC/129G/z88MoCUUgx5bCWvlKE1GgtzIECe/zsfYDBGzkzErOTEMsZi0ViWP13AjNbovspFrcoSM27C/tV9ompjV5U1CqZaWdFLVMBFhTSFrRbL5Dt0/oLsqS2s+g45JkESs7Chm7O/pcLtU/oa3vB1Y+yGzcmdCXhG6kbmTKrbxBoTTswo0Ullvza6/YnigevUG1/VcTkFppur6eiej2ZLLISQJfJcYx1sfc5LooR0m536x1uSV+uF3xQnNvkklp//Pkn9w2Qwct9PfS1mwQ46cN9JHlIan3BSCioSI7tGwdw3EQ3oy8MoCNlXhv+rCgOK/EPuR52M/05+p5SB5FJ8tuTEkO0qolWxWkGCG5NalU1Ed7UaamPX3XRvfndjEjcq8edUNRHSjneagxRb24TWGkcwBu1XKMI7wlK8Ed11FwvHOi6xePE531WlOEB+6Gsg7zNYVM4xIdcLVLXZYyUBhxzYVSA2CShIsY7OAFcpkmDdM+juvtsKWuY8CQyyvpu50MIMksBt9njOjl7pgykEDq2jWIN9Ky2jyDnWok5c0rJ9obLqrurXRD4WxVeRvbi17iOuN2lGgtnCsOD+Y84KgdnzTaDIOhWUHHJCoT8HvkaxJKOw5tj6DAajbffzDVWv/8mp/5rJ0x8jBCIVA7xptXif+ErMyGkeWrFzoyJ8M2+t1wiNzioSOcOpuaUDbBY9nWNqWWYD/4bFXv+JqIzFjbJwarnd3Mdcnve4OmfZpy6bGdioLlt6ISxiOxRqfXIVRBDUDWJNqGWBV32CMUy9x8JTJBgGjzm2nM/jvouifL2+3m0F40DyRFlqZTmVydKfKMN5rJgTURz2jCr3FBJV2MNB2I7p1BZfNrq/TPC2QZPYvxTSl7KHUWeRUxKnywMJeSTbR68TN4fEWzGt6aBIhuBD2S2gow8gwqRIX+5Y6HhVmjwtraKL9+YKelayFYarLFnzCnojO5Mweigb84IP54E/e9aBc7iRxkcvHufYIfYokturBmFlDcKIf8lkWSUSm63NArRvbuaks29SnJVaVL7Eeoy5UEaXUsptQsZq+tQaaD5f9YMEAmo13Sjd9TDTNq1tB/ZK72GEnVXNnTV2w/dUrXizrvgZ/4O3P8TZmRduUX0BJjQrrYjufqw96v0klH0wwI/4S9PXUYM2aKXFitQGZxnFJxQDAaHBLIki8v2e5XzZiWnt4qbuEx8kbU0lrE7abq8GTOUjt9SVeAPT6AQdiCEaUIc/a/0TdJsd+km4u3ZbttI10PqxzdSK01UncupLHtsO2+nhZlloka6RTEd3EfNI+paT/ozYp1Rq8/JiX8pJhouLuLCAhbJ6WS3pVXU4y220WisNvSnE3jgLy6Zdib9s8fKVg3fr3naQ1aY6KXKdNekw0WK2lLXiPqDYyOKuekeqfOfTUQOOIonXTYrDNmVLbWHhKUg9fUT30FupKwACU+eA6oEcQZVWUj5A4GYdumxFtyYcKCshPluu/7St6fZhCGfsSac7nR1mW45poT2S0AqCeGvU4nNg7Q4Yvsv4/EUNeFYtohlVsBSA4W0EU6Ggxnym0pFDeH6I66hRBCIr49iGIoi+USSxz3ZI0W+bxG0+NZuMj4c3N+8AgVDSXS3RlVl9rJNYCiMuuPl3qLHpfIXTftR11s5tXM1La5oFPHvXFKDqyAErh8BXkUhUFMYmu53vktsjt8AlQgfcc35ek8uNy7mZ1gGUPaIltcFqCH+srB2/EBxNFn73R68IBHw9LronjXG9CPux2c2VKTEstqCCPlBBluLL+y9Bzv27pelbzeT5qz5P/zpe6OSHoVkK+OkLRFBPERI/Llz+npu/Qs1LWNjD8NApWBN61Nkk/mx5ZFiVBkWzEjBqFWsNGRywJzxLl4ipGcBPwTvcqBeB7wxml7N9rezuw0yFsOJSLlFWyp66l8dY0rn1CTJxpaFlNcO6pGf3q0Z5JDEhV1v3kjkAdsbfrEm14b0a8cDlNtWsYsmkrc44DsFeErS4ISjXubaGDQyYUDzXBiBgL1+ZA5vfXCALQ/ZfhJVmAl9dDQOxoLl1FAs3LywEZJDC9QwklAbRJQyiFpQmaIe+Rez2DNGRISIeyiUyqhljo0X6G+DUmrRg4JS4qCqTzHyH9s7ZNkqBpNTcMdmsh4CZ4XRGskEqZaV4IgXB1rc3L74frkM3tsQJjHYy55lzx0dIT+x2C3ERHq/Ctqe9uchjg30Y7OlCL4KvYpqgyjnmDnDDQK9CEzMQ5Wbch3d4uUeOUZO8A890fQL55yy9tHcCPZo86sFf9y5WkLoUM6GjR6SwvhflZjgKvhqn7ustp66BY4/18gR04REY20FDbTtBzVuEpThQY89SViBwO3s0HFzftkrxj2KPa5hgfju7ubKJKglXjfZuF4KV6VLmPcUwGAPr+OW6MYwIxfdnDNp9NKJj/PEtLqMSlxEdfXjDYok+ubsSkGLNQcBRxIowLC9IYUgBsK7KnJ/3RHh6ez81OkU4QFpdxWSBGSVzlbx/pQG04psD2V3vuHcvOtPehj12ztWGrf1NX5ZDJae9ABpWQsKPH4ZEB9UuqMUB6u3YcpG2DqrdCWehvOCvYgfUER6PhIGoDIbdsZD8OIHMg4ssxxSMKebqkJB/p+xqKRZiNxut7g3mGh7rfj9LMPd20kOT5Y5jN509xKT6umIFMOQxQhAuzlF0wiEyjx7S/S372HHWoKCPc4ReADz1d/KJkHQ2iXhve8ye22uaKqhwe76AxxuRj9KN9UpauauR7p/zICiiYu62KWfbO0D4ZVs0eav/roGzLmNJTGW8oSTJcG41Uchx06LvDA9MBjADvX19vfWd9dM9owMC6c47YlykobuBi6+bdyB85E6dGyLHIRo9/gU9gVh8cuTRs4mLg9QjiEDhICZRRiapcVnq/tqYyMYz3xY+E1mcN+6yLyAhAzIIsfFqY2p8eGgpr7CuV9fOEU9wM/oH/YObiafXzr/KYS729nGn8GJ8/wF+gHNIHzfvxT1C/Sx9hgDCtE/aIaUJEZ13toPwu40Diphecg2OwY/e4PtYQW2MO9Uf1XnvwqDaI7sKe7HlXguHEy4elx2obOrzt6XPVLZw2MPd31nCh1AI5eeT68hENEEmqYxf+siK2++1i7ODB+8dLPXR6UAvd/1BRVgvsUZjtYYeH54eR+khM5v1r/jSxMnBm5QTNS6Z0pTMNTXBKms1049KjqQW/F5IZ4Rya6bzC03VLNB97Cx4XLdgsnZ908TucCnlt7Bk3HfVOJW+0JmoCZ9uvVDfiq+M1x7Ork2CI1x6u7i2gkWZ2rs53dfNhN+4z4aHyHGUiu4/QfdRKvloePDZ8/ODjEdEOnH/MXGPSGWMnx96NiPrBzKTmMHEDJmpcd9doj0yyRlMzhCZ1wOpfF4gF1fKyarELXPJrdIaV6NW6IAOgaubwJre9TUvN3uiHTZFfnU1sVe/PSnY+LtMA6cYky3DwcQ+dHwLfrWpnhzpZ4zhmA4cw7gzMjAZ9z8Z5/2PqRCtRquFZn97x4Hr5N+H1C7kimqfXh7/YyXK/fcH2p8d/6PtJ75ckxOyqW8bEkAMxAiIqjl7o21/jPDaqO9vYLaEcy1Giz8Yn3CfnR6ixzUiiPBIPSIYtSXKhz1lGYpZ2Bf7znK39ftvt3WW3qoM6QaczgogqfbYYwOKjQ/PD9KP9HCJmRD7oybsr+Hr5Oa5PiU6OzrIzse2zaRArzLbbQuxiOGoyaDHzwyBOlBuiLanEVBuGnVLP8VtzzVT4z03P3FfXRzC44RdFiEWE9fgBD6Brs364iEbniWfR3wCThDXxKQ4i7TD4xeG4P/q5VJmukhT201TW3FpLwqnVZibvdNTwyQpkdRyt9IbRIUTbnL7WfGHkLOoZrUz4cIdBBq75TPfx1nFuppWean0Ygt2jSr7tdQip0nX3EotldcEslKsNXzJcW6N4UM3hV/csfN+iUvB9F/9N1776HdgaObWT0OgRl1ppfoO5IwYUd5F1XNzLWIy9JZskaTLZiU4qIMv+CMzVZQA5MqwzfuD12zoUQQcbQVTN3G1hWlYQoDdQ8unphypL++Qq1mEAzZiR5oAmQkXtS/c1IZAjeXtlar0vwqqq9vXbJXGpOvN13Ny0hNOd1k+Xphh7E792xK1QvvAz6u1w68P7KSHNCB4AUrV/TS7xEtaJpUcMRfEcc10URyHPtu/d6SxN0gcwTeLWOtn9lB3pWUcJAlRmNW7AK1brqJgf2TMjjS5ZXfbAsXpSv5xdE6QmIeBCndqdIh+iCgmQVTkbAqSWkTM2qQarDc08PP9a0fv8s6rLFx0Ii16qPPJAZniPdBzUj7l0Ru3UX6lKela54cOx9+0TXEt1Q34xax65bGA6IYDsrgpobG2kbEeGRquwOnOn6XyzUGaSZZLQ2fb51B+DiZLgCLmf6ea2frBz77x4KKlT6p1hEuItfWssqBu1b7OTcuDF1oGu/hb2kov2nXTPRs7ALu4rXJd5SrLyo1g1a1Wr8kLk2WVdudFqL/vs2pyw+Cuzyt+cvUtvA8VoLv30CQqx0erx/lpr55rp9VPUMdwDN7SiTtwCLFkS35NRYnbYsmRjd7R0XmqVc5Qg1dqMysT8qPdd/UbJb4LNBMY6Lw3m0W2wl58mIxidA7UPn88UEVuJArxTz/hV0Qu2Xxy+cTDQWUbwSDe0Ctmb+kIN+HLEU2v6uau1Wo6nnwyEJYRq4g5hq5QxU1OirAOElb7dEvLucSt5zG5rGIrPWCEu3pwlxHdv37bh8cO2x08iK2Hid2EHAqskuz5K/nsj2j4a7Euc0wMFNNADLSaGO6sL7/vX7GzjY8UOBWnoDBulNwl7UuaizyKi8LRQpSGovht5bvu+ZV3WEfIHbNkmhTyRQHgq78yeX8G1ypDK7lnpT74ogDkS2nKHLMi5NYgW9/j2k3pSdeySuem7H8zdpTf8yvf1cZHUSgNLUTh3CiFc9qXNGdFFBeF4RScihT8toqd9/0hcg0wxzxbOcAY5LRCy5qb8FyTi5l4UkyLITK3FL+PQfoKgT/4qjtcd3R+bIwC0abtqAsFaH/V9dVv/bhX9awmat2H1vLULw7uvW4fS3FQgh6ERLTKvX1WseZuymegWVO2bBNEXKgSlO6lNw9Zid5etrdScIE8V88r28nY0vMmNZt6CcaO8r11/DNAUXi39mETveBeYEshch4/lh/z/NxDjn6JfpdBHN7tAjzGar/Niya1RlJPwGaVM1Rbg8bwMGH5X8sZPTuZxXC9Btn2Y8vo05mp108/j9569vn11LOZ27mlhZl0MYFC5qJwirmiMLOkLCedXqqlpd1nxFMzGhIaHzC0gsVosbvJB2OjZiFHaNTHN+LSxTmZcMduRdYPJ8K0l5FBCBfVohU8MoivnH/g1NKsnUcSnPYNJngfG1iae/GKrlY2lmuiZbWoWBv78HL1j5wvztl6KMG9b1+C0/dDMh4gf9y5BXcifw2uzN3PGPmjDZvRBuTH8QcFt7R+G91vhLp6UJcRPdC8tTQlMcI6yEZLtZurbUqSIwweWyfqLmbPjbX9EQcyDr/GL8gIhyOgNbzDM10mS5N5ytIN93QYuGcPQ4FHsc1mG3F2sT0gtjkAeplGI57/TZUQmTDZMek07wkMPD7Avh0BxexF8rHZ9XKIe3pvnaDyR+YJ0PtywTxRPbRJ8I58t0ZQf5rR97wYo7/2zEbBGDDewpxM7cx83BG5Vd8vTI3XXSTh750BE1yV/ERQkA+1lh/luJRW40lcU3rUTIPF0Lu3PQJCYcbjK0P0OENNX1s1L7oiylScMTeZHRTECMMhFD1+fujhw3NDKuMUDmGEBbGDYpOV9iGm8RVquXLw0aLHh4cez3iPuosCAkTuo95V1CnbyQ54jcOgQ4p9eVrgIHEQhLcf8GF1lCQtptWZDna1vAlxAOnL0lJhZuZFNjeviMtU4agQQbZB2pw8qwRKRYVaXJbUtl+nn0uxSO2TOrr7tEkWxd3Dt3W2quzs0nOAzJvOkQOdNUZFb4owmMyelFZV/uWAr55dGlIdF6DlUEnhTTsHixXZsio9Q4+i6jwXh5Qo6+kgx7qdX0PFJWmWdT4OKUtdk2riZtM/CqAYlHzGmtjePkXXjPsDoQ1uQ+0y268yV7mTpho0oPVGnC9wa+OQIra3Q5IsOWi+oXal0nJDuN18uyvXx54pQ5g27q+NVXCBtNd2Q339OQp1xQWqnDfuigAmtJzCNTylWAm24JQlD7b89azyhw/yH43lx0Lj7capRt/z1/bcMQ1lujwxCzVzqpEkjk6N3r7fslD5lcdf+N/FmHgs9DYwuW9Hh6hxDW8zsTUKBn9u/LS3t9zTjRmPDjFDZ913sz5lqGGwxZ7GPeJjS/0i6+uH6O2maDHOcFdfM6/3mALCWMmrjT2TEjm6jyh1htaIvoDpQjNYGtYu+q+5N/rhjE2+EenLt4+Ijk9Q5fFUcUdrMlis+/Cv4HJ/Y89BxsF1bzeOWhaYOLgtcACVO82JpxNbb7QK+5+v8WkyrBMEicyDZHWw2neR/I1vvRyurD/Zt5AbJ3YXzfcJe2ST5SsrNBRqJcU4+9A28yxiN9PlbE1bHZJZothxNHx9w3YfuyCb9lDpnCmhU6PMjSvUIAXM6ugfDga2L/TTMWTwRv4Jh0f4YhVvubP9bJXYlII+18qb0iDNDqXCMLn+SADbKTJIdCwFZmfKfTm2L302uPJQcDQK5nmNzZ6tqWmAwuRcnjQZFL1rEo6dVqyfPH/whPKvaop+Ug2xjGIwGVRzwqHBORtEtOj5BD6t9twKMRa69Hi75xmD2QvgXIFT2heOaEPk2i/HrU0Jt3wGx22/yIQdaaBLBHJmz7soZYHiCAh2BxbEhcwtANX6FiAa5Ce0bj1ZJG6VqMP5GjqB/Wby8fevioTWhK62YuOqx9YC5MIuyVPiKa0ryb3iXoj+Y1MBlT+AuvtpURjT5UV3IjZw2i0Bii3+89yNvaB7oI5OviEdiamlOOFr1nXpzHn93xz3XwnKi5+Xj3qA3GSdTNiatq/jy3HbFTutYXxjbeNkdsboweq5FySuitRPkJSjeanJZc1MlP/qYB7t6tReYOwsxXhb1F3fDTFrIFAuBtPh+b/aWyc+j+LBSHbVO3EDyydIfKQMZUyVQmQAnU3Dr67bt8/gjBk2+uxb9if4b0/PDT3imFGEDQOFicT7PN2dHHAQNQxFYkW6ryKyPTjhhypTuTf4EOT4taFnk+eHiHHcjXiIwk3Ew0tD6svmu99KgBjqCJ6HZtw9fJwcxRAB4RCNOOHOEMha1R5dTLHIB6QKpdKpo1OtZiAzEn7Y5BAftSCZqa7OrK1c2tJWshTXYQiFUIzL1yuX79YbxhwTYzsXBztswrKGwbmH7rnPXHPXH3PV0cg14ijOXZMjLjMXBsbwOHl67iGxUc6dYd0P59z1z8Ekd/3RyKheZkfAPgNmu+LYUUXnhsNRkceYbSEaD6zI3uZt0PkSlv+fjx6g3BZROYe2TwNDDh2iRShoY2bPGFj+npM0n6NUNVNTTchZWGlxNoz9N4MtUOt0sroZyXBBeAobWbLpuqpVB5ZXyZyrcBYFactgNZTJPuioM4W7/V0M9woX/GUTY3v/rMvWnZEsBiX6Cs1vPWvrmXvUkZpcVZvO86mudcs/0dJGb6X05LM11eksWW29V/EhSQbbEqUtwPM56ukSyTJDwgevwuVEqJESGnLn+aTmzPX+ItiGSNSaGITp0ZwmZP153rytzDfN315ho1U11+E5wn6eI66C7dU4r/VHIqN66Q4gGBSjPero0chOj+5oYGT3E/i+FMB1TeiSQg/vktv9Lsr8wLi8B2GTURQ6ZJYYEOa4ATTWPAibDwwzTTyEFFT45IO4vIJAZ2X/ba+SpR6QjFt+r3KOVdJQTa7UBgVE65LL6ytLSxoqGcuN2F6qBowVDTWrDwlWisxwVBqeZwNdAn4XxxlX4FWeDi1tFwfboAhrduQ4fhrbj+LjJ39wp2VgjzY5OfkNvMeV2d/RD2lrtCzsFKn+/qU7Ij1P9QM/MldyNSLCe/v4FTKHqHlUgqA0LDnITjvCl5KLbktmPF3vOxBh0GgvYiF/mKNPPzo7+PDNlcFxXYdZhoVW9bNDfMza/tnAiQxhztMdmq/1du/K1Q098jZv/adLc477nDdjtDsysm6XHcjwJIr9I23Jw7NDgj/klCpof9pJ3+BPAyZx1gHGPBrvdtmE0vv/zx0ARiwdt/ezr3cHFEm3atozlTBxWn9fu5zp+Ln+fnozx99EL0sKOBQOhrsvnR19ODwyev/s2Rv3R4ZvPDyTsGnDD927NmzftHHT9l3dm34QlvSUBz3CcpJBE7Qb2+Jvim0swhl6BnpWQr0tnw00EYfWVNEz0wNN/z/jy8riE8pK4xNKSxPiS8viN+tp6epp6uma6OmK4Aj34v699FlAcSoMIo5pnifxKpPq0kwdoxtWbZYJulURASviNQzULx3bP3F59/5Icg46r8wmR+mQMUWYmZ94UmLYIlzT3qxuyD49sBNu7q7a4RrWSpVTwQYMBlYHDeIFJnITo3lb7QtZb76hjaxBgRTOjCl9b1EVF0NFWafasypD6nfO6piqJ0RacVgQAX5KXZ/iFPNCgrfu6U9/40lGk7XMnoqKyp0nHFBk4hBD5CNgro5o3Sdj3jeQDSvM9fXNUy7L3IkUSbp34ZtDVZxlqhTuK3qHQaabJ72Io18nAeV/3OAzFsP/sOAPLy8NoXFoBLX3sBfRN59cPjfy6AZjOHh46apQ+mqL1vraGEfgSwXOa4t8IncW78CDFKSheMGJ6yvjyYzsC2xAwtxwhORObrP9nYzRHNiP4zhvIJjVVlqEagHgBUbVqwtb2lbOzyVZ1D2GGkPHUTefw2IZiVQ/2M8LTk4JGmstW9p0SLCR4gr1E8S6u7lMXdBuANmaQ7yPvj6hGZdYJPG35ZlFhtV3pL3UW8jJ8zv3PpwFQRAWzHp8ZbvzlcIK9ZDejh08fUGhy5l/xc40zOa+vbb3XHnRlDLWPvbG1O1uqV2k4KLBo4CZXfftQKzlEeUfcWqFioqG+Iy7v2f8T9zPkzZYzrdzmhuHLiLmf4YtU7Qb8X3WskNjw3n6Ism0pBn0+OUhCGHVdRTmYCZNPCJUKe0nBoYjXFqDqXNdv5LaumrBpzN/o1NrkxTsuJx5FItFZTUXgvHb24VUUUR2iK3Y3NNQqG9eyCxVLA6xTQoI09NDoFq7SREfrxUfp1jds836KtXEIZpsr27rya7UvaNlOG69ItFyhfE4R3CnEmLVUZCqG4vEi3wOVrdkutaFTJkvYZrnmztc9nStMcb+zdjfSgtFQpga/ej84MONA4rYY1Q7ZlipUDhd3l1SkeS4dW6sdYjGHAPfbzTISE9slJITYxZleuippZGOEVspsDaxE7AesASILKxdubyqceVSSkWFmhO/KFqUaZ0WSmP+GUjilm7YNhDHyOeI6HPqFVdb2SkW+4NshVWPFXgeHl374CZL2SsJTlBf5ZtdQhMkrM5eOKNq1gangmB6lTThcaXQoO4qUY3t/Wx2n/n9XX+PrqB2q+S6kyjkL9ZlN+Me9JfoqvvNYlGYNet3N1UaYQ0v94qi4kRl4ctE8WsmK2Gt+oNeidxQPBDAHnAwlKj5f9YqS952Mhhk8bezb3vSjdI5G83ojGWPecJzFQ9W53TT+e3PRod1L3O2PIN/XH08Rl7A9UjfY/Fckxcf37p6ZeIWdZHIJO4/JO4SGdSFibHhmSIqk7GJ9AEMSZxevILSRBH58bPF3/sNzoRAUDwrYFgABgAmeKNA1GGPOWkirDtpBuSftAXiT/oIbmz5CEVoC2JtmQfHgRdkm7TBN5WNQlU2slDZiCMFtbVz8KSJ37ecNOP78hNbvs9JYTuoX4p6RImqCO1TRahaFcklyJRQvSpBClWCtqkStFKVoDTpVoscpAy0MABVduxGAJIB3jxeuzKWxaFlgUC9x3yvvSPXPq5QlbGflDW+V8xTFYkEFvjwgMxtAbmrubKOoeYiNWewzrA2IsYGloK+c1i4DJzsckcrvS4v88EQpZ9uv3PjMeoOVJLqnB20oCp0d0HdgeoSDGipal1zxNek01SbzTfnfXnenvg6G3/tSmF79kEsCiKt7z27uYfZchD0nbJnsFo7VfWoFgLUo3IDQz057R4giyfNLZ7d8tCGgcF7hyVVJBoalD+o33sDSgfqOqM2dL+e4+NLlWTA8GGH5ifmZ6oDMZ+IR+moe3UBXcEzfvcsXnaHD2i952dcZ4lYt8/zm59XEnyBPsLvoTvTkIUvnqBY9QvqbvhS83je2vKU3+qQKPhNqFwW3yBS+VW69/XvP0XKV845HDN899GQbBxPYHYfpzszTNL+z88M16qXAQeAfmezj6o9dZSljh2Oy1UL3I4Qm5dYCtCjwlDtmaNEqw6iYP0A8m1QMH6kee1vz+N2/66ZXKeXbTt/UnvqKUtaNS++VgzVnpASMxqgX+bSpesnmbPwj9YROAF9mfbON5IjFYNGgYsc5C4455/5bEeIlDEsdNuHuoHLJ8b+i87sDujaZTXlNKol8021eZ3evfChQWdqab3STivFEkoBJnQQWL8tr1/iANZtAcaROHIZlbjIOThii7ALK4PHXlpfLPbi6Zp1Ix0N6hBNWKdBvl906Jaf5xvRW5+cI+tJ382x+WO62VRRj6WunVZRS6jU6rehLUIFow06rPWD27IxLPnorLoo2Yvv6gXGJeg7gVL61678mVVNBBN9FNs3RGMMsAXtK/Uaf+bDsquVFvwMK1ZYc+Qq67SKWUJ5lryzOJhzZ1TcKeMM5h3SufkXj8+VP9/z6PwKutHx0kPX6aVz4Tfo7J1vSmO8bSKxCHx8EHh2WsUuoRi9UmON3vMNx2Ne/nP2t093/r719O+U5+/UZP/99bUk4vK18pWAAABDzb/i0L0pGp5/0DnNBHMM8PXX7w3AN5dy06/13+IYYzscgQUGCPhPs9Zmj0Lz/5/vEHKuIRvqHkUGQX+EN+Px6OzXJR+n6AcC+Yv1RkigaMg5thj+pKbc2JNR7Fg/FPfLJqJ+RdyMwj4yvNC3jwbOaAidHRJHKABOj+/n2IHU+uB6x2/zwtWe4S1yoj5K0LtoPC7Tn2mfIvUqNgQCApHZwfcZjyjSRWH1QpqH/RH5m+nsgdJXotuZZ1+pVgPP6wJ1jYKgVQZcoLv4eOWaUEDyguqkALTki/wTlL7m6Rge73vDNSVunhqkBO4fknMwsNci4E6A7Naf8brEn4VVPak1V1K0UQPP4Y9B09yT9siwZpitHWD+uBI/gwbjzktcILI6SQnn6C3PaiUEB/L/F4lfiLUKSkcsoNeIpqgpvC2K3OA5n6I/igbO7NKIjYlBiW5fp9tF91hPintrbA8iy1qe6JFWyxYM0b2n18SdQy2xUQSH9R39jk+1cr0Il54XeDZX4BOZB8FRZjwzyAq8xoLVaw0mUNAWolqMXkPGWTBWUlQwJDXPWOoVX03chtUYCOAqrRGeuMWCoidOWCeMjDMASleqzon+jlNQo7wAI53LeSbiPSJlh/UNVrUc+/RbimohI7Gi/mUGwTjqFD/DKG/u3x39iWe1cb4iM48WtIHFALvL5xJzkVrF41r2O6EjU8gzQuWr8RYEevMzXI6HZEYqRaz6T5HVEQS/jlgBAdnAMpQM5P0hmovvoSs7bqgAeK/CYwcij2QHxo5oB2GOB7WkbAdFz+kdDB4qd7BJhe7gcMbfrkmV2gACSUChWlrvPJlyZMmm5GuJVOly+fIxoRi0AsXFGTIVWUbMX84sCuV81S4WK9siX4UrT8XLeHDgMBenK5KjEG0Z+1iOJfCCPjmLg0iBws1me05/Bp61dm3KODHP6Zl8Qo7BJVnrmD1tyQQroCCzgmiRVXfXT1XkTq1QMeanoCRWIXWeNn9IYhb3qjs/k9CIK+ZYgcU7ka7AfSpCKWVQ32oYiSw5pzWOTBp76eZ5B22lAr5KIrPCiDTHp5xi2bA1vIfWlbR6DWYDkAIzHa67Ks0R6Y4yZyGDJSuZrrnhpp93ohKja/fL77Bjz2EWNreIo15j7spy31rHOHHeC4H/6mMfeCjbo32r+C8m857J1Rbh+botphIS8vmEps70HSGAtxTJFvIi916DQAVeREGtiRhgSCNMREOLs4LUaE8FBlMFZlhIDalDsML679NS+mEjDTjkhD5CH+Ig7RYSzWiF6wKd8KLtIkH4ETgjVBO/6DBxwEHnnBcWXRzhlJZbET3jikVE3xyRjO2h8CSDGPotI59EMYhxhFZiiLZKiVLHrcaLSUS++CPT3R/+OpaJ0YhFDU3T5cywrRdLZBfKFf0GnHTKMFVzNXueubhYqGdEL5axohvr2NCKLUKdeRH7iB+72PszB4+TaKWdWXGMk3jlKlWp4BtnCRIlmW/aaV0W4MYl0rzMVRXn50i2D8kgNb1YmZlekJdGTOyf/MBzHfYXDPNhR0WkL8tz3e+4351IuQtlFCjPQCMakyqpRUULecgEvfY92WHHD5PtdEzyCk8ZYlHKImqEU3JSe4nKEW1UmCK0wBgFQck0YP70d+zSfufUswsKco9jo5btHPsNewZjo8P623G4BI8jHnxykSfcGSobmW+NINTfTRfgCUSJfsmIO5/8JtMP/KNuhvx8Ys1HHow/46FH41EjDGaGT1yWs5JWU3z74Q+S15HQM+eoGG2nuy9zGihzlmQMcIRWrigQpNDUKuyo5jteXKhy/h7NKEJDulDx7fYJ) format('woff2');font-weight:900;font-style:normal}
@@ -92,14 +97,9 @@
   .tl thead th.tl-live{ background:var(--tgold); color:var(--tink); border-bottom-color:var(--tink); }
   .tl tr.tl-total th, .tl tr.tl-total td{ border-bottom:1.5px solid var(--tink); font-weight:700; }
   .tl-callout{ border-left:3px solid var(--tgold); padding:2px 0 2px 10px; margin:8px 0; font-size:11px; line-height:1.5; }
-  .tl-variants{ display:flex; gap:12px; margin-top:6px; }
-  .tl-variant{ flex:1; min-width:0; border:1px solid var(--tline); padding:9px 10px 6px; }
-  .tl-variant h4{ font-family:var(--tdisplay); font-weight:900; font-size:15px; text-transform:uppercase; line-height:1.2; margin:0; color:var(--tink); }
-  .tl-variant .tl-tag{ font-family:var(--tmono); font-size:8.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--tash); display:block; margin-bottom:4px; }
-  .tl-variant .tl-note{ font-size:10px; line-height:1.45; color:var(--tash); margin-top:5px; border-top:1px solid var(--tline); padding-top:5px; }
-  .tl-variant .tl-note b{ color:var(--tink); }
-  .tl-variant svg{ width:100%; height:auto; display:block; margin-top:3px; }
-  .tl-variant.tl-off{ opacity:.55; }
+  .tl-figure{ border:1px solid var(--tline); padding:8px 10px; margin-top:8px; text-align:center; }
+  .tl-figure svg{ width:100%; max-width:280px; height:auto; display:block; margin:0 auto; }
+  .tl td.tl-side{ font-family:var(--tbody); font-size:10px; color:var(--tash); text-align:right; width:26%; }
   .tl-ask{ border:2px solid var(--tink); padding:11px 12px; margin-top:14px; background:var(--tbone); page-break-inside:avoid; }
   .tl-ask h4{ font-family:var(--tdisplay); font-weight:900; font-size:16px; text-transform:uppercase; line-height:1.2; margin:0 0 5px; color:var(--tink); }
   .tl-ask ol{ margin:5px 0 0 16px; padding:0; font-size:11.5px; }
@@ -112,14 +112,13 @@
   @media print {
     @page{ size:A4 portrait; margin:12mm 14mm; }
     body{ background:#fff; color:#111; }
-    .tabs, #v-print, .vhint, .wrap > h1, .wrap > .sub { display:none !important; }
+    .tabs, #v-print, .vhint, .otvor, .wrap > h1, .wrap > .sub { display:none !important; }
     section{ display:none !important; }
     #tab-vyrobce{ display:block !important; }
     .wrap{ max-width:none; padding:0; }
     .tl-page{ padding:0; margin:0; border-radius:0; page-break-after:always; font-size:9.5pt; overflow:hidden; }
     .tl-page:last-child{ page-break-after:auto; }
-    .tl-variants{ gap:9mm; }
-    .tl-variant svg{ height:112mm; }
+    .tl-figure svg{ height:118mm; max-width:none; width:auto; }
     th,td{ border-color:#ccc; color:#111; }
   }
 </style>
@@ -180,6 +179,14 @@
 
   <!-- 🏭 VÝROBCE -->
   <section id="tab-vyrobce">
+    <div class="otvor">
+      <label style="margin-top:0">Rozměr otvoru — ovál, jak ho udal výrobce (na nenatažené štulpně)</label>
+      <div class="otvor-pole">
+        <div><span>Šířka · napříč lýtkem (cm)</span><input type="number" id="o-sirka" inputmode="decimal" step="0.1" min="0"></div>
+        <div><span>Výška · podél nohy (cm)</span><input type="number" id="o-vyska" inputmode="decimal" step="0.1" min="0"></div>
+      </div>
+      <div class="vhint" id="o-hint" style="margin-top:8px"></div>
+    </div>
     <button class="btn" id="v-print">🖨 Vytisknout / uložit PDF</button>
     <div class="vhint">Náhled dole je ten samý dokument, co se vytiskne. Na papíře je stránkování přesné (A4), tady na mobilu se text přelije. Čísla se počítají z tvých měření v tomhle prohlížeči — do webu se nikdy neukládají.</div>
     <div id="vyrobce-box"></div>
@@ -419,7 +426,7 @@ function renderVysledky(){
 function renderAll(){ renderSeznam(); renderVysledky(); }
 
 // ── Výrobce — technický list ────────────────────────────────────
-const TL_VERZE = '0.1';
+const TL_VERZE = '1.0';
 const SIZES = ['S','M','L','XL'];
 const SIZE_BOTA = { S:'35–38', M:'39–42', L:'43–46', XL:'47–50' };
 
@@ -442,7 +449,7 @@ function tlHead(titul, podtitul, strana, stran, pocet){
     'Měření <b>' + pocet + '</b><br>Strana <b>' + strana + ' / ' + stran + '</b></div></div>';
 }
 function tlFoot(strana, stran, pozn){
-  return '<div class="tl-foot"><div>eldee · velikostní studie v' + TL_VERZE + ' · interní podklad, nešířit<br>' + pozn + '</div>' +
+  return '<div class="tl-foot"><div>eldee · zadání pro výrobu v' + TL_VERZE + ' · důvěrné, nešířit<br>' + pozn + '</div>' +
     '<div class="tl-mono">' + tlDatum() + ' · ' + strana + ' / ' + stran + '</div></div>';
 }
 
@@ -476,17 +483,15 @@ function tlTabulkaRozmeru(r){
   return h + '</tr></tbody></table>';
 }
 
-function tlTabulkaVariant(lay){
-  const v = (x, klic) => x.proveditelna ? tlFmt(x[klic]) : '—';
-  const a = lay.ctvrtiny, b = lay.hrany;
-  return '<table><thead><tr><th>Parametr</th>' +
-    '<th>Varianta A <span style="font-weight:400">· malé otvory</span></th>' +
-    '<th>Varianta B <span style="font-weight:400">· velké otvory</span></th></tr></thead><tbody>' +
-    '<tr><th>Střed spodního otvoru <span class="tl-small">(od podlahy)</span></th><td><b>' + tlFmt(a.spodni) + '</b></td><td><b>' + tlFmt(b.spodni) + '</b></td></tr>' +
-    '<tr><th>Střed horního otvoru <span class="tl-small">(od podlahy)</span></th><td><b>' + tlFmt(a.vrchni) + '</b></td><td><b>' + tlFmt(b.vrchni) + '</b></td></tr>' +
-    '<tr><th>Rozteč středů</th><td>' + tlFmt(a.roztec) + '</td><td>' + tlFmt(b.roztec) + '</td></tr>' +
-    '<tr><th>Průměr otvoru</th><td>' + v(a,'prumer') + '</td><td>' + v(b,'prumer') + '</td></tr>' +
-    '<tr class="tl-total"><th>Materiál mezi otvory</th><td>' + v(a,'mustek') + '</td><td>' + v(b,'mustek') + '</td></tr>' +
+function tlTabulkaZadani(lay){
+  const o = lay.otvor;
+  return '<table><thead><tr><th>Rozměr</th><th>Hodnota <span style="font-weight:400">· cm</span></th><th>Poznámka</th></tr></thead><tbody>' +
+    '<tr><th>Otvor — šířka <span class="tl-small">(napříč lýtkem)</span></th><td class="tl-live"><b>' + tlFmt(o.sirka) + '</b></td><td class="tl-side">váš rozměr</td></tr>' +
+    '<tr class="tl-total"><th>Otvor — výška <span class="tl-small">(podél nohy)</span></th><td class="tl-live"><b>' + tlFmt(o.vyska) + '</b></td><td class="tl-side">váš rozměr</td></tr>' +
+    '<tr><th>Střed <b>horního</b> otvoru od podlahy</th><td class="tl-live"><b>' + tlFmt(lay.vrchni) + '</b></td><td class="tl-side">¾ délky svalu</td></tr>' +
+    '<tr><th>Střed <b>spodního</b> otvoru od podlahy</th><td class="tl-live"><b>' + tlFmt(lay.spodni) + '</b></td><td class="tl-side">¼ délky svalu</td></tr>' +
+    '<tr><th>Rozteč středů</th><td>' + tlFmt(lay.roztec) + '</td><td class="tl-side">dopočet</td></tr>' +
+    '<tr class="tl-total"><th>Materiál mezi otvory</th><td>' + tlFmt(lay.mustek) + '</td><td class="tl-side">dopočet</td></tr>' +
     '</tbody></table>';
 }
 
@@ -505,19 +510,15 @@ function tlSirkaV(prof, cm){
 }
 // místo zlomu volíme pod nejnižším kresleným prvkem, ať přerušení nic neukousne
 function tlBreakHigh(lay){
-  const dolniOkraje = ['ctvrtiny','hrany'].map(k => {
-    const v = lay[k];
-    return v.spodni - (v.prumer != null ? v.prumer/2 : 0);
-  });
-  const limit = Math.min.apply(null, dolniOkraje) - 3;
+  const limit = lay.spodni - lay.otvor.vyska/2 - 3;
   if(limit < TL_BRK_LOW + 4) return null;      // není kde přerušit → kreslíme spojitě
   return Math.min(24, limit);
 }
 
-function tlNakres(g, lay, klic, brkHigh){
-  const v = lay[klic];
+function tlNakres(g, lay, brkHigh){
+  const v = lay, o = lay.otvor;
   const prof = MereniCore.legProfile(g);
-  if(!prof || !v.proveditelna) return '';
+  if(!prof || !lay.proveditelna) return '';
   const vrsek = g.stehno.median, nahore = prof[prof.length-1].cm;
   const yTop0 = TL_FLOOR - TL_BRK_LOW*TL_S - TL_BRK_GAP;
   const mapY = brkHigh == null
@@ -554,28 +555,34 @@ function tlNakres(g, lay, klic, brkHigh){
   const xz = Math.min(x(g.lytkoSpodni.median,-1), x(g.lytkoHorni.median,-1)) - 5;
   const zona = '<rect x="' + r1(xz) + '" y="' + r1(ySval) + '" width="' + r1((TL_CX-xz)*2) + '" height="' + r1(hSval) + '" fill="#C9A227" opacity=".12"/>';
 
-  // otvory
-  const rD = v.prumer/2 * TL_S, yD = mapY(v.spodni), yH = mapY(v.vrchni);
-  const otvory = '<circle cx="105" cy="' + r1(yD) + '" r="' + r1(rD) + '" fill="#fff" stroke="#0A0A0A" stroke-width="1.6"/>' +
-                 '<circle cx="105" cy="' + r1(yH) + '" r="' + r1(rD) + '" fill="#fff" stroke="#0A0A0A" stroke-width="1.6"/>';
+  // otvory — ovál na šířku (šířka napříč lýtkem, výška podél nohy)
+  const rx = o.sirka/2 * TL_S, ry = o.vyska/2 * TL_S, yD = mapY(v.spodni), yH = mapY(v.vrchni);
+  const oval = y => '<ellipse cx="105" cy="' + r1(y) + '" rx="' + r1(rx) + '" ry="' + r1(ry) + '" fill="#fff" stroke="#0A0A0A" stroke-width="1.6"/>';
+  const otvory = oval(yD) + oval(yH);
 
-  // kóty: průměr, rozteč, tři výšky od podlahy
-  const m = klic === 'ctvrtiny' ? 'a' : 'b';
-  const kotaD = '<line x1="' + r1(105-rD) + '" y1="' + r1(yH) + '" x2="' + r1(105+rD) + '" y2="' + r1(yH) + '" stroke="#0A0A0A" stroke-width=".9" marker-start="url(#tl' + m + 'S)" marker-end="url(#tl' + m + 'E)"/>' +
-    '<line x1="' + r1(105+rD) + '" y1="' + r1(yH) + '" x2="150" y2="' + r1(yH-28) + '" stroke="#0A0A0A" stroke-width=".6"/>' +
-    '<text x="152" y="' + r1(yH-29) + '" font-size="9.5" fill="#0A0A0A">Ø ' + tlFmt(v.prumer) + '</text>';
-  const kotaR = '<line x1="105" y1="' + r1(yD) + '" x2="105" y2="' + r1(yH) + '" stroke="#B91C1C" stroke-width="1.1" marker-start="url(#tl' + m + 'S)" marker-end="url(#tl' + m + 'E)"/>' +
+  // kóty otvoru: šířka vodorovně přes horní ovál, výška svisle u jeho pravého okraje
+  const m = 'tl';
+  const xV = 105 + rx + 9;
+  const kotaD = '<line x1="' + r1(105-rx) + '" y1="' + r1(yH) + '" x2="' + r1(105+rx) + '" y2="' + r1(yH) + '" stroke="#0A0A0A" stroke-width=".9" marker-start="url(#' + m + 'S)" marker-end="url(#' + m + 'E)"/>' +
+    '<line x1="105" y1="' + r1(yH-ry) + '" x2="132" y2="' + r1(yH-24) + '" stroke="#0A0A0A" stroke-width=".6"/>' +
+    '<text x="134" y="' + r1(yH-25) + '" font-size="9.5" fill="#0A0A0A">š ' + tlFmt(o.sirka) + '</text>' +
+    '<g stroke="#0A0A0A" stroke-width=".55" stroke-dasharray="3 2.5">' +
+      '<line x1="' + r1(105+rx-1) + '" y1="' + r1(yH-ry) + '" x2="' + r1(xV+3) + '" y2="' + r1(yH-ry) + '"/>' +
+      '<line x1="' + r1(105+rx-1) + '" y1="' + r1(yH+ry) + '" x2="' + r1(xV+3) + '" y2="' + r1(yH+ry) + '"/></g>' +
+    '<line x1="' + r1(xV) + '" y1="' + r1(yH-ry) + '" x2="' + r1(xV) + '" y2="' + r1(yH+ry) + '" stroke="#0A0A0A" stroke-width=".9" marker-start="url(#' + m + 'S)" marker-end="url(#' + m + 'E)"/>' +
+    '<text x="' + r1(xV+5) + '" y="' + r1(yH+3) + '" font-size="9.5" fill="#0A0A0A">v ' + tlFmt(o.vyska) + '</text>';
+  const kotaR = '<line x1="105" y1="' + r1(yD) + '" x2="105" y2="' + r1(yH) + '" stroke="#B91C1C" stroke-width="1.1" marker-start="url(#' + m + 'S)" marker-end="url(#' + m + 'E)"/>' +
     '<text x="110" y="' + r1((yD+yH)/2 + 3) + '" font-size="9" fill="#B91C1C">' + tlFmt(v.roztec) + '</text>';
 
   const vysky = [
     { cm: vrsek,    xk: 50, xv: 72 },
-    { cm: v.vrchni, xk: 32, xv: 105 - rD },
-    { cm: v.spodni, xk: 14, xv: 105 - rD }
+    { cm: v.vrchni, xk: 32, xv: 105 - rx },
+    { cm: v.spodni, xk: 14, xv: 105 - rx }
   ];
   let kotyV = '<g stroke="#0A0A0A" stroke-width=".55" stroke-dasharray="3 2.5">';
   vysky.forEach(k => { kotyV += '<line x1="' + (k.xk - 4) + '" y1="' + r1(mapY(k.cm)) + '" x2="' + r1(k.xv) + '" y2="' + r1(mapY(k.cm)) + '"/>'; });
   kotyV += '</g><g stroke="#0A0A0A" stroke-width=".9">';
-  vysky.forEach(k => { kotyV += '<line x1="' + k.xk + '" y1="' + TL_FLOOR + '" x2="' + k.xk + '" y2="' + r1(mapY(k.cm)) + '" marker-start="url(#tl' + m + 'S)" marker-end="url(#tl' + m + 'E)"/>'; });
+  vysky.forEach(k => { kotyV += '<line x1="' + k.xk + '" y1="' + TL_FLOOR + '" x2="' + k.xk + '" y2="' + r1(mapY(k.cm)) + '" marker-start="url(#' + m + 'S)" marker-end="url(#' + m + 'E)"/>'; });
   kotyV += '</g><g font-size="9.5" fill="#0A0A0A" text-anchor="middle">';
   vysky.forEach(k => { kotyV += '<text x="' + k.xk + '" y="' + r1(mapY(k.cm) - 7) + '">' + tlFmt(k.cm) + '</text>'; });
   kotyV += '</g>';
@@ -589,36 +596,16 @@ function tlNakres(g, lay, klic, brkHigh){
   const top = mapY(nahore) - 12, vyska = TL_FLOOR + 16 - top;
   return '<svg viewBox="2 ' + r1(top) + ' 196 ' + r1(vyska) + '" xmlns="http://www.w3.org/2000/svg" font-family="JetBrains Mono, monospace">' +
     '<defs>' +
-    '<marker id="tl' + m + 'S" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M6,3.5 L0,1 L0,6 Z" fill="#0A0A0A"/></marker>' +
-    '<marker id="tl' + m + 'E" markerWidth="7" markerHeight="7" refX="1" refY="3.5" orient="auto"><path d="M1,3.5 L7,1 L7,6 Z" fill="#0A0A0A"/></marker>' +
+    '<marker id="' + m + 'S" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M6,3.5 L0,1 L0,6 Z" fill="#0A0A0A"/></marker>' +
+    '<marker id="' + m + 'E" markerWidth="7" markerHeight="7" refX="1" refY="3.5" orient="auto"><path d="M1,3.5 L7,1 L7,6 Z" fill="#0A0A0A"/></marker>' +
     '</defs>' + zona + obrys + zlom + okraj + podlaha + otvory + kotaD + kotaR + kotyV + '</svg>';
-}
-
-function tlVarianta(g, lay, klic, brkHigh){
-  const v = lay[klic];
-  const A = klic === 'ctvrtiny';
-  const tag = A ? 'Varianta A' : 'Varianta B';
-  const nadpis = A ? 'Malé otvory<br>ve čtvrtinách svalu' : 'Velké otvory<br>na hranách svalu';
-  if(!v.proveditelna){
-    return '<div class="tl-variant tl-off"><span class="tl-tag">' + tag + '</span><h4>' + nadpis + '</h4>' +
-      '<div class="tl-note">Pro tuhle velikost nevychází: rozteč středů je jen ' + tlFmt(v.roztec) + ' cm, takže by po odečtení můstku ' +
-      tlFmt(v.minMustek) + ' cm zbyl otvor menší než ' + tlFmt(MereniCore.PRUMER_MIN) + ' cm.</div></div>';
-  }
-  const popis = A
-    ? 'Otvory leží ve <b>středech obou polovin</b> lýtkového svalu. Mezi otvory zůstávají <b>' + tlFmt(v.mustek) + ' cm</b> materiálu.'
-    : 'Otvory leží přesně na <b>hranách</b> lýtkového svalu. Mezi otvory zůstává <b>' + tlFmt(v.mustek) + ' cm</b> materiálu.';
-  return '<div class="tl-variant"><span class="tl-tag">' + tag + '</span><h4>' + nadpis + '</h4>' +
-    tlNakres(g, lay, klic, brkHigh) + '<div class="tl-note">' + popis + '</div></div>';
 }
 
 function tlOtazky(){
   return '<div class="tl-ask">' +
-    '<p class="tl-small" style="margin-bottom:7px">Než uzavřeme rozměry, potřebujeme od vás odpovědi na těchhle pět věcí:</p><ol>' +
-    '<li><b>Kterou variantu doporučujete?</b> Jde nám o to, aby otvory držely tvar a nepárala se okolo nich pletenina — tedy jestli je únosnější malý otvor s úzkým můstkem (A), nebo velký otvor se širokým můstkem (B).</li>' +
-    '<li><b>Jaký je minimální rozumný můstek</b> mezi dvěma otvory u vašeho úpletu, aby materiál vydržel opakované natažení?</li>' +
-    '<li><b>Jak se rozměry mění po natažení?</b> Kolik procent máme počítat, aby otvor na lýtku seděl tam, kde má?</li>' +
-    '<li><b>Jaká je výrobní tolerance</b> pro polohu otvoru a od kterého bodu si ji měříte? Naše kóty jsou od podlahy — kóty od spodního okraje štulpny rádi doplníme.</li>' +
-    '<li><b>Kruh, nebo ovál?</b> Pokud je z výrobního hlediska lepší podélný ovál, řekněte nám doporučené rozměry.</li>' +
+    '<h4>Co ještě potřebujeme vědět</h4>' +
+    '<p class="tl-small" style="margin-bottom:7px">Rozměr otvoru i jeho umístění bereme jako uzavřené. Zbývá nám jediná otázka:</p><ol>' +
+    '<li><b>Jaká je vaše výrobní tolerance pro polohu otvoru?</b> Tedy o kolik milimetrů se může střed otvoru na hotovém kuse lišit od zadané hodnoty. Potřebujeme to vědět, abychom podle toho posuzovali vzorky.</li>' +
     '</ol></div>';
 }
 
@@ -626,60 +613,86 @@ function renderVyrobce(){
   const d = loadData();
   const box = gEl('vyrobce-box');
   if(!d.zaznamy.length){ box.innerHTML = '<div class="empty">Zatím není z čeho dělat technický list — přidej měření.</div>'; return; }
+  const otvor = d.otvor || null;
   const r = MereniCore.computeResults(d.zaznamy);
   const pocet = d.zaznamy.length;
   const mericke = SIZES.filter(s => r.skupiny[s].n > 0);
-  const stran = 2 + mericke.length;   // rozměry + nákres per velikost + otázky
+  const stran = 1 + mericke.length;   // zadání per velikost + podklad
   const chybi = SIZES.filter(s => r.skupiny[s].n === 0);
 
-  // ── strana 1: naměřené rozměry ──
   let html = '<div class="tl">';
+
+  // ── strany per velikost: zadání + nákres ──
+  mericke.forEach((s, i) => {
+    const g = r.skupiny[s], lay = MereniCore.holeLayout(g, otvor), strana = i + 1;
+    html += '<div class="tl-page">' +
+      tlHead('Zadání výroby<br>velikost ' + s, 'Štulpny s prostřižením · kóty od podlahy', strana, stran, pocet) +
+      '<div class="tl-stamp">Zadání pro výrobu prototypu · velikost ' + s + '</div>' +
+      '<h3><span class="tl-num">0' + strana + '</span>Otvory na lýtku — velikost ' + s + '</h3>';
+    if(!lay){
+      html += '<p class="tl-lead">Pro velikost ' + s + ' zatím chybí hrany lýtkového svalu, takže otvory neumíme umístit.</p>';
+    } else if(!lay.otvor){
+      html += '<p class="tl-lead">Středy otvorů vychází na <b>' + tlFmt(lay.spodni) + '</b> a <b>' + tlFmt(lay.vrchni) +
+        ' cm</b> od podlahy. Rozměr otvoru zatím nemáme zadaný, takže nákres ani můstek spočítat neumíme.</p>';
+    } else {
+      const brk = tlBreakHigh(lay);
+      html += '<p class="tl-lead">Dva otvory nad sebou na lýtkovém svalu. <b>Rozměr otvoru je váš</b> — udali jste ho jako nejmenší, který dokážete vyrobit a obšít. My z měření nohou dopočítali, <b>kam ho umístit</b>: střed každého otvoru leží v polovině své poloviny svalu.</p>' +
+        tlTabulkaZadani(lay) +
+        '<p class="tl-small">Hodnoty v centimetrech, na nenatažené štulpně. Umístění spočítané z ' + g.n + ' měření velikosti ' + s + '.</p>' +
+        '<div class="tl-figure">' + tlNakres(g, lay, brk) + '</div>' +
+        '<p class="tl-small" style="margin-top:5px">Zlatě podbarvená plocha = lýtkový sval (' + tlFmt(g.lytkoSpodni.median) + ' – ' + tlFmt(g.lytkoHorni.median) +
+        ' cm od podlahy). Červená kóta = rozteč středů.' + (brk != null ? ' Klikatá čára u kotníku = přerušení nákresu, kóty jsou i přesto skutečné vzdálenosti od podlahy.' : '') +
+        ' Schéma v poměru, ne střihový podklad. Spodní okraj štulpny neurčujeme.</p>';
+      if(lay.tesne){
+        html += '<div class="tl-callout"><b>Pozor:</b> mezi otvory zbývá jen ' + tlFmt(lay.mustek) + ' cm materiálu. Řekněte nám, jestli to váš úplet unese.</div>';
+      }
+    }
+    html += tlFoot(strana, stran, 'Kóty jsou od podlahy při stoji na rovné noze. Přepočet na střih je na vás.') + '</div>';
+  });
+
+  // ── poslední strana: odkud čísla jsou + otázka ──
   html += '<div class="tl-page">' +
-    tlHead('Technický list<br>velikostní studie', 'Štulpny s prostřižením · podklad pro výrobu', 1, stran, pocet) +
-    '<div class="tl-stamp">Pracovní podklad — ne finální výrobní zadání</div>' +
-    '<h3><span class="tl-num">01</span>Naměřené rozměry</h3>' +
-    '<p class="tl-lead">Všechny výšky jsou <b>od podlahy</b> při stoji. Doporučená hodnota je <b>medián</b>, pod ní je v šedém rozpětí nejmenší a největší naměřená hodnota.</p>' +
+    tlHead('Odkud čísla jsou', 'Naměřené rozměry nohou · podklad k zadání', stran, stran, pocet) +
+    '<h3><span class="tl-num">0' + stran + '</span>Naměřené rozměry</h3>' +
+    '<p class="tl-lead">Umístění otvorů jsme nevymysleli — vychází z <b>' + pocet + ' změřených nohou</b>. Všechny výšky jsou <b>od podlahy</b> při stoji. Uvedená hodnota je <b>medián</b>, pod ní je v šedém rozpětí nejmenší a největší naměřená hodnota.</p>' +
     tlTabulkaRozmeru(r) +
     '<p class="tl-small">Hodnoty v centimetrech. Velikost je odvozena od čísla boty.</p>';
   if(chybi.length){
     html += '<div class="tl-callout"><b>' +
-      (mericke.length ? 'Zatím měříme jen velikost ' + mericke.join(', ') + '.' : 'Zatím nemáme změřenou žádnou standardní velikost.') +
-      '</b> Rozměry pro ' + chybi.join(', ') + ' doplníme v další verzi — do té doby ' +
-      (mericke.length ? 'je z tohoto listu použitelná pouze velikost ' + mericke.join(', ') + '.' : 'slouží list jen jako ukázka struktury.') + '</div>';
+      (mericke.length ? 'Zatím máme změřenou jen velikost ' + mericke.join(', ') + '.' : 'Zatím nemáme změřenou žádnou standardní velikost.') +
+      '</b> Rozměry pro ' + chybi.join(', ') + ' doměříme a pošleme zvlášť — tenhle list platí ' +
+      (mericke.length ? 'pro velikost ' + mericke.join(', ') + '.' : 'jen jako ukázka struktury.') + '</div>';
   }
-  html += tlFoot(1, stran, 'Doporučená hodnota = medián. Odolává jednomu chybně změřenému člověku lépe než průměr.') + '</div>';
-
-  // ── strany per velikost: varianty + nákresy ──
-  mericke.forEach((s, i) => {
-    const g = r.skupiny[s], lay = MereniCore.holeLayout(g), strana = i + 2;
-    html += '<div class="tl-page">' +
-      tlHead('Nákres<br>velikost ' + s, 'Schéma · pohled na lýtko · kóty od podlahy', strana, stran, pocet);
-    if(!lay){
-      html += '<h3><span class="tl-num">0' + strana + '</span>Umístění otvorů — velikost ' + s + '</h3>' +
-        '<p class="tl-lead">Pro velikost ' + s + ' zatím chybí hrany lýtkového svalu, takže otvory neumíme umístit. Doměř je v dlaždici a list se dopočítá sám.</p>';
-    } else {
-      const brk = tlBreakHigh(lay);
-      html += '<h3><span class="tl-num">0' + strana + '</span>Umístění otvorů — velikost ' + s + '</h3>' +
-        '<p class="tl-lead">Otvory sedí na lýtkovém svalu. Nabízíme dvě varianty rozmístění; liší se průměrem otvoru a tím, kolik materiálu zůstane mezi nimi. <b>Výběr necháváme na výrobci</b> — viz otázky na konci.</p>' +
-        tlTabulkaVariant(lay) +
-        '<p class="tl-small">Hodnoty v centimetrech, spočítané z ' + g.n + ' měření velikosti ' + s + '.</p>' +
-        '<div class="tl-variants">' + tlVarianta(g, lay, 'ctvrtiny', brk) + tlVarianta(g, lay, 'hrany', brk) + '</div>' +
-        '<p class="tl-small" style="margin-top:5px">Zlatě podbarvená plocha = lýtkový sval (' + tlFmt(g.lytkoSpodni.median) + ' – ' + tlFmt(g.lytkoHorni.median) +
-        ' cm).' + (brk != null ? ' Klikatá čára u kotníku = přerušení nákresu, kóty jsou i přesto skutečné vzdálenosti od podlahy.' : '') +
-        ' Spodní okraj štulpny zatím neměříme. Schéma v poměru, ne střihový podklad; rozměry platí pro nenataženou štulpnu.</p>';
-    }
-    html += tlFoot(strana, stran, 'Kóty jsou měřeny od podlahy při stoji, na nenatažené štulpně.') + '</div>';
-  });
-
-  // ── poslední strana: otázky na výrobce ──
-  html += '<div class="tl-page">' +
-    tlHead('Otázky<br>na výrobce', 'Co potřebujeme doladit před finálními rozměry', stran, stran, pocet) +
-    tlOtazky() +
-    '<p class="tl-small" style="margin-top:12px">Odpovědi zapracujeme a pošleme finální verzi listu. Do té doby berte rozměry jako pracovní.</p>' +
-    tlFoot(stran, stran, 'Rozměry vychází z ' + pocet + ' měření. Doporučená hodnota = medián.') + '</div>';
+  html += tlOtazky() +
+    tlFoot(stran, stran, 'Uvedená hodnota = medián. Odolává jednomu chybně změřenému člověku lépe než průměr.') + '</div>';
 
   box.innerHTML = html + '</div>';
 }
+// ── rozměr otvoru: zadá uživatel, drží se jen v tomhle prohlížeči ──
+function otvorZPoli(){
+  const s = parseFloat(gEl('o-sirka').value), v = parseFloat(gEl('o-vyska').value);
+  const ok = x => Number.isFinite(x) && x > 0;
+  return (ok(s) && ok(v)) ? { sirka:s, vyska:v } : null;
+}
+function otvorHint(){
+  const o = otvorZPoli();
+  gEl('o-hint').textContent = o
+    ? 'Ovál ' + fmt(o.sirka).replace('.', ',') + ' × ' + fmt(o.vyska).replace('.', ',') + ' cm. Umístění na lýtku se dopočítá z měření.'
+    : 'Zadej obě čísla — bez rozměru otvoru se nedá vykreslit nákres ani spočítat, kolik materiálu zbyde mezi otvory.';
+}
+function otvorDoPoli(){
+  const d = loadData(), o = d.otvor;
+  if(o){ gEl('o-sirka').value = o.sirka; gEl('o-vyska').value = o.vyska; }
+  otvorHint();
+}
+['o-sirka','o-vyska'].forEach(id => gEl(id).addEventListener('input', () => {
+  const d = loadData(), o = otvorZPoli();
+  if(o) d.otvor = o; else delete d.otvor;
+  saveData(d);
+  otvorHint();
+  renderVyrobce();
+}));
+
 gEl('v-print').addEventListener('click', () => window.print());
 window.addEventListener('beforeprint', renderVyrobce);
 
@@ -720,9 +733,12 @@ gEl('z-import').addEventListener('change', (e) => {
     const byId = {}; d.zaznamy.forEach(z => byId[z.id] = z);
     incoming.forEach(z => { if(z && z.id) byId[z.id] = z; });
     d.zaznamy = Object.values(byId);
+    const prevzatOtvor = imp.otvor && imp.otvor.sirka > 0 && imp.otvor.vyska > 0;
+    if(prevzatOtvor) d.otvor = { sirka: Number(imp.otvor.sirka), vyska: Number(imp.otvor.vyska) };
     saveData(d);
     renderAll();
-    alert('Naimportováno. Celkem ' + d.zaznamy.length + ' měření.');
+    otvorDoPoli();
+    alert('Naimportováno. Celkem ' + d.zaznamy.length + ' měření.' + (prevzatOtvor ? '\nPřevzat i rozměr otvoru ze zálohy.' : ''));
     e.target.value = '';
   };
   reader.readAsText(file);
@@ -730,12 +746,14 @@ gEl('z-import').addEventListener('change', (e) => {
 
 gEl('z-reset').addEventListener('click', () => {
   if(!confirm('Opravdu smazat VŠECHNA měření? Nejde vzít zpět.')) return;
-  saveData({zaznamy:[]});
+  const o = loadData().otvor;                 // rozměr otvoru není měření — přežije vynulování
+  saveData(o ? {zaznamy:[], otvor:o} : {zaznamy:[]});
   renderAll();
   alert('Vynulováno.');
 });
 
 updateCounter();
+otvorDoPoli();
 </script>
 </body>
 </html>

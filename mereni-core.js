@@ -101,36 +101,33 @@
     return out;
   }
 
-  // ── v3: umístění otvorů (technický list) ────────────────────────
-  // Dvě varianty rozmístění dvou otvorů na lýtkovém svalu:
-  //   ctvrtiny — středy v 1/4 a 3/4 délky svalu, mezi otvory chceme aspoň MUSTEK_CTVRTINY
-  //   hrany    — středy přímo na hranách svalu, tam chceme aspoň MUSTEK_HRANY
-  // Průměr otvoru dopočítáváme z rozteče: co největší (strop PRUMER_MAX), aby zbyl můstek.
-  const PRUMER_MAX = 8, PRUMER_MIN = 3, MUSTEK_CTVRTINY = 2, MUSTEK_HRANY = 4;
+  // ── v4: umístění otvorů (technický list) ────────────────────────
+  // Dva otvory ve čtvrtinách lýtkového svalu — střed každého leží v polovině své
+  // poloviny svalu (1/4 a 3/4 délky). Rozteč středů = polovina délky svalu.
+  // Rozměr otvoru (ovál šířka × výška, nenatažený stav) je DANÝ VÝROBCEM — nedopočítáváme ho,
+  // uživatel ho zadá v dlaždici. Bez něj umíme vrátit jen polohu středů.
+  const MUSTEK_MIN = 1;   // pod tolik cm materiálu mezi otvory na to upozorníme
 
-  function _varianta(dolni, horni, minMustek){
-    const roztec = horni - dolni;
-    // největší půlcentimetrový průměr, který nechá můstek ≥ minMustek
-    const hruby = Math.min(PRUMER_MAX, Math.floor((roztec - minMustek) * 2) / 2);
-    const proveditelna = hruby >= PRUMER_MIN;
-    return {
-      spodni: dolni, vrchni: horni, roztec,
-      prumer: proveditelna ? hruby : null,
-      mustek: proveditelna ? roztec - hruby : null,
-      minMustek, proveditelna
-    };
-  }
+  function _cislo(v){ const n = Number(v); return Number.isFinite(n) && n > 0 ? n : null; }
 
-  function holeLayout(g){
+  function holeLayout(g, otvor){
     if(!g || !g.lytkoSpodni || !g.lytkoHorni) return null;
     const sp = g.lytkoSpodni.median, ho = g.lytkoHorni.median;
     if(sp == null || ho == null) return null;
     const delka = ho - sp;
     if(!(delka > 0)) return null;
+    const spodni = sp + delka/4, vrchni = sp + delka*3/4, roztec = vrchni - spodni;
+    const sirka = _cislo(otvor && otvor.sirka), vyska = _cislo(otvor && otvor.vyska);
+    const zadan = sirka != null && vyska != null;
+    // můstek = kolik materiálu zbyde mezi otvory (rozteč středů minus výška otvoru)
+    const mustek = zadan ? roztec - vyska : null;
     return {
-      delka,
-      ctvrtiny: _varianta(sp + delka/4, sp + delka*3/4, MUSTEK_CTVRTINY),
-      hrany:    _varianta(sp, ho, MUSTEK_HRANY)
+      svalSpodek: sp, svalVrsek: ho, delka,
+      spodni, vrchni, roztec,
+      otvor: zadan ? { sirka, vyska } : null,
+      mustek,
+      tesne: mustek != null && mustek < MUSTEK_MIN,
+      proveditelna: mustek == null ? false : mustek > 0
     };
   }
 
@@ -187,7 +184,7 @@
   }
 
   const API = { sizeFromShoe, mean, median, minMax, stats, orderOk, groupBySize, deriveSizeStats, computeResults, pluck, coverage, SIZE_ORDER,
-                holeLayout, legProfile, smoothPath, PRUMER_MAX, PRUMER_MIN };
+                holeLayout, legProfile, smoothPath, MUSTEK_MIN };
   root.MereniCore = API;
   if (typeof module !== 'undefined' && module.exports) module.exports = API;
 })(typeof self !== 'undefined' ? self : this);

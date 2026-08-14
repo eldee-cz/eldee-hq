@@ -118,51 +118,59 @@ t('coverage — vlastní práh', ()=>{
   assert.strictEqual(C.coverage(mk(36,10),10).S.stav, 'dost');
 });
 
-// ── v3: umístění otvorů + obrys nohy pro technický list ─────────
+// ── v4: umístění otvorů + obrys nohy pro technický list ─────────
 // Smyšlená kulatá data, ať se v testech nepotkáme se skutečnými rozměry produktu.
 const L_RECS = [
   {cisloBoty:45, stehno:50, lytkoHorni:40, lytkoSpodni:20, obvodLytka:30},
   {cisloBoty:45, stehno:50, lytkoHorni:40, lytkoSpodni:20, obvodLytka:32}
 ];  // medián: stehno 50, horní 40, spodní 20, obvod 31 → délka svalu 20
+const OTVOR = { sirka: 4, vyska: 2 };   // smyšlený ovál
 
-t('holeLayout — varianta čtvrtiny (¼ a ¾ délky svalu)', ()=>{
-  const v = C.holeLayout(C.deriveSizeStats(L_RECS)).ctvrtiny;
+t('holeLayout — středy ve čtvrtinách délky svalu', ()=>{
+  const v = C.holeLayout(C.deriveSizeStats(L_RECS), OTVOR);
+  near(v.svalSpodek, 20); near(v.svalVrsek, 40); near(v.delka, 20);
   near(v.spodni, 25);            // 20 + 20/4
   near(v.vrchni, 35);            // 20 + 3×20/4
-  near(v.roztec, 10);
-  near(v.prumer, 8);             // min(8, floor((10−2)×2)/2)
-  near(v.mustek, 2);
+  near(v.roztec, 10);            // = polovina délky svalu
+});
+
+t('holeLayout — můstek = rozteč středů minus výška otvoru', ()=>{
+  const v = C.holeLayout(C.deriveSizeStats(L_RECS), OTVOR);
+  assert.deepStrictEqual(v.otvor, {sirka:4, vyska:2});
+  near(v.mustek, 8);             // 10 − 2
+  assert.strictEqual(v.tesne, false);
   assert.strictEqual(v.proveditelna, true);
 });
 
-t('holeLayout — varianta hrany (středy na hranách svalu)', ()=>{
-  const v = C.holeLayout(C.deriveSizeStats(L_RECS)).hrany;
-  near(v.spodni, 20); near(v.vrchni, 40); near(v.roztec, 20);
-  near(v.prumer, 8);              // strop 8 cm
-  near(v.mustek, 12);
-  assert.strictEqual(v.proveditelna, true);
+t('holeLayout — vysoký otvor na krátkém svalu: těsné až neproveditelné', ()=>{
+  const recs = [{cisloBoty:36, stehno:45, lytkoHorni:34, lytkoSpodni:29}]; // sval 5 cm → rozteč 2,5
+  const tesny = C.holeLayout(C.deriveSizeStats(recs), {sirka:4, vyska:2});
+  near(tesny.mustek, 0.5);
+  assert.strictEqual(tesny.tesne, true);        // pod 1 cm materiálu
+  assert.strictEqual(tesny.proveditelna, true); // ale pořád kladné
+
+  const prekryv = C.holeLayout(C.deriveSizeStats(recs), {sirka:4, vyska:3});
+  near(prekryv.mustek, -0.5);                   // otvory by se překrývaly
+  assert.strictEqual(prekryv.proveditelna, false);
 });
 
-t('holeLayout — průměr nikdy nad 8 cm', ()=>{
-  const recs = [{cisloBoty:45, stehno:70, lytkoHorni:60, lytkoSpodni:20}]; // sval 40 cm
-  const v = C.holeLayout(C.deriveSizeStats(recs));
-  assert.ok(v.ctvrtiny.prumer <= 8, 'čtvrtiny ' + v.ctvrtiny.prumer);
-  assert.ok(v.hrany.prumer <= 8, 'hrany ' + v.hrany.prumer);
-});
-
-t('holeLayout — krátký sval: čtvrtiny neproveditelné, hrany ano', ()=>{
-  const recs = [{cisloBoty:36, stehno:45, lytkoHorni:34, lytkoSpodni:29}]; // sval 5 cm
-  const v = C.holeLayout(C.deriveSizeStats(recs));
-  assert.strictEqual(v.ctvrtiny.proveditelna, false); // rozteč 2,5 − můstek 2 = 0,5 < min. průměr
-  assert.strictEqual(v.ctvrtiny.prumer, null);
-  assert.strictEqual(v.hrany.proveditelna, false);    // rozteč 5 − můstek 4 = 1 < min. průměr
+t('holeLayout — bez zadaného otvoru vrátí jen polohu středů', ()=>{
+  const v = C.holeLayout(C.deriveSizeStats(L_RECS));
+  near(v.spodni, 25); near(v.vrchni, 35);
+  assert.strictEqual(v.otvor, null);
+  assert.strictEqual(v.mustek, null);
+  assert.strictEqual(v.tesne, false);
+  assert.strictEqual(v.proveditelna, false);    // bez rozměru otvoru nelze kreslit ani zadat
+  // nesmyslné hodnoty se berou jako nezadané
+  assert.strictEqual(C.holeLayout(C.deriveSizeStats(L_RECS), {sirka:0, vyska:2}).otvor, null);
+  assert.strictEqual(C.holeLayout(C.deriveSizeStats(L_RECS), {sirka:'x', vyska:2}).otvor, null);
 });
 
 t('holeLayout — chybějící nebo nesmyslná data → null', ()=>{
-  assert.strictEqual(C.holeLayout(C.deriveSizeStats([])), null);
-  assert.strictEqual(C.holeLayout(C.deriveSizeStats([{lytkoSpodni:30}])), null);
-  assert.strictEqual(C.holeLayout(C.deriveSizeStats([{lytkoHorni:30, lytkoSpodni:30}])), null); // nulová délka
-  assert.strictEqual(C.holeLayout(null), null);
+  assert.strictEqual(C.holeLayout(C.deriveSizeStats([]), OTVOR), null);
+  assert.strictEqual(C.holeLayout(C.deriveSizeStats([{lytkoSpodni:30}]), OTVOR), null);
+  assert.strictEqual(C.holeLayout(C.deriveSizeStats([{lytkoHorni:30, lytkoSpodni:30}]), OTVOR), null); // nulová délka
+  assert.strictEqual(C.holeLayout(null, OTVOR), null);
 });
 
 t('legProfile — body vzestupně, lýtko nejširší uprostřed svalu', ()=>{

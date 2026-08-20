@@ -789,10 +789,10 @@
     },
     {
       "nadpis": "Logo balíček v2",
-      "text": "Podklady pro výrobce: vektory, PNG, pokyny pro digitizéra (brand/vyrobce-balicek-v2).",
+      "text": "Podklady pro vyšití LD monogramu: vektory (SVG) a PNG ve světlé i tmavé variantě ke stažení, plus pokyny pro digitizéra — rozměry, spára mezi L×D, barvy nití (Pantone) a postup se sew-out vzorkem.",
       "stav": "on",
-      "stavText": "odesláno výrobci 5. 6.",
-      "href": null,
+      "stavText": "online · ke stažení",
+      "href": "logo-vyseni.html",
       "extern": false
     },
     {
@@ -805,10 +805,10 @@
     },
     {
       "nadpis": "Testovací systém vzorků",
-      "text": "Dotazník core + 4 produktové moduly + vzorkovací tracker (databaze/dotaznik-testeri-system.md). Aktivní: dlouhá štulpna v2.",
-      "stav": "soon",
-      "stavText": "čeká na vzorky v2",
-      "href": null,
+      "text": "Dotazník pro testery vzorků: 15 společných otázek (CORE) + modul podle produktu — dlouhá štulpna, nízká štulpna, návlek, tréninková ponožka. Aktivní: dlouhá štulpna v2. Vzorkovací tracker zůstává interní v dílně.",
+      "stav": "on",
+      "stavText": "online · dotazník",
+      "href": "dotazniky/dotaznik-testeri-v3.html",
       "extern": false
     },
     {
@@ -829,11 +829,11 @@
     },
     {
       "nadpis": "GitHub — eldee-brandbook",
-      "text": "Zdrojový kód brand booku (privátní repo).",
+      "text": "Zdrojový kód brand booku — veřejné repo v organizaci eldee-cz.",
       "stav": "on",
-      "stavText": "aktivní",
-      "href": null,
-      "extern": false
+      "stavText": "aktivní · veřejné repo",
+      "href": "https://github.com/eldee-cz/eldee-brandbook",
+      "extern": true
     }
   ],
   "tym": [

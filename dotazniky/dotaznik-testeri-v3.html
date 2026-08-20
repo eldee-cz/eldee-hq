@@ -1,0 +1,118 @@
+<!DOCTYPE html><html lang="cs"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow"><title>eldee — testovací dotazník (CORE + moduly)</title>
+<style>
+ body{background:#0A0A0A;color:#F5F5F0;font-family:system-ui,sans-serif;max-width:720px;margin:0 auto;padding:28px;line-height:1.6}
+ h1{color:#C9A227;font-size:28px;margin-bottom:4px}
+ h2{font-size:19px;margin-top:34px;border-bottom:1px solid #262624;padding-bottom:6px}
+ h2 .tag{float:right;font-size:12px;color:#8d8a81;font-weight:400;border:1px solid #262624;border-radius:99px;padding:2px 10px}
+ .b{color:#8d8a81;font-size:14px}
+ .back{color:#C9A227;text-decoration:none}
+ .badge{display:inline-block;background:#1a1a17;border:1px solid #C9A227;color:#C9A227;font-size:12px;padding:3px 10px;border-radius:99px;margin-bottom:14px}
+ .box{background:#121211;border:1px solid #262624;border-radius:8px;padding:14px 18px;margin:16px 0}
+ ol{padding-left:22px}
+ ol li{margin:12px 0}
+ .q{color:#F5F5F0;font-weight:600}
+ .opt{display:block;color:#a9a69c;font-size:14px;margin-top:3px}
+ .note{color:#8d8a81;font-size:13px;font-style:italic}
+ .star{color:#C9A227}
+ .mod{border-left:3px solid #C9A227;padding-left:16px;margin-left:2px}
+ strong.k{color:#C9A227}
+</style></head><body>
+
+<h1>Testovací dotazník</h1>
+<span class="badge">systém CORE + MODULY · v3 (6. 6. 2026)</span>
+<p class="b">Strukturovaná zpětná vazba od testerů na vzorky produktů. Každé kolo vzorků je drahý měsíc —
+formulář má vytěžit maximum a dát výrobci konkrétní zadání pro další verzi.</p>
+
+<div class="box">
+ <strong class="k">Jak to funguje</strong><br>
+ <strong>CORE</strong> = 15 otázek společných pro všechny produkty → srovnatelnost mezi produkty i mezi verzemi vzorků.<br>
+ <strong>MODUL</strong> = 5–6 otázek specifických pro daný produkt.<br>
+ Tester vždy dostane <strong>jeden formulář = CORE + jeho modul</strong> (žádné přeskakování sekcí).
+</div>
+
+<div class="box">
+ <strong class="k">Pravidla vyplnění</strong>
+ <ul style="margin:8px 0 0;padding-left:20px">
+  <li>Vyplň <strong>po min. 3 použitích + min. 1 vyprání</strong> — jinak data o trvanlivosti nic neřeknou.</li>
+  <li>Formulář vždy patří ke konkrétnímu produktu a verzi vzorku (např. „Dlouhá štulpna · vzorek v2").</li>
+ </ul>
+</div>
+
+<h2>CORE <span class="tag">všechny produkty</span></h2>
+<ol>
+ <li><span class="q">Přezdívka / jméno</span><span class="opt">krátká odpověď — kvůli párování mezi koly</span></li>
+ <li><span class="q">Kolikrát jsi měl produkt na sobě?</span><span class="opt">○ 1–2× ○ 3–5× ○ 6× a víc</span></li>
+ <li><span class="q">Kolikrát prošel praním?</span><span class="opt">○ 0× ○ 1× ○ 2× a víc</span></li>
+ <li><span class="q">Jakou máš velikost nohy (EU)?</span><span class="opt">krátká odpověď + Seděla ti velikost vzorku? ○ malá ○ akorát ○ velká</span></li>
+ <li><span class="q">Střih a padnutí <span class="star">⭐</span></span><span class="opt">1 = hrozné · 5 = perfektní</span></li>
+ <li><span class="q">Co konkrétně na střihu změnit?</span><span class="opt">krátká odpověď, nepovinná</span></li>
+ <li><span class="q">Materiál na kůži <span class="star">⭐</span></span><span class="opt">1 = nepříjemný · 5 = skvělý — škrábání, pocení, teplo</span></li>
+ <li><span class="q">Po vyprání — změnilo se něco?</span><span class="opt">○ nic ○ srazil se ○ žmolky ○ pustil barvu ○ jiné: …</span></li>
+ <li><span class="q">Opotřebení — kde se ničí nejdřív?</span><span class="opt">○ zatím nikde ○ pata/špička ○ lem ○ švy ○ výšivka loga ○ jiné: …</span></li>
+ <li><span class="q">Vzhled / design <span class="star">⭐</span></span><span class="opt">1–5</span></li>
+ <li><span class="q">Logo na produktu</span><span class="opt">○ líbí se mi ○ neutrální ○ nelíbí &nbsp;+&nbsp; Cítíš výšivku při hře? ○ vůbec ○ trochu, nevadí ○ vadí mi</span></li>
+ <li><span class="q">Kolik by sis za finální verzi zaplatil?</span><span class="opt">○ do 300 ○ 300–449 ○ 450–599 ○ 600–799 ○ víc</span></li>
+ <li><span class="q">Doporučil bys spoluhráči? <span class="star">⭐</span></span><span class="opt">0–10 (NPS)</span></li>
+ <li><span class="q">Co JEDNU věc bys změnil pro další verzi? 💬</span><span class="opt">povinná, dlouhá odpověď</span></li>
+ <li><span class="q">Co je naopak nejlepší?</span><span class="opt">nepovinná</span></li>
+</ol>
+
+<div class="mod">
+<h2>MODUL A <span class="tag">dlouhá (vysoká) štulpna</span></h2>
+<ol>
+ <li><span class="q">Sjíždění během hry <span class="star">⭐</span></span><span class="opt">1 = pořád ji rovnám · 5 = drží celý zápas</span><span class="note">top problém z průzkumu cílovky</span></li>
+ <li><span class="q">Výška</span><span class="opt">○ moc vysoká ○ akorát ○ klidně vyšší &nbsp;+&nbsp; kam ti reálně sahá? (pod koleno / přes koleno / …)</span></li>
+ <li><span class="q">Pnutí přes lýtko</span><span class="opt">○ nikde nepne ○ pne trochu ○ pne nepříjemně (kde?)</span></li>
+ <li><span class="q">Chránič — drží na místě celý zápas?</span><span class="opt">○ ano ○ posouvá se ○ vypadává · Pokud má vzorek kapsu: vkládání chrániče je ○ snadné ○ jde to ○ otrava</span></li>
+ <li><span class="q">Pokud má vzorek díry na lýtku</span><span class="opt">○ super (proč?) ○ neutrální ○ nelíbí (proč?) &nbsp;+&nbsp; je v nich znát lepší prodyšnost? ○ ano ○ ne ○ nepoznám</span></li>
+ <li><span class="q">Nosil bys ji i na trénink?</span><span class="opt">○ ano ○ ne (proč ne?)</span></li>
+</ol>
+</div>
+
+<div class="mod">
+<h2>MODUL B <span class="tag">nízká štulpna</span></h2>
+<ol>
+ <li><span class="q">Sjíždění během hry <span class="star">⭐</span></span><span class="opt">1–5</span></li>
+ <li><span class="q">Výška / ukončení</span><span class="opt">○ moc nízká ○ akorát ○ moc vysoká &nbsp;+&nbsp; kde přesně končí?</span></li>
+ <li><span class="q">Pnutí přes lýtko</span><span class="opt">○ nepne ○ trochu ○ nepříjemně</span></li>
+ <li><span class="q">Chránič — drží?</span><span class="opt">○ ano ○ posouvá se ○ vypadává (+ kapsa: snadné / jde to / otrava)</span></li>
+ <li><span class="q">V čem je lepší/horší než vysoká štulpna, kterou znáš?</span><span class="opt">otevřená odpověď</span></li>
+</ol>
+</div>
+
+<div class="mod">
+<h2>MODUL C <span class="tag">návlek / tube</span></h2>
+<ol>
+ <li><span class="q">Drží na lýtku bez chodidla? <span class="star">⭐</span></span><span class="opt">1 = sjíždí · 5 = ani se nehne</span></li>
+ <li><span class="q">Kombinace s tvojí ponožkou — překrytí funguje?</span><span class="opt">○ ano ○ roluje se okraj ○ tlačí přechod</span></li>
+ <li><span class="q">Chránič v kapse — drží celý zápas?</span><span class="opt">○ ano ○ posouvá se ○ vypadává &nbsp;+&nbsp; vkládání: snadné / jde to / otrava</span></li>
+ <li><span class="q">Horní i dolní lem</span><span class="opt">○ nikde neškrtí ○ škrtí nahoře ○ škrtí dole</span></li>
+ <li><span class="q">Pokud má díry</span><span class="opt">pocit + prodyšnost (jako A5)</span></li>
+ <li><span class="q">Co má návlek umět, aby byl lepší než ustřihnutá štulpna?</span><span class="opt">otevřená odpověď</span></li>
+</ol>
+</div>
+
+<div class="mod">
+<h2>MODUL D <span class="tag">tréninková ponožka</span></h2>
+<ol>
+ <li><span class="q">Protiskluz v kopačce — funguje? <span class="star">⭐</span></span><span class="opt">1 = noha jezdí · 5 = přilepená</span><span class="note">hlavní funkce produktu</span></li>
+ <li><span class="q">Kde přesně noha jezdí, pokud jezdí?</span><span class="opt">○ nejezdí ○ pata ○ špička ○ celá</span></li>
+ <li><span class="q">Chodidlo a švy</span><span class="opt">○ nic necítím ○ cítím šev (kde?) ○ tlačí nopky</span></li>
+ <li><span class="q">Výška ponožky</span><span class="opt">○ akorát ○ vyšší bych bral ○ nižší bych bral</span></li>
+ <li><span class="q">Vzal by sis ji i do zápasu pod návlek?</span><span class="opt">○ ano ○ ne (proč?)</span></li>
+ <li><span class="q">Srovnání s tvojí současnou tréninkovou ponožkou (značka?)</span><span class="opt">lepší / stejná / horší — v čem? (otevřená)</span></li>
+</ol>
+</div>
+
+<p class="b" style="margin-top:30px">
+ Vzorkovací tracker (co je objednáno, doručeno, komu rozesláno a jaký padl verdikt) zůstává v dílně
+ <code>eldee-business/databaze/</code> — je to živý interní stav, ne veřejný dotazník.
+</p>
+
+<p class="b" style="margin-top:20px">
+ <a class="back" href="../dotazniky.html">← zpět na dotazníky</a> &nbsp;·&nbsp;
+ <a class="back" href="../index.html">← HQ</a>
+</p>
+</body></html>

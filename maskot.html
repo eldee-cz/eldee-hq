@@ -57,7 +57,13 @@
   </section>
 
   <section id="pozy">
-    <div class="note"><b>Pózy se připravují.</b><br>Prodejce · fotbalista · srdíčko (a další) doplníme v příštím běhu — blok 4 kitu. Až budou hotové, naskočí sem.</div>
+    <div class="lead">Brand pózy — Eldee v akci pro kampaně, e-shop a sociální sítě. <b>Ťukni ⬇ pro stažení.</b></div>
+    <div class="grid sheet" id="grid-pozy"></div>
+    <div class="note" style="margin-top:16px;font-size:14px">
+      Výběr z <b>37 variant</b>, které vznikly 21. 7. 2026. Kompletní sada je v dílně
+      (<code>eldee-business → pixar-kit/04-brand-pozy/</code>) — když bude potřeba jiné natočení
+      nebo jiný výraz, vybere se odtamtud místo nového generování.
+    </div>
   </section>
 
   <section id="sheet">
@@ -80,6 +86,10 @@
   var sheet = [
     ['front','Zepředu'], ['34-left','3/4 vlevo'], ['34-right','3/4 vpravo'], ['side','Bok'], ['back','Záda']
   ];
+  var pozy = [
+    ['prodejce','📦 Prodejce'], ['prodejce-b','📦 Prodejce II'], ['fotbalista','⚽ Fotbalista'],
+    ['fotbalista-b','⚽ Fotbalista II'], ['srdicko','🤍 Srdíčko'], ['portret','😎 Portrét']
+  ];
   function card(src, name){
     return '<div class="item"><img loading="lazy" src="'+src+'" alt="'+name+'">'
       + '<div class="cap"><span class="nm">'+name+'</span>'
@@ -89,6 +99,8 @@
     vyrazy.map(function(v){ return card('maskot-pixar/vyrazy/eldee-expr-'+v[0]+'.jpg', v[1]); }).join('');
   document.getElementById('grid-sheet').innerHTML =
     sheet.map(function(v){ return card('maskot-pixar/model-sheet/eldee-'+v[0]+'.jpg', v[1]); }).join('');
+  document.getElementById('grid-pozy').innerHTML =
+    pozy.map(function(v){ return card('maskot-pixar/pozy/eldee-poza-'+v[0]+'.jpg', v[1]); }).join('');
 
   var tabs = document.querySelectorAll('.tab');
   tabs.forEach(function(t){

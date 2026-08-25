@@ -8,7 +8,7 @@
 <meta name="description" content="Kompletní business plán značky eldee.cz — fotbalové štulpny s chráněnými průmyslovými vzory.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&family=Allerta+Stencil&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <style>
   :root {
     --black: #0A0A0A;
@@ -16,8 +16,10 @@
     --gray-soft: #1A1A1A;
     --gray-border: #2A2A2A;
     --gray-text: #A0A0A0;
-    --red: #DC2626;
-    --red-dark: #991B1B;
+    --red: #B91C1C;
+    --red-dark: #7F1D1D;
+    --red-light: #DC2626;
+    --gold: #C9A227;
     --green: #16A34A;
     --orange: #F59E0B;
     --max-width: 900px;
@@ -30,7 +32,7 @@
   body {
     background: var(--black);
     color: var(--off-white);
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
     line-height: 1.6;
     font-size: 16px;
     -webkit-font-smoothing: antialiased;
@@ -51,7 +53,8 @@
   }
 
   .logo {
-    font-family: 'Anton', sans-serif;
+    font-family: 'Big Shoulders Display', sans-serif;
+    font-weight: 900;
     font-size: 28px;
     letter-spacing: 1px;
     color: var(--off-white);
@@ -85,7 +88,8 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    font-family: 'Anton', sans-serif;
+    font-family: 'Big Shoulders Display', sans-serif;
+    font-weight: 900;
     font-size: 14px;
     letter-spacing: 1px;
     cursor: pointer;
@@ -112,7 +116,8 @@
   nav.toc.open { right: 0; }
 
   nav.toc h3 {
-    font-family: 'Anton', sans-serif;
+    font-family: 'Big Shoulders Display', sans-serif;
+    font-weight: 900;
     font-size: 16px;
     letter-spacing: 2px;
     color: var(--red);
@@ -157,7 +162,8 @@
     margin-bottom: 48px;
   }
   .hero h1 {
-    font-family: 'Anton', sans-serif;
+    font-family: 'Big Shoulders Display', sans-serif;
+    font-weight: 900;
     font-size: clamp(48px, 10vw, 96px);
     line-height: 0.95;
     letter-spacing: -1px;
@@ -182,7 +188,8 @@
     scroll-margin-top: 80px;
   }
   section.chapter h2 {
-    font-family: 'Anton', sans-serif;
+    font-family: 'Big Shoulders Display', sans-serif;
+    font-weight: 900;
     font-size: clamp(32px, 6vw, 52px);
     line-height: 1.1;
     letter-spacing: -0.5px;
@@ -198,7 +205,8 @@
     font-style: italic;
   }
   section.chapter h3 {
-    font-family: 'Anton', sans-serif;
+    font-family: 'Big Shoulders Display', sans-serif;
+    font-weight: 900;
     font-size: clamp(22px, 4vw, 28px);
     margin: 40px 0 12px;
     letter-spacing: 0.5px;
@@ -281,9 +289,9 @@
     color: var(--red);
     text-align: left;
     padding: 12px;
-    font-family: 'Anton', sans-serif;
+    font-family: 'Big Shoulders Display', sans-serif;
+    font-weight: 900;
     letter-spacing: 1px;
-    font-weight: normal;
     border-bottom: 2px solid var(--red);
   }
   td {
@@ -331,7 +339,8 @@
     font-size: 14px;
     margin-bottom: 4px;
     color: var(--off-white);
-    font-family: 'Anton', sans-serif;
+    font-family: 'Big Shoulders Display', sans-serif;
+    font-weight: 900;
     letter-spacing: 1px;
   }
   .progress-card p {
@@ -1081,24 +1090,47 @@ Měsíční zisk + fixy = 111 000 Kč
     <li>Heat-transfer / sublimace pro detaily</li>
   </ol>
 
-  <h3>Barvy — 2 varianty (rozhodnutí odloženo)</h3>
+  <h3>Barvy — ✅ rozhodnuto (brand book v2.0)</h3>
+  <p style="color:var(--gray-text);font-size:14px;margin-bottom:14px">Systém má 4 vrstvy. Zdroj pravdy je brand book, ne tato kapitola.</p>
   <div class="table-wrap"><table>
-    <tr><th>Varianta</th><th>Barva</th><th>HEX</th><th>Charakter</th></tr>
-    <tr><td rowspan="3"><strong>A: Holy Red ⭐</strong></td><td>Carbon Black</td><td>#0A0A0A</td><td>Pozadí</td></tr>
-    <tr><td>Off-white</td><td>#F5F5F0</td><td>Kontrast</td></tr>
-    <tr><td>Holy Red</td><td>#DC2626</td><td>Akcent (echo „Holy" tématu, energická)</td></tr>
-    <tr><td rowspan="3">B: Electric Blue</td><td>Carbon Black</td><td>#0A0A0A</td><td>Pozadí</td></tr>
-    <tr><td>Off-white</td><td>#F5F5F0</td><td>Kontrast</td></tr>
-    <tr><td>Sport Blue</td><td>#2563EB</td><td>Akcent (mladší, sportovní)</td></tr>
+    <tr><th>Vrstva</th><th>Barva</th><th>HEX</th><th>Pantone</th><th>Role</th></tr>
+    <tr><td rowspan="3"><strong>Canvas</strong></td><td>Carbon Black</td><td>#0A0A0A</td><td>Black 6 C</td><td>Hlavní pozadí</td></tr>
+    <tr><td>Off-white</td><td>#F5F5F0</td><td>11-0107 TPG</td><td>Kontrast, text</td></tr>
+    <tr><td>Ash Gray</td><td>#3A3A3A</td><td>Black 4 C</td><td>Sekundární plochy</td></tr>
+    <tr><td rowspan="3"><strong>Signature</strong></td><td><strong>Blood Red ⭐</strong></td><td><strong>#B91C1C</strong></td><td>187 C</td><td><strong>Hlavní akcent značky</strong></td></tr>
+    <tr><td>Blood Red Dark</td><td>#7F1D1D</td><td>188 C</td><td>Tmavý tint</td></tr>
+    <tr><td>Blood Red Light</td><td>#DC2626</td><td>186 C</td><td>Světlý tint (dřív „Holy Red“)</td></tr>
+    <tr><td rowspan="2"><strong>Premium</strong></td><td><strong>Burnished Gold</strong></td><td><strong>#C9A227</strong></td><td>7563 C</td><td>Svatozář, prémiové detaily</td></tr>
+    <tr><td>Antique Gold</td><td>#B8860B</td><td>131 C</td><td>Tmavší varianta</td></tr>
+    <tr><td rowspan="3"><strong>Drop accents</strong><br><small>sezónní</small></td><td>Toxic Green</td><td>#BFFF00</td><td>389 C</td><td>Drop 001</td></tr>
+    <tr><td>UV Orange</td><td>#FF6B00</td><td>1655 C</td><td>Drop 002</td></tr>
+    <tr><td>Electric Blue</td><td>#2563EB</td><td>2728 C</td><td>Drop 003</td></tr>
   </table></div>
+  <div class="callout">
+    <strong>⚠️ Electric Blue není brand akcent</strong> — je to sezónní drop barva.
+    Původní volba „Holy Red vs. Electric Blue“ (odložená v květnu) se rozhodla ve prospěch červené
+    už v brand booku v1.0 (22. 5. 2026), <strong>potvrzeno 25. 8. 2026</strong>.<br><br>
+    <strong>Proč červená:</strong> je to nejtribálnější barva — barva klubu, dresu, krve. Sedí k emočnímu
+    jádru <strong>patřičnosti</strong> a claimu <strong>„One of Us.“</strong> Modrá je jazyk techniky
+    a preciznosti, tedy craftu — jádra, které jsme nevybrali.<br><br>
+    <strong>⚙️ Do praxe:</strong> #B91C1C má na černé kontrast 4.7 (WCAG AA těsně), #DC2626 jen 4.0
+    (<strong>pod limitem</strong>). Červenou na černém pozadí používej na velké nápisy a akcenty,
+    <strong>ne na drobný text</strong>. Zlatá (7.6) je na to bezpečnější.
+  </div>
 
-  <h3>Typografie (Google Fonts, zdarma)</h3>
+  <h3>Typografie (Google Fonts, OFL licence)</h3>
   <div class="table-wrap"><table>
     <tr><th>Použití</th><th>Font</th></tr>
-    <tr><td>Display (hlavičky, slogany)</td><td><strong>Anton</strong></td></tr>
-    <tr><td>Body (text, eshop)</td><td><strong>Inter</strong></td></tr>
-    <tr><td>Stencil (kampaně Holy Socks)</td><td>Allerta Stencil</td></tr>
+    <tr><td>Display (hlavičky, slogany, wordmark)</td><td><strong>Big Shoulders Display Black</strong></td></tr>
+    <tr><td>Body (text, popisy, eshop)</td><td><strong>Space Grotesk</strong></td></tr>
+    <tr><td>Tagline / rukopis</td><td>Caveat Brush</td></tr>
+    <tr><td>Data / technické specifikace</td><td>JetBrains Mono · Space Mono</td></tr>
   </table></div>
+  <div class="callout">
+    <strong>⚠️ Anton a Inter se už nepoužívají.</strong> Byla to původní volba z května,
+    kterou brand book nahradil. Zůstávaly jen v této kapitole a ve stylu této knihy —
+    <strong>srovnáno 25. 8. 2026</strong>.
+  </div>
 
   <h3>Vizitka (85×55mm, matte black 350g)</h3>
   <pre><code>   eldee  ○○

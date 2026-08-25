@@ -375,11 +375,11 @@
     {
       "id": "vyrobce-schuzka",
       "text": "Výrobce: balíček odeslán (5. 6.) → osobní schůzka",
-      "stav": "teď",
+      "stav": "hotovo",
       "kdo": "Lukáš",
-      "pozn": "Schůzka v týdnu od 8. 6. — sew-out vzorek, PES/DST, termíny prototypu a výroby (Drop 001 Q3)",
+      "pozn": "Schůzka proběhla, spolupráce běží. Uzavřeno 25. 8. — úkol zůstával omylem ve stavu „teď“ od 5. 6., přestože s výrobcem od té doby padly obě otevřené otázky (14. 8.: rozměr otvoru a způsob kótování).",
       "vzniklo": "2026-06-05",
-      "hotovo": null,
+      "hotovo": "25. 8. 2026",
       "priorita": "vysoka",
       "poradi": 1
     },
@@ -824,10 +824,10 @@
     },
     {
       "id": "prototyp-l-objednat",
-      "text": "🏭 Poslat výrobci zadání pro prototyp velikosti L a nechat ušít další kus",
-      "stav": "teď",
+      "text": "🏭 Prototyp velikosti L — čeká se na 3. sadu od výrobce",
+      "stav": "blokováno",
       "kdo": "Lukáš",
-      "pozn": "Zadání (2 strany, PDF) je hotové — vyroba/eldee-zadani-vyroby-prototyp-L-2026-08-14.pdf. Spolu s ním se ptáme na jedinou zbývající věc: výrobní toleranci polohy otvoru.",
+      "pozn": "Stav k 25. 8.: zadání je u výrobce (vyroba/eldee-zadani-vyroby-prototyp-L-2026-08-14.pdf), **vyrábí se 3. sada prototypů**. Visí na výrobci, nedá se urychlit. Blokuje: produktové fotky, hero video, dotazník testerům, potvrzení COGS, formu a mix Drop 001 a Player Hype / Product Feature obsah.",
       "vzniklo": "2026-08-14",
       "hotovo": null,
       "priorita": "vysoka",

@@ -67,6 +67,11 @@
   "timeline": [
     {
       "datum": "25. 8. 2026",
+      "nadpis": "📆 Rytmus obsahu nastaven — 1 video týdně, 3 pilíře",
+      "text": "Blok C hotový: <strong>1 video týdně</strong> (9–15 s, vertikálně) ve třech pilířích — <strong>„Znáš to.“</strong> (rituály, které zná každý hráč, 50 %), <strong>Maskot Eldee</strong> (AI videa, dělá Doležal, 25 %) a <strong>Founder journey</strong> (zákulisí stavby značky, 25 %). Kanály: TikTok primárně, IG Reels a Facebook z jednoho postu — na Facebooku mluví craft pro rodiče a kluby. Klíčový trik: <strong>netočí se týdně, publikuje se týdně</strong> — jeden výrobní blok měsíčně vyrobí 4–5 videí do zásoby, reálná zátěž ~4 h měsíčně místo 12 h týdně podle původního plánu. Obsah nečeká na produkt: 12 námětů je napsaných tak, aby fungovaly <em>bez</em> štulpen v záběru."
+    },
+    {
+      "datum": "25. 8. 2026",
       "nadpis": "🦥 Pixar kit maskota dokončen — identita zamčená znovu",
       "text": "Kit pro AI videa a obsah s maskotem Eldee je <strong>hotový</strong>. Po ztrátě přístupu ke starému AI účtu se musel <strong>obnovit zámek identity</strong> — nový stojí na neutrální podobě ze všech pěti stran. Zároveň se srovnalo, co je vlastně <strong>kanonická předloha</strong>: základem je <strong>neutrální Eldee bez propů</strong>, ne prodejce s krabicí (ten je odteď vedený jako brand póza). Pravidlo: co drží jen v jedné scéně, do předlohy nepatří. Kit má galerii, návod s hotovými prompty a čtyři pojmenované pózy — prodejce, fotbalista, srdíčko, portrét. Obnova zámku i nahrání referencí stály <strong>0 kreditů</strong>. Etapa 1 (identita) je uzavřená, další na řadě je workflow a první kompletní video.",
       "stavText": "etapa 1 hotová"
@@ -312,6 +317,24 @@
     }
   ],
   "ukoly": [
+    {
+      "id": "obsah-prvni-blok",
+      "text": "🎬 První výrobní blok — natočit 4–5 videí „Znáš to.“ do zásoby",
+      "stav": "teď",
+      "kdo": "Lukáš",
+      "pozn": "Blok C krok 1. Vybrat 4–5 z 12 námětů (marketing/10-rytmus-obsahu.md), natočit v jednom bloku (mobil, přirozené světlo, jeden záběr, text na obrazovce nese pointu), střih v CapCutu. ~3–4 h. Pak stačí 15 min týdně na publikaci. POZOR: exportovat bez vodoznaku, jinak TikTok srazí dosah.",
+      "vzniklo": "25. 8. 2026",
+      "hotovo": null
+    },
+    {
+      "id": "zalozit-profily-site",
+      "text": "📱 Založit / oživit profily: TikTok + Instagram + Facebook (propojit Meta)",
+      "stav": "další",
+      "kdo": "Lukáš",
+      "pozn": "Předpoklad pro rytmus. IG + FB propojit přes Meta Business Suite (jeden post do obou). TikTok samostatně. Bio: claim + odkaz. Rozcestník s návody je na HQ v dlaždici Sociální sítě.",
+      "vzniklo": "25. 8. 2026",
+      "hotovo": null
+    },
     {
       "id": "one-of-us-mechanika",
       "text": "🏷️ Rozjet mechaniku razítka „One of Us.“ — hráč pošle důkaz, značka odpoví",
@@ -746,12 +769,12 @@
     },
     {
       "id": "blok-c-rytmus-obsah",
-      "text": "📆 Blok C (z OKTAGON benchmarku): vybrat 1 kanál + 1 formát + 1 frekvenci, kterou UDRŽÍŠ, a rozjet pravidelný rytmus obsahu",
-      "stav": "fronta",
+      "text": "📆 Blok C — nastavit rytmus obsahu (kanál, formát, frekvence)",
+      "stav": "hotovo",
       "kdo": "Lukáš + Jarvis",
-      "pozn": "OKTAGON rytmus (běh 3): pevná kadence + recyklace záběrů + drop jako mini-event. Realisticky pro 5–7 h/týden: radši 1×/týden natrvalo než 4×/týden na 3 týdny. TikTok pro cílovku 10–19.",
+      "pozn": "ROZHODNUTO 25. 8.: 1 video týdně, 9–15 s vertikálně, 3 pilíře v rotaci (Znáš to. 50 % / Maskot Eldee 25 % / Founder journey 25 %). Kanály: TikTok primární + IG Reels + FB (z IG automaticky, tam mluví craft pro rodiče a kluby). Klíč: netočí se týdně, publikuje se týdně — 1 výrobní blok měsíčně = 4–5 videí do zásoby, ~4 h. Plán v marketing/10-rytmus-obsahu.md včetně 12 námětů. Frekvenci zvýšit až po 8 týdnech bez vynechání.",
       "vzniklo": "2026-07-10",
-      "hotovo": null,
+      "hotovo": "25. 8. 2026",
       "priorita": "stredni",
       "poradi": 25
     },

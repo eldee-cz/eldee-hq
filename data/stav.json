@@ -1,6 +1,6 @@
 {
   "meta": {
-    "aktualizovano": "14. 8. 2026",
+    "aktualizovano": "25. 8. 2026",
     "pilulky": [
       {
         "label": "Brand book",
@@ -61,6 +61,24 @@
     }
   ],
   "timeline": [
+    {
+      "datum": "25. 8. 2026",
+      "nadpis": "🦥 Pixar kit maskota dokončen — identita zamčená znovu",
+      "text": "Kit pro AI videa a obsah s maskotem Eldee je <strong>hotový</strong>. Po ztrátě přístupu ke starému AI účtu se musel <strong>obnovit zámek identity</strong> — nový stojí na neutrální podobě ze všech pěti stran. Zároveň se srovnalo, co je vlastně <strong>kanonická předloha</strong>: základem je <strong>neutrální Eldee bez propů</strong>, ne prodejce s krabicí (ten je odteď vedený jako brand póza). Pravidlo: co drží jen v jedné scéně, do předlohy nepatří. Kit má galerii, návod s hotovými prompty a čtyři pojmenované pózy — prodejce, fotbalista, srdíčko, portrét. Obnova zámku i nahrání referencí stály <strong>0 kreditů</strong>. Etapa 1 (identita) je uzavřená, další na řadě je workflow a první kompletní video.",
+      "stavText": "etapa 1 hotová"
+    },
+    {
+      "datum": "25. 8. 2026",
+      "minor": true,
+      "nadpis": "Kniha srovnána s brand bookem — jeden zdroj pravdy",
+      "text": "Kniha a brand book se od května rozešly: kniha držela starou volbu <em>Holy Red vs. Electric Blue</em> („rozhodnutí odloženo“) a fonty Anton + Inter, zatímco brand book v2.0 i HQ jedou na <strong>Blood Red #B91C1C</strong> a <strong>Big Shoulders Display + Space Grotesk</strong>. Srovnáno na obou vrstvách — ve zdrojové kapitole i v živé knize: plná paleta s kontrasty, skutečná typografie, styl knihy převedený na brandové fonty a barvy. Vyšlo přitom najevo, že úkol „rozhodnout akcentní barvu“ byl <strong>zombie</strong> — barva byla zafixovaná v brand booku už 22. 5., jen o tom kniha nevěděla. Signature zůstává <strong>Blood Red</strong>, Electric Blue je sezónní drop barva, ne brand akcent."
+    },
+    {
+      "datum": "25. 8. 2026",
+      "nadpis": "🎯 Emoční jádro značky rozhodnuto — „One of Us.“",
+      "text": "Po 46 dnech zvažování padlo <strong>klíčové rozhodnutí o kořeni značky</strong>: jádro je <strong>patřičnost</strong> (varianta A), ne craft. eldee neprodává lepší ponožku — prodává ten moment, kdy přestaneš být nováček a začneš patřit. Craft zůstává jako <em>důkaz</em> a jazyk pro rodiče a kluby. Anchor claim značky je <strong>„One of Us.“</strong> (CZ „Jeden z nás.“) — nadřazený produktovému <em>Holy Socks</em>. Nejcennější na něm není nápis, ale mechanika: je to <strong>razítko přijetí</strong>, které se dává za důkaz, že to znáš — nikdy za nákup. Pat rozsekl jediný posun v hlavě: rozhodnutí je <strong>vratné</strong>, žádný tisk ani objednávka za tím zatím nestojí. ⚠️ Claim čeká na prověření ochranné známky — do té doby nejde na tisk, packaging ani do brand booku.",
+      "stavText": "jádro = patřičnost"
+    },
     {
       "datum": "14. 8. 2026",
       "nadpis": "Zadání pro výrobu prototypu — velikost L",
@@ -446,11 +464,11 @@
     {
       "id": "barva-akcent",
       "text": "Rozhodnout akcentní barvu (Holy Red vs Electric Blue)",
-      "stav": "fronta",
+      "stav": "hotovo",
       "kdo": "Lukáš",
-      "pozn": "Blokuje finální PDF brandbooku + packaging. Visí od května.",
+      "pozn": "Zombie úkol — barva byla rozhodnutá už v brand booku v1.0 (22. 5.), jen kniha o tom nevěděla. Signature = Blood Red #B91C1C, premium = Burnished Gold, Electric Blue degradován na sezónní drop barvu. Kniha srovnána 25. 8.",
       "vzniklo": "2026-06-25",
-      "hotovo": null,
+      "hotovo": "2026-08-25",
       "priorita": "vysoka",
       "poradi": 3,
       "termin": "2026-06-30"
@@ -668,11 +686,12 @@
     { "id": "blok-a-pribeh-emoce", "text": "🎯 KLÍČOVÉ ROZHODNUTÍ — emoční jádro značky: A (patřičnost / znáš to) vs. C (craft / udělej to pořádně) jako kořen. Řídí všechen obsah, foto i claimy.", "stav": "další", "kdo": "Lukáš + Jarvis", "pozn": "Z běhu 4; varianta B (vzpoura) vyřazena. Srovnání A vs C na 7 osách hotové → náklon A = kořen, C = důkaz + kanál pro rodiče/kluby (A = důvod se STARAT, C = důvod VĚŘIT). NEUZAVŘENO — Lukáš zvažuje (důležité, nespěcháme). Detail v privátním repu: marketing/08-emocni-jadro-A-vs-C.md. Až rozhodne → emoční jádro list + test na 3 postech.", "vzniklo": "2026-07-10", "hotovo": null, "priorita": "vysoka", "poradi": 5 },
     { "id": "blok-b-ambasadori-ugc", "text": "🤝 Blok B (z OKTAGON benchmarku): naplavat 3–5 hráčů-ambasadorů + rozjet UGC mechaniku (hráč se natočí v eldee, my repostujeme)", "stav": "fronta", "kdo": "Lukáš", "pozn": "eldee nemá vlastní zápasníky → musí si je vyrobit. Kritérium jako OKTAGON: ne nejlepší hráč, ale ten, co se umí ukázat. Seed = pár párů zdarma za obsah. Zároveň = delegace (obsah dělají oni). Placené influencery ne.", "vzniklo": "2026-07-10", "hotovo": null, "priorita": "stredni", "poradi": 24 },
     { "id": "blok-c-rytmus-obsah", "text": "📆 Blok C (z OKTAGON benchmarku): vybrat 1 kanál + 1 formát + 1 frekvenci, kterou UDRŽÍŠ, a rozjet pravidelný rytmus obsahu", "stav": "fronta", "kdo": "Lukáš + Jarvis", "pozn": "OKTAGON rytmus (běh 3): pevná kadence + recyklace záběrů + drop jako mini-event. Realisticky pro 5–7 h/týden: radši 1×/týden natrvalo než 4×/týden na 3 týdny. TikTok pro cílovku 10–19.", "vzniklo": "2026-07-10", "hotovo": null, "priorita": "stredni", "poradi": 25 },
-    { "id": "ai-video-prvni-scenar", "text": "🎬 AI video maskota — první kompletní video z jednoho z 10 scénářů (Pixar 3D styl, Kling PRO)", "stav": "další", "kdo": "Doležal + Jarvis", "pozn": "Rozhodnuto 10.7. jít cestou AI Pixar videí (Higgsfield: Nano Banana Pro obrázky + Kling 3.0 PRO video 1080p). Jarvis generuje/režíruje, Luky kontroluje pohyb (Jarvis video nevidí). Před sérií dobít kredity. První test (žonglování) hotový v media/.", "vzniklo": "2026-07-10", "hotovo": null, "priorita": "stredni", "poradi": 9 },
+    { "id": "ai-video-prvni-scenar", "text": "🎬 AI video maskota — první kompletní video z jednoho z 10 scénářů (Pixar 3D styl, Kling PRO)", "stav": "další", "kdo": "Doležal + Jarvis", "pozn": "Rozhodnuto 10.7. jít cestou AI Pixar videí (Higgsfield: Nano Banana Pro obrázky + Kling 3.0 PRO video 1080p). Jarvis generuje/režíruje, Luky kontroluje pohyb (Jarvis video nevidí). Před sérií dobít kredity. První test (žonglování) hotový v media/. Kit identity je od 25. 8. připravený (předloha, model sheet, 12 výrazů, 4 brand pózy, obnovený zámek identity) — chybí dobít kredity a natočit.", "vzniklo": "2026-07-10", "hotovo": null, "priorita": "stredni", "poradi": 9 },
     { "id": "mereni-technicky-list", "text": "📏 Zadání pro výrobu — dlaždice Měření nohou generuje tisknutelný A4 dokument (rozměr a umístění otvorů, nákres s kótami, podklad z naměřených dat)", "stav": "hotovo", "kdo": "Hledík", "pozn": "Šablona je ve veřejném repu, čísla zůstávají v prohlížeči (localStorage) — rozměry se ven nedostanou. 14. 8. přestavěno na jedno zadání: rozměr otvoru zadává výrobce (pole v dlaždici), umístění = čtvrtiny lýtkového svalu, 2 strany a jeden nákres.", "vzniklo": "2026-07-31", "hotovo": "2026-08-14", "priorita": "vysoka", "poradi": 1 },
     { "id": "mereni-dosbirat-velikosti", "text": "📏 Dosbírat měření pro velikosti S, M a XL — zatím máme jen L", "stav": "další", "kdo": "Lukáš", "pozn": "Prvních 14 měření (31.7.) spadlo všech 14 do L (boty 43–46). Bez dalších velikostí je technický list použitelný jen pro L. Cíl aspoň 5 měření na velikost.", "vzniklo": "2026-07-31", "hotovo": null, "priorita": "vysoka", "poradi": 2 },
     { "id": "mereni-prumer-otvoru-vyrobce", "text": "🏭 Nechat si od výrobce potvrdit rozměr otvoru, můstek a chování po natažení", "stav": "hotovo", "kdo": "Lukáš + Doležal", "pozn": "Vyřešeno 14. 8.: výrobce udal nejmenší otvor, který umí vyrobit a obšít (ovál na šířku, změřeno z prototypu), a kóty chce posílat tak, jak je měříme od podlahy — natažení si přepočte sám. Můstek při umístění ve čtvrtinách svalu vychází s rezervou.", "vzniklo": "2026-07-31", "hotovo": "2026-08-14", "priorita": "vysoka", "poradi": 3 },
-    { "id": "prototyp-l-objednat", "text": "🏭 Poslat výrobci zadání pro prototyp velikosti L a nechat ušít další kus", "stav": "teď", "kdo": "Lukáš", "pozn": "Zadání (2 strany, PDF) je hotové — vyroba/eldee-zadani-vyroby-prototyp-L-2026-08-14.pdf. Spolu s ním se ptáme na jedinou zbývající věc: výrobní toleranci polohy otvoru.", "vzniklo": "2026-08-14", "hotovo": null, "priorita": "vysoka", "poradi": 2 }
+    { "id": "prototyp-l-objednat", "text": "🏭 Poslat výrobci zadání pro prototyp velikosti L a nechat ušít další kus", "stav": "teď", "kdo": "Lukáš", "pozn": "Zadání (2 strany, PDF) je hotové — vyroba/eldee-zadani-vyroby-prototyp-L-2026-08-14.pdf. Spolu s ním se ptáme na jedinou zbývající věc: výrobní toleranci polohy otvoru.", "vzniklo": "2026-08-14", "hotovo": null, "priorita": "vysoka", "poradi": 2 },
+    { "id": "one-of-us-znamka", "text": "⚖️ Prověřit ochrannou známku „One of Us“ (EU, třída 25 — oděvy)", "stav": "další", "kdo": "Lukáš + právník", "pozn": "V EU je jméno silně obsazené — evropská federace ONE OF US (pro-life hnutí, statisíce podpisů, desítky NGO, vlastní domény, registrovaný lobbista). Politicky i nábožensky nabité téma; v kombinaci s eldee svatozáří a slovem Holy může značka číst nábožensky. Konkrétní třídy zápisu se přes web nedají zjistit (EUIPO i TMview jsou JS aplikace) → na právníka. DO VYŘEŠENÍ claim nedávat na tisk, packaging ani do brand booku.", "vzniklo": "2026-08-25", "hotovo": null, "priorita": "vysoka", "poradi": 2 }
   ],
   "odkazy": [
     {

@@ -67,6 +67,12 @@
   "timeline": [
     {
       "datum": "25. 8. 2026",
+      "minor": true,
+      "nadpis": "🎬 Videa maskota: sjednocený styl + postup od scénáře k videu",
+      "text": "Při přípravě natáčení se ukázalo, že si dokumenty odporují: scénáře z června předepisovaly plochý kreslený styl a výslovně zakazovaly 3D, zatímco hotový kit maskota je 3D. <strong>Rozhodnuto: všechno jede v jednom stylu</strong> — plochá podoba zůstává pro web, tisk a výšivku, videa a sítě jedou v kitu. Všech deset scénářů je na to přepsaných. Vznikl <strong>postup od scénáře k hotovému videu</strong>: rozpis záběrů, skládačka promptu, kontrola šesti znaků konzistence, rozhýbání, střih a rozpočet. Zároveň se <strong>přepočítal rozpočet celé série na ověřené ceny</strong> — vyšel zhruba o polovinu nižší, než původní odhad. Nic se negenerovalo, celá etapa je psaní."
+    },
+    {
+      "datum": "25. 8. 2026",
       "nadpis": "📆 Rytmus obsahu nastaven — 1 video týdně, 3 pilíře",
       "text": "Blok C hotový: <strong>1 video týdně</strong> (9–15 s, vertikálně) ve třech pilířích — <strong>„Znáš to.“</strong> (rituály, které zná každý hráč, 50 %), <strong>Maskot Eldee</strong> (AI videa, dělá Doležal, 25 %) a <strong>Founder journey</strong> (zákulisí stavby značky, 25 %). Kanály: TikTok primárně, IG Reels a Facebook z jednoho postu — na Facebooku mluví craft pro rodiče a kluby. Klíčový trik: <strong>netočí se týdně, publikuje se týdně</strong> — jeden výrobní blok měsíčně vyrobí 4–5 videí do zásoby, reálná zátěž ~4 h měsíčně místo 12 h týdně podle původního plánu. Obsah nečeká na produkt: 12 námětů je napsaných tak, aby fungovaly <em>bez</em> štulpen v záběru."
     },

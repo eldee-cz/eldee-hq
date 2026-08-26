@@ -1,6 +1,6 @@
 {
   "meta": {
-    "aktualizovano": "25. 8. 2026",
+    "aktualizovano": "26. 8. 2026",
     "pilulky": [
       {
         "label": "Jádro značky",
@@ -808,10 +808,10 @@
     },
     {
       "id": "mereni-dosbirat-velikosti",
-      "text": "📏 Dosbírat měření pro velikosti S, M a XL — zatím máme jen L",
+      "text": "📏 Dosbírat měření pro velikosti S a XL — M a L už máme",
       "stav": "další",
       "kdo": "Lukáš",
-      "pozn": "Prvních 14 měření (31.7.) spadlo všech 14 do L (boty 43–46). Bez dalších velikostí je technický list použitelný jen pro L. Cíl aspoň 5 měření na velikost.",
+      "pozn": "Stav k 26. 8.: 29 měření celkem. M ✅ 8 měření (cíl 5 splněn, přibylo dnes od žáků), L ✅ 20 měření. Chybí S (1 měření) a XL (0). Technický list jde teď udělat pro M i L, pro S/XL zatím ne. Data archivovaná v business repu (vyroba/mereni-export-2026-08-26.json), čísla zůstávají jen v prohlížeči.",
       "vzniklo": "2026-07-31",
       "hotovo": null,
       "priorita": "vysoka",

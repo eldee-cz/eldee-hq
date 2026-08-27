@@ -1,6 +1,6 @@
 {
   "meta": {
-    "aktualizovano": "26. 8. 2026",
+    "aktualizovano": "27. 8. 2026",
     "pilulky": [
       {
         "label": "Jádro značky",
@@ -65,6 +65,11 @@
     }
   ],
   "timeline": [
+    {
+      "datum": "27. 8. 2026",
+      "nadpis": "🔎 FOUL benchmark — běh 1 hotový",
+      "text": "Deep research českého konkurenta <strong>FOUL</strong> (foulshop.com, Rudíkov u Třebíče) dokončen: 410 tvrzení od 11 paralelních finderů, konsolidace na 30 nejdůležitějších, adversariální ověření <strong>21 potvrzeno / 5 vyvráceno</strong>, výstupem report ~20 tis. slov + PDF. Tři místa, kde jde FOUL předběhnout: <strong>mládežnické kluby přes trenéry</strong> (segment vědomě opustil), <strong>TikTok a tón k 10–19letým</strong> (5,7 tis. sledujících, nula placených reklam) a <strong>retence + živá IP</strong> (nemá e-mailing ani věrnostní program, užitný vzor NOT_ACTIVE od 8/2024). Následuje běh 2 — aplikace na eldee."
+    },
     {
       "datum": "25. 8. 2026",
       "minor": true,
@@ -352,10 +357,10 @@
     },
     {
       "id": "foul-benchmark",
-      "text": "🔎 FOUL benchmark — deep research konkurenta (marketing, průlom do Evropy, přenos na eldee): běh 1 → report → aplikace na eldee",
-      "stav": "další",
+      "text": "🔎 FOUL benchmark — deep research konkurenta: běh 1 hotový → aplikace na eldee (běh 2)",
+      "stav": "teď",
       "kdo": "Hledík + Jarvis",
-      "pozn": "Zadání hotové 25. 8. (marketing/foul-benchmark/ZADANI-deep-research.md). FOUL je česká (Třebíč), ne polská. Běh 1 část 1 (findery, 410 tvrzení) hotová 25. 8. večer — část 2 (ověření + syntéza) připravená jako skript, spustit příště (viz handoff.md).",
+      "pozn": "Běh 1 KOMPLETNÍ 27. 8.: 11 finderů → 410 tvrzení → konsolidace na 30 → adversariální ověření (21 potvrzeno / 5 vyvráceno / 1 neověřitelné) → report ~20 tis. slov + PDF (34 stran). Závěr: FOUL vědomě opustil klubový/B2B segment („todle naše cesta není“), na TikToku má 5,7 tis. sledujících a nula placených reklam, nemá e-mailing ani věrnostní program a užitný vzor na chránič má od 8/2024 NOT_ACTIVE. Přímé oslovování hvězd mu nefungovalo ani při 15 mil. obratu — fungovala vlastní kabina. Další krok: běh 2 = z přenosové matice vybrat 3 bloky, které jdou dělat teď při 5–7 h/týden.",
       "vzniklo": "2026-08-25"
     },
     {

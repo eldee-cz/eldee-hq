@@ -1,6 +1,6 @@
 {
   "meta": {
-    "aktualizovano": "27. 8. 2026",
+    "aktualizovano": "28. 8. 2026",
     "pilulky": [
       {
         "label": "Jádro značky",
@@ -329,6 +329,69 @@
   ],
   "ukoly": [
     {
+      "id": "vyrobce-navrat-balik",
+      "text": "🏭 Návrat výrobce z dovolené — zjistit datum + připravit balík na ten den",
+      "stav": "teď",
+      "kdo": "Hledík",
+      "pozn": "Nedělat tři maily, ale jeden balík: (a) výtky ke 2. sadě a co má splnit 3. sada, (b) „kolik párů týdně zvládneš a co při trojnásobku“ — kapacitní strop, (c) technický list M+L (hotový). Z FOUL benchmarku: kapacita dodavatele je jediné úzké hrdlo, na kterém FOUL prokazatelně narazil (2024 musel vypnout reklamu v Německu, nestíhal ani Česko).",
+      "vzniklo": "2026-08-28",
+      "hotovo": null
+    },
+    {
+      "id": "dotaznik-foul-overit",
+      "text": "❓ Ověřit u hráče z dotazníku 6/2026: myslel FOUL chrániče, nebo ponožky?",
+      "stav": "teď",
+      "kdo": "Hledík",
+      "pozn": "15 minut, jedna zpráva. Na tomhle stojí premisa celého benchmarku — FOUL byla jediná spontánně jmenovaná značka. Pokud myslel chrániče, není to konkurent eldee, ale sousedící značka, a positioning se mění.",
+      "vzniklo": "2026-08-28",
+      "hotovo": null
+    },
+    {
+      "id": "mereni-s-xl",
+      "text": "📏 Doměřit velikosti S a XL — jediná produktová práce nezávislá na výrobci",
+      "stav": "další",
+      "kdo": "Hledík",
+      "pozn": "Bílé místo z FOUL benchmarku: FOUL nemá nic pod velikost 31, cílovka eldee (10–19 let) je přesně tam. M a L už změřené (29 záznamů).",
+      "vzniklo": "2026-08-28",
+      "hotovo": null
+    },
+    {
+      "id": "blok-b-seznam",
+      "text": "📋 Blok B — sepsat jmenný seznam (trenéři, hráči, kluby) + stránku „co klub dostane“",
+      "stav": "další",
+      "kdo": "Hledík",
+      "pozn": "PŘIPRAVIT, NESPOUŠTĚT — bez prototypu není co dát do ruky. ~2 h. Z FOUL funnelu: seedování přes vlastní kabinu funguje, přímé oslovování hvězd a agentur prokazatelně NE (ani při 15 mil. obratu). Kluby jsou součást bloku B (rozhodnuto 28. 8.).",
+      "vzniklo": "2026-08-28",
+      "hotovo": null
+    },
+    {
+      "id": "kluby-5-telefonatu",
+      "text": "📞 5 telefonátů do klubů: kdo rozhoduje o nákupu štulpen, kolik párů ročně, jaká cena je přijatelná",
+      "stav": "další",
+      "kdo": "Hledík",
+      "pozn": "~2 h. FOUL tenhle segment vědomě opustil a nikdy ho zvenku nezjišťoval. Odpověď rozhodne, jestli má B2B vrstva smysl. Cenu se ptát na štulpnu, ne ponožku — benchmark 590 Kč je z jiné kategorie.",
+      "vzniklo": "2026-08-28",
+      "hotovo": null
+    },
+    {
+      "id": "znamka-eldee",
+      "text": "⚖️ Rozhodnout o ochranné známce eldee (jméno + logo) — vzory chrání tvar, ne jméno",
+      "stav": "další",
+      "kdo": "Hledík",
+      "pozn": "Průmyslové vzory (díry + kapsa) platí v celé EU — ověřeno. Chrání ale tvar, ne název. FOUL má obojí: EU známku 018014807 i vzory. Ověřit rozsah stávající ochrany loga LD (CZ vs. EU, logo vs. slovo).",
+      "vzniklo": "2026-08-28",
+      "hotovo": null
+    },
+    {
+      "id": "foul-nemecka-linka",
+      "text": "🇩🇪 Napsat na německou linku FOUL jako zákazník — kdo odpoví, v jakém jazyce, jakou lhůtu slíbí",
+      "stav": "fronta",
+      "kdo": "Hledík",
+      "pozn": "10 minut. Ověří nejlevnější trik z celého playbooku: jedno německé mobilní číslo s křestním jménem, žádná německá entita ani sklad. Číslo je v reportu běhu 1.",
+      "vzniklo": "2026-08-28",
+      "hotovo": null
+    },
+    {
       "id": "obsah-prvni-blok",
       "text": "🎬 První výrobní blok — natočit 4–5 videí „Znáš to.“ do zásoby",
       "stav": "teď",
@@ -360,7 +423,7 @@
       "text": "🔎 FOUL benchmark — deep research konkurenta: běh 1 hotový → aplikace na eldee (běh 2)",
       "stav": "teď",
       "kdo": "Hledík + Jarvis",
-      "pozn": "Běh 1 KOMPLETNÍ 27. 8.: 11 finderů → 410 tvrzení → konsolidace na 30 → adversariální ověření (21 potvrzeno / 5 vyvráceno / 1 neověřitelné) → report ~20 tis. slov + PDF (34 stran). Závěr: FOUL vědomě opustil klubový/B2B segment („todle naše cesta není“), na TikToku má 5,7 tis. sledujících a nula placených reklam, nemá e-mailing ani věrnostní program a užitný vzor na chránič má od 8/2024 NOT_ACTIVE. Přímé oslovování hvězd mu nefungovalo ani při 15 mil. obratu — fungovala vlastní kabina. Další krok: běh 2 = z přenosové matice vybrat 3 bloky, které jdou dělat teď při 5–7 h/týden.",
+      "pozn": "Běh 1 KOMPLETNÍ 27. 8.: 11 finderů → 410 tvrzení → konsolidace na 30 → adversariální ověření (21 potvrzeno / 5 vyvráceno / 1 neověřitelné) → report ~20 tis. slov + PDF (34 stran). Závěr: FOUL vědomě opustil klubový/B2B segment („todle naše cesta není“), na TikToku má 5,7 tis. sledujících a nula placených reklam, nemá e-mailing ani věrnostní program a užitný vzor na chránič má od 8/2024 NOT_ACTIVE. Přímé oslovování hvězd mu nefungovalo ani při 15 mil. obratu — fungovala vlastní kabina. BĚH 2 (aplikace na eldee) HOTOVÝ 28. 8. — beh2-aplikace-na-eldee.md: ranking 19 prvků playbooku, FOUL funnel po krocích, 3 bloky na teď, co se dělat nebude. Zbývá běh 3 = vizuální rozbor FOUL, až se bude řešit e-shop a packaging.",
       "vzniklo": "2026-08-25"
     },
     {

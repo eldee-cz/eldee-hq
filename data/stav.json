@@ -66,6 +66,11 @@
   ],
   "timeline": [
     {
+      "datum": "28. 8. 2026",
+      "nadpis": "🏁 FOUL benchmark uzavřen — 3 běhy, 53 stran",
+      "text": "Deep research konkurenta dokončen všemi třemi běhy: <strong>fakta</strong> (410 tvrzení, ověřeno 21 potvrzeno / 5 vyvráceno) → <strong>aplikace na eldee</strong> (ranking 19 prvků playbooku, 3 bloky na teď, co se nedělá vůbec) → <strong>vizuální rozbor</strong> (10 vlastních snímků webu, feedu a identity). Verdikt dílu 3: <strong>FOUL vypadá jako slušný e-shop, ne jako značka</strong> — řemeslo čisté, identita prázdná. eldee je před ním v logomarku, vazbě logo↔produkt, barvě i maskotovi; za ním v produktové fotografii a sociálním důkazu. Finální výstup: <strong>FOUL-deep-research-KOMPLET.pdf</strong>."
+    },
+    {
       "datum": "27. 8. 2026",
       "nadpis": "🔎 FOUL benchmark — běh 1 hotový",
       "text": "Deep research českého konkurenta <strong>FOUL</strong> (foulshop.com, Rudíkov u Třebíče) dokončen: 410 tvrzení od 11 paralelních finderů, konsolidace na 30 nejdůležitějších, adversariální ověření <strong>21 potvrzeno / 5 vyvráceno</strong>, výstupem report ~20 tis. slov + PDF. Tři místa, kde jde FOUL předběhnout: <strong>mládežnické kluby přes trenéry</strong> (segment vědomě opustil), <strong>TikTok a tón k 10–19letým</strong> (5,7 tis. sledujících, nula placených reklam) a <strong>retence + živá IP</strong> (nemá e-mailing ani věrnostní program, užitný vzor NOT_ACTIVE od 8/2024). Následuje běh 2 — aplikace na eldee."
@@ -420,11 +425,12 @@
     },
     {
       "id": "foul-benchmark",
-      "text": "🔎 FOUL benchmark — deep research konkurenta: běh 1 hotový → aplikace na eldee (běh 2)",
-      "stav": "teď",
+      "text": "🔎 FOUL benchmark — deep research konkurenta (3 běhy: fakta → aplikace na eldee → vizuální rozbor)",
+      "stav": "hotovo",
       "kdo": "Hledík + Jarvis",
-      "pozn": "Běh 1 KOMPLETNÍ 27. 8.: 11 finderů → 410 tvrzení → konsolidace na 30 → adversariální ověření (21 potvrzeno / 5 vyvráceno / 1 neověřitelné) → report ~20 tis. slov + PDF (34 stran). Závěr: FOUL vědomě opustil klubový/B2B segment („todle naše cesta není“), na TikToku má 5,7 tis. sledujících a nula placených reklam, nemá e-mailing ani věrnostní program a užitný vzor na chránič má od 8/2024 NOT_ACTIVE. Přímé oslovování hvězd mu nefungovalo ani při 15 mil. obratu — fungovala vlastní kabina. BĚH 2 (aplikace na eldee) HOTOVÝ 28. 8. — beh2-aplikace-na-eldee.md: ranking 19 prvků playbooku, FOUL funnel po krocích, 3 bloky na teď, co se dělat nebude. Zbývá běh 3 = vizuální rozbor FOUL, až se bude řešit e-shop a packaging.",
-      "vzniklo": "2026-08-25"
+      "pozn": "HOTOVO 28. 8. Finální výstup: FOUL-deep-research-KOMPLET.pdf (53 stran) v eldee-business/marketing/foul-benchmark/. Běh 1: 410 tvrzení → 30 → ověřeno 21 potvrzeno / 5 vyvráceno. Běh 2: ranking 19 prvků playbooku, 3 bloky na teď, co se nedělá vůbec (→ 7 úkolů na nástěnce). Běh 3: 10 vlastních snímků, identita rozebraná na součástky, srovnání s brand systémem eldee, zadání pro budoucí e-shop. Tři místa, kde jde FOUL předběhnout: kluby přes trenéry (segment vědomě opustil), TikTok a tón k 10–19letým, retence + živá IP.",
+      "vzniklo": "2026-08-25",
+      "hotovo": "28. 8. 2026"
     },
     {
       "id": "mereni-nohou-v2",

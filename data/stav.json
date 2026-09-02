@@ -1,6 +1,6 @@
 {
   "meta": {
-    "aktualizovano": "28. 8. 2026",
+    "aktualizovano": "2. 9. 2026",
     "pilulky": [
       {
         "label": "Jádro značky",
@@ -65,6 +65,12 @@
     }
   ],
   "timeline": [
+    {
+      "datum": "2. 9. 2026",
+      "nadpis": "🌐 Doména pro svět: eldee.eu padla, jde se na eldeeworld.com",
+      "text": "Plán z 10. 7. (eldee.eu jako hlavní doména) narazil — <strong>eldee.eu i eldee.com drží holandská firma Eldee Expo Experts</strong>, .com nepřetržitě od roku 1998 a zamčenou proti převodu. Není na prodej. Jiný obor (veletržní stánky) značce eldee právně nepřekáží. Nová volba po odmítnutí sportovních variant: <strong>eldeeworld.com</strong> — nezaškatulkovává značku do sportu, nechává prostor streetwearu. Ověřeno volné i jméno <strong>eldeeworld</strong> na Instagramu, TikToku a YouTube, takže značka může mít <strong>jedno jméno napříč webem i všemi sítěmi</strong>. Nákup a přejmenování profilů čeká na příští sezení.",
+      "minor": false
+    },
     {
       "datum": "28. 8. 2026",
       "nadpis": "🏁 FOUL benchmark uzavřen — 3 běhy, 53 stran",
@@ -410,7 +416,7 @@
       "text": "📱 Založit / oživit profily: TikTok + Instagram + Facebook (propojit Meta)",
       "stav": "další",
       "kdo": "Lukáš",
-      "pozn": "Předpoklad pro rytmus. IG + FB propojit přes Meta Business Suite (jeden post do obou). TikTok samostatně. Bio: claim + odkaz. Rozcestník s návody je na HQ v dlaždici Sociální sítě.",
+      "pozn": "Předpoklad pro rytmus. IG + FB propojit přes Meta Business Suite (jeden post do obou). TikTok samostatně. Bio: claim + odkaz. Rozcestník s návody je na HQ v dlaždici Sociální sítě. — Stav k 2. 9.: Instagram i FB stránka už existují (IG zatím pod jménem eldee.cz), TikTok zatím žádný. Před rozjezdem sjednotit jména, viz úkol socky-jmeno-eldeeworld.",
       "vzniklo": "25. 8. 2026",
       "hotovo": null
     },
@@ -815,11 +821,11 @@
       "hotovo": "2026-07-07"
     },
     {
-      "id": "domena-eu-hlavni",
-      "text": "🌐 Koupit eldee.eu (hlavní doména) + pojistky eldee.shop/.store, pak přesměrovat eldee.cz → eldee.eu (301)",
-      "stav": "další",
+      "id": "domena-eldeeworld",
+      "text": "🌐 Koupit eldeeworld.com (hlavní mezinárodní doména) — eldee.eu i eldee.com jsou NEDOSTUPNÉ",
+      "stav": "teď",
       "kdo": "Lukáš",
-      "pozn": "Strategické rozhodnutí 10.7.: eldee.eu = hlavní doména (Google ji čte jako celoevropskou), eldee.cz na ni 301 přesměruje. Wedos ~150–200 Kč/rok, .eu vyžaduje EU adresu (má). Přesměrování nastavit s Jarvisem.",
+      "pozn": "ZMĚNA PLÁNU 2. 9.: rozhodnutí z 10. 7. (eldee.eu = hlavní doména) je neproveditelné. eldee.com i eldee.eu drží holandská firma Eldee Expo Experts (stavitel veletržních stánků, 50 let na trhu), .com od roku 1998, prodlouženo do 3/2027, zamčeno proti převodu. Není to spekulant, je to živý byznys — nekoupitelné. Jiný obor (B2B stánky vs. oděvy) značce eldee právně nepřekáží, jen drží ty adresy. NOVÁ VOLBA: eldeeworld.com — Lukáš odmítl eldeesport.com (eldee míří spíš na streetwear než na sport) i eldee.world (chce jistotu .com). Ověřeno volné 2. 9.: doména + jméno eldeeworld na IG, TikToku i YouTube. Cena u web4u cca 320–390 Kč/rok. POZOR při nákupu: musí to být REGISTRACE, ne převod; nekupovat k tomu hosting; zapnout autoobnovu; zvážit skrytí údajů (WHOIS); registrovat na IČO, ne na fyzickou osobu. Pak nastavit eldee.cz → eldeeworld.com (301), eldee.cz zůstává pro Česko.",
       "vzniklo": "2026-07-10",
       "hotovo": null,
       "priorita": "stredni",
@@ -923,6 +929,17 @@
       "hotovo": "25. 8. 2026",
       "priorita": "vysoka",
       "poradi": 2
+    },
+    {
+      "id": "socky-jmeno-eldeeworld",
+      "text": "📱 Sjednotit jméno na sítích na eldeeworld (IG přejmenovat z eldee.cz, FB stránka, zabrat TikTok)",
+      "stav": "další",
+      "kdo": "Lukáš",
+      "pozn": "AŽ PO nákupu domény (doména je kotva). Postup: (1) Instagram → Upravit profil → Uživatelské jméno na eldeeworld, Jméno na eldee; pozor, IG pustí změnu jen párkrát za 14 dní a staré eldee.cz se uvolní pro kohokoliv. (2) TikTok — založit prázdný účet eldeeworld jen kvůli zabrání jména, TikTok je podle rozhodnutí z 25. 8. hlavní kanál. (3) FB stránka (na počítači) → nastavení → uživatelské jméno eldeeworld + název stránky eldee; změnu názvu může FB poslat na schválení, trvá i pár dní. Odkaz v biu nechat eldee.cz, dokud na eldeeworld.com nestojí web. Značka se jmenuje eldee, world je jen adresa.",
+      "vzniklo": "2026-09-02",
+      "hotovo": null,
+      "priorita": "stredni",
+      "poradi": 9
     }
   ],
   "odkazy": [

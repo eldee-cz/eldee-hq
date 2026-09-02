@@ -128,6 +128,19 @@ Sdileni s Hledikerm: tlacitko Zaloha (JSON soubor) → prenest do eldee-business
 
 ## Aktualni stav / posledni zmeny
 
+### 2026-09-02
+- **Zmena hlavni mezinarodni domeny.** Plan z 10. 7. (eldee.eu) je NEPROVEDITELNY: eldee.eu i eldee.com
+  drzi holandska firma Eldee Expo Experts (stavitel veletrznich stanku, .com registrovana od 1998,
+  prodlouzena do 3/2027, zamcena proti prevodu). Neni na prodej. Jiny obor -> znacce eldee pravne nebrani.
+- **Nova volba: `eldeeworld.com`.** Odmitnuty eldeesport.com (eldee miri spis na streetwear nez na sport)
+  i eldee.world (chce se jistota `.com`). Overeno 2. 9. jako volne: domena + jmeno `eldeeworld`
+  na Instagramu, TikToku i YouTube -> znacka muze mit jedno jmeno napric webem i vsemi sitemi.
+- **Socialni site — zjisteny stav:** Instagram existuje pod `@eldee.cz`, FB **stranka** existuje,
+  TikTok zatim zadny. Po nakupu domeny sjednotit vse na `eldeeworld` (ukol `socky-jmeno-eldeeworld`).
+- Zapsano do `data/stav.json`: ukol `domena-eu-hlavni` prepsan na `domena-eldeeworld` (stav "ted"),
+  novy ukol `socky-jmeno-eldeeworld`, milnik v timeline.
+- **Nic zatim nekoupeno ani neprejmenovano** — ceka na priste.
+
 ### 2026-07-10
 - **Mezinarodni strategie rozhodnuta:** hlavni domena bude **eldee.eu** (eldee.cz na ni pozdeji 301 presmeruje). Rámec: znacku stavet od zacatku globalne, ale prodej a marketing cilit nejdriv doma v CR. Web zustava **jeden vicejazycny** (CZ vychozi + EN/DE/ES/PL podle trakce), ne samostatne weby po zemich. Socialni site: **jeden globalni ucet na kazdou sit** (obsah je vizualne/jazykove neutralni, site si popisky prekladaji samy) — solo ucty pro konkretni zemi az podle realne trakce. Novy ukol v `stav.json`: koupit eldee.eu.
 - **AI videa s maskotem — rozjeto.** Po pruzkumu padlo rozhodnuti jit cestou **AI generovanych videi s maskotem Eldee ve 3D "Pixar" stylu** (jednodussi 2D loutkova animace zamitnuta — byla by plocha a musel by ji Luky delat rucne). Nastroje: Higgsfield — Nano Banana Pro (obrazky) + Kling 3.0 v PRO modu (video, 1080p). Vznikl **prvni test — Eldee zongluje s micem** (`media/eldee-prvni-AI-video-zonglovani-2026-07-10.mp4`). Konzistence maskota pres referencni obrazek funguje, 3D vzhled sedi. Limit: akcni pohyb lehce driftuje, jemnejsi pohyby vychazeji lip. Dalsi krok: z jednoho z 10 hotovych scenaru udelat prvni kompletni video v PRO kvalite.
@@ -160,7 +173,9 @@ Sdileni s Hledikerm: tlacitko Zaloha (JSON soubor) → prenest do eldee-business
 
 ## Rozpracovane veci / co dal
 
-- **Koupit eldee.eu** (hlavni domena) + zvazit pojistkove domeny, pak presmerovat eldee.cz → eldee.eu.
+- **Koupit eldeeworld.com** (hlavni mezinarodni domena; eldee.eu i eldee.com jsou obsazene a nekoupitelne),
+  pak presmerovat eldee.cz → eldeeworld.com (301). eldee.cz zustava pro Cesko.
+- **Sjednotit jmeno na socialnich sitich na `eldeeworld`** (IG prejmenovat z @eldee.cz, FB stranka, zabrat TikTok).
 - **Prvni kompletni AI video maskota v PRO kvalite** — vybrat scenar z pripravene desitky, vygenerovat a vyladit pohyb.
 - **Reklamace V2** — prehled kvality (% uznavanych, nejcastejsi vady). Odlozeno, bude davat smysl az s daty.
 - **Objednavky Faze 3/4** — ve fronte, ceka na realny prodej (nemazat).

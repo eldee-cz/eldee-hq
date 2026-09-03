@@ -113,13 +113,23 @@
   }
 
   /* ---------- links ---------- */
-  .links{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
+  .links-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
   .link-card{background:var(--ink2);border:1px solid var(--line);padding:20px 22px;display:flex;flex-direction:column;gap:8px;transition:border-color .2s,transform .2s}
   a.link-card:hover{border-color:var(--gold);transform:translateY(-2px);color:inherit}
   .link-card .t{font-family:'Big Shoulders Display';font-weight:800;font-size:20px;text-transform:uppercase;color:var(--bone)}
   .link-card p{font-size:13px;color:var(--muted)}
   .link-card .st{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase}
   .st.on{color:#5fbf7a} .st.off{color:var(--muted)} .st.soon{color:var(--gold)}
+  .link-items{display:flex;flex-direction:column;gap:2px;margin-top:8px}
+  .link-item{display:flex;align-items:center;min-height:44px;padding:0 10px;border-top:1px solid var(--line);color:var(--bone);text-decoration:none;font-size:14px;transition:color .2s}
+  .link-item:hover{color:var(--gold)}
+  .grp-nadpis{font-family:'Big Shoulders Display';font-weight:800;font-size:20px;text-transform:uppercase;color:var(--bone);margin:32px 0 14px}
+  .links>.grp-nadpis:first-child{margin-top:0}
+  .grp-fold{margin-top:22px}
+  .grp-toggle{display:inline-flex;align-items:center;gap:6px;min-height:44px;background:none;border:none;color:var(--muted);font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;padding:8px 0}
+  .grp-toggle:hover{color:var(--bone)}
+  .grp-fold .grp-body{display:none;margin-top:14px}
+  .grp-fold.open .grp-body{display:block}
 
   /* ---------- team ---------- */
   .team{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}
@@ -579,12 +589,38 @@ function tmExport(){
   document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(a.href);
   const b=document.getElementById('tm-save'); if(b){b.classList.remove('dirty');b.textContent='✅ Staženo — nahraj na GitHub';setTimeout(()=>{b.textContent='💾 Uložit změny';},4000);}
 }
+const SKUPINA_NADPIS = { nastroj:'Nástroje', brand:'Brand', vyzkum:'Výzkum',
+                         spici:'Až bude e-shop', archiv:'Archiv' };
+const SKUPINA_SBALENA = ['spici','archiv'];
+
+function odkazKarta(o){
+  const hlava = `<span class="t">${esc(o.nadpis)}</span><p>${o.text||''}</p>`
+    + `<span class="st ${esc(o.stav)}">● ${esc(o.stavText)}</span>`;
+  if(Array.isArray(o.polozky)){
+    const radky = o.polozky.map(p =>
+      `<a class="link-item" href="${esc(p.href)}"${p.extern?' target="_blank" rel="noopener"':''}>${esc(p.nadpis)}</a>`
+    ).join('');
+    return `<div class="link-card">${hlava}<div class="link-items">${radky}</div></div>`;
+  }
+  return `<a class="link-card" href="${esc(o.href)}"${o.extern?' target="_blank" rel="noopener"':''}>${hlava}</a>`;
+}
+
 function renderOdkazy(arr){
   const el=document.querySelector('#data .links'); if(!el) return;
-  el.innerHTML=(arr||[]).map(o=>{
-    const inner=`<span class="t">${esc(o.nadpis)}</span><p>${o.text||''}</p><span class="st ${esc(o.stav)}">● ${esc(o.stavText)}</span>`;
-    return o.href?`<a class="link-card" href="${esc(o.href)}"${o.extern?' target="_blank" rel="noopener"':''}>${inner}</a>`:`<div class="link-card">${inner}</div>`;
+  const G=HqCore.seskupOdkazy(arr);
+  el.innerHTML=HqCore.SKUPINY.map(s=>{
+    const karty=G[s]; if(!karty.length) return '';
+    const sbalena=SKUPINA_SBALENA.indexOf(s)>=0;
+    const telo=`<div class="links-grid">${karty.map(odkazKarta).join('')}</div>`;
+    return sbalena
+      ? `<div class="grp-fold" data-grp="${s}"><button class="grp-toggle" type="button">▸ ${esc(SKUPINA_NADPIS[s])} (${karty.length})</button><div class="grp-body">${telo}</div></div>`
+      : `<h3 class="grp-nadpis">${esc(SKUPINA_NADPIS[s])}</h3>${telo}`;
   }).join('');
+  el.querySelectorAll('.grp-toggle').forEach(b=>b.addEventListener('click',()=>{
+    const box=b.closest('.grp-fold');
+    box.classList.toggle('open');
+    b.textContent=(box.classList.contains('open')?'▾ ':'▸ ')+b.textContent.slice(2);
+  }));
 }
 function renderTym(arr){
   const el=document.querySelector('#tym .team'); if(!el) return;

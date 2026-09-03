@@ -18,42 +18,51 @@ t('id úkolů jsou unikátní', ()=>{
 });
 
 t('každý úkol má povolený stav', ()=>{
-  STAV.ukoly.forEach(u => assert.ok(C.STAVY.indexOf(u.stav) >= 0,
-    `úkol ${u.id} má stav "${u.stav}"`));
+  const spatne = STAV.ukoly.filter(u => C.STAVY.indexOf(u.stav) < 0)
+    .map(u => `${u.id} (stav: "${u.stav}")`);
+  assert.strictEqual(spatne.length, 0, spatne.length + ' úkolů: ' + spatne.join(', '));
 });
 
 t('data vzniklo/hotovo jsou ISO', ()=>{
   const iso = /^\d{4}-\d{2}-\d{2}$/;
+  const spatne = [];
   STAV.ukoly.forEach(u => {
-    if(u.vzniklo) assert.ok(iso.test(u.vzniklo), `úkol ${u.id}: vzniklo "${u.vzniklo}"`);
-    if(u.hotovo)  assert.ok(iso.test(u.hotovo),  `úkol ${u.id}: hotovo "${u.hotovo}"`);
+    if(u.vzniklo && !iso.test(u.vzniklo)) spatne.push(`${u.id} (vzniklo: "${u.vzniklo}")`);
+    if(u.hotovo && !iso.test(u.hotovo)) spatne.push(`${u.id} (hotovo: "${u.hotovo}")`);
   });
+  assert.strictEqual(spatne.length, 0, spatne.length + ' problémů: ' + spatne.join(', '));
 });
 
 t('neaktuální úkoly mají důvod', ()=>{
-  STAV.ukoly.filter(u => u.stav === 'neaktuální').forEach(u =>
-    assert.ok(u.duvod && u.duvod.length > 10, `úkol ${u.id} nemá duvod`));
+  const spatne = STAV.ukoly.filter(u => u.stav === 'neaktuální' && (!u.duvod || u.duvod.length < 10))
+    .map(u => u.id);
+  assert.strictEqual(spatne.length, 0, spatne.length + ' neaktuálních bez důvodu: ' + spatne.join(', '));
 });
 
 t('každá dlaždice má známou skupinu', ()=>{
-  STAV.odkazy.forEach(o => assert.ok(C.SKUPINY.indexOf(o.skupina) >= 0,
-    `dlaždice "${o.nadpis}" má skupinu "${o.skupina}"`));
+  const spatne = STAV.odkazy.filter(o => C.SKUPINY.indexOf(o.skupina) < 0)
+    .map(o => `"${o.nadpis}" (skupina: ${o.skupina === undefined ? 'chybí' : o.skupina})`);
+  assert.strictEqual(spatne.length, 0, spatne.length + ' dlaždic: ' + spatne.join(', '));
 });
 
 t('dlaždice má buď href, nebo polozky — ne obojí a ne nic', ()=>{
+  const spatne = [];
   STAV.odkazy.forEach(o => {
     const maHref = typeof o.href === 'string' && o.href.length > 0;
     const maPolozky = Array.isArray(o.polozky) && o.polozky.length > 0;
-    assert.ok(maHref !== maPolozky, `dlaždice "${o.nadpis}": href=${maHref} polozky=${maPolozky}`);
+    if(maHref === maPolozky) spatne.push(`"${o.nadpis}" (href=${maHref} polozky=${maPolozky})`);
   });
+  assert.strictEqual(spatne.length, 0, spatne.length + ' dlaždic: ' + spatne.join(', '));
 });
 
 t('položky ve sloučených dlaždicích mají nadpis i href', ()=>{
+  const spatne = [];
   STAV.odkazy.filter(o => Array.isArray(o.polozky)).forEach(o =>
     o.polozky.forEach(p => {
-      assert.ok(p.nadpis, `dlaždice "${o.nadpis}": položka bez nadpisu`);
-      assert.ok(p.href, `dlaždice "${o.nadpis}": položka "${p.nadpis}" bez href`);
+      if(!p.nadpis) spatne.push(`dlaždice "${o.nadpis}": položka bez nadpisu`);
+      if(!p.href) spatne.push(`dlaždice "${o.nadpis}": položka "${p.nadpis}" bez href`);
     }));
+  assert.strictEqual(spatne.length, 0, spatne.length + ' problémů: ' + spatne.join('; '));
 });
 
 t('vitrina má všechny čtyři texty', ()=>{
@@ -63,7 +72,8 @@ t('vitrina má všechny čtyři texty', ()=>{
 });
 
 t('tým nemá prázdné sloty', ()=>{
-  STAV.tym.forEach(m => assert.ok(m.jmeno !== 'Doplnit', 'tým obsahuje prázdný slot'));
+  const prazdne = STAV.tym.filter(m => m.jmeno === 'Doplnit').length;
+  assert.strictEqual(prazdne, 0, prazdne + ' prázdných slotů v týmu');
 });
 
 console.log(pass + ' OK, ' + fail + ' chyb');

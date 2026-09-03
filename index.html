@@ -221,7 +221,8 @@
   .tm-done-list{display:none;margin-top:8px;border-top:1px solid var(--line)}
   .tm-done.open .tm-done-list{display:block}
   .tm-done-row{display:flex;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid var(--line)}
-  .tm-done-row .d-text{flex:1;color:var(--muted);text-decoration:line-through;text-decoration-color:#3a382f;font-size:14px}
+  .tm-done-row .d-text{flex:1;color:var(--muted);font-size:14px}
+  #tm-done .tm-done-row .d-text{text-decoration:line-through;text-decoration-color:#3a382f}
   .tm-done-row .d-date{font-family:'Space Mono',monospace;font-size:10px;color:var(--muted);white-space:nowrap}
   table.tm td{vertical-align:middle}
   .tm-handle{cursor:grab;color:var(--muted);font-size:18px;user-select:none;text-align:center;width:26px}
@@ -351,6 +352,8 @@
     </table>
   </div>
   <button class="tm-more" id="tm-more" type="button" hidden></button>
+  <div class="tm-done" id="tm-fronta"></div>
+  <div class="tm-done" id="tm-spi"></div>
   <div class="tm-done" id="tm-done"></div>
 </div></section>
 
@@ -390,6 +393,7 @@
   <span>HQ přehled · aktualizace <b id="foot-date">2026-06-25</b> · interní</span>
 </div></footer>
 
+<script src="hq-core.js"></script>
 <script>
 let STAV=null;
 const BADGE = {'běží':'b-run','teď':'b-run','další':'b-wait','fronta':'b-wait','blokováno':'b-wait','hotovo':'b-done','živě':'b-done','8 / 8':'b-done'};
@@ -434,7 +438,7 @@ function czDate(iso){ if(!iso) return '—'; const d=new Date(iso+'T00:00:00'); 
 function dayTxt(n){ if(n===null) return ''; if(n===0) return 'dnes'; if(n===1) return '1 den'; if(n<=4) return n+' dny'; return n+' dní'; }
 function tmMarkDirty(){ const b=document.getElementById('tm-save'); if(b){b.classList.add('dirty');b.textContent='💾 Uložit změny •';} }
 function tmRenumber(){ TM.forEach((u,i)=>{u.poradi=i+1;}); }
-const TM_STAVY=['teď','další','fronta','blokováno'];
+const TM_STAVY=['teď','další','fronta','spí','blokováno'];
 let tmEditingId=null;
 function todayISO(){ return new Date().toISOString().slice(0,10); }
 function daysUntil(iso){ if(!iso) return null; const d=new Date(iso+'T00:00:00'); if(isNaN(d)) return null; const n=new Date(); n.setHours(0,0,0,0); return Math.round((d-n)/864e5); }
@@ -447,7 +451,8 @@ function terminCell(u){
 function renderUkoly(arr){
   const el=document.querySelector('#ukoly tbody'); if(!el) return;
   const all=arr||[];
-  TM=all.filter(u=>u.stav!=='hotovo').sort((a,b)=>(a.poradi||999)-(b.poradi||999));
+  const R=HqCore.rozdelUkoly(all);
+  TM=R.ted.concat(R.dalsi,R.blokovano).sort((a,b)=>(a.poradi||999)-(b.poradi||999));
   el.innerHTML=TM.map((u,i)=>{
     const prio=u.priorita||'stredni';
     const note=u.pozn?`<span class="tm-note">${esc(u.pozn)}</span>`:'';
@@ -467,9 +472,20 @@ function renderUkoly(arr){
       <td class="tm-delcell"><button class="tm-del" type="button" data-id="${esc(u.id)}" title="Smazat úkol" aria-label="smazat">🗑</button></td>
     </tr>`;
   }).join('');
-  renderDone(all.filter(u=>u.stav==='hotovo').sort((a,b)=>String(b.hotovo||'').localeCompare(String(a.hotovo||''))));
+  renderCollapsed('tm-fronta',R.fronta,'Fronta');
+  renderCollapsed('tm-spi',R.spi,'Spící');
+  renderDone(R.hotovo.slice().sort((a,b)=>String(b.hotovo||'').localeCompare(String(a.hotovo||''))));
   tmWire();
   updateTmMore();
+}
+function renderCollapsed(elId,list,label){
+  const el=document.getElementById(elId); if(!el) return;
+  if(!list.length){ el.innerHTML=''; return; }
+  const open=el.classList.contains('open');
+  el.innerHTML=`<button class="tm-done-toggle" type="button">${open?'▾':'▸'} ${esc(label)} (${list.length})</button>`
+    +`<div class="tm-done-list">${list.map(u=>`<div class="tm-done-row"><span class="d-text">${esc(u.text)}</span><span class="d-date">${czDate(u.vzniklo)}</span></div>`).join('')}</div>`;
+  const tg=el.querySelector('.tm-done-toggle');
+  if(tg) tg.addEventListener('click',()=>{ el.classList.toggle('open'); renderUkoly(STAV.ukoly); });
 }
 function updateTmMore(){
   const more=document.getElementById('tm-more'), sec=document.getElementById('ukoly');

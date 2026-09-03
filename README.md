@@ -6,6 +6,11 @@ Interní přehled projektu eldee (Holy Socks) — jednostránkový statický web
 - `data/stav.json` — **zdroj pravdy nástěnky**. Obsah měň TADY, ne v `index.html`.
 - `favicon.svg` — LD monogram v2.0
 
+**index.html** je pracovní kokpit pro tým (Hledík + Doležal) — vidí úkoly, termíny i interní poznámky.
+**eldee.html** je veřejná výkladní skříň pro lidi zvenčí (výrobce, testery, kluby) — zobrazuje jen
+položky z `data/stav.json` označené `verejne: true`; chybějící pole = neveřejné. Pojistku proti
+úniku dat hlídá `tests/vitrina-unik.test.js`.
+
 **Aktualizace:** úkoly/milníky/stav udržuje Jarvis (Claude Code) v `data/stav.json`;
 příběh a kontext zůstává v deníku `07-eldee-business/aktualni-stav.md`.
 Závazný postup: `07-eldee-business/CLAUDE.md` → „POVINNÝ WORKFLOW" + `CLAUDE.md` v tomto repu.

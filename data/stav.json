@@ -1,6 +1,6 @@
 {
   "meta": {
-    "aktualizovano": "2. 9. 2026",
+    "aktualizovano": "3. 9. 2026",
     "pilulky": [
       {
         "label": "Jádro značky",
@@ -65,6 +65,12 @@
     }
   ],
   "timeline": [
+    {
+      "datum": "3. 9. 2026",
+      "nadpis": "📏 Velikostní studie: 54 měření a nová velikost XS",
+      "text": "Přibylo <strong>25 nových měření</strong> (kluci 8–10 let). Ukázalo se, že 17 z nich padalo pod dosavadní škálu — boty 31–34 dlaždice hlásila jako „mimo rozsah“ a nepočítala je nikam. Vznikla proto <strong>nová velikost XS (31–34)</strong> v jádru, v semaforu pokrytí i v zadání pro výrobu. Stav vzorku: <strong>XS 18 · S 8 · M 8 · L 20 · XL 0</strong> — čtyři velikosti z pěti jsou nad cílem 5 dětí, takže zadání výroby jde vytisknout pro XS, S, M i L. Chybí jediná velikost: <strong>XL</strong>. Zároveň opraven jeden překlep v datech (číslo boty 42 u desetiletého → 34).",
+      "minor": false
+    },
     {
       "datum": "2. 9. 2026",
       "nadpis": "🌐 Doména pro svět: eldee.eu padla, jde se na eldeeworld.com",
@@ -359,10 +365,10 @@
     },
     {
       "id": "mereni-s-xl",
-      "text": "📏 Doměřit velikosti S a XL — jediná produktová práce nezávislá na výrobci",
+      "text": "📏 Doměřit velikost XL — jediná chybějící (S dosbírána 3. 9.)",
       "stav": "další",
       "kdo": "Hledík",
-      "pozn": "Bílé místo z FOUL benchmarku: FOUL nemá nic pod velikost 31, cílovka eldee (10–19 let) je přesně tam. M a L už změřené (29 záznamů).",
+      "pozn": "Bílé místo z FOUL benchmarku (FOUL nemá nic pod velikost 31) eldee teď pokrývá novou velikostí XS 31–34 (18 měření). Zbývá horní konec škály: XL = boty 47–50, zatím 0 měření.",
       "vzniklo": "2026-08-28",
       "hotovo": null
     },
@@ -888,10 +894,10 @@
     },
     {
       "id": "mereni-dosbirat-velikosti",
-      "text": "📏 Dosbírat měření pro velikosti S a XL — M a L už máme",
+      "text": "📏 Dosbírat měření pro velikost XL — XS, S, M i L už máme",
       "stav": "další",
       "kdo": "Lukáš",
-      "pozn": "Stav k 26. 8.: 29 měření celkem. M ✅ 8 měření (cíl 5 splněn, přibylo dnes od žáků), L ✅ 20 měření. Chybí S (1 měření) a XL (0). Technický list jde teď udělat pro M i L, pro S/XL zatím ne. Data archivovaná v business repu (vyroba/mereni-export-2026-08-26.json), čísla zůstávají jen v prohlížeči.",
+      "pozn": "Stav k 3. 9.: 54 měření. XS ✅ 18 · S ✅ 8 · M ✅ 8 · L ✅ 20 — všechny nad cílem 5. Chybí jen XL (boty 47–50, zatím 0 měření). Zadání výroby jde vytisknout pro XS, S, M i L. Data archivovaná v business repu (vyroba/mereni-export-2026-09-03.json), čísla zůstávají jen v prohlížeči.",
       "vzniklo": "2026-07-31",
       "hotovo": null,
       "priorita": "vysoka",
@@ -940,6 +946,15 @@
       "hotovo": null,
       "priorita": "stredni",
       "poradi": 9
+    },
+    {
+      "id": "mereni-velikost-xs",
+      "text": "📏 Nová velikost XS (boty 31–34) — dlaždice ji počítá a dělá pro ni zadání výroby",
+      "stav": "hotovo",
+      "kdo": "Hledík",
+      "pozn": "Měření z 3. 9. (18 kluků, 8–10 let) padalo pod dosavadní škálu S–XL: dlaždice je hlásila jako „mimo rozsah“ a nepočítala je do ničeho. Přidáno pásmo XS 31–34 do jádra, semaforu pokrytí i technického listu (nově 5 velikostí, 5 stran). Opraven jeden překlep v datech (bota 42 → 34). Testy jádra 40/40.",
+      "vzniklo": "2026-09-03",
+      "hotovo": "2026-09-03"
     }
   ],
   "odkazy": [

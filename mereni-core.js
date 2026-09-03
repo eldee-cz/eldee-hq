@@ -4,10 +4,11 @@
 (function(root){
 
   // ── Mapování čísla boty na velikost ─────────────────────────────
-  // S 35–38, M 39–42, L 43–46, XL 47–50. Pásma bez mezer (půlky spadnou dovnitř).
+  // XS 31–34, S 35–38, M 39–42, L 43–46, XL 47–50. Pásma bez mezer (půlky spadnou dovnitř).
   function sizeFromShoe(cislo){
     const n = Number(cislo);
     if(!Number.isFinite(n) || n <= 0) return '';
+    if(n >= 31 && n < 35) return 'XS';
     if(n >= 35 && n < 39) return 'S';
     if(n >= 39 && n < 43) return 'M';
     if(n >= 43 && n < 47) return 'L';
@@ -38,9 +39,9 @@
   }
 
   // ── Seskupení podle velikosti ───────────────────────────────────
-  const SIZE_ORDER = ['S','M','L','XL','mimo','bez'];
+  const SIZE_ORDER = ['XS','S','M','L','XL','mimo','bez'];
   function groupBySize(zaznamy){
-    const g = { S:[], M:[], L:[], XL:[], mimo:[], bez:[] };
+    const g = { XS:[], S:[], M:[], L:[], XL:[], mimo:[], bez:[] };
     (zaznamy||[]).forEach(z => {
       const s = sizeFromShoe(z.cisloBoty);
       g[s === '' ? 'bez' : s].push(z);
@@ -97,7 +98,7 @@
     const g = groupBySize(zaznamy);
     const stav = n => n < low ? 'malo' : (n < p ? 'stredni' : 'dost');
     const out = {};
-    ['S','M','L','XL'].forEach(s => { const n = g[s].length; out[s] = { n, stav: stav(n) }; });
+    ['XS','S','M','L','XL'].forEach(s => { const n = g[s].length; out[s] = { n, stav: stav(n) }; });
     return out;
   }
 

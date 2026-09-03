@@ -7,6 +7,7 @@ function t(name, fn){ try{ fn(); pass++; } catch(e){ fail++; console.error('✗ 
 function near(a, b){ assert.ok(Math.abs(a-b) < 1e-9, `${a} ≈ ${b}`); }
 
 // ── Task 1: velikosti + statistika ──────────────────────────────
+t('sizeFromShoe hranice XS', ()=>{ assert.strictEqual(C.sizeFromShoe(31),'XS'); assert.strictEqual(C.sizeFromShoe(34),'XS'); assert.strictEqual(C.sizeFromShoe(34.5),'XS'); });
 t('sizeFromShoe hranice S', ()=>{ assert.strictEqual(C.sizeFromShoe(35),'S'); assert.strictEqual(C.sizeFromShoe(38),'S'); });
 t('sizeFromShoe M/L/XL', ()=>{
   assert.strictEqual(C.sizeFromShoe(39),'M'); assert.strictEqual(C.sizeFromShoe(42),'M');
@@ -14,7 +15,7 @@ t('sizeFromShoe M/L/XL', ()=>{
   assert.strictEqual(C.sizeFromShoe(47),'XL'); assert.strictEqual(C.sizeFromShoe(50),'XL');
 });
 t('sizeFromShoe půlka spadne do pásma', ()=>{ assert.strictEqual(C.sizeFromShoe(37.5),'S'); assert.strictEqual(C.sizeFromShoe(38.5),'S'); });
-t('sizeFromShoe mimo rozsah', ()=>{ assert.strictEqual(C.sizeFromShoe(34),'mimo'); assert.strictEqual(C.sizeFromShoe(51),'mimo'); });
+t('sizeFromShoe mimo rozsah', ()=>{ assert.strictEqual(C.sizeFromShoe(30),'mimo'); assert.strictEqual(C.sizeFromShoe(30.5),'mimo'); assert.strictEqual(C.sizeFromShoe(51),'mimo'); });
 t('sizeFromShoe prázdné', ()=>{ assert.strictEqual(C.sizeFromShoe(null),''); assert.strictEqual(C.sizeFromShoe(''),''); assert.strictEqual(C.sizeFromShoe('abc'),''); });
 
 t('mean základ', ()=>{ near(C.mean([2,4,6]), 4); });
@@ -34,8 +35,9 @@ t('orderOk špatné pořadí', ()=>{ assert.strictEqual(C.orderOk({lytkoSpodni:3
 t('orderOk nekompletní → nehlídá', ()=>{ assert.strictEqual(C.orderOk({lytkoSpodni:30,lytkoHorni:null,stehno:45}), true); });
 
 t('groupBySize roztřídí', ()=>{
-  const z = [{cisloBoty:36},{cisloBoty:40},{cisloBoty:44},{cisloBoty:48},{cisloBoty:60},{cisloBoty:null}];
+  const z = [{cisloBoty:32},{cisloBoty:36},{cisloBoty:40},{cisloBoty:44},{cisloBoty:48},{cisloBoty:60},{cisloBoty:null}];
   const g = C.groupBySize(z);
+  assert.strictEqual(g.XS.length,1);
   assert.strictEqual(g.S.length,1); assert.strictEqual(g.M.length,1);
   assert.strictEqual(g.L.length,1); assert.strictEqual(g.XL.length,1);
   assert.strictEqual(g.mimo.length,1); assert.strictEqual(g.bez.length,1);
@@ -68,6 +70,7 @@ t('computeResults má celkem + skupiny', ()=>{
   const r = C.computeResults([{cisloBoty:36, stehno:44, lytkoHorni:38, lytkoSpodni:30}]);
   assert.strictEqual(r.celkem.n, 1);
   assert.strictEqual(r.skupiny.S.n, 1);
+  assert.strictEqual(r.skupiny.XS.n, 0);
   assert.strictEqual(r.skupiny.M.n, 0);
   assert.deepStrictEqual(Object.keys(r.skupiny), C.SIZE_ORDER);
 });
@@ -105,8 +108,9 @@ t('pluck vytáhne čísla, ignoruje prázdné', ()=>{
 });
 t('coverage — málo/střední/dost (default práh 5)', ()=>{
   const mk=(bota,n)=>Array.from({length:n},()=>({cisloBoty:bota}));
-  const z=[...mk(36,2),...mk(40,3),...mk(44,5)];
+  const z=[...mk(32,1),...mk(36,2),...mk(40,3),...mk(44,5)];
   const c=C.coverage(z);
+  assert.deepStrictEqual(c.XS, {n:1, stav:'malo'});
   assert.deepStrictEqual(c.S, {n:2, stav:'malo'});
   assert.deepStrictEqual(c.M, {n:3, stav:'stredni'});
   assert.deepStrictEqual(c.L, {n:5, stav:'dost'});

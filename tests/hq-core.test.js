@@ -73,5 +73,52 @@ t('verejne nemodifikuje vstup', ()=>{
   assert.strictEqual(p.length, 2);
 });
 
+// ── vytvoreni dat pro vykladni skrin ─────────────────────────────
+// Skrin nesmi dostat cely stav.json. vytvorVitrinu vrati jen to, co se
+// realne vykresluje — whitelist poli, aby nove interni pole neuniklo samo od sebe.
+t('vytvorVitrinu nepustí úkoly', ()=>{
+  const v = C.vytvorVitrinu({ ukoly:[{id:'x', text:'tajný úkol', stav:'teď'}], timeline:[], stavKarty:[] });
+  assert.strictEqual(v.ukoly, undefined);
+  assert.ok(JSON.stringify(v).indexOf('tajný úkol') < 0);
+});
+t('vytvorVitrinu pustí jen veřejné milníky a jen datum+nadpis', ()=>{
+  const v = C.vytvorVitrinu({ timeline:[
+    { datum:'1. 1. 2026', nadpis:'Veřejný', text:'interní detail', minor:false, verejne:true },
+    { datum:'2. 1. 2026', nadpis:'Neveřejný', text:'nic' }
+  ]});
+  assert.strictEqual(v.timeline.length, 1);
+  assert.strictEqual(v.timeline[0].nadpis, 'Veřejný');
+  assert.deepStrictEqual(Object.keys(v.timeline[0]).sort(), ['datum','nadpis']);
+  assert.ok(JSON.stringify(v).indexOf('interní detail') < 0);
+});
+t('vytvorVitrinu pustí u karet jen tag, nadpis, text', ()=>{
+  const v = C.vytvorVitrinu({ stavKarty:[
+    { tag:'T', nadpis:'N', text:'X', badge:'běží', poznamka:'interní', verejne:true },
+    { tag:'T2', nadpis:'N2', text:'Y' }
+  ]});
+  assert.strictEqual(v.stavKarty.length, 1);
+  assert.deepStrictEqual(Object.keys(v.stavKarty[0]).sort(), ['nadpis','tag','text']);
+  assert.ok(JSON.stringify(v).indexOf('interní') < 0);
+});
+t('vytvorVitrinu vezme texty vitríny a tým', ()=>{
+  const v = C.vytvorVitrinu({
+    vitrina:{ coJsme:'A', produkt:'B', duvod:'C', mereni:'D' },
+    tym:[{ iniciuly:'LH', jmeno:'Lukáš', role:'CEO', telefon:'123' }]
+  });
+  assert.strictEqual(v.vitrina.coJsme, 'A');
+  assert.strictEqual(v.tym[0].jmeno, 'Lukáš');
+  assert.deepStrictEqual(Object.keys(v.tym[0]).sort(), ['iniciuly','jmeno','role']);
+  assert.ok(JSON.stringify(v).indexOf('123') < 0, 'telefon nesmí ven');
+});
+t('vytvorVitrinu vezme z meta jen datum aktualizace', ()=>{
+  const v = C.vytvorVitrinu({ meta:{ aktualizovano:'4. 9. 2026', pilulky:[{label:'X',hodnota:'Y'}] } });
+  assert.strictEqual(v.meta.aktualizovano, '4. 9. 2026');
+  assert.strictEqual(v.meta.pilulky, undefined);
+});
+t('vytvorVitrinu snese prázdný i null vstup', ()=>{
+  assert.deepStrictEqual(C.vytvorVitrinu({}).timeline, []);
+  assert.deepStrictEqual(C.vytvorVitrinu(null).stavKarty, []);
+});
+
 console.log(pass + ' OK, ' + fail + ' chyb');
 process.exit(fail ? 1 : 0);

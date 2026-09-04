@@ -38,7 +38,30 @@
     return (pole||[]).filter(x => x && x.verejne === true);
   }
 
-  const API = { rozdelUkoly, seskupOdkazy, verejne, STAVY, SKUPINY };
+  // ── Data pro výkladní skříň ─────────────────────────────────────
+  // Skříň nesmí dostat celý stav.json — stáhla by ho i s úkoly a interními
+  // poznámkami, i kdyby je nevykreslila. Proto se vyrábí zvlášť soubor, do
+  // kterého se přenášejí JEN pole, která se na skříni skutečně zobrazují
+  // (whitelist). Nové interní pole tak neunikne samo od sebe.
+  // Generuje: scripts/build-vitrina.js → data/vitrina.json
+  function _jenPole(obj, klice){
+    const out = {};
+    klice.forEach(k => { if (obj && obj[k] !== undefined) out[k] = obj[k]; });
+    return out;
+  }
+
+  function vytvorVitrinu(stav){
+    const s = stav || {};
+    return {
+      meta:       _jenPole(s.meta || {}, ['aktualizovano']),
+      vitrina:    _jenPole(s.vitrina || {}, ['coJsme','produkt','duvod','mereni']),
+      timeline:   verejne(s.timeline).map(t => _jenPole(t, ['datum','nadpis'])),
+      stavKarty:  verejne(s.stavKarty).map(k => _jenPole(k, ['tag','nadpis','text'])),
+      tym:        (s.tym || []).map(m => _jenPole(m, ['iniciuly','jmeno','role']))
+    };
+  }
+
+  const API = { rozdelUkoly, seskupOdkazy, verejne, vytvorVitrinu, STAVY, SKUPINY };
   root.HqCore = API;
   if (typeof module !== 'undefined' && module.exports) module.exports = API;
 })(typeof self !== 'undefined' ? self : this);

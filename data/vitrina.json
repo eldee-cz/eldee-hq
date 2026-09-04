@@ -1,0 +1,57 @@
+{
+  "meta": {
+    "aktualizovano": "4. 9. 2026"
+  },
+  "vitrina": {
+    "coJsme": "eldee je česká fotbalová značka se sloganem „One of Us.“ — jeden z nás. Vyrábíme fotbalové štulpny s prostřižením na lýtku a vnitřní kapsou na chránič, aby chránič držel na místě a nesjížděl. Obě řešení — díry i kapsa — máme chráněná dvěma průmyslovými vzory platnými v celé Evropské unii.",
+    "produkt": "Portfolio eldee má čtyři produkty: návlek (tube), tréninkovou ponožku, nízkou štulpnu a vysokou štulpnu — každý staví na stejném prostřižení a kapse na chránič. Aktuálně jsme ve fázi vzorkování: testujeme provedení a padnutí, než jde produkt do sériové výroby. Cílem je, aby si každý hráč našel svůj střih, ne aby si zvykal na jediný.",
+    "duvod": "Než jsme začali šít, zeptali jsme se 27 hráčů z cílové skupiny, co jim na současných štulpnách chybí. 93 % z nich už dnes nosí návlek pod štulpnu — pro nás jasný signál, že vnitřní ochrana chrániče je potřeba, ne rozmar. Kapsa na chránič vyšla jako nejžádanější vlastnost — chtělo ji 63 % hráčů. Stavíme produkt na datech, ne na dohadech.",
+    "mereni": "Výšku štulpny a umístění otvorů neurčujeme od stolu — změřili jsme 54 nohou ve čtyřech velikostech. Z těchto dat vzniká zadání pro výrobu: přesně tam, kde nohy skutečně jsou širší nebo užší, ne kde by podle tabulky měly být. Je to pomalejší cesta než převzít cizí velikostní tabulku, ale výsledkem je štulpna, která sedí. Měření průběžně pokračuje, jak přibývají další velikosti."
+  },
+  "timeline": [
+    {
+      "datum": "3. 9. 2026",
+      "nadpis": "📏 Velikostní studie: 54 měření a nová velikost XS"
+    },
+    {
+      "datum": "25. 8. 2026",
+      "nadpis": "🦥 Pixar kit maskota dokončen — identita zamčená znovu"
+    },
+    {
+      "datum": "6. 6. 2026",
+      "nadpis": "Jedno logo pro všechno + wordmark v2"
+    },
+    {
+      "datum": "22.–24. 5. 2026",
+      "nadpis": "Brand book v1.0 — web"
+    },
+    {
+      "datum": "15.–19. 5. 2026",
+      "nadpis": "Business kniha — 7 kapitol"
+    }
+  ],
+  "stavKarty": [
+    {
+      "tag": "Produkt",
+      "nadpis": "Vzorkování — 4 produkty",
+      "text": "Portfolio: návlek/tube · tréninková ponožka · nízká a vysoká štulpna. Balíček s logem odeslán výrobci (5. 6.), vyrábí se 3. sada vzorků — dlouhá štulpna v2 s logem. Čeká se na dodání, pak jde do testování u 5 lidí. MOQ/mix se řeší až po finálech všech produktů."
+    },
+    {
+      "tag": "Data",
+      "nadpis": "Průzkum cílovky",
+      "text": "27 hráčů (žáci–dorost, soutěžně): 93 % nosí tube návlek · kapsa na chránič = nejžádanější featura (63 %) · preferují nízký střih. Hotový testovací dotazník (core + moduly per produkt) pro vzorky."
+    }
+  ],
+  "tym": [
+    {
+      "iniciuly": "LD",
+      "jmeno": "Lukáš Doležal",
+      "role": "Founder · vize, produkt, obchod"
+    },
+    {
+      "iniciuly": "LH",
+      "jmeno": "Lukáš Hledík",
+      "role": "CEO · strategie, data, web & AI"
+    }
+  ]
+}

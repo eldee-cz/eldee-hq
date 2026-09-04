@@ -81,22 +81,9 @@
   .tl-item h3{font-family:'Big Shoulders Display';font-weight:800;font-size:21px;text-transform:uppercase;margin:2px 0 4px}
   .tl-item p{font-size:14px;color:var(--dim);max-width:64ch}
 
-  /* historie milníků: scroll box (~6 vidět) na PC, rozbalovací tlačítko na mobilu */
-  .tl-track{position:relative}
-  .tl-more{display:none;margin-top:18px;padding:0 20px;min-height:44px;align-items:center;gap:8px;background:var(--ink2);border:1px solid var(--line);color:var(--gold);font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;border-radius:999px;cursor:pointer;transition:border-color .2s}
-  .tl-more:hover{border-color:var(--gold)}
-  @media(min-width:721px){
-    .tl-track{max-height:900px;overflow-y:auto;padding-right:16px;scrollbar-width:auto;scrollbar-color:var(--gold) var(--ink2)}
-    .tl-track::-webkit-scrollbar{width:12px}
-    .tl-track::-webkit-scrollbar-track{background:var(--ink2);border-radius:999px}
-    .tl-track::-webkit-scrollbar-thumb{background:var(--gold);border-radius:999px;border:3px solid var(--ink2)}
-    .tl-track::-webkit-scrollbar-thumb:hover{background:var(--blood-l)}
-  }
-  @media(max-width:720px){
-    .tl-more{display:inline-flex}
-    .tl-rest-inner .tl-item:nth-child(n+7){display:none}
-    .tl.rest-open .tl-rest-inner .tl-item:nth-child(n+7){display:block}
-  }
+  /* historie milníků: prvních 8 vidět, zbytek sbalený (stejný vzor jako Hotové/Fronta/Spící) */
+  .tl-rest-inner .tl-item:nth-child(n+9){display:none}
+  .tl.open .tl-rest-inner .tl-item:nth-child(n+9){display:block}
 
   /* ---------- tasks ---------- */
   table{width:100%;border-collapse:collapse;font-size:14px}
@@ -113,13 +100,23 @@
   }
 
   /* ---------- links ---------- */
-  .links{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
+  .links-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px}
   .link-card{background:var(--ink2);border:1px solid var(--line);padding:20px 22px;display:flex;flex-direction:column;gap:8px;transition:border-color .2s,transform .2s}
   a.link-card:hover{border-color:var(--gold);transform:translateY(-2px);color:inherit}
   .link-card .t{font-family:'Big Shoulders Display';font-weight:800;font-size:20px;text-transform:uppercase;color:var(--bone)}
   .link-card p{font-size:13px;color:var(--muted)}
   .link-card .st{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase}
   .st.on{color:#5fbf7a} .st.off{color:var(--muted)} .st.soon{color:var(--gold)}
+  .link-items{display:flex;flex-direction:column;gap:2px;margin-top:8px}
+  .link-item{display:flex;align-items:center;min-height:44px;padding:0 10px;border-top:1px solid var(--line);color:var(--bone);text-decoration:none;font-size:14px;transition:color .2s}
+  .link-item:hover{color:var(--gold)}
+  .grp-nadpis{font-family:'Big Shoulders Display';font-weight:800;font-size:20px;text-transform:uppercase;color:var(--bone);margin:32px 0 14px}
+  .links>.grp-nadpis:first-child{margin-top:0}
+  .grp-fold{margin-top:22px}
+  .grp-toggle{display:inline-flex;align-items:center;gap:6px;min-height:44px;background:none;border:none;color:var(--muted);font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;padding:8px 0}
+  .grp-toggle:hover{color:var(--bone)}
+  .grp-fold .grp-body{display:none;margin-top:14px}
+  .grp-fold.open .grp-body{display:block}
 
   /* ---------- team ---------- */
   .team{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}
@@ -130,68 +127,6 @@
 
   /* ---------- footer ---------- */
   footer{padding:36px 0 56px;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;font-family:'Space Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:.06em}
-
-  /* ---------- kalendář ---------- */
-  .cal{background:var(--ink2);border:1px solid var(--line);padding:24px;max-width:560px}
-  .cal-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:20px}
-  .cal-title{font-family:'Big Shoulders Display';font-weight:900;font-size:clamp(24px,4vw,32px);text-transform:uppercase;letter-spacing:.01em}
-  .cal-title b{color:var(--gold);font-weight:900}
-  .cal-nav{display:flex;gap:8px;flex-shrink:0}
-  .cal-btn{height:36px;min-width:36px;padding:0;border:1px solid var(--line);background:var(--ink);color:var(--bone);border-radius:999px;font-size:16px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:border-color .2s,color .2s}
-  .cal-btn:hover{border-color:var(--gold);color:var(--gold)}
-  .cal-today-btn{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;padding:0 14px}
-  .cal-grid{display:grid;grid-template-columns:34px repeat(7,1fr);gap:3px}
-  .cal-dow{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);text-align:center;padding:4px 0 8px}
-  .cal-dow.kt{color:var(--gold)}
-  .cal-kt{font-family:'Space Mono',monospace;font-size:11px;color:rgba(201,162,39,.5);display:flex;align-items:center;justify-content:center}
-  .cal-kt.now{color:var(--gold);font-weight:700}
-  .cal-cell{aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--bone);border-radius:999px}
-  .cal-cell.out{color:#46443d}
-  .cal-cell.we{color:var(--muted)}
-  .cal-cell.today{background:var(--gold);color:var(--ink);font-weight:700}
-  .cal-foot{margin-top:18px;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.08em;color:var(--muted);text-transform:uppercase}
-
-  /* ---------- kalendář v2: layout, události, panel, modal ---------- */
-  .cal-toolbar{margin-bottom:14px}
-  .cal-add-btn{min-height:42px;padding:0 18px;background:var(--ink2);border:1px solid var(--line);color:var(--gold);font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;border-radius:999px;cursor:pointer;transition:border-color .2s}
-  .cal-add-btn:hover{border-color:var(--gold)}
-  .cal-layout{display:grid;grid-template-columns:minmax(0,560px) 1fr;gap:24px;align-items:start}
-  .cal{max-width:none}
-  @media(max-width:820px){.cal-layout{grid-template-columns:1fr}}
-  .cal-cell{position:relative;border:none;background:none;cursor:pointer;font-family:inherit;font-size:14px;color:var(--bone);padding:0}
-  .cal-cell:hover{background:var(--ink2)}
-  .cal-cell.sel{background:rgba(201,162,39,.18);outline:1px solid var(--gold)}
-  .cal-dots{position:absolute;bottom:3px;left:0;right:0;display:flex;gap:2px;justify-content:center}
-  .cal-dot{width:5px;height:5px;border-radius:50%}
-  .cal-dot-more{color:var(--muted);font-size:9px;line-height:5px}
-  .cal-cell.today .cal-dot-more{color:var(--ink)}
-  .cal-side{background:var(--ink2);border:1px solid var(--line);padding:18px 20px;min-height:200px}
-  .cal-side-title{font-family:'Big Shoulders Display';font-weight:800;font-size:20px;text-transform:uppercase;margin-bottom:12px;color:var(--bone)}
-  .cal-side-head{display:flex;justify-content:space-between;gap:10px;margin-bottom:8px;flex-wrap:wrap}
-  .cal-back,.cal-addday{background:none;border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;color:var(--muted);min-height:34px}
-  .cal-back:hover{color:var(--bone);border-color:var(--bone)} .cal-addday{color:var(--gold)} .cal-addday:hover{border-color:var(--gold)}
-  .cal-empty{font-size:13px;color:var(--muted);padding:8px 0}
-  .cal-row{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}
-  .cal-row.is-ev{cursor:pointer} .cal-row.is-ev:hover{background:var(--ink)}
-  .cal-row-dot{width:9px;height:9px;border-radius:50%;margin-top:5px;flex-shrink:0}
-  .cal-row-main{display:flex;flex-direction:column;gap:1px;flex:1;min-width:0}
-  .cal-row-when{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.06em;color:var(--muted);text-transform:uppercase}
-  .cal-row.over .cal-row-when{color:var(--blood-l)}
-  .cal-row-name{font-size:14px;color:var(--bone)}
-  .cal-row-note{font-size:12px;color:var(--muted)}
-  .cal-row-del{background:none;border:none;cursor:pointer;font-size:13px;opacity:.5;flex-shrink:0;padding:0 2px} .cal-row-del:hover{opacity:1}
-  .cal-modal{position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.7);display:flex;align-items:center;justify-content:center;padding:20px}
-  .cal-modal[hidden]{display:none}
-  .cal-modal-box{background:var(--ink2);border:1px solid var(--line);border-radius:12px;padding:24px;width:100%;max-width:420px;display:flex;flex-direction:column;gap:12px;max-height:90vh;overflow-y:auto}
-  .cal-modal-box h3{font-family:'Big Shoulders Display';font-weight:800;font-size:24px;text-transform:uppercase}
-  .cal-modal-box label{display:flex;flex-direction:column;gap:5px;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
-  .cal-modal-box .opt{text-transform:none;color:#5c594f}
-  .cal-modal-box input,.cal-modal-box select,.cal-modal-box textarea{background:var(--ink);border:1px solid var(--line);border-radius:8px;color:var(--bone);font-family:'Space Grotesk',sans-serif;font-size:14px;padding:10px;color-scheme:dark}
-  .cal-modal-box input:focus,.cal-modal-box select:focus,.cal-modal-box textarea:focus{outline:none;border-color:var(--gold)}
-  .cal-modal-btns{display:flex;gap:10px;justify-content:flex-end;margin-top:6px}
-  .cal-modal-cancel,.cal-modal-save{min-height:44px;padding:0 20px;border-radius:999px;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer}
-  .cal-modal-cancel{background:none;border:1px solid var(--line);color:var(--muted)} .cal-modal-cancel:hover{color:var(--bone)}
-  .cal-modal-save{background:var(--gold);border:1px solid var(--gold);color:var(--ink);font-weight:700}
 
   /* ---------- task manager (úkoly) ---------- */
   .tm-bar{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:18px}
@@ -216,12 +151,13 @@
   .tm-date.soon{border-color:var(--gold);color:var(--gold)}
   .tm-edit-input{width:100%;max-width:42ch;background:var(--ink);border:1px solid var(--gold);border-radius:6px;color:var(--bone);font-family:inherit;font-size:14px;padding:8px 10px}
   .tm-done{margin-top:22px}
-  .tm-done-toggle{display:inline-flex;align-items:center;gap:6px;background:none;border:none;color:var(--muted);font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;padding:8px 0}
+  .tm-done-toggle{display:inline-flex;align-items:center;gap:6px;min-height:44px;background:none;border:none;color:var(--muted);font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;padding:8px 0}
   .tm-done-toggle:hover{color:var(--bone)}
   .tm-done-list{display:none;margin-top:8px;border-top:1px solid var(--line)}
   .tm-done.open .tm-done-list{display:block}
   .tm-done-row{display:flex;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid var(--line)}
-  .tm-done-row .d-text{flex:1;color:var(--muted);text-decoration:line-through;text-decoration-color:#3a382f;font-size:14px}
+  .tm-done-row .d-text{flex:1;color:var(--muted);font-size:14px}
+  #tm-done .tm-done-row .d-text{text-decoration:line-through;text-decoration-color:#3a382f}
   .tm-done-row .d-date{font-family:'Space Mono',monospace;font-size:10px;color:var(--muted);white-space:nowrap}
   table.tm td{vertical-align:middle}
   .tm-handle{cursor:grab;color:var(--muted);font-size:18px;user-select:none;text-align:center;width:26px}
@@ -289,7 +225,7 @@
     <span class="n"><b>eldee</b> HQ</span>
   </div>
   <nav class="tb-nav">
-    <a href="#kalendar">Kalendář</a><a href="#ukoly">Úkoly</a><a href="#stav">Stav</a><a href="#timeline">Hotovo</a><a href="#brainstorm">Brainstorm</a><a href="#data">Data</a><a href="#tym">Tým</a>
+    <a href="#ukoly">Úkoly</a><a href="#stav">Stav</a><a href="#timeline">Hotovo</a><a href="#data">Data</a><a href="#tym">Tým</a>
   </nav>
 </div></div>
 
@@ -301,42 +237,8 @@
   <svg class="logo-bg" viewBox="3.2 46.0 301.5 301.5" aria-hidden="true"><defs><mask id="ldk-b" maskUnits="userSpaceOnUse" x="3.2" y="46" width="301.5" height="301.5"><rect x="3.2" y="46" width="301.5" height="301.5" fill="white"/><path d="M56.32 285.00V78.60H95.02V250.94H145.85V285.00Z" fill="black" stroke="black" stroke-width="25" stroke-linejoin="round"/></mask></defs><path d="M128.32 318.00V111.60H180.69Q209.72 111.60 222.68 123.92Q235.65 136.24 236.16 164.49Q236.55 182.42 236.68 198.55Q236.81 214.67 236.68 230.80Q236.55 246.92 236.16 264.85Q235.65 293.23 222.68 305.62Q209.72 318.00 180.69 318.00ZM167.02 283.94H180.69Q188.82 283.94 193.08 280.20Q197.34 276.46 197.46 269.50Q197.85 255.69 198.04 242.02Q198.24 228.34 198.24 214.67Q198.24 201.00 198.04 187.26Q197.85 173.52 197.46 159.85Q197.34 153.01 193.08 149.33Q188.82 145.66 180.69 145.66H167.02Z" fill="#F5F5F0" mask="url(#ldk-b)"/><path d="M56.32 285.00V78.60H95.02V250.94H145.85V285.00Z" fill="#F5F5F0"/><ellipse cx="182.3" cy="77" rx="66" ry="13" fill="none" stroke="#C9A227" stroke-width="11"/></svg>
 </div></header>
 
-<section id="kalendar"><div class="wrap">
-  <div class="sec-head"><span class="no">01</span><h2>Kalendář</h2></div>
-  <div class="cal-toolbar"><button class="cal-add-btn" id="cal-add" type="button">➕ Přidat událost</button></div>
-  <div class="cal-layout">
-    <div class="cal">
-      <div class="cal-head">
-        <div class="cal-title" id="cal-title">—</div>
-        <div class="cal-nav">
-          <button class="cal-btn cal-today-btn" id="cal-today" type="button">Dnes</button>
-          <button class="cal-btn" id="cal-prev" type="button" aria-label="Předchozí měsíc">‹</button>
-          <button class="cal-btn" id="cal-next" type="button" aria-label="Další měsíc">›</button>
-        </div>
-      </div>
-      <div class="cal-grid" id="cal-grid"></div>
-      <div class="cal-foot" id="cal-foot"></div>
-    </div>
-    <aside class="cal-side" id="cal-side"></aside>
-  </div>
-  <div class="cal-modal" id="cal-modal" hidden>
-    <div class="cal-modal-box">
-      <h3 id="cal-modal-title">Nová událost</h3>
-      <label>Datum<input type="date" id="ev-datum"></label>
-      <label>Čas <span class="opt">(nepovinné)</span><input type="time" id="ev-cas"></label>
-      <label>Název<input type="text" id="ev-nazev" placeholder="Co se děje…"></label>
-      <label>Kategorie<select id="ev-kat"></select></label>
-      <label>Popis <span class="opt">(nepovinné)</span><textarea id="ev-popis" rows="2"></textarea></label>
-      <div class="cal-modal-btns">
-        <button class="cal-modal-cancel" id="ev-cancel" type="button">Zrušit</button>
-        <button class="cal-modal-save" id="ev-save" type="button">Uložit událost</button>
-      </div>
-    </div>
-  </div>
-</div></section>
-
 <section id="ukoly"><div class="wrap">
-  <div class="sec-head"><span class="no">02</span><h2>Otevřené úkoly</h2></div>
+  <div class="sec-head"><span class="no">01</span><h2>Otevřené úkoly</h2></div>
   <div class="tm-bar">
     <span class="tm-hint">✓ hotovo · táhni za <b>⠿</b>/šipkami · klik na štítek = priorita · 🗑 smazat</span>
     <div class="tm-btns">
@@ -351,37 +253,29 @@
     </table>
   </div>
   <button class="tm-more" id="tm-more" type="button" hidden></button>
+  <div class="tm-done" id="tm-fronta"></div>
+  <div class="tm-done" id="tm-spi"></div>
   <div class="tm-done" id="tm-done"></div>
 </div></section>
 
 <section id="stav"><div class="wrap">
-  <div class="sec-head"><span class="no">03</span><h2>Stav teď</h2></div>
+  <div class="sec-head"><span class="no">02</span><h2>Stav teď</h2></div>
   <div class="cards"></div>
 </div></section>
 
 <section id="timeline"><div class="wrap">
-  <div class="sec-head"><span class="no">04</span><h2>Co je hotovo</h2></div>
+  <div class="sec-head"><span class="no">03</span><h2>Co je hotovo</h2></div>
   <div class="tl"></div>
 </div></section>
 
-<section id="brainstorm"><div class="wrap">
-  <div class="sec-head"><span class="no">05</span><h2>Brainstorm</h2></div>
-  <div class="card" style="max-width:560px">
-    <span class="tag">Připravujeme</span>
-    <h3>Brainstorm — brzy</h3>
-    <span class="badge b-wait">rozvedeme příště</span>
-    <p>Tady vznikne prostor na nápady a rozpracované myšlenky k eldee. Podobu a fungování doladíme v další session.</p>
-  </div>
-</div></section>
-
 <section id="data"><div class="wrap">
-  <div class="sec-head"><span class="no">06</span><h2>Data &amp; odkazy</h2></div>
+  <div class="sec-head"><span class="no">04</span><h2>Data &amp; odkazy</h2></div>
   <div class="links"></div>
   <p style="margin-top:22px;font-family:'Space Mono',monospace;font-size:11px;color:var(--muted)">Pozn.: kniha a kalkulačka obsahují interní čísla (marže, cíle) — URL nesdílet mimo tým. Web je noindex, vyhledávače ho neindexují.</p>
 </div></section>
 
 <section id="tym" style="border-bottom:none"><div class="wrap">
-  <div class="sec-head"><span class="no">07</span><h2>Tým</h2></div>
+  <div class="sec-head"><span class="no">05</span><h2>Tým</h2></div>
   <div class="team"></div>
 </div></section>
 
@@ -390,6 +284,7 @@
   <span>HQ přehled · aktualizace <b id="foot-date">2026-06-25</b> · interní</span>
 </div></footer>
 
+<script src="hq-core.js"></script>
 <script>
 let STAV=null;
 const BADGE = {'běží':'b-run','teď':'b-run','další':'b-wait','fronta':'b-wait','blokováno':'b-wait','hotovo':'b-done','živě':'b-done','8 / 8':'b-done'};
@@ -408,22 +303,17 @@ function renderStavKarty(arr){
 function renderTimeline(arr){
   const el=document.querySelector('#timeline .tl'); if(!el) return;
   arr=arr||[];
-  const VISIBLE=6;
+  const VISIBLE=8;
   const item=t=>`<div class="tl-item${t.minor?' minor':''}"><div class="tl-date">${esc(t.datum)}</div><h3>${esc(t.nadpis)}</h3><p>${t.text||''}</p></div>`;
   const hidden=Math.max(0,arr.length-VISIBLE);
-  let html=`<div class="tl-track"><div class="tl-rest-inner">${arr.map(item).join('')}</div></div>`;
+  const open=el.classList.contains('open');
+  let html=`<div class="tl-rest-inner">${arr.map(item).join('')}</div>`;
   if(hidden){
-    html+=`<button class="tl-more" type="button" aria-expanded="false">Zobrazit starší (${hidden})</button>`;
+    html+=`<button class="tm-done-toggle" id="tl-more-toggle" type="button">${open?'▾':'▸'} Starší milníky (${hidden})</button>`;
   }
   el.innerHTML=html;
-  const btn=el.querySelector('.tl-more');
-  if(btn){
-    btn.addEventListener('click',()=>{
-      const open=el.classList.toggle('rest-open');
-      btn.setAttribute('aria-expanded',open?'true':'false');
-      btn.textContent=open?'Skrýt starší':`Zobrazit starší (${hidden})`;
-    });
-  }
+  const btn=el.querySelector('#tl-more-toggle');
+  if(btn) btn.addEventListener('click',()=>{ el.classList.toggle('open'); renderTimeline(arr); });
 }
 /* ---------- task manager ---------- */
 let TM=[]; let tmDragId=null;
@@ -434,7 +324,7 @@ function czDate(iso){ if(!iso) return '—'; const d=new Date(iso+'T00:00:00'); 
 function dayTxt(n){ if(n===null) return ''; if(n===0) return 'dnes'; if(n===1) return '1 den'; if(n<=4) return n+' dny'; return n+' dní'; }
 function tmMarkDirty(){ const b=document.getElementById('tm-save'); if(b){b.classList.add('dirty');b.textContent='💾 Uložit změny •';} }
 function tmRenumber(){ TM.forEach((u,i)=>{u.poradi=i+1;}); }
-const TM_STAVY=['teď','další','fronta','blokováno'];
+const TM_STAVY=['teď','další','fronta','spí','blokováno'];
 let tmEditingId=null;
 function todayISO(){ return new Date().toISOString().slice(0,10); }
 function daysUntil(iso){ if(!iso) return null; const d=new Date(iso+'T00:00:00'); if(isNaN(d)) return null; const n=new Date(); n.setHours(0,0,0,0); return Math.round((d-n)/864e5); }
@@ -447,7 +337,8 @@ function terminCell(u){
 function renderUkoly(arr){
   const el=document.querySelector('#ukoly tbody'); if(!el) return;
   const all=arr||[];
-  TM=all.filter(u=>u.stav!=='hotovo').sort((a,b)=>(a.poradi||999)-(b.poradi||999));
+  const R=HqCore.rozdelUkoly(all);
+  TM=R.ted.concat(R.dalsi,R.blokovano).sort((a,b)=>(a.poradi||999)-(b.poradi||999));
   el.innerHTML=TM.map((u,i)=>{
     const prio=u.priorita||'stredni';
     const note=u.pozn?`<span class="tm-note">${esc(u.pozn)}</span>`:'';
@@ -467,9 +358,20 @@ function renderUkoly(arr){
       <td class="tm-delcell"><button class="tm-del" type="button" data-id="${esc(u.id)}" title="Smazat úkol" aria-label="smazat">🗑</button></td>
     </tr>`;
   }).join('');
-  renderDone(all.filter(u=>u.stav==='hotovo').sort((a,b)=>String(b.hotovo||'').localeCompare(String(a.hotovo||''))));
+  renderCollapsed('tm-fronta',R.fronta,'Fronta');
+  renderCollapsed('tm-spi',R.spi,'Spící');
+  renderDone(R.hotovo.slice().sort((a,b)=>String(b.hotovo||'').localeCompare(String(a.hotovo||''))));
   tmWire();
   updateTmMore();
+}
+function renderCollapsed(elId,list,label){
+  const el=document.getElementById(elId); if(!el) return;
+  if(!list.length){ el.innerHTML=''; return; }
+  const open=el.classList.contains('open');
+  el.innerHTML=`<button class="tm-done-toggle" type="button">${open?'▾':'▸'} ${esc(label)} (${list.length})</button>`
+    +`<div class="tm-done-list">${list.map(u=>`<div class="tm-done-row"><span class="d-text">${esc(u.text)}</span><span class="d-date">${czDate(u.vzniklo)}</span></div>`).join('')}</div>`;
+  const tg=el.querySelector('.tm-done-toggle');
+  if(tg) tg.addEventListener('click',()=>{ el.classList.toggle('open'); renderUkoly(STAV.ukoly); });
 }
 function updateTmMore(){
   const more=document.getElementById('tm-more'), sec=document.getElementById('ukoly');
@@ -498,11 +400,11 @@ function tmWire(){
   tb.querySelectorAll('.tm-check').forEach(b=>b.addEventListener('click',()=>tmSetDone(b.dataset.id,true)));
   tb.querySelectorAll('.tm-stav-sel').forEach(s=>s.addEventListener('change',()=>{
     const u=STAV.ukoly.find(x=>x.id===s.dataset.id); if(!u) return;
-    u.stav=s.value; tmMarkDirty(); renderUkoly(STAV.ukoly); if(typeof renderKalendar==='function')renderKalendar();
+    u.stav=s.value; tmMarkDirty(); renderUkoly(STAV.ukoly);
   }));
   tb.querySelectorAll('.tm-date').forEach(inp=>inp.addEventListener('change',()=>{
     const u=STAV.ukoly.find(x=>x.id===inp.dataset.id); if(!u) return;
-    u.termin=inp.value||null; tmMarkDirty(); renderUkoly(STAV.ukoly); if(typeof renderKalendar==='function')renderKalendar();
+    u.termin=inp.value||null; tmMarkDirty(); renderUkoly(STAV.ukoly);
   }));
   tb.querySelectorAll('.tm-up').forEach(b=>b.addEventListener('click',()=>tmMove(b.dataset.id,-1)));
   tb.querySelectorAll('.tm-dn').forEach(b=>b.addEventListener('click',()=>tmMove(b.dataset.id,1)));
@@ -510,7 +412,7 @@ function tmWire(){
     const u=STAV.ukoly.find(x=>x.id===b.dataset.id); if(!u) return;
     if(!confirm('Opravdu smazat úkol?\n\n„'+(u.text||'(bez názvu)')+'"')) return;
     STAV.ukoly=STAV.ukoly.filter(x=>x.id!==b.dataset.id);
-    tmMarkDirty(); renderUkoly(STAV.ukoly); if(typeof renderKalendar==='function')renderKalendar();
+    tmMarkDirty(); renderUkoly(STAV.ukoly);
   }));
   tb.querySelectorAll('tr.tm-row').forEach(tr=>{
     tr.addEventListener('dragstart',e=>{tmDragId=tr.dataset.id;tr.classList.add('dragging');e.dataTransfer.effectAllowed='move';});
@@ -563,12 +465,38 @@ function tmExport(){
   document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(a.href);
   const b=document.getElementById('tm-save'); if(b){b.classList.remove('dirty');b.textContent='✅ Staženo — nahraj na GitHub';setTimeout(()=>{b.textContent='💾 Uložit změny';},4000);}
 }
+const SKUPINA_NADPIS = { nastroj:'Nástroje', brand:'Brand', vyzkum:'Výzkum',
+                         spici:'Až bude e-shop', archiv:'Archiv' };
+const SKUPINA_SBALENA = ['spici','archiv'];
+
+function odkazKarta(o){
+  const hlava = `<span class="t">${esc(o.nadpis)}</span><p>${o.text||''}</p>`
+    + `<span class="st ${esc(o.stav)}">● ${esc(o.stavText)}</span>`;
+  if(Array.isArray(o.polozky)){
+    const radky = o.polozky.map(p =>
+      `<a class="link-item" href="${esc(p.href)}"${p.extern?' target="_blank" rel="noopener"':''}>${esc(p.nadpis)}</a>`
+    ).join('');
+    return `<div class="link-card">${hlava}<div class="link-items">${radky}</div></div>`;
+  }
+  return `<a class="link-card" href="${esc(o.href)}"${o.extern?' target="_blank" rel="noopener"':''}>${hlava}</a>`;
+}
+
 function renderOdkazy(arr){
   const el=document.querySelector('#data .links'); if(!el) return;
-  el.innerHTML=(arr||[]).map(o=>{
-    const inner=`<span class="t">${esc(o.nadpis)}</span><p>${o.text||''}</p><span class="st ${esc(o.stav)}">● ${esc(o.stavText)}</span>`;
-    return o.href?`<a class="link-card" href="${esc(o.href)}"${o.extern?' target="_blank" rel="noopener"':''}>${inner}</a>`:`<div class="link-card">${inner}</div>`;
+  const G=HqCore.seskupOdkazy(arr);
+  el.innerHTML=HqCore.SKUPINY.map(s=>{
+    const karty=G[s]; if(!karty.length) return '';
+    const sbalena=SKUPINA_SBALENA.indexOf(s)>=0;
+    const telo=`<div class="links-grid">${karty.map(odkazKarta).join('')}</div>`;
+    return sbalena
+      ? `<div class="grp-fold" data-grp="${s}"><button class="grp-toggle" type="button">▸ ${esc(SKUPINA_NADPIS[s])} (${karty.length})</button><div class="grp-body">${telo}</div></div>`
+      : `<h3 class="grp-nadpis">${esc(SKUPINA_NADPIS[s])}</h3>${telo}`;
   }).join('');
+  el.querySelectorAll('.grp-toggle').forEach(b=>b.addEventListener('click',()=>{
+    const box=b.closest('.grp-fold');
+    box.classList.toggle('open');
+    b.textContent=(box.classList.contains('open')?'▾ ':'▸ ')+b.textContent.slice(2);
+  }));
 }
 function renderTym(arr){
   const el=document.querySelector('#tym .team'); if(!el) return;
@@ -589,7 +517,6 @@ fetch('data/stav.json',{cache:'no-store'})
     const sb=document.getElementById('tm-save'); if(sb) sb.addEventListener('click',tmExport);
     const ab=document.getElementById('tm-add'); if(ab) ab.addEventListener('click',tmAddTask);
     const mb=document.getElementById('tm-more'); if(mb) mb.addEventListener('click',()=>{ document.getElementById('ukoly').classList.toggle('rows-open'); updateTmMore(); });
-    initKalendar();
   })
   .catch(e=>{
     const m=document.createElement('div');
@@ -598,116 +525,6 @@ fetch('data/stav.json',{cache:'no-store'})
     document.body.prepend(m);
     console.error(e);
   });
-
-/* ---------- kalendář (události + termíny úkolů) ---------- */
-const CAL_KAT={
-  drop:{label:'Drop',barva:'#C9A227'}, schuzka:{label:'Schůzka',barva:'#3B82F6'},
-  deadline:{label:'Deadline',barva:'#DC2626'}, prace:{label:'Práce',barva:'#8B5CF6'},
-  finance:{label:'Finance',barva:'#3f9e58'}, vyroba:{label:'Výroba/vzorky',barva:'#EA8C2B'},
-  marketing:{label:'Marketing',barva:'#D6409F'}, ostatni:{label:'Ostatní',barva:'#8d8a81'}
-};
-const CAL_MONTHS=['Leden','Únor','Březen','Duben','Květen','Červen','Červenec','Srpen','Září','Říjen','Listopad','Prosinec'];
-const CAL_DOW=['Po','Út','St','Čt','Pá','So','Ne'];
-let calView=null, calSelected=null, calEditId=null;
-function calToday(){ const t=new Date(); t.setHours(0,0,0,0); return t; }
-function calIso(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
-function calIsoWeek(d){ const t=new Date(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate())); const day=(t.getUTCDay()+6)%7; t.setUTCDate(t.getUTCDate()-day+3); const f=new Date(Date.UTC(t.getUTCFullYear(),0,4)); const fd=(f.getUTCDay()+6)%7; f.setUTCDate(f.getUTCDate()-fd+3); return 1+Math.round((t-f)/(7*864e5)); }
-function calFmt(iso){ if(!iso) return ''; const p=iso.split('-'); return parseInt(p[2],10)+'. '+parseInt(p[1],10)+'.'; }
-function calItems(){
-  const items=[];
-  ((STAV&&STAV.udalosti)||[]).forEach(e=>items.push({id:e.id,datum:e.datum,cas:e.cas||'',nazev:e.nazev,popis:e.popis||'',barva:(CAL_KAT[e.kategorie]||CAL_KAT.ostatni).barva,typ:'udalost'}));
-  ((STAV&&STAV.ukoly)||[]).forEach(u=>{ if(u.termin&&u.stav!=='hotovo'){ const pb={vysoka:'#DC2626',stredni:'#C9A227',nizka:'#8d8a81'}[u.priorita||'stredni']; items.push({id:u.id,datum:u.termin,cas:'',nazev:u.text,popis:'úkol · termín',barva:pb,typ:'ukol'}); } });
-  return items;
-}
-function renderKalendar(){
-  const grid=document.getElementById('cal-grid'); if(!grid||!STAV) return;
-  if(!calView){ const t=calToday(); calView=new Date(t.getFullYear(),t.getMonth(),1); }
-  const today=calToday(), y=calView.getFullYear(), m=calView.getMonth();
-  document.getElementById('cal-title').innerHTML=CAL_MONTHS[m].toUpperCase()+' <b>'+y+'</b>';
-  const byDay={}; calItems().forEach(it=>{ (byDay[it.datum]=byDay[it.datum]||[]).push(it); });
-  let html='<div class="cal-dow kt">KT</div>';
-  CAL_DOW.forEach((d,i)=>{ html+='<div class="cal-dow'+(i>=5?' we':'')+'">'+d+'</div>'; });
-  const first=new Date(y,m,1), offset=(first.getDay()+6)%7, start=new Date(y,m,1-offset);
-  for(let w=0;w<6;w++){
-    const rowStart=new Date(start); rowStart.setDate(start.getDate()+w*7);
-    const rowEnd=new Date(rowStart); rowEnd.setDate(rowStart.getDate()+6);
-    const nowWeek=today>=rowStart&&today<=rowEnd;
-    html+='<div class="cal-kt'+(nowWeek?' now':'')+'">'+calIsoWeek(rowStart)+'</div>';
-    for(let i=0;i<7;i++){
-      const cur=new Date(start); cur.setDate(start.getDate()+w*7+i);
-      const iso=calIso(cur); let cls='cal-cell';
-      if(cur.getMonth()!==m) cls+=' out';
-      if(i>=5) cls+=' we';
-      if(cur.getTime()===today.getTime()) cls+=' today';
-      if(calSelected===iso) cls+=' sel';
-      const di=byDay[iso]||[]; let dots='';
-      if(di.length){ dots='<span class="cal-dots">'+di.slice(0,3).map(it=>'<span class="cal-dot" style="background:'+it.barva+'"></span>').join('')+(di.length>3?'<span class="cal-dot-more">·</span>':'')+'</span>'; }
-      html+='<button type="button" class="'+cls+'" data-iso="'+iso+'">'+cur.getDate()+dots+'</button>';
-    }
-  }
-  grid.innerHTML=html;
-  document.getElementById('cal-foot').textContent='Dnes: '+calFmt(calIso(today))+' · KT '+calIsoWeek(today);
-  grid.querySelectorAll('.cal-cell').forEach(c=>c.addEventListener('click',()=>{ calSelected=(calSelected===c.dataset.iso?null:c.dataset.iso); renderKalendar(); }));
-  renderCalSide();
-}
-function calRow(it,inDay,over){
-  const when=inDay?(it.cas||'—'):(calFmt(it.datum)+(it.cas?' '+it.cas:''));
-  const del=(it.typ==='udalost')?'<button class="cal-row-del" data-id="'+esc(it.id)+'" title="Smazat" type="button">🗑</button>':'';
-  return '<div class="cal-row'+(over?' over':'')+(it.typ==='udalost'?' is-ev':'')+'" data-evid="'+(it.typ==='udalost'?esc(it.id):'')+'"><span class="cal-row-dot" style="background:'+it.barva+'"></span><span class="cal-row-main"><span class="cal-row-when">'+esc(when)+(over?' · po termínu':'')+'</span><span class="cal-row-name">'+esc(it.nazev)+'</span>'+(it.popis&&it.typ==='udalost'?'<span class="cal-row-note">'+esc(it.popis)+'</span>':'')+'</span>'+del+'</div>';
-}
-function renderCalSide(){
-  const el=document.getElementById('cal-side'); if(!el) return;
-  const items=calItems(), todayIso=calIso(calToday());
-  if(calSelected){
-    const day=items.filter(it=>it.datum===calSelected).sort((a,b)=>(a.cas||'').localeCompare(b.cas||''));
-    el.innerHTML='<div class="cal-side-head"><button class="cal-back" id="cal-back" type="button">← Nejbližší</button><button class="cal-addday" id="cal-addday" type="button">➕ na tento den</button></div>'
-      +'<h3 class="cal-side-title">'+calFmt(calSelected)+'</h3>'
-      +(day.length?day.map(it=>calRow(it,true)).join(''):'<p class="cal-empty">Nic na tento den.</p>');
-    document.getElementById('cal-back').addEventListener('click',()=>{ calSelected=null; renderKalendar(); });
-    document.getElementById('cal-addday').addEventListener('click',()=>openEvModal(null,calSelected));
-  } else {
-    const over=items.filter(it=>it.typ==='ukol'&&it.datum<todayIso).sort((a,b)=>a.datum.localeCompare(b.datum));
-    const up=items.filter(it=>it.datum>=todayIso).sort((a,b)=>a.datum.localeCompare(b.datum)||(a.cas||'').localeCompare(b.cas||'')).slice(0,8);
-    el.innerHTML='<h3 class="cal-side-title">Nejbližší</h3>'
-      +over.map(it=>calRow(it,false,true)).join('')
-      +(up.length?up.map(it=>calRow(it,false)).join(''):(over.length?'':'<p class="cal-empty">Žádné nadcházející termíny ani události.</p>'));
-  }
-  el.querySelectorAll('.cal-row-del').forEach(b=>b.addEventListener('click',e=>{ e.stopPropagation(); STAV.udalosti=(STAV.udalosti||[]).filter(x=>x.id!==b.dataset.id); tmMarkDirty(); renderKalendar(); }));
-  el.querySelectorAll('.cal-row.is-ev').forEach(r=>r.addEventListener('click',()=>{ if(r.dataset.evid) openEvModal(r.dataset.evid,null); }));
-}
-function openEvModal(id,datum){
-  const modal=document.getElementById('cal-modal'); if(!modal) return;
-  calEditId=id;
-  document.getElementById('ev-kat').innerHTML=Object.keys(CAL_KAT).map(k=>'<option value="'+k+'">'+CAL_KAT[k].label+'</option>').join('');
-  let ev={datum:datum||calIso(calToday()),cas:'',nazev:'',popis:'',kategorie:'schuzka'};
-  if(id){ const f=(STAV.udalosti||[]).find(x=>x.id===id); if(f) ev=f; }
-  document.getElementById('cal-modal-title').textContent=id?'Upravit událost':'Nová událost';
-  document.getElementById('ev-datum').value=ev.datum||''; document.getElementById('ev-cas').value=ev.cas||'';
-  document.getElementById('ev-nazev').value=ev.nazev||''; document.getElementById('ev-popis').value=ev.popis||'';
-  document.getElementById('ev-kat').value=ev.kategorie||'schuzka';
-  modal.hidden=false; document.getElementById('ev-nazev').focus();
-}
-function closeEvModal(){ const m=document.getElementById('cal-modal'); if(m) m.hidden=true; calEditId=null; }
-function saveEv(){
-  const datum=document.getElementById('ev-datum').value, nazev=document.getElementById('ev-nazev').value.trim();
-  if(!datum||!nazev){ alert('Vyplň aspoň datum a název.'); return; }
-  const ev={datum,cas:document.getElementById('ev-cas').value,nazev,popis:document.getElementById('ev-popis').value.trim(),kategorie:document.getElementById('ev-kat').value};
-  if(!STAV.udalosti) STAV.udalosti=[];
-  if(calEditId){ const f=STAV.udalosti.find(x=>x.id===calEditId); if(f) Object.assign(f,ev); }
-  else { ev.id='ev'+Date.now(); STAV.udalosti.push(ev); }
-  closeEvModal(); tmMarkDirty(); renderKalendar();
-}
-function initKalendar(){
-  if(!document.getElementById('cal-grid')) return;
-  document.getElementById('cal-prev').onclick=()=>{ calView.setMonth(calView.getMonth()-1); renderKalendar(); };
-  document.getElementById('cal-next').onclick=()=>{ calView.setMonth(calView.getMonth()+1); renderKalendar(); };
-  document.getElementById('cal-today').onclick=()=>{ const t=calToday(); calView=new Date(t.getFullYear(),t.getMonth(),1); calSelected=null; renderKalendar(); };
-  document.getElementById('cal-add').onclick=()=>openEvModal(null,null);
-  document.getElementById('ev-cancel').onclick=closeEvModal;
-  document.getElementById('ev-save').onclick=saveEv;
-  document.getElementById('cal-modal').addEventListener('click',e=>{ if(e.target.id==='cal-modal')closeEvModal(); });
-  renderKalendar();
-}
 </script>
 </body>
 </html>

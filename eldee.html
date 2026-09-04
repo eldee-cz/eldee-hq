@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="eldee — česká fotbalová značka. Štulpny s vlastním, chráněným řešením. Co jsme, proč to děláme a kde přesně teď jsme.">
+<title>eldee — fotbalové štulpny</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Space+Grotesk:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0A0A0A; --ink2:#191917; --line:#312F2A;
+    --bone:#F5F5F0; --muted:#9b988e; --dim:#d6d4cb;
+    --gold:#C9A227; --blood:#B91C1C; --blood-l:#DC2626; --green:#3f9e58;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+  body{background:var(--ink);color:var(--bone);font-family:'Space Grotesk',system-ui,sans-serif;line-height:1.55}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 28px}
+  a{color:var(--gold);text-decoration:none}
+  a:hover{color:var(--bone)}
+
+  /* ---------- topbar ---------- */
+  .topbar{position:sticky;top:0;z-index:50;background:rgba(10,10,10,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  .topbar .in{display:flex;align-items:center;justify-content:space-between;padding:14px 28px;max-width:1080px;margin:0 auto}
+  .tb-brand{display:flex;align-items:center;gap:12px}
+  .tb-brand svg{width:30px;height:30px}
+  .tb-brand .n{font-family:'Big Shoulders Display';font-weight:900;font-size:19px;letter-spacing:.05em}
+  .tb-brand .n b{color:var(--gold)}
+  .tb-nav{display:flex;gap:22px;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase}
+  .tb-nav a{color:var(--muted)} .tb-nav a:hover{color:var(--gold)}
+  @media(max-width:720px){
+    .topbar .in{flex-wrap:wrap;gap:10px;padding:12px 16px}
+    .tb-nav{order:2;width:100%;gap:8px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding-bottom:2px;letter-spacing:.08em;font-size:11px}
+    .tb-nav::-webkit-scrollbar{display:none}
+    .tb-nav a{flex:0 0 auto;display:inline-flex;align-items:center;min-height:44px;padding:0 15px;border:1px solid var(--line);border-radius:999px;color:var(--dim);background:var(--ink2)}
+    .tb-nav a:hover,.tb-nav a:active{color:var(--gold);border-color:var(--gold)}
+  }
+
+  /* ---------- hero ---------- */
+  .hero{padding:72px 0 48px;border-bottom:1px solid var(--line);position:relative;overflow:hidden}
+  .hero .kick{font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.3em;color:var(--gold);text-transform:uppercase;margin-bottom:18px}
+  .hero h1{font-family:'Big Shoulders Display';font-weight:900;font-size:clamp(44px,8vw,84px);line-height:.92;text-transform:uppercase;letter-spacing:-.01em}
+  .hero p{margin-top:18px;max-width:58ch;color:var(--dim);font-size:17px}
+  .hero .logo-bg{position:absolute;right:-20px;top:50%;transform:translateY(-50%);width:280px;opacity:.9}
+  @media(max-width:880px){.hero .logo-bg{width:160px;opacity:.3}}
+  .stamp{display:flex;gap:14px;flex-wrap:wrap;margin-top:26px;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:.08em;color:var(--muted)}
+  .stamp .pill{border:1px solid var(--line);padding:6px 12px;border-radius:999px}
+  .stamp .pill b{color:var(--gold);font-weight:400}
+
+  /* ---------- error banner ---------- */
+  .err{background:rgba(185,28,28,.12);border-bottom:1px solid rgba(185,28,28,.45);color:var(--blood-l);font-family:'Space Mono',monospace;font-size:13px;padding:14px 0;text-align:center}
+  .err:empty{display:none}
+
+  /* ---------- sections ---------- */
+  section{padding:70px 0;border-bottom:1px solid var(--line)}
+  .sec-head{display:flex;align-items:baseline;gap:16px;margin-bottom:34px}
+  .sec-head .no{font-family:'Space Mono',monospace;color:var(--gold);font-size:13px;letter-spacing:.2em}
+  .sec-head h2{font-family:'Big Shoulders Display';font-weight:900;font-size:clamp(26px,4vw,40px);text-transform:uppercase;letter-spacing:.01em}
+  .lede{max-width:66ch;font-size:16px;color:var(--dim)}
+  .lede strong{color:var(--bone);font-weight:700}
+  .sub-head{font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin:40px 0 18px}
+  .sub-head:first-child{margin-top:0}
+
+  /* ---------- cards (stav) ---------- */
+  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px}
+  .card{background:var(--ink2);border:1px solid var(--line);padding:26px;display:flex;flex-direction:column;gap:10px;transition:border-color .2s}
+  .card:hover{border-color:#3a382f}
+  .card .tag{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+  .card h3{font-family:'Big Shoulders Display';font-weight:800;font-size:23px;text-transform:uppercase;line-height:1.05}
+  .card p{font-size:14px;color:var(--dim)}
+
+  /* ---------- milníky ---------- */
+  .mil{list-style:none;display:flex;flex-direction:column}
+  .mil li{padding:18px 0;border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:5px}
+  .mil li:last-child{border-bottom:none;padding-bottom:0}
+  .mil .dat{font-family:'Space Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:.1em;text-transform:uppercase}
+  .mil b{font-family:'Big Shoulders Display';font-weight:800;font-size:19px;color:var(--bone);line-height:1.3}
+
+  /* ---------- brand blok ---------- */
+  .brand-card{background:var(--ink2);border:1px solid var(--line);padding:30px;display:flex;flex-direction:column;gap:14px;align-items:flex-start}
+  .brand-card p{color:var(--dim);font-size:15px;max-width:58ch}
+  .brand-btn{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 22px;border:1px solid var(--gold);color:var(--gold);border-radius:999px;font-family:'Space Mono',monospace;font-size:12px;letter-spacing:.1em;text-transform:uppercase;transition:background .2s,color .2s}
+  .brand-btn:hover{background:var(--gold);color:var(--ink)}
+
+  /* ---------- tým ---------- */
+  .team{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}
+  .member{border:1px solid var(--line);background:var(--ink2);padding:22px;text-align:left}
+  .member .ava{width:46px;height:46px;border-radius:50%;background:var(--ink);border:1px solid var(--gold);display:flex;align-items:center;justify-content:center;font-family:'Big Shoulders Display';font-weight:900;color:var(--gold);font-size:18px;margin-bottom:12px}
+  .member h3{font-family:'Big Shoulders Display';font-weight:800;font-size:20px;text-transform:uppercase}
+  .member p{font-size:13px;color:var(--muted)}
+
+  /* ---------- footer ---------- */
+  footer{padding:36px 0 56px;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;font-family:'Space Mono',monospace;font-size:11px;color:var(--muted);letter-spacing:.06em}
+</style>
+</head>
+<body>
+
+<div class="topbar"><div class="in">
+  <div class="tb-brand">
+    <svg viewBox="3.2 46.0 301.5 301.5" aria-hidden="true"><defs><mask id="ldk-a" maskUnits="userSpaceOnUse" x="3.2" y="46" width="301.5" height="301.5"><rect x="3.2" y="46" width="301.5" height="301.5" fill="white"/><path d="M56.32 285.00V78.60H95.02V250.94H145.85V285.00Z" fill="black" stroke="black" stroke-width="25" stroke-linejoin="round"/></mask></defs><path d="M128.32 318.00V111.60H180.69Q209.72 111.60 222.68 123.92Q235.65 136.24 236.16 164.49Q236.55 182.42 236.68 198.55Q236.81 214.67 236.68 230.80Q236.55 246.92 236.16 264.85Q235.65 293.23 222.68 305.62Q209.72 318.00 180.69 318.00ZM167.02 283.94H180.69Q188.82 283.94 193.08 280.20Q197.34 276.46 197.46 269.50Q197.85 255.69 198.04 242.02Q198.24 228.34 198.24 214.67Q198.24 201.00 198.04 187.26Q197.85 173.52 197.46 159.85Q197.34 153.01 193.08 149.33Q188.82 145.66 180.69 145.66H167.02Z" fill="#F5F5F0" mask="url(#ldk-a)"/><path d="M56.32 285.00V78.60H95.02V250.94H145.85V285.00Z" fill="#F5F5F0"/><ellipse cx="182.3" cy="77" rx="66" ry="13" fill="none" stroke="#C9A227" stroke-width="11"/></svg>
+    <span class="n"><b>eldee</b></span>
+  </div>
+  <nav class="tb-nav">
+    <a href="#cojsme">Co jsme</a><a href="#produkt">Produkt</a><a href="#duvod">Proč</a><a href="#mereni">Poctivost</a><a href="#stav">Stav</a><a href="#brand">Brand</a><a href="#tym">Tým</a>
+  </nav>
+</div></div>
+
+<div class="err" id="v-chyba"></div>
+
+<header class="hero"><div class="wrap" style="position:relative">
+  <div class="kick">Fotbalová značka · One of Us.</div>
+  <h1>eldee.</h1>
+  <p>Nejsme e-shop a nejsme hotoví. Jsme rozdělaná práce, kterou ukazujeme narovinu — komu, jak a proč šijeme fotbalové štulpny s vlastním, chráněným řešením.</p>
+  <div class="stamp">
+    <span class="pill">Fáze: <b>vzorkování</b></span>
+    <span class="pill">2 chráněné <b>průmyslové vzory</b> (EU)</span>
+  </div>
+  <svg class="logo-bg" viewBox="3.2 46.0 301.5 301.5" aria-hidden="true"><defs><mask id="ldk-b" maskUnits="userSpaceOnUse" x="3.2" y="46" width="301.5" height="301.5"><rect x="3.2" y="46" width="301.5" height="301.5" fill="white"/><path d="M56.32 285.00V78.60H95.02V250.94H145.85V285.00Z" fill="black" stroke="black" stroke-width="25" stroke-linejoin="round"/></mask></defs><path d="M128.32 318.00V111.60H180.69Q209.72 111.60 222.68 123.92Q235.65 136.24 236.16 164.49Q236.55 182.42 236.68 198.55Q236.81 214.67 236.68 230.80Q236.55 246.92 236.16 264.85Q235.65 293.23 222.68 305.62Q209.72 318.00 180.69 318.00ZM167.02 283.94H180.69Q188.82 283.94 193.08 280.20Q197.34 276.46 197.46 269.50Q197.85 255.69 198.04 242.02Q198.24 228.34 198.24 214.67Q198.24 201.00 198.04 187.26Q197.85 173.52 197.46 159.85Q197.34 153.01 193.08 149.33Q188.82 145.66 180.69 145.66H167.02Z" fill="#F5F5F0" mask="url(#ldk-b)"/><path d="M56.32 285.00V78.60H95.02V250.94H145.85V285.00Z" fill="#F5F5F0"/><ellipse cx="182.3" cy="77" rx="66" ry="13" fill="none" stroke="#C9A227" stroke-width="11"/></svg>
+</div></header>
+
+<section id="cojsme"><div class="wrap">
+  <div class="sec-head"><span class="no">01</span><h2>Co eldee je</h2></div>
+  <p class="lede" id="v-cojsme"></p>
+</div></section>
+
+<section id="produkt"><div class="wrap">
+  <div class="sec-head"><span class="no">02</span><h2>Produkt</h2></div>
+  <p class="lede" id="v-produkt"></p>
+</div></section>
+
+<section id="duvod"><div class="wrap">
+  <div class="sec-head"><span class="no">03</span><h2>Proč to dává smysl</h2></div>
+  <p class="lede" id="v-duvod"></p>
+</div></section>
+
+<section id="mereni"><div class="wrap">
+  <div class="sec-head"><span class="no">04</span><h2>Jak to děláme poctivě</h2></div>
+  <p class="lede" id="v-mereni"></p>
+</div></section>
+
+<section id="stav"><div class="wrap">
+  <div class="sec-head"><span class="no">05</span><h2>Co už stojí</h2></div>
+  <div class="sub-head">Aktuální fáze</div>
+  <div class="cards" id="v-karty"></div>
+  <div class="sub-head">Cesta až sem</div>
+  <ul class="mil" id="v-milniky"></ul>
+</div></section>
+
+<section id="brand"><div class="wrap">
+  <div class="sec-head"><span class="no">06</span><h2>Brand</h2></div>
+  <div class="brand-card">
+    <p>Logo, barvy, typografie i pravidla použití — celý vizuální systém eldee je veřejný. Klidně si ho projdi, nebo ho pošli dál.</p>
+    <a class="brand-btn" href="https://eldee-logomanual.vercel.app" target="_blank" rel="noopener">Otevřít logomanuál →</a>
+  </div>
+</div></section>
+
+<section id="tym" style="border-bottom:none"><div class="wrap">
+  <div class="sec-head"><span class="no">07</span><h2>Kdo za tím stojí</h2></div>
+  <div class="team" id="v-tym"></div>
+</div></section>
+
+<footer><div class="wrap" style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;padding:0">
+  <span>eldee — One of Us.</span>
+  <span>Veřejná vizitka značky</span>
+</div></footer>
+
+<script src="hq-core.js"></script>
+<script>
+function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g, c =>
+  ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+fetch('data/stav.json',{cache:'no-store'})
+  .then(r=>{ if(!r.ok) throw new Error('HTTP '+r.status); return r.json(); })
+  .then(d=>{
+    const V = d.vitrina || {};
+    document.getElementById('v-cojsme').innerHTML  = V.coJsme  || '';
+    document.getElementById('v-produkt').innerHTML = V.produkt || '';
+    document.getElementById('v-duvod').innerHTML   = V.duvod   || '';
+    document.getElementById('v-mereni').innerHTML  = V.mereni  || '';
+
+    document.getElementById('v-milniky').innerHTML =
+      HqCore.verejne(d.timeline).map(t =>
+        `<li><span class="dat">${esc(t.datum)}</span><b>${esc(t.nadpis)}</b></li>`).join('');
+
+    document.getElementById('v-karty').innerHTML =
+      HqCore.verejne(d.stavKarty).map(k =>
+        `<div class="card"><span class="tag">${esc(k.tag)}</span><h3>${esc(k.nadpis)}</h3><p>${k.text||''}</p></div>`).join('');
+
+    document.getElementById('v-tym').innerHTML = (d.tym||[]).map(m =>
+      `<div class="member"><div class="ava">${esc(m.iniciuly)}</div><h3>${esc(m.jmeno)}</h3><p>${esc(m.role)}</p></div>`).join('');
+  })
+  .catch(e => {
+    document.getElementById('v-chyba').textContent =
+      'Stránku se nepodařilo načíst. Otevři ji přes eldee-hq.vercel.app, ne z disku.';
+    console.error(e);
+  });
+</script>
+</body>
+</html>

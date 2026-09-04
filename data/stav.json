@@ -25,19 +25,21 @@
       "tag": "E-shop & brand",
       "nadpis": "Maskot Eldee + homepage",
       "badge": "běží",
-      "text": "Oficiální maskot <strong>Eldee</strong> (lenochod = jméno značky) zakotven v character bible včetně podkladu pro AI videa. Vyčištěná hero verze hotová. Vizualizace homepage e-shopu rozpracovaná + Shoptet set-up tahák (co je přenositelné do Shoptetu). Web bude vícejazyčný (CZ + EN/DE/ES/PL)."
+      "text": "Maskot Eldee má hotový Pixar kit pro AI videa (model sheet, 12 výrazů, 4 brand pózy) — identita zamčená a připravená k natáčení. Vizualizace homepage e-shopu hotová + Shoptet set-up tahák (co je přenositelné do Shoptetu). Web bude vícejazyčný (CZ + EN/DE/ES/PL)."
     },
     {
       "tag": "Produkt",
       "nadpis": "Vzorkování — 4 produkty",
       "badge": "běží",
-      "text": "Portfolio: návlek/tube · tréninková ponožka · nízká a vysoká štulpna. Balíček s logem odeslán výrobci (5. 6.), připravena 2. várka vzorků — <strong>dlouhá štulpna v2 s logem</strong> (mateřský střih řady). Testuje 5 lidí, MOQ/mix se řeší až po finálech všech produktů."
+      "text": "Portfolio: návlek/tube · tréninková ponožka · nízká a vysoká štulpna. Balíček s logem odeslán výrobci (5. 6.), vyrábí se 3. sada vzorků — dlouhá štulpna v2 s logem. Čeká se na dodání, pak jde do testování u 5 lidí. MOQ/mix se řeší až po finálech všech produktů.",
+      "verejne": true
     },
     {
       "tag": "Data",
       "nadpis": "Průzkum cílovky",
       "badge": "hotovo",
-      "text": "27 hráčů (žáci–dorost, soutěžně): 93 % nosí tube návlek · kapsa na chránič = nejžádanější featura (63 %) · cena 599 Kč potvrzena, 44 % dá i 600–799 · preferují nízký střih. Hotový testovací dotazník (core + moduly per produkt) pro vzorky."
+      "text": "27 hráčů (žáci–dorost, soutěžně): 93 % nosí tube návlek · kapsa na chránič = nejžádanější featura (63 %) · preferují nízký střih. Hotový testovací dotazník (core + moduly per produkt) pro vzorky.",
+      "verejne": true
     },
     {
       "tag": "Brand",
@@ -49,7 +51,7 @@
       "tag": "Brand",
       "nadpis": "Brand book v2.0",
       "badge": "živě",
-      "text": "Kompletní vizuální i verbální identita včetně sekce Maskot Eldee: jednotné logo i wordmark v2, misuse s reálnými příklady, construction grid, produktová řada v positioningu, aktuální PDF. Zbývá doména brand.eldee.cz."
+      "text": "Kompletní vizuální i verbální identita včetně sekce Maskot Eldee: jednotné logo i wordmark v2, misuse s reálnými příklady, construction grid, produktová řada v positioningu, aktuální PDF. Mezitím vznikl samostatný veřejný Logomanuál pro dodavatele a partnery, interní brand book zůstává vzadu."
     },
     {
       "tag": "Byznys",
@@ -61,7 +63,7 @@
       "tag": "Byznys",
       "nadpis": "Firma & ochrana",
       "badge": "hotovo",
-      "text": "Živnost (OSVČ vedlejší) · datová schránka · podnikatelský účet · průmyslové vzory (díry + kapsa) podané. Právní a ochranný základ stojí."
+      "text": "Živnost (OSVČ vedlejší) · datová schránka · podnikatelský účet · dva průmyslové vzory (díry + kapsa) zapsané, platí v celé EU. Právní a ochranný základ stojí."
     }
   ],
   "timeline": [
@@ -69,7 +71,8 @@
       "datum": "3. 9. 2026",
       "nadpis": "📏 Velikostní studie: 54 měření a nová velikost XS",
       "text": "Přibylo <strong>25 nových měření</strong> (kluci 8–10 let). Ukázalo se, že 17 z nich padalo pod dosavadní škálu — boty 31–34 dlaždice hlásila jako „mimo rozsah“ a nepočítala je nikam. Vznikla proto <strong>nová velikost XS (31–34)</strong> v jádru, v semaforu pokrytí i v zadání pro výrobu. Stav vzorku: <strong>XS 18 · S 8 · M 8 · L 20 · XL 0</strong> — čtyři velikosti z pěti jsou nad cílem 5 dětí, takže zadání výroby jde vytisknout pro XS, S, M i L. Chybí jediná velikost: <strong>XL</strong>. Zároveň opraven jeden překlep v datech (číslo boty 42 u desetiletého → 34).",
-      "minor": false
+      "minor": false,
+      "verejne": true
     },
     {
       "datum": "2. 9. 2026",
@@ -102,7 +105,8 @@
       "datum": "25. 8. 2026",
       "nadpis": "🦥 Pixar kit maskota dokončen — identita zamčená znovu",
       "text": "Kit pro AI videa a obsah s maskotem Eldee je <strong>hotový</strong>. Po ztrátě přístupu ke starému AI účtu se musel <strong>obnovit zámek identity</strong> — nový stojí na neutrální podobě ze všech pěti stran. Zároveň se srovnalo, co je vlastně <strong>kanonická předloha</strong>: základem je <strong>neutrální Eldee bez propů</strong>, ne prodejce s krabicí (ten je odteď vedený jako brand póza). Pravidlo: co drží jen v jedné scéně, do předlohy nepatří. Kit má galerii, návod s hotovými prompty a čtyři pojmenované pózy — prodejce, fotbalista, srdíčko, portrét. Obnova zámku i nahrání referencí stály <strong>0 kreditů</strong>. Etapa 1 (identita) je uzavřená, další na řadě je workflow a první kompletní video.",
-      "stavText": "etapa 1 hotová"
+      "stavText": "etapa 1 hotová",
+      "verejne": true
     },
     {
       "datum": "25. 8. 2026",
@@ -281,7 +285,8 @@
       "datum": "6. 6. 2026",
       "nadpis": "Jedno logo pro všechno + wordmark v2",
       "text": "Strategické rozhodnutí: logo sjednoceno na vyšitelnou geometrii (v2.1) — co je na štulpně, je i na webu. Nový wordmark „eldee“ s vnořeným LD interlockem navržen, ověřen a nasazen. Brand book → v1.7 živě (misuse příklady, aktuální PDF, úklid starých verzí).",
-      "minor": false
+      "minor": false,
+      "verejne": true
     },
     {
       "datum": "6. 6. 2026",
@@ -323,7 +328,8 @@
       "datum": "22.–24. 5. 2026",
       "nadpis": "Brand book v1.0 — web",
       "text": "Profesionální brand book jako webová aplikace: 16 sekcí, auto-generované PDF, barvy, typografie, voice & tone, logo systém, mockupy. Plus wordmark eLDee a 6 logo iterací.",
-      "minor": false
+      "minor": false,
+      "verejne": true
     },
     {
       "datum": "18.–19. 5. 2026",
@@ -341,7 +347,8 @@
       "datum": "15.–19. 5. 2026",
       "nadpis": "Business kniha — 7 kapitol",
       "text": "Marketing & content, právní a daňový rámec, finanční model, brand identita, smluvní šablony (4×), e-shop na Shoptetu, akviziční strategie klubů. Vše jako mobilní HTML kniha.",
-      "minor": false
+      "minor": false,
+      "verejne": true
     }
   ],
   "ukoly": [
@@ -360,15 +367,6 @@
       "stav": "teď",
       "kdo": "Hledík",
       "pozn": "15 minut, jedna zpráva. Na tomhle stojí premisa celého benchmarku — FOUL byla jediná spontánně jmenovaná značka. Pokud myslel chrániče, není to konkurent eldee, ale sousedící značka, a positioning se mění.",
-      "vzniklo": "2026-08-28",
-      "hotovo": null
-    },
-    {
-      "id": "mereni-s-xl",
-      "text": "📏 Doměřit velikost XL — jediná chybějící (S dosbírána 3. 9.)",
-      "stav": "další",
-      "kdo": "Hledík",
-      "pozn": "Bílé místo z FOUL benchmarku (FOUL nemá nic pod velikost 31) eldee teď pokrývá novou velikostí XS 31–34 (18 měření). Zbývá horní konec škály: XL = boty 47–50, zatím 0 měření.",
       "vzniklo": "2026-08-28",
       "hotovo": null
     },
@@ -414,16 +412,7 @@
       "stav": "teď",
       "kdo": "Lukáš",
       "pozn": "Blok C krok 1. Vybrat 4–5 z 12 námětů (marketing/10-rytmus-obsahu.md), natočit v jednom bloku (mobil, přirozené světlo, jeden záběr, text na obrazovce nese pointu), střih v CapCutu. ~3–4 h. Pak stačí 15 min týdně na publikaci. POZOR: exportovat bez vodoznaku, jinak TikTok srazí dosah.",
-      "vzniklo": "25. 8. 2026",
-      "hotovo": null
-    },
-    {
-      "id": "zalozit-profily-site",
-      "text": "📱 Založit / oživit profily: TikTok + Instagram + Facebook (propojit Meta)",
-      "stav": "další",
-      "kdo": "Lukáš",
-      "pozn": "Předpoklad pro rytmus. IG + FB propojit přes Meta Business Suite (jeden post do obou). TikTok samostatně. Bio: claim + odkaz. Rozcestník s návody je na HQ v dlaždici Sociální sítě. — Stav k 2. 9.: Instagram i FB stránka už existují (IG zatím pod jménem eldee.cz), TikTok zatím žádný. Před rozjezdem sjednotit jména, viz úkol socky-jmeno-eldeeworld.",
-      "vzniklo": "25. 8. 2026",
+      "vzniklo": "2026-08-25",
       "hotovo": null
     },
     {
@@ -432,7 +421,7 @@
       "stav": "další",
       "kdo": "Lukáš + Jarvis",
       "pozn": "Z emočního jádra (25. 8.). Hráč pošle fotku starých rozřezaných štulpen → eldee odpoví do komentáře „One of us.“ Razítko se dává za důkaz, že to znáš, nikdy za nákup. Vyrábí obsah cizíma rukama zdarma. Váže se na Blok B (ambasadoři).",
-      "vzniklo": "25. 8. 2026",
+      "vzniklo": "2026-08-25",
       "hotovo": null
     },
     {
@@ -442,7 +431,7 @@
       "kdo": "Hledík + Jarvis",
       "pozn": "HOTOVO 28. 8. Finální výstup: FOUL-deep-research-KOMPLET.pdf (53 stran) v eldee-business/marketing/foul-benchmark/. Běh 1: 410 tvrzení → 30 → ověřeno 21 potvrzeno / 5 vyvráceno. Běh 2: ranking 19 prvků playbooku, 3 bloky na teď, co se nedělá vůbec (→ 7 úkolů na nástěnce). Běh 3: 10 vlastních snímků, identita rozebraná na součástky, srovnání s brand systémem eldee, zadání pro budoucí e-shop. Tři místa, kde jde FOUL předběhnout: kluby přes trenéry (segment vědomě opustil), TikTok a tón k 10–19letým, retence + živá IP.",
       "vzniklo": "2026-08-25",
-      "hotovo": "28. 8. 2026"
+      "hotovo": "2026-08-28"
     },
     {
       "id": "mereni-nohou-v2",
@@ -456,7 +445,7 @@
     {
       "id": "sklad-dalsi-etapa",
       "text": "Sklad — další etapa (až bude Shoptet živý): odpis prodejů (sklad klesá), Shoptet API propsání stavů, analýzy „co se nejvíc prodává“",
-      "stav": "fronta",
+      "stav": "spí",
       "kdo": "Lukáš + Jarvis",
       "pozn": "Odpis prodejů hotovo 28. 6. (ruční výdej + import objednávek). Zbývá živé Shoptet API + analytika.",
       "vzniklo": "2026-06-24",
@@ -471,7 +460,7 @@
       "kdo": "Lukáš",
       "pozn": "Schůzka proběhla, spolupráce běží. Uzavřeno 25. 8. — úkol zůstával omylem ve stavu „teď“ od 5. 6., přestože s výrobcem od té doby padly obě otevřené otázky (14. 8.: rozměr otvoru a způsob kótování).",
       "vzniklo": "2026-06-05",
-      "hotovo": "25. 8. 2026",
+      "hotovo": "2026-08-25",
       "priorita": "vysoka",
       "poradi": 1
     },
@@ -487,13 +476,14 @@
     {
       "id": "domena-brand",
       "text": "Doména brand.eldee.cz pro brand book",
-      "stav": "fronta",
+      "stav": "neaktuální",
       "kdo": "Lukáš",
       "pozn": "Web už běží na eldee-brandbook.vercel.app",
       "vzniklo": "2026-05-24",
       "hotovo": null,
       "priorita": "nizka",
-      "poradi": 13
+      "poradi": 13,
+      "duvod": "Logomanuál dostal vlastní adresu a doménová strategie se 2. 9. překlopila na eldeeworld.com."
     },
     {
       "id": "kniha-kap8",
@@ -529,13 +519,14 @@
     {
       "id": "barvy-dresu-p3",
       "text": "Ověřit barvy dresů u ~100 P3 klubů",
-      "stav": "fronta",
+      "stav": "neaktuální",
       "kdo": "kdokoliv",
       "pozn": "~8 h práce, jde delegovat a rozložit",
       "vzniklo": "2026-05-19",
       "hotovo": null,
       "priorita": "nizka",
-      "poradi": 14
+      "poradi": 14,
+      "duvod": "Čtyři měsíce beze změny; kluby se teď oslovují telefonicky (blok B), ne dočišťováním databáze."
     },
     {
       "id": "construction-grid",
@@ -578,24 +569,26 @@
     {
       "id": "brainstorm-sekce",
       "text": "Rozvést sekci Brainstorm na HQ (zatím jen placeholder)",
-      "stav": "fronta",
+      "stav": "neaktuální",
       "kdo": "Lukáš + Jarvis",
       "pozn": "Podobu a fungování doladíme v další session.",
       "vzniklo": "2026-06-24",
       "hotovo": null,
       "priorita": "stredni",
-      "poradi": 6
+      "poradi": 6,
+      "duvod": "Sekce Brainstorm se revizí HQ z 3. 9. ruší."
     },
     {
       "id": "kalendar-ficury",
       "text": "Kalendář na HQ — doplnit fíčury (události, doplňování), zatím jen zobrazovací",
-      "stav": "fronta",
+      "stav": "neaktuální",
       "kdo": "Lukáš + Jarvis",
       "pozn": "Zobrazovací kalendář (KT týdny, dnešek, procházení měsíců) hotový; doplňování událostí = budoucí.",
       "vzniklo": "2026-06-24",
       "hotovo": null,
       "priorita": "stredni",
-      "poradi": 7
+      "poradi": 7,
+      "duvod": "Sekce Kalendář se revizí HQ z 3. 9. ruší."
     },
     {
       "id": "barva-akcent",
@@ -604,7 +597,7 @@
       "kdo": "Lukáš",
       "pozn": "Zombie úkol — barva byla rozhodnutá už v brand booku v1.0 (22. 5.), jen kniha o tom nevěděla. Signature = Blood Red #B91C1C, premium = Burnished Gold, Electric Blue degradován na sezónní drop barvu. Kniha srovnána 25. 8. Potvrzeno Lukášem 25. 8.; sedí k jádru patřičnosti (červená = barva klubu, dresu, krve).",
       "vzniklo": "2026-06-25",
-      "hotovo": "25. 8. 2026",
+      "hotovo": "2026-08-25",
       "priorita": "vysoka",
       "poradi": 3,
       "termin": "2026-06-30"
@@ -634,7 +627,7 @@
     {
       "id": "eshop-pravni",
       "text": "Obchodní podmínky + GDPR + reklamace + FAQ pro e-shop",
-      "stav": "fronta",
+      "stav": "spí",
       "kdo": "Lukáš + Jarvis",
       "pozn": "Povinné pro reálný prodej. Shoptet šablona + úpravy (UGC doložka, nezletilí).",
       "vzniklo": "2026-06-25",
@@ -656,7 +649,7 @@
     {
       "id": "eshop-launch-blok",
       "text": "🛒 E-shop launch (Shoptet) — kompletní spuštění",
-      "stav": "fronta",
+      "stav": "spí",
       "kdo": "Lukáš + Jarvis",
       "pozn": "BLOK: Shoptet účet+šablona · doména eldee.cz→DNS/SSL · GoPay · Zásilkovna+ceny dopravy · slevové kódy · newsletter (MailerLite) · GA4+Heureka · testovací objednávka 5×.",
       "vzniklo": "2026-06-25",
@@ -667,7 +660,7 @@
     {
       "id": "marketing-blok",
       "text": "📣 Marketing pre-launch zásoba",
-      "stav": "fronta",
+      "stav": "spí",
       "kdo": "Lukáš + Jarvis",
       "pozn": "BLOK: 5 quick-start videí (scripty + natočení) · 3s jingle · landing s countdownem · UGC karty (50 ks) · grafika slev pro kluby.",
       "vzniklo": "2026-06-25",
@@ -678,7 +671,7 @@
     {
       "id": "fotky-obsah-blok",
       "text": "📸 Produktové fotky + obsah (čeká na prototyp)",
-      "stav": "fronta",
+      "stav": "spí",
       "kdo": "Lukáš + Jarvis",
       "pozn": "BLOK: fotky 5–7/produkt · hero video · mockupy Vlna 2 (vizitka/krabička/hangtag) · finální vektor maskota. Blokováno prototypem.",
       "vzniklo": "2026-06-25",
@@ -748,34 +741,34 @@
       "kdo": "Lukáš + Jarvis",
       "pozn": "Další fáze po skladových kartách + Finance kokpitu (26.6.). Přidat do Skladu prodej/výdej (odečítá stav): manuální výdej teď, import Shoptet CSV (párování přes SKU) až bude eshop živý. Pak prodejní analytika: bestsellery s rozpadem na prvky (díra v X % prodejů), sell-through, reorder, marže po variantě. Finance: záložka Kam jdou peníze pak doplnit o tržby/zisk. Zatím se Sklad+Finance testují lokálně, doladí za provozu.",
       "vzniklo": "2026-06-26",
-      "hotovo": "28. 6. 2026",
+      "hotovo": "2026-06-28",
       "priorita": "stredni",
       "poradi": 23
     },
     {
       "id": "sklad-prodejni-analytika",
-      "stav": "fronta",
+      "stav": "spí",
       "priorita": "střední",
       "kdo": "Doležal",
-      "vzniklo": "28. 6. 2026",
+      "vzniklo": "2026-06-28",
       "text": "Sklad: prodejní analytika (bestsellery, sell-through, reorder, „díra v X % prodejů“) + napojit tržby/zisk do Finance „Kam jdou peníze“",
       "pozn": ""
     },
     {
       "id": "shoptet-automatizace",
-      "stav": "fronta",
+      "stav": "spí",
       "priorita": "střední",
       "kdo": "Doležal",
-      "vzniklo": "28. 6. 2026",
+      "vzniklo": "2026-06-28",
       "text": "Plná Shoptet automatizace: živé napojení (server/cloud) — real-time odečet objednávek + sync skladových stavů DO Shoptetu (nikdy nepřeprodat). Teď hotová příprava: import přes soubor + hlídání duplicit přes číslo objednávky",
       "pozn": ""
     },
     {
       "id": "objednavky-faze1",
       "stav": "hotovo",
-      "hotovo": "28. 6. 2026",
+      "hotovo": "2026-06-28",
       "kdo": "Doležal",
-      "vzniklo": "28. 6. 2026",
+      "vzniklo": "2026-06-28",
       "text": "Objednávky — Fáze 1: kartotéka dodavatelů + výrobní šablony + automatické svátky/dovolené + kalkulačka termínů",
       "pozn": ""
     },
@@ -784,26 +777,26 @@
       "stav": "hotovo",
       "priorita": "střední",
       "kdo": "Doležal",
-      "vzniklo": "28. 6. 2026",
+      "vzniklo": "2026-06-28",
       "text": "Objednávky — Krok A: objednávky jako doklad (koncept → objednáno → přijato) + zboží na cestě + naskladnění do skladu + množstevní ceník dodavatele",
       "pozn": "",
-      "hotovo": "28. 6. 2026"
+      "hotovo": "2026-06-28"
     },
     {
       "id": "objednavky-faze3",
-      "stav": "fronta",
+      "stav": "spí",
       "priorita": "střední",
       "kdo": "Doležal",
-      "vzniklo": "28. 6. 2026",
+      "vzniklo": "2026-06-28",
       "text": "Objednávky — Fáze 3: návrh kdy a kolik objednat (reorder z rychlosti prodeje + lead time)",
       "pozn": ""
     },
     {
       "id": "objednavky-faze4",
-      "stav": "fronta",
+      "stav": "spí",
       "priorita": "střední",
       "kdo": "Doležal",
-      "vzniklo": "28. 6. 2026",
+      "vzniklo": "2026-06-28",
       "text": "Objednávky — Fáze 4: finanční strop návrhu (nenavrhnout nákup nad možnosti firmy, napojení na Finance)",
       "pozn": ""
     },
@@ -812,10 +805,10 @@
       "stav": "hotovo",
       "priorita": "střední",
       "kdo": "Doležal",
-      "vzniklo": "28. 6. 2026",
+      "vzniklo": "2026-06-28",
       "text": "Objednávky — Krok B (mozek): skladové hladiny (min/cíl) + rychlost prodeje + zboží na cestě → návrh co/kolik/kdy objednat (ceníkový tip) + upozornění + koncept z návrhů",
       "pozn": "",
-      "hotovo": "28. 6. 2026"
+      "hotovo": "2026-06-28"
     },
     {
       "id": "mereni-nohou",
@@ -844,7 +837,7 @@
       "kdo": "Lukáš + Jarvis",
       "pozn": "ROZHODNUTO 25. 8.: jádro = A (patřičnost), C zůstává jako důkaz a kanál pro rodiče/kluby. Anchor claim značky = „One of Us.“ (CZ „Jeden z nás.“), nadřazený produktové lince Holy Socks. Provozní kompas: marketing/09-emocni-jadro-LIST.md (emoce + 3 pravidla na obsah + UGC mechanika razítka).",
       "vzniklo": "2026-07-10",
-      "hotovo": "25. 8. 2026",
+      "hotovo": "2026-08-25",
       "priorita": "vysoka",
       "poradi": 5
     },
@@ -866,7 +859,7 @@
       "kdo": "Lukáš + Jarvis",
       "pozn": "ROZHODNUTO 25. 8.: 1 video týdně, 9–15 s vertikálně, 3 pilíře v rotaci (Znáš to. 50 % / Maskot Eldee 25 % / Founder journey 25 %). Kanály: TikTok primární + IG Reels + FB (z IG automaticky, tam mluví craft pro rodiče a kluby). Klíč: netočí se týdně, publikuje se týdně — 1 výrobní blok měsíčně = 4–5 videí do zásoby, ~4 h. Plán v marketing/10-rytmus-obsahu.md včetně 12 námětů. Frekvenci zvýšit až po 8 týdnech bez vynechání.",
       "vzniklo": "2026-07-10",
-      "hotovo": "25. 8. 2026",
+      "hotovo": "2026-08-25",
       "priorita": "stredni",
       "poradi": 25
     },
@@ -894,10 +887,10 @@
     },
     {
       "id": "mereni-dosbirat-velikosti",
-      "text": "📏 Dosbírat měření pro velikost XL — XS, S, M i L už máme",
+      "text": "📏 Doměřit velikost XL — XS, S, M i L už máme",
       "stav": "další",
       "kdo": "Lukáš",
-      "pozn": "Stav k 3. 9.: 54 měření. XS ✅ 18 · S ✅ 8 · M ✅ 8 · L ✅ 20 — všechny nad cílem 5. Chybí jen XL (boty 47–50, zatím 0 měření). Zadání výroby jde vytisknout pro XS, S, M i L. Data archivovaná v business repu (vyroba/mereni-export-2026-09-03.json), čísla zůstávají jen v prohlížeči.",
+      "pozn": "Stav k 3. 9.: 54 měření. XS ✅ 18 · S ✅ 8 · M ✅ 8 · L ✅ 20 — všechny nad cílem 5. Chybí jen XL (boty 47–50, zatím 0 měření). Zadání výroby jde vytisknout pro XS, S, M i L. Data archivovaná v business repu (vyroba/mereni-export-2026-09-03.json), čísla zůstávají jen v prohlížeči. Bílé místo z FOUL benchmarku (FOUL nemá nic pod velikost 31) eldee teď pokrývá novou velikostí XS 31–34.",
       "vzniklo": "2026-07-31",
       "hotovo": null,
       "priorita": "vysoka",
@@ -932,17 +925,17 @@
       "kdo": "Lukáš + právník",
       "pozn": "VYŘEŠENO 25. 8. — třída 25 (oděvy) je VOLNÁ. Dva zápisy v EUIPO: (1) 019388331 „ONE OF US“, majitel ONE OF US Fédération européenne pour la vie et la dignité humaine, třídy 41, 44, 45 (vzdělávání, zdravotní a sociální/právní služby), podáno 30. 6. 2026, přihláška v řízení — třídu 25 NEMÁ, nekoliduje. (2) 018698990 „ONE OF US IS LYING“, majitel NBCU Television Holding LLC, třídy 9, 25, 41, zapsáno 2022 — jiná fráze s opačným významem, používání nebrání, ale komplikovalo by vlastní registraci ve třídě 25. ZÁVĚR: claim POUŽÍVAT ano, vlastní známku NEREGISTROVAT. Zbývá brandová asociace s pro-life federací — ošetřena 3 pravidly používání v marketing/09-emocni-jadro-LIST.md.",
       "vzniklo": "2026-08-25",
-      "hotovo": "25. 8. 2026",
+      "hotovo": "2026-08-25",
       "priorita": "vysoka",
       "poradi": 2
     },
     {
       "id": "socky-jmeno-eldeeworld",
-      "text": "📱 Sjednotit jméno na sítích na eldeeworld (IG přejmenovat z eldee.cz, FB stránka, zabrat TikTok)",
+      "text": "📱 Sjednotit jméno na sítích na eldeeworld + oživit profily (IG, TikTok, FB)",
       "stav": "další",
       "kdo": "Lukáš",
-      "pozn": "AŽ PO nákupu domény (doména je kotva). Postup: (1) Instagram → Upravit profil → Uživatelské jméno na eldeeworld, Jméno na eldee; pozor, IG pustí změnu jen párkrát za 14 dní a staré eldee.cz se uvolní pro kohokoliv. (2) TikTok — založit prázdný účet eldeeworld jen kvůli zabrání jména, TikTok je podle rozhodnutí z 25. 8. hlavní kanál. (3) FB stránka (na počítači) → nastavení → uživatelské jméno eldeeworld + název stránky eldee; změnu názvu může FB poslat na schválení, trvá i pár dní. Odkaz v biu nechat eldee.cz, dokud na eldeeworld.com nestojí web. Značka se jmenuje eldee, world je jen adresa.",
-      "vzniklo": "2026-09-02",
+      "pozn": "AŽ PO nákupu domény (doména je kotva). Stav k 2. 9.: Instagram i FB stránka existují (IG zatím pod jménem eldee.cz), TikTok zatím žádný — chybí založit. Postup: (1) Instagram → Upravit profil → Uživatelské jméno na eldeeworld, Jméno na eldee; pozor, IG pustí změnu jen párkrát za 14 dní a staré eldee.cz se uvolní pro kohokoliv. (2) TikTok — založit účet eldeeworld (podle rozhodnutí z 25. 8. hlavní kanál) a propojit s Instagramem a Facebookem přes Meta Business Suite (jeden post do obou). (3) FB stránka (na počítači) → nastavení → uživatelské jméno eldeeworld + název stránky eldee; změnu názvu může FB poslat na schválení, trvá i pár dní. Bio: claim + odkaz, zatím eldee.cz, dokud na eldeeworld.com nestojí web. Rozcestník s návody je na HQ v dlaždici Sociální sítě. Značka se jmenuje eldee, world je jen adresa.",
+      "vzniklo": "2026-08-25",
       "hotovo": null,
       "priorita": "stredni",
       "poradi": 9
@@ -964,39 +957,17 @@
       "stav": "on",
       "stavText": "video — památka",
       "href": "media/eldee-prvni-AI-video-zonglovani-2026-07-10.mp4",
-      "extern": false
+      "extern": false,
+      "skupina": "archiv"
     },
     {
-      "nadpis": "Logomanual",
-      "text": "Osekaný brandbook pro dodavatele a partnery — logo, barvy, fonty, vzor a jak s eldee vizuálně pracovat. Tohle se sdílí ven.",
-      "stav": "on",
-      "stavText": "veřejné · sdílej s dodavateli",
-      "href": "https://eldee-logomanual.vercel.app",
-      "extern": true
-    },
-    {
-      "nadpis": "Brandbook (interní)",
-      "text": "Plný brand book = DNA firmy (manifest, příběh, positioning, voice) + celý vizuální manuál. INTERNÍ — nesdílet ven; klikni a načte se (jako kalkulačka).",
-      "stav": "on",
-      "stavText": "interní · nesdílet",
-      "href": "https://eldee-interni-brandbook.vercel.app",
-      "extern": true
-    },
-    {
-      "nadpis": "Sociální sítě",
+      "nadpis": "📱 Sociální sítě",
       "text": "Rozcestník na 6 sociálních sítí (<strong>Instagram · TikTok · YouTube · Facebook · Discord · Threads</strong>). U každé vlastní kokpit: <strong>galerie</strong> vizuálů ve formátech té sítě (1:1, 9:16, 16:9 náhled, bannery…) → stáhni hotové v plné kvalitě, + obsah na míru (hashtagy, popisky, nápady na videa, profil). <strong>Instagram a TikTok hotové</strong>, zbytek má strukturu + galerii, texty se doplňují.",
       "stav": "on",
       "stavText": "online — telefon i PC",
       "href": "socialni-site.html",
-      "extern": false
-    },
-    {
-      "nadpis": "Brand assety",
-      "text": "Loga, monogram, wordmark, favicon a maskot ke stažení — v brand booku (kanonický zdroj, vždy aktuální).",
-      "stav": "on",
-      "stavText": "online — brand book",
-      "href": "https://eldee-logomanual.vercel.app/assets",
-      "extern": true
+      "extern": false,
+      "skupina": "nastroj"
     },
     {
       "nadpis": "🦥 Maskot",
@@ -1004,119 +975,144 @@
       "stav": "on",
       "stavText": "online — kit",
       "href": "maskot.html",
-      "extern": false
+      "extern": false,
+      "skupina": "nastroj"
     },
     {
-      "nadpis": "Business kniha",
+      "nadpis": "📖 Business kniha",
       "text": "8/8 kapitol kompletní — právo, finance, brand, smlouvy, e-shop, marketing, akvizice, finalizace. Mobilní HTML kniha.",
       "stav": "on",
       "stavText": "online — v1.0",
       "href": "kniha.html",
-      "extern": false
+      "extern": false,
+      "skupina": "nastroj"
     },
     {
-      "nadpis": "Sklad",
-      "text": "Příjem zboží → reálný stav skladu podle variant (barva · provedení · velikost) + SKU kódy. Export pro Shoptet. Data v prohlížeči.",
-      "stav": "on",
-      "stavText": "online",
-      "href": "sklad.html",
-      "extern": false
-    },
-    {
-      "nadpis": "Objednávky",
-      "text": "Plánování objednávek a výroby: kartotéka dodavatelů (kontakty, IČO, lead time, dovolené), výrobní šablony (kroky pletení → doprava → výšivka), automatické státní svátky (CZ/SK/PL/DE vč. Velikonoc) a kalkulačka termínů — kdy objednat / kdy dorazí. Data v prohlížeči (citlivé, nesdílet ven). Fáze 1 z 4.",
-      "stav": "on",
-      "stavText": "online · interní data",
-      "href": "objednavky.html",
-      "extern": false
-    },
-    {
-      "nadpis": "Reklamace & vrácení",
-      "text": "Evidence reklamací zákazníka (RZ), reklamací u dodavatele (RD) a vrácení do 14 dnů (VR). Automatické číslování, hlídání lhůt (kolik zbývá), navrhované vs provedené vyřízení. Vadné zboží se přesouvá do <strong>reklamačního skladu</strong> (převodky), takže ho Shoptet nikdy nenabídne k prodeji. Data v prohlížeči (citlivé — jména zákazníků, nesdílet ven).",
-      "stav": "on",
-      "stavText": "online · interní data",
-      "href": "reklamace.html",
-      "extern": false
-    },
-    {
-      "nadpis": "Měření nohou",
+      "nadpis": "📏 Měření nohou",
       "text": "Velikostní studie — měření dětských nohou → ideální výška štulpny a pásmo děr po velikostech (S/M/L/XL). Živý formulář, výsledky průměr+medián. Data v prohlížeči, přenos přes Zálohu.",
       "stav": "on",
       "stavText": "online",
       "href": "mereni-nohou.html",
-      "extern": false
+      "extern": false,
+      "skupina": "nastroj"
     },
     {
-      "nadpis": "Finance",
+      "nadpis": "💰 Finance",
       "text": "Kalkulačka: produkty, ceny, prvky, marže, MOQ ceník, mix prodejů, klubové kódy, cíle, hlídač DPH, nejbližší termíny + sekce <strong>DPH: vyplatí se mi být plátcem?</strong> (3 scénáře plátce/neplátce).",
       "stav": "on",
       "stavText": "online",
       "href": "kalkulacka.html",
-      "extern": false
+      "extern": false,
+      "skupina": "nastroj"
     },
     {
-      "nadpis": "Hledač klubů",
+      "nadpis": "🔎 Hledač klubů",
       "text": "940+ klubů, filtry, CRM tracking, mailové šablony, mapa ČR.",
       "stav": "on",
       "stavText": "online",
       "href": "kluby-vyhledavac.html",
-      "extern": false
+      "extern": false,
+      "skupina": "nastroj"
     },
     {
-      "nadpis": "Náhled e-shopu",
-      "text": "Statické vizualizace toku objednávky: homepage → produkt → košík → doprava/platba → potvrzení.",
+      "nadpis": "🌐 eldeeworld.com",
+      "text": "Hlavní mezinárodní doména značky — eldee.eu i eldee.com jsou nedostupné (drží je jiná firma), jde se na eldeeworld.com. eldee.cz zůstává pro Česko a přesměruje na ni.",
       "stav": "soon",
-      "stavText": "náhled — mockupy",
-      "href": "eshop-nahled/index.html",
-      "extern": false
+      "stavText": "doména se kupuje",
+      "href": "https://eldeeworld.com",
+      "extern": true,
+      "skupina": "archiv"
     },
     {
-      "nadpis": "Logo balíček v2",
-      "text": "Podklady pro vyšití LD monogramu: vektory (SVG) a PNG ve světlé i tmavé variantě ke stažení, plus pokyny pro digitizéra — rozměry, spára mezi L×D, barvy nití (Pantone) a postup se sew-out vzorkem.",
+      "nadpis": "💻 GitHub — eldee-cz",
+      "text": "Organizace eldee-cz na GitHubu — zdrojové kódy všech repozitářů (brand book, HQ, veřejné weby).",
       "stav": "on",
-      "stavText": "online · ke stažení",
-      "href": "logo-vyseni.html",
-      "extern": false
+      "stavText": "aktivní · veřejná organizace",
+      "href": "https://github.com/eldee-cz",
+      "extern": true,
+      "skupina": "archiv"
     },
     {
-      "nadpis": "Průzkum cílovky 6/2026",
-      "text": "27 hráčů: návlek 93 %, kapsa top featura, cena 599 potvrzena, nízký střih. Agregovaná zjištění + akční doporučení.",
-      "stav": "on",
-      "stavText": "online",
-      "href": "pruzkum-cilovky.html",
-      "extern": false
-    },
-    {
-      "nadpis": "Testovací systém vzorků",
-      "text": "Dotazník pro testery vzorků: 15 společných otázek (CORE) + modul podle produktu — dlouhá štulpna, nízká štulpna, návlek, tréninková ponožka. Aktivní: dlouhá štulpna v2. Vzorkovací tracker zůstává interní v dílně.",
-      "stav": "on",
-      "stavText": "online · dotazník",
-      "href": "dotazniky/dotaznik-testeri-v3.html",
-      "extern": false
-    },
-    {
-      "nadpis": "Dotazníky",
-      "text": "Rozcestník: náhledy dotazníků (všeobecný, vzorky v2) + odkaz na vyhodnocení.",
+      "nadpis": "🎨 Brand",
+      "text": "Logomanuál pro dodavatele, interní brand book, assety ke stažení a logo balíček.",
       "stav": "on",
       "stavText": "rozcestník",
-      "href": "dotazniky.html",
-      "extern": false
+      "skupina": "brand",
+      "polozky": [
+        {
+          "nadpis": "Logomanuál (veřejný)",
+          "href": "https://eldee-logomanual.vercel.app",
+          "extern": true
+        },
+        {
+          "nadpis": "Brand book (interní)",
+          "href": "https://eldee-interni-brandbook.vercel.app",
+          "extern": true
+        },
+        {
+          "nadpis": "Brand assety",
+          "href": "https://eldee-logomanual.vercel.app/assets",
+          "extern": true
+        },
+        {
+          "nadpis": "Logo balíček v2",
+          "href": "logo-vyseni.html",
+          "extern": false
+        }
+      ]
     },
     {
-      "nadpis": "eldee.cz",
-      "text": "Doména koupená — e-shop vznikne na Shoptetu dle kapitoly 5.",
-      "stav": "soon",
-      "stavText": "doména připravena",
-      "href": "https://eldee.cz",
-      "extern": true
-    },
-    {
-      "nadpis": "GitHub — eldee-brandbook",
-      "text": "Zdrojový kód brand booku — veřejné repo v organizaci eldee-cz.",
+      "nadpis": "🧪 Výzkum & dotazníky",
+      "text": "Průzkum cílovky, rozcestník dotazníků a testovací systém pro vzorkovací smyčky.",
       "stav": "on",
-      "stavText": "aktivní · veřejné repo",
-      "href": "https://github.com/eldee-cz/eldee-brandbook",
-      "extern": true
+      "stavText": "rozcestník",
+      "skupina": "vyzkum",
+      "polozky": [
+        {
+          "nadpis": "Průzkum cílovky 6/2026",
+          "href": "pruzkum-cilovky.html",
+          "extern": false
+        },
+        {
+          "nadpis": "Dotazníky",
+          "href": "dotazniky.html",
+          "extern": false
+        },
+        {
+          "nadpis": "Testovací systém vzorků",
+          "href": "dotazniky/dotaznik-testeri-v3.html",
+          "extern": false
+        }
+      ]
+    },
+    {
+      "nadpis": "📦 Až bude e-shop",
+      "text": "Sklad, objednávky, reklamace a náhled e-shopu — provozní nástroje pro chvíli, kdy e-shop poběží naostro.",
+      "stav": "soon",
+      "stavText": "čeká na e-shop",
+      "skupina": "spici",
+      "polozky": [
+        {
+          "nadpis": "Sklad",
+          "href": "sklad.html",
+          "extern": false
+        },
+        {
+          "nadpis": "Objednávky",
+          "href": "objednavky.html",
+          "extern": false
+        },
+        {
+          "nadpis": "Reklamace & vrácení",
+          "href": "reklamace.html",
+          "extern": false
+        },
+        {
+          "nadpis": "Náhled e-shopu",
+          "href": "eshop-nahled/index.html",
+          "extern": false
+        }
+      ]
     }
   ],
   "tym": [
@@ -1129,29 +1125,13 @@
       "iniciuly": "LH",
       "jmeno": "Lukáš Hledík",
       "role": "CEO · strategie, data, web & AI"
-    },
-    {
-      "iniciuly": "?",
-      "jmeno": "Doplnit",
-      "role": "Role — doplníme"
     }
   ],
-  "udalosti": [
-    {
-      "id": "ev-demo1",
-      "datum": "2026-06-27",
-      "cas": "10:00",
-      "nazev": "Ukázka — schůzka",
-      "popis": "Takhle vypadá ručně přidaná událost. Klidně smaž a dej si svoje.",
-      "kategorie": "schuzka"
-    },
-    {
-      "id": "ev-demo2",
-      "datum": "2026-07-01",
-      "cas": "",
-      "nazev": "Ukázka — drop akce",
-      "popis": "",
-      "kategorie": "drop"
-    }
-  ]
+  "udalosti": [],
+  "vitrina": {
+    "coJsme": "eldee je česká fotbalová značka se sloganem „One of Us.“ — jeden z nás. Vyrábíme fotbalové štulpny s prostřižením na lýtku a vnitřní kapsou na chránič, aby chránič držel na místě a nesjížděl. Obě řešení — díry i kapsa — máme chráněná dvěma průmyslovými vzory platnými v celé Evropské unii.",
+    "produkt": "Portfolio eldee má čtyři produkty: návlek (tube), tréninkovou ponožku, nízkou štulpnu a vysokou štulpnu — každý staví na stejném prostřižení a kapse na chránič. Aktuálně jsme ve fázi vzorkování: testujeme provedení a padnutí, než jde produkt do sériové výroby. Cílem je, aby si každý hráč našel svůj střih, ne aby si zvykal na jediný.",
+    "duvod": "Než jsme začali šít, zeptali jsme se 27 hráčů z cílové skupiny, co jim na současných štulpnách chybí. 93 % z nich už dnes nosí návlek pod štulpnu — pro nás jasný signál, že vnitřní ochrana chrániče je potřeba, ne rozmar. Kapsa na chránič vyšla jako nejžádanější vlastnost — chtělo ji 63 % hráčů. Stavíme produkt na datech, ne na dohadech.",
+    "mereni": "Výšku štulpny a umístění otvorů neurčujeme od stolu — změřili jsme 54 nohou ve čtyřech velikostech. Z těchto dat vzniká zadání pro výrobu: přesně tam, kde nohy skutečně jsou širší nebo užší, ne kde by podle tabulky měly být. Je to pomalejší cesta než převzít cizí velikostní tabulku, ale výsledkem je štulpna, která sedí. Měření průběžně pokračuje, jak přibývají další velikosti."
+  }
 }

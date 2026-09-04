@@ -1,5 +1,8 @@
 # Revize HQ — kokpit + výkladní skříň — implementační plán
 
+> ✅ **DOKONČENO 4. 9. 2026** — sloučeno do `main` a nasazeno. Kokpit: eldee-hq.vercel.app · Skříň: eldee-hq.vercel.app/eldee.
+> Hero skříně přepsán po Lukášově revizi (claim + štulpny), schéma prostřižení a kapsy přidáno do sekce Produkt, maskot k brandu.
+
 > **Pro agentní workery:** POVINNÝ SUB-SKILL: použij `superpowers:subagent-driven-development` (doporučeno) nebo `superpowers:executing-plans` a odpracuj plán úkol po úkolu. Kroky mají checkboxy (`- [ ]`) pro sledování postupu.
 
 **Cíl:** Rozdělit eldee HQ na pracovní kokpit (`index.html`) a výkladní skříň (`eldee.html`) nad jedním `data/stav.json`, uklidit data a stáhnout 20 dlaždic na 12.
@@ -33,7 +36,7 @@
 - Konzumuje: nic (čistá logika nad poli ze `stav.json`)
 - Produkuje: `HqCore.rozdelUkoly(ukoly)` → `{ted, dalsi, blokovano, fronta, spi, hotovo, neaktualni}` (pole úkolů) · `HqCore.seskupOdkazy(odkazy)` → `{nastroj, brand, vyzkum, spici, archiv}` (pole dlaždic) · `HqCore.verejne(pole)` → pole položek s `verejne === true` · `HqCore.STAVY` → pole názvů stavů · `HqCore.SKUPINY` → pole názvů skupin
 
-- [ ] **Krok 1: Napiš padající test**
+- [x] **Krok 1: Napiš padající test**
 
 Vytvoř `tests/hq-core.test.js`:
 
@@ -117,12 +120,12 @@ console.log(pass + ' OK, ' + fail + ' chyb');
 process.exit(fail ? 1 : 0);
 ```
 
-- [ ] **Krok 2: Spusť test — musí spadnout**
+- [x] **Krok 2: Spusť test — musí spadnout**
 
 Spusť: `node tests/hq-core.test.js`
 Očekávej: `Error: Cannot find module '../hq-core.js'`
 
-- [ ] **Krok 3: Napiš minimální implementaci**
+- [x] **Krok 3: Napiš minimální implementaci**
 
 Vytvoř `hq-core.js`:
 
@@ -173,12 +176,12 @@ Vytvoř `hq-core.js`:
 })(typeof self !== 'undefined' ? self : this);
 ```
 
-- [ ] **Krok 4: Spusť test — musí projít**
+- [x] **Krok 4: Spusť test — musí projít**
 
 Spusť: `node tests/hq-core.test.js`
 Očekávej: `10 OK, 0 chyb`
 
-- [ ] **Krok 5: Commit**
+- [x] **Krok 5: Commit**
 
 ```bash
 git add hq-core.js tests/hq-core.test.js
@@ -198,7 +201,7 @@ git commit -m "HQ jádro: rozdělení úkolů, skupiny dlaždic, filtr veřejný
 
 Hlídač kontroluje reálná data, ne vymyšlená. Po Tasku 1 tedy **padá** (data ještě nejsou uklizená) a to je v pořádku — jeho úkolem je říct, kdy je Task 3 hotový.
 
-- [ ] **Krok 1: Napiš hlídače**
+- [x] **Krok 1: Napiš hlídače**
 
 Vytvoř `tests/stav-schema.test.js`:
 
@@ -275,12 +278,12 @@ console.log(pass + ' OK, ' + fail + ' chyb');
 process.exit(fail ? 1 : 0);
 ```
 
-- [ ] **Krok 2: Spusť hlídače — musí padnout**
+- [x] **Krok 2: Spusť hlídače — musí padnout**
 
 Spusť: `node tests/stav-schema.test.js`
 Očekávej: několik `✗` (dlaždice nemají `skupina`, chybí `vitrina`, tým má slot „Doplnit", deset úkolů má český formát data). Přesně tyhle chyby zhasnou v Tasku 3.
 
-- [ ] **Krok 3: Commit**
+- [x] **Krok 3: Commit**
 
 ```bash
 git add tests/stav-schema.test.js
@@ -300,20 +303,20 @@ git commit -m "HQ: hlídač schématu stav.json (zatím červený, zhasne po úk
 
 Data se needitují ručně v editoru — píše se jednorázový Python skript, aby šel zopakovat a byl vidět v diffu. `json.dumps(..., ensure_ascii=False, indent=2) + '\n'` drží stávající formát (ověřeno: round-trip je bajt na bajt identický).
 
-- [ ] **Krok 1: Sluč duplicitní úkoly**
+- [x] **Krok 1: Sluč duplicitní úkoly**
 
 Sloučit `mereni-s-xl` a `mereni-dosbirat-velikosti` do jednoho (ponechat id `mereni-dosbirat-velikosti`, text „📏 Doměřit velikost XL — XS, S, M i L už máme", poznámku sloučit), druhý ze souboru odstranit.
 Sloučit „Založit / oživit profily" a „Sjednotit jméno na eldeeworld" do jednoho úkolu s textem „📱 Sjednotit jméno na sítích na eldeeworld + oživit profily (IG, TikTok, FB)".
 
-- [ ] **Krok 2: Sjednoť formát dat na ISO**
+- [x] **Krok 2: Sjednoť formát dat na ISO**
 
 Deset úkolů má `vzniklo` ve tvaru `25. 8. 2026`. Převeď na `2026-08-25` atd. Totéž pro `hotovo`, pokud je v českém formátu.
 
-- [ ] **Krok 3: Přepiš stavy fronty**
+- [x] **Krok 3: Přepiš stavy fronty**
 
 Devět úkolů dostane `stav: "spí"` (podle spec, sekce „Fronta → tři hromádky"): Sklad další etapa · Sklad prodejní analytika · Plná Shoptet automatizace · Objednávky fáze 3 · Objednávky fáze 4 · E-shop launch · Obchodní podmínky + GDPR + FAQ · Marketing pre-launch zásoba · Produktové fotky.
 
-- [ ] **Krok 4: Přiřaď skupiny všem dlaždicím a vytvoř tři sloučené**
+- [x] **Krok 4: Přiřaď skupiny všem dlaždicím a vytvoř tři sloučené**
 
 Podle spec, sekce „Dlaždice: 20 → 12". Tři nové sloučené dlaždice mají místo `href` pole `polozky`:
 
@@ -336,29 +339,29 @@ Podle spec, sekce „Dlaždice: 20 → 12". Tři nové sloučené dlaždice maj�
 Stejným způsobem **🧪 Výzkum & dotazníky** (`pruzkum-cilovky.html`, `dotazniky.html`, `dotazniky/dotaznik-testeri-v3.html`, skupina `vyzkum`) a **📦 Až bude e-shop** (`sklad.html`, `objednavky.html`, `reklamace.html`, `eshop-nahled/index.html`, skupina `spici`).
 Dlaždici „eldee.cz" přepiš na **🌐 eldeeworld.com** (`stav: "soon"`, `stavText: "doména se kupuje"`, `skupina: "archiv"`), GitHub dlaždici přesměruj na `https://github.com/eldee-cz` a dej `skupina: "archiv"`, „🦥 První AI video maskota" dej `skupina: "archiv"`.
 
-- [ ] **Krok 5: Doplň `verejne: true` a sekci `vitrina`**
+- [x] **Krok 5: Doplň `verejne: true` a sekci `vitrina`**
 
 Veřejné jsou: karty „Průzkum cílovky" a „Vzorkování — 4 produkty"; milníky, které nesou hotové věci bez interních detailů (brand book v2.0, logo v2.1, kniha, průmyslové vzory, maskot, velikostní studie); dlaždice Logomanuál (jako samostatná položka uvnitř Brandu se `verejne` neřeší — skříň bere odkaz natvrdo).
 Sekce `vitrina` dostane čtyři texty (`coJsme`, `produkt`, `duvod`, `mereni`) — návrh textů napiš, ale **před zápisem je předlož Lukášovi ke schválení**, jde o text, který uvidí výrobce a kluby.
 
-- [ ] **Krok 6: Předlož Lukášovi 4 úkoly na zavření**
+- [x] **Krok 6: Předlož Lukášovi 4 úkoly na zavření**
 
 Vypiš mu je jako seznam k odškrtnutí (doména `brand.eldee.cz` · Rozvést Brainstorm · Kalendář fíčury · Ověřit barvy dresů u 100 klubů). Teprve po jeho potvrzení nastav `stav: "neaktuální"` a vyplň `duvod`. Když některý nepotvrdí, zůstává ve frontě.
 
-- [ ] **Krok 7: Srovnej 7 karet „Stav teď" se skutečností**
+- [x] **Krok 7: Srovnej 7 karet „Stav teď" se skutečností**
 
 Projdi `stavKarty` proti deníku `07-eldee-business/aktualni-stav.md` (zápisy od 25. 7. dál) a sruš, co se rozešlo s realitou. Konkrétně ověř: karta „Vzorkování — 4 produkty" (kde vzorkování reálně stojí — prototyp L je blokovaný na výrobci), karta „Maskot Eldee + homepage" (Pixar kit byl dokončen 25. 8.) a karta „Brand book v2.0" (mezitím vznikl samostatný logomanuál). Karty, které sedí, nech být — nepřepisuj je kvůli přepisování.
 
-- [ ] **Krok 8: Smaž mrtvé zbytky**
+- [x] **Krok 8: Smaž mrtvé zbytky**
 
 Dvě demo události z `udalosti` (`ev-demo1`, `ev-demo2`) a prázdný slot `{"iniciuly":"?","jmeno":"Doplnit"}` z `tym`.
 
-- [ ] **Krok 9: Ověř data**
+- [x] **Krok 9: Ověř data**
 
 Spusť: `node -e "require('./data/stav.json')" && node tests/stav-schema.test.js`
 Očekávej: `10 OK, 0 chyb`
 
-- [ ] **Krok 10: Commit**
+- [x] **Krok 10: Commit**
 
 ```bash
 git add data/stav.json
@@ -376,11 +379,11 @@ git commit -m "HQ data: úklid — sloučené duplicity, ISO data, stavy spí/ne
 - Konzumuje: `HqCore.rozdelUkoly` z Tasku 1, data z Tasku 3
 - Produkuje: nic pro další tasky (UI)
 
-- [ ] **Krok 1: Načti jádro ve stránce**
+- [x] **Krok 1: Načti jádro ve stránce**
 
 Do `index.html` před hlavní `<script>` přidej `<script src="hq-core.js"></script>`.
 
-- [ ] **Krok 2: Rozšiř výběr stavů**
+- [x] **Krok 2: Rozšiř výběr stavů**
 
 Řádek `const TM_STAVY=['teď','další','fronta','blokováno'];` změň na:
 
@@ -390,7 +393,7 @@ const TM_STAVY=['teď','další','fronta','spí','blokováno'];
 
 `neaktuální` se do výběru **nedává** — zavírá se vědomě přes plán, ne omylem v selectu.
 
-- [ ] **Krok 3: Rozděl tabulku úkolů na tři pásma**
+- [x] **Krok 3: Rozděl tabulku úkolů na tři pásma**
 
 V `renderUkoly` nahraď dosavadní filtr `arr.filter(u=>u.stav!=='hotovo')` rozdělením přes jádro: v hlavní tabulce jsou úkoly ze stavů `teď`, `další` a `blokováno`; `fronta` a `spí` jdou do dvou sbalených bloků pod ni (vzor převezmi z existujícího bloku „Hotové", funkce `renderDone` ř. ~484 — stejné třídy, stejné chování rozbalování). Úkoly ve stavu `neaktuální` se nezobrazují nikde.
 
@@ -399,11 +402,11 @@ const R = HqCore.rozdelUkoly(all);
 TM = R.ted.concat(R.dalsi, R.blokovano).sort((a,b)=>(a.poradi||999)-(b.poradi||999));
 ```
 
-- [ ] **Krok 4: Ověř v prohlížeči**
+- [x] **Krok 4: Ověř v prohlížeči**
 
 Spusť `python3 -m http.server 8080`, otevři `http://localhost:8080/`, zkontroluj: hlavní tabulka drží jen `teď`/`další`/`blokováno`; „fronta (N)" a „spící (N)" jsou sbalené a rozbalí se kliknutím; přepnutí stavu v selectu úkol přesune; „Uložit změny" stáhne `stav.json` s novými stavy.
 
-- [ ] **Krok 5: Commit**
+- [x] **Krok 5: Commit**
 
 ```bash
 git add index.html
@@ -421,7 +424,7 @@ git commit -m "Kokpit: sekce Teď + sbalená fronta a spící úkoly"
 - Konzumuje: `HqCore.seskupOdkazy` z Tasku 1, dlaždice s `skupina` a `polozky` z Tasku 3
 - Produkuje: nic pro další tasky (UI)
 
-- [ ] **Krok 1: Přepiš `renderOdkazy` na skupiny**
+- [x] **Krok 1: Přepiš `renderOdkazy` na skupiny**
 
 Vykresli tři viditelné skupiny pod sebou s nadpisem (`nastroj` → „Nástroje", `brand` → „Brand", `vyzkum` → „Výzkum") a dvě sbalené (`spici` → „Až bude e-shop", `archiv` → „Archiv"). Dlaždice s `polozky` se vykreslí jako karta se seznamem odkazů místo jednoho velkého odkazu; každý odkaz musí mít výšku ≥ 44 px.
 
@@ -463,11 +466,11 @@ function renderOdkazy(arr){
 
 CSS doplň k existujícím stylům dlaždic: `.link-items{display:flex;flex-direction:column;gap:2px;margin-top:8px}` a `.link-item{display:flex;align-items:center;min-height:44px;padding:0 10px;border-top:1px solid var(--line);color:var(--bone);text-decoration:none}` · `.grp-fold .grp-body{display:none}` · `.grp-fold.open .grp-body{display:block}`.
 
-- [ ] **Krok 2: Ověř v prohlížeči**
+- [x] **Krok 2: Ověř v prohlížeči**
 
 Na `http://localhost:8080/` zkontroluj: dvanáct dlaždic ve správných skupinách, sloučené karty rozklikávají všechny své odkazy, sbalené skupiny fungují, na šířce 390 px se nic nerozjíždí.
 
-- [ ] **Krok 3: Ověř, že všechny odkazy vedou někam**
+- [x] **Krok 3: Ověř, že všechny odkazy vedou někam**
 
 ```bash
 node -e "
@@ -486,7 +489,7 @@ console.log(chyb? chyb+' rozbitých odkazů' : 'všechny lokální odkazy sedí'
 ```
 Očekávej: `všechny lokální odkazy sedí`
 
-- [ ] **Krok 4: Commit**
+- [x] **Krok 4: Commit**
 
 ```bash
 git add index.html
@@ -504,25 +507,25 @@ git commit -m "Kokpit: dlaždice ve skupinách (20 → 12, sloučené karty s v�
 - Konzumuje: data z Tasku 3
 - Produkuje: nic pro další tasky (UI)
 
-- [ ] **Krok 1: Odstraň sekci Kalendář**
+- [x] **Krok 1: Odstraň sekci Kalendář**
 
 Smaž `<section id="kalendar">…</section>`, odkaz `<a href="#kalendar">` z navigace, funkce `initKalendar`, `renderKalendar` a jejich pomocníky (`calView`, `calSelected`, `calEditId`, `CAL_KAT`, obsluhy `ev-*`), volání `initKalendar()` z inicializace a všechna volání `renderKalendar()` uvnitř task manageru. Pole `udalosti` ve `stav.json` **zůstává** (prázdné, po Tasku 3) — kdyby se kalendář někdy vracel.
 
 Pozor: `termin` u úkolů se **neruší** — termíny se dál zobrazují v tabulce přes `terminCell`.
 
-- [ ] **Krok 2: Odstraň sekci Brainstorm**
+- [x] **Krok 2: Odstraň sekci Brainstorm**
 
 Smaž `<section id="brainstorm">…</section>` včetně placeholderu „Brainstorm — brzy" a odkaz z navigace.
 
-- [ ] **Krok 3: Zkrať timeline na 8 + sbalený zbytek**
+- [x] **Krok 3: Zkrať timeline na 8 + sbalený zbytek**
 
 V `renderTimeline` vykresli prvních 8 položek a zbytek zabal do bloku „ukázat starší (N)" — stejný vzor rozbalování jako u „Hotové".
 
-- [ ] **Krok 4: Ověř v prohlížeči**
+- [x] **Krok 4: Ověř v prohlížeči**
 
 Zkontroluj: navigace má pět položek (Úkoly · Stav · Hotovo · Data · Tým), kalendář ani brainstorm nikde, timeline ukazuje 8 a rozbalí zbytek, tým má dva lidi, konzole je bez chyb (hlavně žádné „renderKalendar is not defined").
 
-- [ ] **Krok 5: Commit**
+- [x] **Krok 5: Commit**
 
 ```bash
 git add index.html
@@ -540,7 +543,7 @@ git commit -m "Kokpit: zrušen kalendář a brainstorm, timeline 8 + sbalený zb
 - Konzumuje: `HqCore.verejne` z Tasku 1, `vitrina` + `verejne` příznaky z Tasku 3
 - Produkuje: stránku, kterou kontroluje Task 8
 
-- [ ] **Krok 1: Postav stránku**
+- [x] **Krok 1: Postav stránku**
 
 Nový soubor `eldee.html`, sedm bloků podle spec (Co eldee je · Produkt · Proč to dává smysl · Jak to děláme poctivě · Co už stojí · Brand · Kdo za tím stojí). Vizuální styl převezmi z `index.html` (stejné CSS proměnné, fonty, hlavička) — má být poznat, že je to stejná značka.
 
@@ -579,11 +582,11 @@ fetch('data/stav.json',{cache:'no-store'})
   });
 ```
 
-- [ ] **Krok 2: Ověř v prohlížeči**
+- [x] **Krok 2: Ověř v prohlížeči**
 
 Otevři `http://localhost:8080/eldee.html` na šířce 390 px i na PC. Zkontroluj: všech sedm bloků má obsah, žádný nezůstal prázdný, odkaz na logomanuál funguje.
 
-- [ ] **Krok 3: Commit**
+- [x] **Krok 3: Commit**
 
 ```bash
 git add eldee.html
@@ -602,7 +605,7 @@ git commit -m "Výkladní skříň eldee.html — sedm bloků nad veřejnými da
 - Konzumuje: `HqCore.verejne`, `data/stav.json`, `eldee.html`
 - Produkuje: závěrečnou kontrolu — po ní se pushuje
 
-- [ ] **Krok 1: Napiš test úniku**
+- [x] **Krok 1: Napiš test úniku**
 
 Vytvoř `tests/vitrina-unik.test.js`:
 
@@ -654,26 +657,26 @@ console.log(pass + ' OK, ' + fail + ' chyb');
 process.exit(fail ? 1 : 0);
 ```
 
-- [ ] **Krok 2: Spusť všechny testy**
+- [x] **Krok 2: Spusť všechny testy**
 
 ```bash
 node tests/hq-core.test.js && node tests/stav-schema.test.js && node tests/vitrina-unik.test.js && node tests/mereni-core.test.js && node tests/reklamace-core.test.js
 ```
 Očekávej: každý běh končí `0 chyb`. Když test úniku najde zakázané slovo, oprav **data**, ne test.
 
-- [ ] **Krok 3: Projdi obě stránky v headless Chromu**
+- [x] **Krok 3: Projdi obě stránky v headless Chromu**
 
 Podle vzoru z 3. 9.: `playwright-core` z `eldee-brandbook/node_modules` + systémový Chrome (`/Applications/Google Chrome.app/Contents/MacOS/Google Chrome`). Na `index.html` i `eldee.html` udělej snímek na 390 px a vypiš chyby z konzole. Očekávej: žádná chyba, žádný prázdný blok.
 
-- [ ] **Krok 4: Doplň README**
+- [x] **Krok 4: Doplň README**
 
 Do `README.md` přidej dvě věty: `index.html` = pracovní kokpit, `eldee.html` = výkladní skříň pro lidi zvenčí; skříň zobrazuje jen položky s `verejne: true`.
 
-- [ ] **Krok 5: Ukaž Lukášovi před pushem**
+- [x] **Krok 5: Ukaž Lukášovi před pushem**
 
 Obě stránky mu popiš a počkej na souhlas — do skříně půjde koukat výrobce a kluby.
 
-- [ ] **Krok 6: Commit a push**
+- [x] **Krok 6: Commit a push**
 
 ```bash
 git add tests/vitrina-unik.test.js README.md

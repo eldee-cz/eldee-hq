@@ -1,6 +1,6 @@
 {
   "meta": {
-    "aktualizovano": "3. 9. 2026",
+    "aktualizovano": "4. 9. 2026",
     "pilulky": [
       {
         "label": "Jádro značky",
@@ -67,6 +67,12 @@
     }
   ],
   "timeline": [
+    {
+      "datum": "4. 9. 2026",
+      "nadpis": "🪟 Výkladní skříň nasazena — HQ má dvě tváře nad jedním stav.json",
+      "text": "Revize HQ dotažena a nasazena. <strong>Kokpit</strong> (eldee-hq.vercel.app) zůstává pracovní pro tým; nově vedle něj stojí <strong>výkladní skříň</strong> na <strong>eldee-hq.vercel.app/eldee</strong> pro výrobce, testery a trenéry klubů. Obě čtou stejný <strong>stav.json</strong> — skříň zobrazí jen položky s příznakem <strong>verejne</strong> (5 milníků, 2 karty) a úkoly nezobrazuje vůbec; hlídá to test úniku. Po Lukášově revizi přepsaný hero (claim <strong>One of Us.</strong> + štulpny z Pixar maskota), <strong>schéma prostřižení a vnitřní kapsy</strong> v sekci Produkt a maskot Eldee u brandu. Doplněno <strong>cleanUrls</strong> (adresy bez .html) a <strong>noindex</strong> i na skříň — odkaz se posílá adresně.",
+      "minor": false
+    },
     {
       "datum": "3. 9. 2026",
       "nadpis": "📏 Velikostní studie: 54 měření a nová velikost XS",
@@ -959,6 +965,15 @@
       "href": "media/eldee-prvni-AI-video-zonglovani-2026-07-10.mp4",
       "extern": false,
       "skupina": "archiv"
+    },
+    {
+      "nadpis": "🪟 Výkladní skříň",
+      "text": "Veřejná stránka pro lidi zvenčí — výrobce, testery, trenéry klubů. Ukazuje <strong>jen položky označené jako veřejné</strong>, úkoly nikdy. Adresu posílej adresně: stránka je noindex, ale <strong>bez zámku</strong>.",
+      "stav": "on",
+      "stavText": "živá — /eldee",
+      "href": "eldee.html",
+      "extern": false,
+      "skupina": "nastroj"
     },
     {
       "nadpis": "📱 Sociální sítě",

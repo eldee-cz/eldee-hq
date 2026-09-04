@@ -69,8 +69,8 @@
   "timeline": [
     {
       "datum": "4. 9. 2026",
-      "nadpis": "🔒 HQ zamčeno — heslo na kokpit, repo privátní, skříň dostala vlastní data",
-      "text": "Tři díry zavřené najednou. <strong>(1) Repo</strong> <code>eldee-cz/eldee-hq</code> bylo veřejné na GitHubu — kdokoliv si mohl přečíst kalkulačku i knihu i s čísly; teď je privátní. <strong>(2) Skříň vydávala celou nástěnku</strong> — stahovala si <code>stav.json</code> (70 kB, 58 úkolů, 48 milníků) a filtrovala ho až v prohlížeči, takže stačilo otevřít vývojářské nástroje. Nově čte <code>data/vitrina.json</code> (3 kB), který se generuje ze <code>stav.json</code> a nese jen pole, co se opravdu vykreslují. <strong>(3) Kokpit byl otevřený komukoliv</strong> — teď je za heslem (Basic Auth v <code>middleware.ts</code>, heslo v proměnné prostředí, ne v repu). Skříň <code>/eldee</code> zůstává veřejná bez hesla. Kryto 35 novými testy.",
+      "nadpis": "🔒 HQ za heslem — kokpit zamčený, skříň dostala vlastní data",
+      "text": "Dvě ze tří děr zavřené. <strong>(1) Skříň vydávala celou nástěnku</strong> — stahovala si <code>stav.json</code> (70 kB, 58 úkolů, 48 milníků) a filtrovala ho až v prohlížeči, takže stačilo otevřít vývojářské nástroje. Nově čte <code>data/vitrina.json</code> (3 kB), který se generuje ze <code>stav.json</code> a nese jen pole, co se opravdu vykreslují. <strong>(2) Kokpit byl otevřený komukoliv</strong> — teď je za heslem (Basic Auth v <code>middleware.ts</code>, heslo v proměnné prostředí, ne v repu). Skříň <code>/eldee</code> zůstává veřejná bez hesla. Kryto 35 novými testy. <strong>(3) Repo zůstává veřejné</strong> — zprivátnění se vyzkoušelo a muselo se vrátit: Vercel Hobby nepodporuje privátní repozitáře vlastněné organizací, auto-nasazování se rozbilo. Čeká rozhodnutí, jak dál.",
       "minor": false
     },
     {
@@ -715,13 +715,13 @@
     },
     {
       "id": "zabezpeceni-hq",
-      "text": "🔒 Zabezpečení HQ — zbývá ukládání úkolů a data kalkulačky/skladu",
+      "text": "🔒 Zabezpečení HQ — zbývá veřejné repo, ukládání úkolů a data kalkulačky",
       "stav": "fronta",
       "kdo": "Lukáš + Jarvis",
-      "pozn": "Část (A) ZÁMEK je HOTOVÁ 4. 9.: repo privátní, Basic Auth na všem kromě skříně, skříň má vlastní data/vitrina.json. Zbývá: (B) UKLÁDÁNÍ ÚKOLŮ — serverless api/save + GitHub token; teď se ukládá ručním exportem. (C) DATA kalkulačky/skladu/financí — teď localStorage per zařízení, nesdílí se mezi Hledíkem a Doležalem.",
+      "pozn": "Zámek na web je HOTOVÝ 4. 9. (Basic Auth + skříň má vlastní data). Zbývá: (A) VEŘEJNÉ REPO — v repu jsou čísla (kniha, kalkulačka) a Vercel Hobby neumí privátní repo pod organizací (ověřeno 4. 9., zkusili jsme a vrátili). Varianty: Vercel Pro / repo pod osobní účet / citlivé stránky do zvláštního nasazení. (B) UKLÁDÁNÍ ÚKOLŮ — serverless api/save + GitHub token; teď ruční export. (C) DATA kalkulačky/skladu/financí — localStorage per zařízení, nesdílí se.",
       "vzniklo": "2026-06-25",
       "hotovo": null,
-      "priorita": "stredni",
+      "priorita": "vysoka",
       "poradi": 4
     },
     {

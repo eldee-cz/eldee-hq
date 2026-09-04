@@ -18,8 +18,8 @@ Schema: `meta, stavKarty, timeline, ukoly[{id,text,stav,kdo,pozn,vzniklo,hotovo}
 Nová pole: `skupina` u `odkazy[]` (dlaždice v kokpitu — `nastroj|brand|vyzkum|spici|archiv`) · `polozky` u sloučených dlaždic (pole `{nadpis,href,extern}` místo jednoho `href` — dlaždice má buď `href`, nebo `polozky`, nikdy obojí) · `verejne: true` u `timeline[]`/`stavKarty[]` položek, které smí do veřejné výkladní skříně (`eldee.html`) — chybějící pole = neveřejné, default je vždy zavřeno · kořenová sekce `vitrina` = ručně psané texty pro skříň (`coJsme, produkt, duvod, mereni`), needitovat jinde než tady.
 
 ## 🔒 Zámek (Basic Auth)
-`middleware.mjs` (zapojen přes `vercel.json` → `proxy`) zamyká **všechno kromě whitelistu**: `/eldee`, `/data/vitrina.json`, `/favicon.svg`, `/media/*`. Heslo je v proměnné prostředí **`HQ_HESLO`** na Vercelu — **nikdy ho nepiš do repa**. Nová veřejná stránka = dopsat ji do `VEREJNE` v `middleware.mjs`, jinak ji zvenčí nikdo neotevře. Bez nastaveného `HQ_HESLO` se zámek vypne (pojistka proti vyzamčení).
-⚠️ `middleware.mjs` má schválně příponu `.mjs` — `package.json` s `"type": "module"` by udělal ESM i z `hq-core.js` a všech testů (jsou CommonJS) a rozbil je.
+`middleware.ts` (zapojen přes `vercel.json` → `proxy`) zamyká **všechno kromě whitelistu**: `/eldee`, `/data/vitrina.json`, `/favicon.svg`, `/media/*`. Heslo je v proměnné prostředí **`HQ_HESLO`** na Vercelu — **nikdy ho nepiš do repa**. Nová veřejná stránka = dopsat ji do `VEREJNE` v `middleware.ts`, jinak ji zvenčí nikdo neotevře. Bez nastaveného `HQ_HESLO` se zámek vypne (pojistka proti vyzamčení).
+⚠️ Přípona `.ts` je schválně: `middleware.mjs` Vercel u statického projektu ignoruje (nasadí ho jako soubor ke stažení) a `middleware.js` by vyžadoval `package.json` s `"type": "module"`, což by udělalo ESM i z `hq-core.js` a všech testů (jsou CommonJS) a rozbilo je. `.ts` si Vercel zkompiluje sám.
 
 Testy: `for t in tests/*.test.js; do node $t; done` + `node tests/zamek.test.mjs`.
 

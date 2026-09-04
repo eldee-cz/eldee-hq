@@ -14,7 +14,7 @@ Skříň se **nikdy** nesmí napojit na `stav.json`: prohlížeč si stahuje cel
 takže by měl v ruce i všechny úkoly a interní poznámky, i kdyby je nevykreslil.
 Pojistky: `tests/vitrina-data.test.js` a `tests/vitrina-unik.test.js`.
 
-**Zámek:** `middleware.mjs` chrání Basic Auth vše kromě skříně a jejích obrázků. Heslo je
+**Zámek:** `middleware.ts` chrání Basic Auth vše kromě skříně a jejích obrázků. Heslo je
 v proměnné prostředí `HQ_HESLO` na Vercelu, v repu není. Kryto `tests/zamek.test.mjs`.
 
 **Aktualizace:** úkoly/milníky/stav udržuje Jarvis (Claude Code) v `data/stav.json`;

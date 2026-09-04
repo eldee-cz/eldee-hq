@@ -8,9 +8,11 @@
    Whitelist je záměrně výčtem, ne výjimkami: co tu není, je zamčené.
    Když přibude veřejná stránka, musí se sem dopsat — jinak ji nikdo zvenčí neotevře.  */
 
-/* Zapojení je ve vercel.json → proxy.entrypoint (běží na Node.js runtime).
-   Přípona .mjs je schválně: kdyby se dal do repa package.json s "type": "module",
-   staly by se ESM i hq-core.js a všechny testy, a ty jsou CommonJS. */
+/* Přípona .ts je schválně. Vercel u statického projektu (bez frameworku) hledá
+   middleware.js nebo middleware.ts. Varianta .mjs se nasadí jako obyčejný soubor
+   ke stažení — zámek by vůbec nevznikl. Varianta .js by vyžadovala package.json
+   s "type": "module", a tím by se staly ESM i hq-core.js a všechny testy (CommonJS).
+   Bez matcheru běží middleware na všech cestách, což je přesně to, co chceme. */
 
 // přesné cesty, které jdou ven bez hesla
 const VEREJNE = [

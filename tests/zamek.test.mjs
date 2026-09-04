@@ -1,7 +1,7 @@
 // Kontrola zámku HQ (middleware.mjs): co je za heslem a co jde ven bez něj.
 // ESM (.mjs), protože middleware je ESM. Spuštění: node tests/zamek.test.mjs
 import assert from 'assert';
-import middleware from '../middleware.mjs';
+import middleware from '../middleware.ts';
 
 let pass = 0, fail = 0;
 function t(name, fn){ try{ fn(); pass++; } catch(e){ fail++; console.error('✗ '+name+': '+e.message); } }

@@ -1,6 +1,6 @@
 {
   "meta": {
-    "aktualizovano": "4. 9. 2026",
+    "aktualizovano": "10. 9. 2026",
     "pilulky": [
       {
         "label": "Jádro značky",
@@ -364,6 +364,24 @@
     }
   ],
   "ukoly": [
+    {
+      "id": "one-of-us-do-brandbooku",
+      "text": "📖 Doplnit claim „One of Us.\" do veřejného brand booku (teď tam vůbec není)",
+      "stav": "fronta",
+      "kdo": "Hledík",
+      "pozn": "Anchor claim značky žije jen v deníku a v marketing/08- a 09-emocni-jadro. Veřejný brand book zná jen Holy Socks, takže dodavatel ani partner se o hierarchii hesel nedozví. Až padne rozhodnutí u úkolu svatozar-vs-claim, doplnit i s pravidly použití.",
+      "vzniklo": "2026-09-10",
+      "hotovo": null
+    },
+    {
+      "id": "svatozar-vs-claim",
+      "text": "⚖️ Rozhodnout výklad: smí být claim „One of Us.\" na kusu s wordmarkem (obsahuje svatozář)?",
+      "stav": "další",
+      "kdo": "Hledík",
+      "pozn": "Pravidlo z 25. 8. říká, že svatozář se s claimem nesmí potkat v jednom hlavním záběru. Jenže wordmark „eldee\" svatozář vždy obsahuje (nad D) — doslovný výklad by znamenal, že kus s claimem nesmí nést logo značky. Prozatímní výklad v podkladech pro Malfini: ne v jedné kompozici, ale na jednom kusu na odlišných místech ano (claim na zádech, malý wordmark na hrudi). Ke claimu se hodí hole pattern. Týká se merche, hangtagu i budoucích potisků.",
+      "vzniklo": "2026-09-10",
+      "hotovo": null
+    },
     {
       "id": "vyrobce-navrat-balik",
       "text": "🏭 Návrat výrobce z dovolené — zjistit datum + připravit balík na ten den",

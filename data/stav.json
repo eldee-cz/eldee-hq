@@ -365,6 +365,15 @@
   ],
   "ukoly": [
     {
+      "id": "brandbook-v3",
+      "text": "📕 Brand book v3.0 — přerovnat kolem jádra „One of Us.“ + nové rozvržení + úklid",
+      "stav": "teď",
+      "kdo": "Hledík + Jarvis",
+      "pozn": "Zadání: eldee-business/brand/brandbook-v3-zadani.md. Nález 10. 9.: v2.0 nezná jádro značky (0 výskytů „One of Us.“) a hierarchii značka → produkt má obráceně (Holy Socks stojí jako manifesto značky). Čtyři etapy s kontrolou po každé: 1) obsah a osa, 2) rozvržení B2 (ukázka vede, pravidla jako karty s typem), 3) úklid + PDF, 4) nasazení. Zároveň z veřejného repa letí ven ceny dodavatelů a provize ambasadorů.",
+      "vzniklo": "2026-09-10",
+      "hotovo": null
+    },
+    {
       "id": "vyrobce-navrat-balik",
       "text": "🏭 Návrat výrobce z dovolené — zjistit datum + připravit balík na ten den",
       "stav": "teď",

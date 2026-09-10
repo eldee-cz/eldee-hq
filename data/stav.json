@@ -1,6 +1,6 @@
 {
   "meta": {
-    "aktualizovano": "4. 9. 2026",
+    "aktualizovano": "10. 9. 2026",
     "pilulky": [
       {
         "label": "Jádro značky",
@@ -8,7 +8,7 @@
       },
       {
         "label": "Brand book",
-        "hodnota": "v2.0"
+        "hodnota": "v2.0 → v3.0 (1/4)"
       },
       {
         "label": "Kniha",
@@ -369,7 +369,7 @@
       "text": "📕 Brand book v3.0 — přerovnat kolem jádra „One of Us.“ + nové rozvržení + úklid",
       "stav": "teď",
       "kdo": "Hledík + Jarvis",
-      "pozn": "Zadání: eldee-business/brand/brandbook-v3-zadani.md. Nález 10. 9.: v2.0 nezná jádro značky (0 výskytů „One of Us.“) a hierarchii značka → produkt má obráceně (Holy Socks stojí jako manifesto značky). Čtyři etapy s kontrolou po každé: 1) obsah a osa, 2) rozvržení B2 (ukázka vede, pravidla jako karty s typem), 3) úklid + PDF, 4) nasazení. Zároveň z veřejného repa letí ven ceny dodavatelů a provize ambasadorů.",
+      "pozn": "Zadání: eldee-business/brand/brandbook-v3-zadani.md. Nález 10. 9.: v2.0 nezná jádro značky („One of Us.“) a hierarchii značka → produkt má obráceně. ✅ ETAPA 1/4 HOTOVÁ 10. 9. (commit ad1f9bf): tři bloky + jeden zdroj pravdy o struktuře, sekce 01 přepsána na One of Us., nová sekce 06 Produkt, dotažena fakta (FOUL, streetwear směr, tři pravidla na post, velikosti), z veřejného repa ven ceny dodavatelů a provize. Zbývá: 2) rozvržení B2, 3) úklid + PDF, 4) vydání. Čeká na Lukáše: doména eldeeworld.com, autorství v licencích, zveřejnění sekce Vizuální styl.",
       "vzniklo": "2026-09-10",
       "hotovo": null
     },

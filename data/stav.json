@@ -1,6 +1,6 @@
 {
   "meta": {
-    "aktualizovano": "10. 9. 2026",
+    "aktualizovano": "11. 9. 2026",
     "pilulky": [
       {
         "label": "Jádro značky",
@@ -365,11 +365,47 @@
   ],
   "ukoly": [
     {
+      "id": "smlouva-dodavatel-sazba",
+      "text": "🖨️ Smlouva pro dodavatele v2.0 — typografická revize (vzhled, text beze změny)",
+      "stav": "hotovo",
+      "kdo": "Hledík + Jarvis",
+      "pozn": "Text ověřen znak po znaku: 21 531 = 21 531, shoda 100 %. Opraveno: formát US Letter → A4, písmo 7,9 pt → 10,1 pt, délka řádku 124 → 89 znaků, okraje (na stranách 2+ text začínal u horní hrany), doplněno číslování stran, odstraněny osamocené nadpisy i řádky, vyčištěn linkový šum mezi klauzulemi, samostatná titulní strana. 5 → 9 stran. Kolofon z poslední strany na přání ven. Nástroj: eldee-business/smlouvy/build-pdf.py. Záloha původní sazby v _zaloha-layout-2026-09-11/.",
+      "vzniklo": "2026-09-11",
+      "hotovo": "2026-09-11"
+    },
+    {
+      "id": "smlouva-balik-zbyla-pdf",
+      "text": "📄 Přesázet zbylá 3 PDF v balíku pro dodavatele (stejná vada formátu)",
+      "stav": "další",
+      "kdo": "Hledík",
+      "pozn": "Průvodní zpráva, srovnání v1/v2 a původní v1 jsou pořád na US Letter se 7,9pt písmem — stejná vada, kterou měla smlouva. Balík jde ven jako celek, takže by měly být sjednocené. Nástroj na to je (smlouvy/build-pdf.py), pokud mají zdrojové HTML.",
+      "vzniklo": "2026-09-11",
+      "hotovo": null
+    },
+    {
       "id": "brandbook-v3",
       "text": "📕 Brand book v3.0 — přerovnat kolem jádra „One of Us.“ + nové rozvržení + úklid",
       "stav": "teď",
       "kdo": "Hledík + Jarvis",
       "pozn": "Zadání: eldee-business/brand/brandbook-v3-zadani.md. Nález 10. 9.: v2.0 nezná jádro značky („One of Us.“) a hierarchii značka → produkt má obráceně. ✅ ETAPA 1/4 HOTOVÁ 10. 9. (commit ad1f9bf): tři bloky + jeden zdroj pravdy o struktuře, sekce 01 přepsána na One of Us., nová sekce 06 Produkt, dotažena fakta (FOUL, streetwear směr, tři pravidla na post, velikosti), z veřejného repa ven ceny dodavatelů a provize. Zbývá: 2) rozvržení B2, 3) úklid + PDF, 4) vydání. Čeká na Lukáše: doména eldeeworld.com, autorství v licencích, zveřejnění sekce Vizuální styl.",
+      "vzniklo": "2026-09-10",
+      "hotovo": null
+    },
+    {
+      "id": "one-of-us-do-brandbooku",
+      "text": "📖 Doplnit claim „One of Us.\" do veřejného brand booku (teď tam vůbec není)",
+      "stav": "fronta",
+      "kdo": "Hledík",
+      "pozn": "Anchor claim značky žije jen v deníku a v marketing/08- a 09-emocni-jadro. Veřejný brand book zná jen Holy Socks, takže dodavatel ani partner se o hierarchii hesel nedozví. Až padne rozhodnutí u úkolu svatozar-vs-claim, doplnit i s pravidly použití.",
+      "vzniklo": "2026-09-10",
+      "hotovo": null
+    },
+    {
+      "id": "svatozar-vs-claim",
+      "text": "⚖️ Rozhodnout výklad: smí být claim „One of Us.\" na kusu s wordmarkem (obsahuje svatozář)?",
+      "stav": "další",
+      "kdo": "Hledík",
+      "pozn": "Pravidlo z 25. 8. říká, že svatozář se s claimem nesmí potkat v jednom hlavním záběru. Jenže wordmark „eldee\" svatozář vždy obsahuje (nad D) — doslovný výklad by znamenal, že kus s claimem nesmí nést logo značky. Prozatímní výklad v podkladech pro Malfini: ne v jedné kompozici, ale na jednom kusu na odlišných místech ano (claim na zádech, malý wordmark na hrudi). Ke claimu se hodí hole pattern. Týká se merche, hangtagu i budoucích potisků.",
       "vzniklo": "2026-09-10",
       "hotovo": null
     },

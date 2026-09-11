@@ -375,12 +375,12 @@
     },
     {
       "id": "smlouva-balik-zbyla-pdf",
-      "text": "📄 Přesázet zbylá 3 PDF v balíku pro dodavatele (stejná vada formátu)",
-      "stav": "další",
-      "kdo": "Hledík",
-      "pozn": "Průvodní zpráva, srovnání v1/v2 a původní v1 jsou pořád na US Letter se 7,9pt písmem — stejná vada, kterou měla smlouva. Balík jde ven jako celek, takže by měly být sjednocené. Nástroj na to je (smlouvy/build-pdf.py), pokud mají zdrojové HTML.",
+      "text": "📄 Sjednotit balík pro dodavatele na A4 (přesázet, co má vadný formát)",
+      "stav": "hotovo",
+      "kdo": "Hledík + Jarvis",
+      "pozn": "✅ HOTOVO 11. 9. Po změření vyšlo najevo, že vadu mělo jen JEDNO ze tří PDF: v1 smlouva (US Letter, 124 znaků na řádek) → přesázena na stejnou sazbu jako v2, 4 → 7 stran, text ověřen 15 068 = 15 068 znaků. Průvodní zpráva i srovnání v1/v2 byly v pořádku. Past: u srovnání ukázala textová extrakce 118 znaků na řádek, ale je to dvousloupcový dokument a pdftotext slepí sloupce — skutečná délka ~52 znaků. U vícesloupcové sazby se musí měřit pohledem na render. Celý balík je teď A4.",
       "vzniklo": "2026-09-11",
-      "hotovo": null
+      "hotovo": "2026-09-11"
     },
     {
       "id": "brandbook-v3",

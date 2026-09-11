@@ -387,7 +387,7 @@
       "text": "📕 Brand book v3.0 — přerovnat kolem jádra „One of Us.“ + nové rozvržení + úklid",
       "stav": "teď",
       "kdo": "Hledík + Jarvis",
-      "pozn": "Zadání: eldee-business/brand/brandbook-v3-zadani.md. Nález 10. 9.: v2.0 nezná jádro značky („One of Us.“) a hierarchii značka → produkt má obráceně. ✅ ETAPA 1/4 HOTOVÁ 10. 9. (commit ad1f9bf): tři bloky + jeden zdroj pravdy o struktuře, sekce 01 přepsána na One of Us., nová sekce 06 Produkt, dotažena fakta (FOUL, streetwear směr, tři pravidla na post, velikosti), z veřejného repa ven ceny dodavatelů a provize. Zbývá: 2) rozvržení B2, 3) úklid + PDF, 4) vydání. Čeká na Lukáše: doména eldeeworld.com, autorství v licencích, zveřejnění sekce Vizuální styl.",
+      "pozn": "Zadání: eldee-business/brand/brandbook-v3-zadani.md. Nález 10. 9.: v2.0 nezná jádro značky („One of Us.“) a hierarchii značka → produkt má obráceně. ✅ ETAPA 1/4 HOTOVÁ 10. 9. (ad1f9bf): tři bloky + jeden zdroj pravdy o struktuře, sekce 01 přepsána na One of Us., nová sekce 06 Produkt, dotažena fakta, z veřejného repa ven ceny a provize. 🔨 ETAPA 2 ROZJETÁ 11. 9. (d1834f9): postaveny komponenty B2 (Ukázka s poměrem podle formátu, karty pravidel, tvrdý zákaz nad ukázkou, bezpečná zóna kreslená do obrázku) a převedena sekce 16 Digitál jako vzor. Zbývá převést ostatní sekce. Lukáš 11. 9. rozhodl: doména eldeeworld.com (koupena), autorství v licencích jen značka, Vizuální styl zůstává veřejný. Pak 3) úklid + PDF, 4) vydání.",
       "vzniklo": "2026-09-10",
       "hotovo": null
     },
@@ -1005,6 +1005,15 @@
       "pozn": "Měření z 3. 9. (18 kluků, 8–10 let) padalo pod dosavadní škálu S–XL: dlaždice je hlásila jako „mimo rozsah“ a nepočítala je do ničeho. Přidáno pásmo XS 31–34 do jádra, semaforu pokrytí i technického listu (nově 5 velikostí, 5 stran). Opraven jeden překlep v datech (bota 42 → 34). Testy jádra 40/40. Zadání výroby vygenerováno jako PDF (5 stran, XS/S/M/L + podklad) do business repa. Opraveno i přetékání nákresu přes okraj stránky v tisku.",
       "vzniklo": "2026-09-03",
       "hotovo": "2026-09-03"
+    },
+    {
+      "id": "brandbook-mobil-sidebar",
+      "text": "📱 Brand book na mobilu: boční menu vytlačí obsah ze stránky",
+      "stav": "další",
+      "kdo": "Jarvis",
+      "pozn": "Naměřeno 11. 9. na VŠECH stránkách (ne jen na nové sekci 16): nav má natvrdo w-64 = 256 px a shrink-0, bez responzivní varianty. Na displeji 390 px začíná obsah až na souřadnici 256 → stránka přetéká do strany a čte se z poloviny mimo obrazovku. Projekt má přitom 95 % návštěv z mobilu. Opravit v etapě 2 spolu s hustotou menu (21 položek + 3 hlavičky se nevejde na jednu obrazovku).",
+      "vzniklo": "2026-09-11",
+      "hotovo": null
     }
   ],
   "odkazy": [

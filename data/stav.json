@@ -387,7 +387,7 @@
       "text": "📕 Brand book v3.0 — přerovnat kolem jádra „One of Us.“ + nové rozvržení + úklid",
       "stav": "teď",
       "kdo": "Hledík + Jarvis",
-      "pozn": "Zadání: eldee-business/brand/brandbook-v3-zadani.md. Nález 10. 9.: v2.0 nezná jádro značky („One of Us.“) a hierarchii značka → produkt má obráceně. ✅ ETAPA 1/4 HOTOVÁ 10. 9. (ad1f9bf): tři bloky + jeden zdroj pravdy o struktuře, sekce 01 přepsána na One of Us., nová sekce 06 Produkt, dotažena fakta, z veřejného repa ven ceny a provize. 🔨 ETAPA 2 ROZJETÁ 11. 9. (d1834f9): postaveny komponenty B2 (Ukázka s poměrem podle formátu, karty pravidel, tvrdý zákaz nad ukázkou, bezpečná zóna kreslená do obrázku) a převedena sekce 16 Digitál jako vzor. Zbývá převést ostatní sekce. Lukáš 11. 9. rozhodl: doména eldeeworld.com (koupena), autorství v licencích jen značka, Vizuální styl zůstává veřejný. Pak 3) úklid + PDF, 4) vydání.",
+      "pozn": "Zadání: eldee-business/brand/brandbook-v3-zadani.md. ✅ ETAPA 1/4 (10. 9., ad1f9bf): tři bloky + jeden zdroj pravdy o struktuře, sekce 01 přepsána na One of Us., nová sekce 06 Produkt, ceny a provize ven. 🔨 ETAPA 2/4 BĚŽÍ (11. 9.): postaveny komponenty B2 (Ukázka s poměrem podle formátu a obsahem v cqw, karty pravidel, tvrdý zákaz nad ukázkou, bezpečná zóna kreslená do obrázku) a převedeny sekce 16 Digitál, 15 Tisk, 17 Co-branding. Opravena navigace na telefonu + 4 skryté vady (canonical na mrtvou doménu, TypeScale, hlavička pásu, nezvýrazněná sekce 01). Testy přepsány na zdroj pravdy (21/21 oba buildy) včetně testu na únik interního obsahu. Lukáš 11. 9. rozhodl: doména eldeeworld.com, autorství jen značka, Vizuální styl veřejný. ZBÝVÁ v etapě 2: sekce 13 Vzor + zbylé bloky I/II, předěly bloků. Pak 3) úklid + PDF, 4) vydání.",
       "vzniklo": "2026-09-10",
       "hotovo": null
     },
@@ -1009,9 +1009,18 @@
     {
       "id": "brandbook-mobil-sidebar",
       "text": "📱 Brand book na mobilu: boční menu vytlačí obsah ze stránky",
-      "stav": "další",
+      "stav": "hotovo",
       "kdo": "Jarvis",
-      "pozn": "Naměřeno 11. 9. na VŠECH stránkách (ne jen na nové sekci 16): nav má natvrdo w-64 = 256 px a shrink-0, bez responzivní varianty. Na displeji 390 px začíná obsah až na souřadnici 256 → stránka přetéká do strany a čte se z poloviny mimo obrazovku. Projekt má přitom 95 % návštěv z mobilu. Opravit v etapě 2 spolu s hustotou menu (21 položek + 3 hlavičky se nevejde na jednu obrazovku).",
+      "pozn": "Naměřeno 11. 9. na VŠECH stránkách (ne jen na nové sekci 16): nav má natvrdo w-64 = 256 px a shrink-0, bez responzivní varianty. Na displeji 390 px začíná obsah až na souřadnici 256 → stránka přetéká do strany a čte se z poloviny mimo obrazovku. Projekt má přitom 95 % návštěv z mobilu. Opravit v etapě 2 spolu s hustotou menu (21 položek + 3 hlavičky se nevejde na jednu obrazovku). ✅ HOTOVO 11. 9.: na telefonu lišta nahoře s tlačítkem „SEKCE“ (48 px, popsané — ne ikonka, projekt hamburger zakazuje), panel přes <details> bez JS; odkazy 50 px. Našla se i druhá, skrytá příčina: <main> s mx-auto se ve sloupcovém rozvržení smrskne na šířku obsahu a nejširší mockup pak roztáhl stránku na 482 px. Navíc opraveno: TypeScale min-w-300px (sekce 11 přetékala), hustota bočního menu 1097 → 867 px (vejde se na monitor).",
+      "vzniklo": "2026-09-11",
+      "hotovo": "2026-09-11"
+    },
+    {
+      "id": "brandbook-kontakty-eldeeworld",
+      "text": "📧 Rozhodnout e-mail a Instagram na nové doméně (brand book zatím drží staré)",
+      "stav": "další",
+      "kdo": "Lukáš",
+      "pozn": "Web v brand booku je přepnutý na eldeeworld.com. E-mail zůstal lukas@eldee.cz a Instagram @eldee.cz — doména je koupená, ale to neznamená, že běží schránka a že takový IG účet existuje. Do veřejného logomanuálu nesmí jít adresa, na kterou nikdo neodpoví. Až bude jasno, přepsat v assets.astro, print.astro a digital.astro.",
       "vzniklo": "2026-09-11",
       "hotovo": null
     }

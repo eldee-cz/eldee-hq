@@ -387,7 +387,7 @@
       "text": "📕 Brand book v3.0 — přerovnat kolem jádra „One of Us.“ + nové rozvržení + úklid",
       "stav": "teď",
       "kdo": "Hledík + Jarvis",
-      "pozn": "Zadání: eldee-business/brand/brandbook-v3-zadani.md. ✅ ETAPA 1/4 (10. 9., ad1f9bf): tři bloky + jeden zdroj pravdy o struktuře, sekce 01 přepsána na One of Us., nová sekce 06 Produkt, ceny a provize ven. 🔨 ETAPA 2/4 BĚŽÍ (11. 9.): postaveny komponenty B2 (Ukázka s poměrem podle formátu a obsahem v cqw, karty pravidel, tvrdý zákaz nad ukázkou, bezpečná zóna kreslená do obrázku) a převedeny sekce 16 Digitál, 15 Tisk, 17 Co-branding. Opravena navigace na telefonu + 4 skryté vady (canonical na mrtvou doménu, TypeScale, hlavička pásu, nezvýrazněná sekce 01). Testy přepsány na zdroj pravdy (21/21 oba buildy) včetně testu na únik interního obsahu. Lukáš 11. 9. rozhodl: doména eldeeworld.com, autorství jen značka, Vizuální styl veřejný. ZBÝVÁ v etapě 2: sekce 13 Vzor + zbylé bloky I/II, předěly bloků. Pak 3) úklid + PDF, 4) vydání.",
+      "pozn": "Zadání: eldee-business/brand/brandbook-v3-zadani.md. ✅ ETAPA 1/4 (10. 9., ad1f9bf): tři bloky + jeden zdroj pravdy o struktuře, sekce 01 přepsána na One of Us., nová sekce 06 Produkt, ceny a provize ven. 🔨 ETAPA 2/4 BĚŽÍ (11. 9.): postaveny komponenty B2 (Ukázka s poměrem podle formátu a obsahem v cqw, karty pravidel, tvrdý zákaz nad ukázkou, bezpečná zóna kreslená do obrázku) a převedeny sekce 16 Digitál, 15 Tisk, 17 Co-branding. Opravena navigace na telefonu + 4 skryté vady (canonical na mrtvou doménu, TypeScale, hlavička pásu, nezvýrazněná sekce 01). Testy přepsány na zdroj pravdy (21/21 oba buildy) včetně testu na únik interního obsahu. Lukáš 11. 9. rozhodl: doména eldeeworld.com, autorství jen značka, Vizuální styl veřejný. Převedena i sekce 13 Vzor — přitom se našlo, že ukázka skládala dvě svatozáře (každý wordmark už jednu má) a že solo loga jsou rozbitá. ZBÝVÁ v etapě 2: zbylé sekce bloků I a II, předěly bloků jako vlastní stránky. Pak 3) úklid + PDF, 4) vydání.",
       "vzniklo": "2026-09-10",
       "hotovo": null
     },
@@ -1021,6 +1021,15 @@
       "stav": "další",
       "kdo": "Lukáš",
       "pozn": "Web v brand booku je přepnutý na eldeeworld.com. E-mail zůstal lukas@eldee.cz a Instagram @eldee.cz — doména je koupená, ale to neznamená, že běží schránka a že takový IG účet existuje. Do veřejného logomanuálu nesmí jít adresa, na kterou nikdo neodpoví. Až bude jasno, přepsat v assets.astro, print.astro a digital.astro.",
+      "vzniklo": "2026-09-11",
+      "hotovo": null
+    },
+    {
+      "id": "solo-loga-rozbita",
+      "text": "🔴 Solo loga „eldee“ jsou rozbitá — vykreslí jen písmeno „e“",
+      "stav": "další",
+      "kdo": "Jarvis",
+      "pozn": "Nález 11. 9. při přestavbě sekce 13 Vzor. Všech 10 souborů v brandbooku public/logo/solo/ má v path 18× NaN místo souřadnic — prohlížeč vykreslí jen první písmeno. Vznikly 30. 6. (commit 7b9f06c), převod textu na křivky se nepovedl a nikdo se na výsledek nepodíval. Ke stažení se v brand booku nikdy nenabízely, takže ven neunikly. Je to ale jediná verze wordmarku BEZ svatozáře — všechny ostatní ji obsahují. Vygenerovat znovu z Big Shoulders Display Black a ověřit pohledem, ne jen tím, že se soubor uložil.",
       "vzniklo": "2026-09-11",
       "hotovo": null
     }

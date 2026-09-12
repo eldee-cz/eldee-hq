@@ -1039,11 +1039,11 @@
     {
       "id": "solo-loga-rozbita",
       "text": "🔴 Solo loga „eldee“ jsou rozbitá — vykreslí jen písmeno „e“",
-      "stav": "další",
+      "stav": "hotovo",
       "kdo": "Jarvis",
-      "pozn": "Nález 11. 9. při přestavbě sekce 13 Vzor. Všech 10 souborů v brandbooku public/logo/solo/ má v path 18× NaN místo souřadnic — prohlížeč vykreslí jen první písmeno. Vznikly 30. 6. (commit 7b9f06c), převod textu na křivky se nepovedl a nikdo se na výsledek nepodíval. Ke stažení se v brand booku nikdy nenabízely, takže ven neunikly. Je to ale jediná verze wordmarku BEZ svatozáře — všechny ostatní ji obsahují. Vygenerovat znovu z Big Shoulders Display Black a ověřit pohledem, ne jen tím, že se soubor uložil.",
+      "pozn": "Nález 11. 9. při přestavbě sekce 13 Vzor. Všech 10 souborů v brandbooku public/logo/solo/ má v path 18× NaN místo souřadnic — prohlížeč vykreslí jen první písmeno. Vznikly 30. 6. (commit 7b9f06c), převod textu na křivky se nepovedl a nikdo se na výsledek nepodíval. Ke stažení se v brand booku nikdy nenabízely, takže ven neunikly. Je to ale jediná verze wordmarku BEZ svatozáře — všechny ostatní ji obsahují. Vygenerovat znovu z Big Shoulders Display Black a ověřit pohledem, ne jen tím, že se soubor uložil. ✅ HOTOVO 12. 9. (cf92f6f): soubory vznikly bez generátoru, jen jako hotové SVG, takže nebylo co spustit znovu — napsán `scripts/generate-solo.mjs`, který je píše z fontu a používá stejný guard jako generate-wordmark.mjs (vlastní serializace, glyfy jednotlivě, throw při NaN). Geometrie zpětně zkalibrovaná proti nepoškozenému prvnímu glyfu: font-size 200 (unitsPerEm je 2000, ne 1000), letter-spacing −0,02em, bez kerningu; všechny nepoškozené kontury mají geometrii číslo za číslem identickou. ⚠️ Při prvním pokusu jsem si vyrobil HORŠÍ vadu než původní — separátor mezi čísly podle znaménka sousedního čísla slepil „Q151.5 2144.75\"; bez NaN, prošlo by kontrolou, a přesto rozbité. Ověřeno pohledem: všech 10 vykresluje celé „eldee\", poměr stran 2,27. Kontrolní stránka v eldee-business/brand/solo-loga-kontrola/.",
       "vzniklo": "2026-09-11",
-      "hotovo": null
+      "hotovo": "2026-09-12"
     },
     {
       "id": "brandbook-provize-verejne-repo",

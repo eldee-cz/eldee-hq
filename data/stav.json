@@ -891,11 +891,11 @@
     {
       "id": "domena-eldeeworld",
       "text": "🌐 Koupit eldeeworld.com (hlavní mezinárodní doména) — eldee.eu i eldee.com jsou NEDOSTUPNÉ",
-      "stav": "teď",
+      "stav": "hotovo",
       "kdo": "Lukáš",
-      "pozn": "ZMĚNA PLÁNU 2. 9.: rozhodnutí z 10. 7. (eldee.eu = hlavní doména) je neproveditelné. eldee.com i eldee.eu drží holandská firma Eldee Expo Experts (stavitel veletržních stánků, 50 let na trhu), .com od roku 1998, prodlouženo do 3/2027, zamčeno proti převodu. Není to spekulant, je to živý byznys — nekoupitelné. Jiný obor (B2B stánky vs. oděvy) značce eldee právně nepřekáží, jen drží ty adresy. NOVÁ VOLBA: eldeeworld.com — Lukáš odmítl eldeesport.com (eldee míří spíš na streetwear než na sport) i eldee.world (chce jistotu .com). Ověřeno volné 2. 9.: doména + jméno eldeeworld na IG, TikToku i YouTube. Cena u web4u cca 320–390 Kč/rok. POZOR při nákupu: musí to být REGISTRACE, ne převod; nekupovat k tomu hosting; zapnout autoobnovu; zvážit skrytí údajů (WHOIS); registrovat na IČO, ne na fyzickou osobu. Pak nastavit eldee.cz → eldeeworld.com (301), eldee.cz zůstává pro Česko.",
+      "pozn": "ZMĚNA PLÁNU 2. 9.: rozhodnutí z 10. 7. (eldee.eu = hlavní doména) je neproveditelné. eldee.com i eldee.eu drží holandská firma Eldee Expo Experts (stavitel veletržních stánků, 50 let na trhu), .com od roku 1998, prodlouženo do 3/2027, zamčeno proti převodu. Není to spekulant, je to živý byznys — nekoupitelné. Jiný obor (B2B stánky vs. oděvy) značce eldee právně nepřekáží, jen drží ty adresy. NOVÁ VOLBA: eldeeworld.com — Lukáš odmítl eldeesport.com (eldee míří spíš na streetwear než na sport) i eldee.world (chce jistotu .com). Ověřeno volné 2. 9.: doména + jméno eldeeworld na IG, TikToku i YouTube. Cena u web4u cca 320–390 Kč/rok. POZOR při nákupu: musí to být REGISTRACE, ne převod; nekupovat k tomu hosting; zapnout autoobnovu; zvážit skrytí údajů (WHOIS); registrovat na IČO, ne na fyzickou osobu. Pak nastavit eldee.cz → eldeeworld.com (301), eldee.cz zůstává pro Česko. ✅ HOTOVO: Lukáš potvrdil 11. 9. 2026, že eldeeworld.com je koupená — brand book na ni má přepnutý web v kontaktech, na vizitce i v podpisu. Úkol zůstal omylem ve stavu „teď“ ještě den po splnění (srovnáno 12. 9.).",
       "vzniklo": "2026-07-10",
-      "hotovo": null,
+      "hotovo": "2026-09-11",
       "priorita": "stredni",
       "poradi": 8
     },
@@ -1032,7 +1032,7 @@
       "text": "📧 Rozhodnout e-mail a Instagram na nové doméně (brand book zatím drží staré)",
       "stav": "další",
       "kdo": "Lukáš",
-      "pozn": "Web v brand booku je přepnutý na eldeeworld.com. E-mail zůstal lukas@eldee.cz a Instagram @eldee.cz — doména je koupená, ale to neznamená, že běží schránka a že takový IG účet existuje. Do veřejného logomanuálu nesmí jít adresa, na kterou nikdo neodpoví. Až bude jasno, přepsat v assets.astro, print.astro a digital.astro.",
+      "pozn": "Web v brand booku je přepnutý na eldeeworld.com. E-mail zůstal lukas@eldee.cz a Instagram @eldee.cz — doména je koupená, ale to neznamená, že běží schránka a že takový IG účet existuje. Do veřejného logomanuálu nesmí jít adresa, na kterou nikdo neodpoví. Až bude jasno, přepsat v assets.astro, print.astro a digital.astro. ↩️ ČÁSTEČNĚ ROZHODNUTO 12. 9.: Instagram ZŮSTÁVÁ @eldee.cz — Lukáš: „instagramové účty jsou původní, pouze eldee, ty necháme stejné“. V knize se na 5 místech nechává být. Zbývá jen E-MAIL: funguje schránka lukas@eldeeworld.com, nebo zůstává lukas@eldee.cz? Tři místa (assets.astro, print.astro, digital.astro). ⚠️ Tohle rozhodnutí jde proti úkolu socky-jmeno-eldeeworld, který plánoval přejmenovat IG na eldeeworld — ten je potřeba přehodnotit.",
       "vzniklo": "2026-09-11",
       "hotovo": null
     },

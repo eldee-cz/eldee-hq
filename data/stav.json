@@ -1047,6 +1047,14 @@
       "duvod": "Asset zrušen, ne opraven. Solo wordmark je „eldee“ minuskami bez LD a bez svatozáře — tvarová odvozenina, kterou sekce 09 výslovně zakazuje: „existuje jediné logo, povolené odvozeniny jsou jen barevné, nikdy tvarové“. Nebyl v sekci 08 mezi variantami, nenabízel se v Assetech a slovo „solo“ nebylo v celé knize ani jednou. Architektura značky je dvojice master wordmark + sub-mark monogram LD; třetí mark v ní místo nemá. Lukáš to poznal hned z kontrolního snímku. 10 SVG smazáno (commit a480a43)."
     },
     {
+      "id": "brandbook-revize-v3",
+      "text": "🔍 Revize brand booku v3.0 — fáze 1 web, pak PDF",
+      "stav": "teď",
+      "kdo": "Hledík + Doležal",
+      "pozn": "Začato 15. 9. Revizní arch v eldee-business/brand/revize-v3/. Prošlo 7 z 22 stránek (08, 08K, 09, 10, 11, 13, 14), maskot odložen na konec. Dávka 1 oprav nasazená 15. 9. (logo místo nápisu, zlatá s černým prstencem, bez vzoru děr, paprsků a odstínů, sekce 13 = Doplňkové prvky). Rozpracovaná sekce 15: vizitka — rozhodují se mezi K1 (červené jádro, triplex černá–červená–černá) a K4 (razítko, soft touch 90 × 50 mm). Zbývá 15–17, Assety, blok I, maskot, předěly; pak dávka 2 a fáze 2 PDF.",
+      "vzniklo": "2026-09-15"
+    },
+    {
       "id": "vzor-der-mimo-knihu",
       "text": "🧹 Dorovnat podklady mimo brand book po revizi 15. 9. (vzor děr, odstíny barev)",
       "stav": "další",

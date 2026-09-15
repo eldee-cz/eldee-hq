@@ -1,6 +1,6 @@
 {
   "meta": {
-    "aktualizovano": "12. 9. 2026",
+    "aktualizovano": "15. 9. 2026",
     "pilulky": [
       {
         "label": "Jádro značky",
@@ -415,11 +415,11 @@
     {
       "id": "svatozar-vs-claim",
       "text": "⚖️ Rozhodnout výklad: smí být claim „One of Us.\" na kusu s wordmarkem (obsahuje svatozář)?",
-      "stav": "další",
+      "stav": "hotovo",
       "kdo": "Hledík",
-      "pozn": "Pravidlo z 25. 8. říká, že svatozář se s claimem nesmí potkat v jednom hlavním záběru. Jenže wordmark „eldee\" svatozář vždy obsahuje (nad D) — doslovný výklad by znamenal, že kus s claimem nesmí nést logo značky. Prozatímní výklad v podkladech pro Malfini: ne v jedné kompozici, ale na jednom kusu na odlišných místech ano (claim na zádech, malý wordmark na hrudi). Ke claimu se hodí hole pattern. Týká se merche, hangtagu i budoucích potisků.",
+      "pozn": "Pravidlo z 25. 8. říká, že svatozář se s claimem nesmí potkat v jednom hlavním záběru. Jenže wordmark „eldee\" svatozář vždy obsahuje (nad D) — doslovný výklad by znamenal, že kus s claimem nesmí nést logo značky. Prozatímní výklad v podkladech pro Malfini: ne v jedné kompozici, ale na jednom kusu na odlišných místech ano (claim na zádech, malý wordmark na hrudi). Ke claimu se hodí hole pattern. Týká se merche, hangtagu i budoucích potisků. ✅ ROZHODNUTO 15. 9. (Hledík + Doležal při revizi brand booku): claim na kusu oblečení s logem ANO — každé na jiném místě (claim na zádech, logo na hrudi); v jedné kompozici jako hlavní motiv dál ne. Do knihy se propíše v dávce oprav revize (sekce 08, 13, 16). Věta o hole patternu už neplatí — vzor děr jde z knihy pryč.",
       "vzniklo": "2026-09-10",
-      "hotovo": null
+      "hotovo": "2026-09-15"
     },
     {
       "id": "vyrobce-navrat-balik",
@@ -1045,6 +1045,14 @@
       "vzniklo": "2026-09-11",
       "hotovo": "2026-09-12",
       "duvod": "Asset zrušen, ne opraven. Solo wordmark je „eldee“ minuskami bez LD a bez svatozáře — tvarová odvozenina, kterou sekce 09 výslovně zakazuje: „existuje jediné logo, povolené odvozeniny jsou jen barevné, nikdy tvarové“. Nebyl v sekci 08 mezi variantami, nenabízel se v Assetech a slovo „solo“ nebylo v celé knize ani jednou. Architektura značky je dvojice master wordmark + sub-mark monogram LD; třetí mark v ní místo nemá. Lukáš to poznal hned z kontrolního snímku. 10 SVG smazáno (commit a480a43)."
+    },
+    {
+      "id": "vzor-der-mimo-knihu",
+      "text": "🧹 Dorovnat podklady mimo brand book po revizi 15. 9. (vzor děr, odstíny barev)",
+      "stav": "další",
+      "kdo": "Hledík + Jarvis",
+      "pozn": "Rozhodnuto 15. 9. při revizi brand booku (Hledík + Doležal): vzor děr jde z knihy pryč. Nesedí se skutečnou štulpnou — kniha má 10 oválů 12×16 mm na výšku, zadání výroby z 3. 9. dva otvory 5×2 cm na šířku — a kniha o něm mylně tvrdí, že je to zapsaný vzor a vyšívaný motiv. Z knihy se odstraní v dávce oprav revize. MIMO KNIHU ZBÝVÁ: eldee-business/kniha/03-brand.md (Vrstva 3, ř. 22, 31, 185) · eldee-hq/kniha.html (ř. 1079, 1089) · podcast/scripty/ep05-brand.txt (ř. 21, 29) a bonus-ceo-brief.txt (ř. 75, logo o třech vrstvách) · úkol svatozar-vs-claim (prozatímní výklad „ke claimu se hodí hole pattern“). Pozor: v dotazníku vzorků v2 „Originalita / vzor děr“ znamená skutečné díry na štulpně — to zůstává. ➕ ODSTÍNY BAREV (rozhodnuto 15. 9.): Blood Red Dark #7F1D1D, Blood Red Light #DC2626 a Antique Gold #B8860B jdou z palety značky pryč — zůstává jedna červená a jedna zlatá. Mimo knihu je vypisuje business kniha 03-brand.md (ř. 54, 55, 61, 73, 79; u Dark navíc chybný kontrast 7,3) a HQ kniha.html (ř. 20–21, 1101–1104, 1116). Náhledy e-shopu na HQ používají Blood Red Light jako barvu tlačítka po najetí myší — tu určit až při stavbě e-shopu jako stav tlačítka, ne jako barvu značky.",
+      "vzniklo": "2026-09-15"
     },
     {
       "id": "brandbook-provize-verejne-repo",

@@ -1,6 +1,6 @@
 {
   "meta": {
-    "aktualizovano": "15. 9. 2026",
+    "aktualizovano": "18. 9. 2026",
     "pilulky": [
       {
         "label": "Jádro značky",
@@ -67,6 +67,12 @@
     }
   ],
   "timeline": [
+    {
+      "datum": "18. 9. 2026",
+      "nadpis": "📏 83 měření nohou — XS až L vyrovnané",
+      "text": "Přibylo <strong>29 nových měření</strong> (kluci 10–12 let). Vzorek je teď vyrovnaný: <strong>XS 20 · S 21 · M 21 · L 21 · XL 0</strong>. Zadání pro výrobu přegenerované pro XS, S, M i L. Nový ročník posunul umístění otvorů u S a M, u XS a L se nezměnilo nic. Chybí dál jen <strong>XL</strong>.",
+      "minor": true
+    },
     {
       "datum": "12. 9. 2026",
       "nadpis": "🏁 Brand book v3.0 vydán",
@@ -957,13 +963,23 @@
     {
       "id": "mereni-dosbirat-velikosti",
       "text": "📏 Doměřit velikost XL — XS, S, M i L už máme",
-      "stav": "další",
+      "stav": "hotovo",
       "kdo": "Lukáš",
-      "pozn": "Stav k 3. 9.: 54 měření. XS ✅ 18 · S ✅ 8 · M ✅ 8 · L ✅ 20 — všechny nad cílem 5. Chybí jen XL (boty 47–50, zatím 0 měření). Zadání výroby jde vytisknout pro XS, S, M i L. Data archivovaná v business repu (vyroba/mereni-export-2026-09-03.json), čísla zůstávají jen v prohlížeči. Bílé místo z FOUL benchmarku (FOUL nemá nic pod velikost 31) eldee teď pokrývá novou velikostí XS 31–34.",
+      "pozn": "✅ UZAVŘENO 18. 9. — měření je finální: 83 měření. XS ✅ 20 · S ✅ 21 · M ✅ 21 · L ✅ 21. XL se doměřovat nebude (rozhodnutí Lukáše 18. 9.: eldee míří primárně na mládež) — dopočítá se poměrem z L, viz úkol mereni-xl-dopocet. Zadání výroby přegenerované 18. 9. pro XS, S, M i L (business repo vyroba/eldee-zadani-vyroby-XS-S-M-L-2026-09-18.pdf). Data archivovaná v business repu (vyroba/mereni-export-2026-09-18.json), čísla zůstávají jen v prohlížeči. Bílé místo z FOUL benchmarku (FOUL nemá nic pod velikost 31) eldee teď pokrývá novou velikostí XS 31–34.",
       "vzniklo": "2026-07-31",
-      "hotovo": null,
+      "hotovo": "2026-09-18",
       "priorita": "vysoka",
       "poradi": 2
+    },
+    {
+      "id": "mereni-xl-dopocet",
+      "text": "📏 Velikost XL dopočítat poměrem z L a doplnit do zadání výroby",
+      "stav": "neaktuální",
+      "kdo": "Hledík + Jarvis",
+      "pozn": "Rozhodnutí 18. 9.: XL (boty 47–50) se neměří. Zvažovaný dopočet poměrem z L u nás neproběhne.",
+      "duvod": "Lukáš 18. 9.: XL nechává dopočítat výrobce — my ji nepočítáme.",
+      "vzniklo": "2026-09-18",
+      "hotovo": null
     },
     {
       "id": "mereni-prumer-otvoru-vyrobce",
@@ -1051,7 +1067,7 @@
       "text": "🔍 Revize brand booku v3.0 — fáze 1 web, pak PDF",
       "stav": "teď",
       "kdo": "Hledík + Doležal",
-      "pozn": "Začato 15. 9. Revizní arch v eldee-business/brand/revize-v3/. Prošlo 7 z 22 stránek (08, 08K, 09, 10, 11, 13, 14), maskot odložen na konec. Dávka 1 oprav nasazená 15. 9. (logo místo nápisu, zlatá s černým prstencem, bez vzoru děr, paprsků a odstínů, sekce 13 = Doplňkové prvky). Rozpracovaná sekce 15: vizitka — rozhodují se mezi K1 (červené jádro, triplex černá–červená–černá) a K4 (razítko, soft touch 90 × 50 mm). Zbývá 15–17, Assety, blok I, maskot, předěly; pak dávka 2 a fáze 2 PDF.",
+      "pozn": "Začato 15. 9. Revizní arch v eldee-business/brand/revize-v3/. Prošlo 9 z 22 stránek (08, 08K, 09, 10, 11, 13, 14, 15, 16), maskot odložen na konec. ✅ Dávka 2 nasazená 18. 9. (brandbook 5420c90): vizitka K1, krabička, visačka na kraftu, podpis na bílé, web s mobilní verzí, fotka hráče v ukázkách, neutrální věta o zlaté. Dávka 1 oprav nasazená 15. 9. (logo místo nápisu, zlatá s černým prstencem, bez vzoru děr, paprsků a odstínů, sekce 13 = Doplňkové prvky). Rozpracovaná sekce 15: ✅ vizitka rozhodnuta 18. 9. — K1 červené jádro (triplex černá–červená–černá, 85 × 55 mm, logo ražbou fólií), do knihy v dávce 2; z K1 dál otevřené vzorek QR ražbou a e-mail. Technika zlaté (tisk barvy, nebo zlatá ražba) u vizitek i krabiček se rozhodne až s dodavatelem. Zbývá 17, Assety, blok I, maskot, předěly; pak další dávka a fáze 2 PDF.",
       "vzniklo": "2026-09-15"
     },
     {
@@ -1263,6 +1279,6 @@
     "coJsme": "eldee je česká fotbalová značka se sloganem „One of Us.“ — jeden z nás. Vyrábíme fotbalové štulpny s prostřižením na lýtku a vnitřní kapsou na chránič, aby chránič držel na místě a nesjížděl. Obě řešení — díry i kapsa — máme chráněná dvěma průmyslovými vzory platnými v celé Evropské unii.",
     "produkt": "Portfolio eldee má čtyři produkty: návlek (tube), tréninkovou ponožku, nízkou štulpnu a vysokou štulpnu — každý staví na stejném prostřižení a kapse na chránič. Aktuálně jsme ve fázi vzorkování: testujeme provedení a padnutí, než jde produkt do sériové výroby. Cílem je, aby si každý hráč našel svůj střih, ne aby si zvykal na jediný.",
     "duvod": "Než jsme začali šít, zeptali jsme se 27 hráčů z cílové skupiny, co jim na současných štulpnách chybí. 93 % z nich už dnes nosí návlek pod štulpnu — pro nás jasný signál, že vnitřní ochrana chrániče je potřeba, ne rozmar. Kapsa na chránič vyšla jako nejžádanější vlastnost — chtělo ji 63 % hráčů. Stavíme produkt na datech, ne na dohadech.",
-    "mereni": "Výšku štulpny a umístění otvorů neurčujeme od stolu — změřili jsme 54 nohou ve čtyřech velikostech. Z těchto dat vzniká zadání pro výrobu: přesně tam, kde nohy skutečně jsou širší nebo užší, ne kde by podle tabulky měly být. Je to pomalejší cesta než převzít cizí velikostní tabulku, ale výsledkem je štulpna, která sedí. Měření průběžně pokračuje, jak přibývají další velikosti."
+    "mereni": "Výšku štulpny a umístění otvorů neurčujeme od stolu — změřili jsme 83 nohou ve čtyřech velikostech. Z těchto dat vzniká zadání pro výrobu: přesně tam, kde nohy skutečně jsou širší nebo užší, ne kde by podle tabulky měly být. Je to pomalejší cesta než převzít cizí velikostní tabulku, ale výsledkem je štulpna, která sedí. Měření průběžně pokračuje, jak přibývají další velikosti."
   }
 }

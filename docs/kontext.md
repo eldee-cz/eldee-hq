@@ -150,6 +150,12 @@ Sdileni s Hledikerm: tlacitko Zaloha (JSON soubor) → prenest do eldee-business
   trema ruznymi zpusoby) · otazka, jestli provize ambasadorum a MOQ patri do verejne knihy (visi
   od 16. 9., navic si to kniha sama zakazuje ve vlastnich pravidlech).
 
+- **Vecer 21. 9. — dorozhodnuto:** sekce 05 Positioning prepsana (varianta „parta vede", navazuje na
+  jadro One of Us. — puvodni text z v1 sel proti nemu) · prumyslove vzory potvrzeny jako **zapsane
+  u EUIPO s platnosti v cele EU (2026)**, sjednoceno v cele knize, zminky o UPV a roku 2025 pryc ·
+  otazka provize pro kluby **odlozena** — mechanika se bude vymyslet znovu, do te doby se v knize
+  nesaha. Nasazeno, commit `f4589a4` v eldee-brandbook.
+
 ### 2026-09-02
 - **Zmena hlavni mezinarodni domeny.** Plan z 10. 7. (eldee.eu) je NEPROVEDITELNY: eldee.eu i eldee.com
   drzi holandska firma Eldee Expo Experts (stavitel veletrznich stanku, .com registrovana od 1998,
@@ -196,9 +202,8 @@ Sdileni s Hledikerm: tlacitko Zaloha (JSON soubor) → prenest do eldee-business
 ## Rozpracovane veci / co dal
 
 - **Revize brand booku v3.0 — dorozhodnout otevrene body.** Webova faze je cela prohlednuta
-  (59 nalezu v arch). Ceka se na rozhodnuti obou Lukasu: sekce 05 Positioning (proti jadru znacky),
-  nejednotny popis stavu prumyslovych vzoru napric knihou, a jestli provize ambasadorum / MOQ
-  patri do verejne knihy. Az padnou rozhodnuti, dojet zbyle drobne opravy.
+  (59 nalezu v arch). Positioning i stav vzoru jsou dorozhodnute (21. 9. vecer). Zbyvaji drobnosti: anglicke nadpisy,
+  nazev produktu vs. zakazane slovo, Assety nabizi jen cast log, a text o kurzivnim rezu pisma. Az padnou rozhodnuti, dojet zbyle drobne opravy.
 - **Maskot — opravit kreslenou verzi (tri diry misto dvou).** Ukol `maskot-dve-diry`, stav
   blokovano — ceka na pristup ke kreditum v Higgsfieldu (ucet vede Hledik).
 - **Koupit eldeeworld.com** (hlavni mezinarodni domena; eldee.eu i eldee.com jsou obsazene a nekoupitelne),

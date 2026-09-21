@@ -128,6 +128,28 @@ Sdileni s Hledikerm: tlacitko Zaloha (JSON soubor) → prenest do eldee-business
 
 ## Aktualni stav / posledni zmeny
 
+### 2026-09-21
+- **Revize brand booku v3.0 (faze 1 — web) je hotova, cela kniha prosla.** Dnes doprosel zbytek:
+  blok I (01–07), 12 Maskot, 17 Co-branding, Assety a tri predely. Revizni arch ma **59 aktivnich
+  nalezu** (dnes +20).
+- **Nalez dne: vsech 5 pisem v knize nemelo ceskou diakritiku.** Fonty byly stazene jen se zakladni
+  latinkou (chybela č ď ě ň ř š ť ů ž a velka), prohlizec je dosazoval systemovym pismem znak po
+  znaku. Opraveno — fonty stazene znovu s latin + latin-ext, orizle na potrebnou sadu (124 → 164 kB),
+  nasazeno na web (commit `1bd84b5` v eldee-brandbook). Overeno beze zmeny rozvrzeni (0 px posun),
+  testy 31/31 interni + 29/29 verejny.
+- **Zaroven nasazeno 5 drobnych oprav:** doplnena velikost S v sekci 06 · aktualizovany text o mereni
+  (uzavrene 18. 9.) · oprava anglickeho terminu „registered designs" misto „design patents" · vyjimka
+  pro svatozar na nasivce v sekci 17 · opraveny odkaz na Google Fonts v Assetech (byl 404).
+- **Maskot — rozhodnuto, ze v knize zustanou OBE verze** (Pixar 3D i plocha kreslena). Kreslena ma
+  na stulpne tri diry misto dvou (zadani vyroby ma dva otvory) — potrebuje opravu. Rucni retus
+  nejde (zkouseno v editoru maskota i skriptem), jedina cesta je pregenerovat v AI z reference.
+  Ukol `maskot-dve-diry` na nastence, stav **blokovano** — ceka na pristup ke kreditum v Higgsfieldu
+  (ucet vede Hledik).
+- **Otevreno, ceka na rozhodnuti obou Lukasu:** sekce 05 Positioning (aktualni text jde proti jadru
+  znacky ze sekce 01) · nejednotny popis stavu prumyslovych vzoru napric knihou (kniha to rika
+  trema ruznymi zpusoby) · otazka, jestli provize ambasadorum a MOQ patri do verejne knihy (visi
+  od 16. 9., navic si to kniha sama zakazuje ve vlastnich pravidlech).
+
 ### 2026-09-02
 - **Zmena hlavni mezinarodni domeny.** Plan z 10. 7. (eldee.eu) je NEPROVEDITELNY: eldee.eu i eldee.com
   drzi holandska firma Eldee Expo Experts (stavitel veletrznich stanku, .com registrovana od 1998,
@@ -173,6 +195,12 @@ Sdileni s Hledikerm: tlacitko Zaloha (JSON soubor) → prenest do eldee-business
 
 ## Rozpracovane veci / co dal
 
+- **Revize brand booku v3.0 — dorozhodnout otevrene body.** Webova faze je cela prohlednuta
+  (59 nalezu v arch). Ceka se na rozhodnuti obou Lukasu: sekce 05 Positioning (proti jadru znacky),
+  nejednotny popis stavu prumyslovych vzoru napric knihou, a jestli provize ambasadorum / MOQ
+  patri do verejne knihy. Az padnou rozhodnuti, dojet zbyle drobne opravy.
+- **Maskot — opravit kreslenou verzi (tri diry misto dvou).** Ukol `maskot-dve-diry`, stav
+  blokovano — ceka na pristup ke kreditum v Higgsfieldu (ucet vede Hledik).
 - **Koupit eldeeworld.com** (hlavni mezinarodni domena; eldee.eu i eldee.com jsou obsazene a nekoupitelne),
   pak presmerovat eldee.cz → eldeeworld.com (301). eldee.cz zustava pro Cesko.
 - **Sjednotit jmeno na socialnich sitich na `eldeeworld`** (IG prejmenovat z @eldee.cz, FB stranka, zabrat TikTok).

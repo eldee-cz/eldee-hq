@@ -1086,6 +1086,17 @@
       "pozn": "Nález 12. 9. při sázení bloku I. Zadání v3.0 říká, že provize ambasadorů a slevy klubům nemají být ve veřejném brand booku. Ze stránek se vyhodily, ale v datech zůstaly: content.json audience.secondary.lifestyle nese „eldee dává 10 % z prodejů zpět klubu“ a dna.values.Férovost „komise ambasadorům, slevy klubům“. Blok I je sice interní a ve veřejném buildu se přesměruje (ověřeno: 280 B meta refresh, žádný obsah), ale content.json je v repu, které je na GitHubu veřejné — přečte si ho kdokoliv. Stejná past jako u stav.json 4. 9. Rozhodnout, jestli číslo přepsat obecně, nebo data rozdělit na veřejná a interní.",
       "vzniklo": "2026-09-12",
       "hotovo": null
+    },
+    {
+      "id": "maskot-dve-diry",
+      "text": "🦥 Maskot — kreslená verze má tři díry místo dvou (čeká na kredity Higgsfieldu)",
+      "stav": "blokováno",
+      "kdo": "Lukáš + Hledík",
+      "pozn": "Brand book ukazuje starší kreslenou verzi: TŘI půlměsícové díry na štulpně. Novější Pixar verze v HQ má DVĚ a zadání výroby taky dva otvory — kniha tedy ukazuje výrobek, který nevznikne. Rozhodnuto 21. 9.: v knize zůstanou obě verze (Pixar 3D + plochá kreslená), kreslenou opravit na dvě díry. Ruční retuš nejde — zkoušel Luky v editoru maskota i Jarvis dvakrát skriptem; červený obrys štulpny se do každé díry zavlní a zase vyleze, je to jedna spojitá čára. Jediná cesta: přegenerovat v AI z reference. BLOKUJE: přístup ke kreditům v Higgsfieldu — účet vede Hledík. Až budou kredity: model GPT Image 2.5 bere referenční obrázek a umí rovnou průhledné pozadí, takže jednou prací lze opravit díry u kreslené i růžové pozadí u Pixar verze. Návazně: přestavět sekci 12 na dvě verze a opravit texty „tři půlměsícové díry“ (2 místa) a „three crescent holes“ v promptu.",
+      "vzniklo": "2026-09-21",
+      "hotovo": null,
+      "priorita": "stredni",
+      "poradi": 26
     }
   ],
   "odkazy": [

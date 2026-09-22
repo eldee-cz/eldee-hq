@@ -1,6 +1,6 @@
 {
   "meta": {
-    "aktualizovano": "18. 9. 2026",
+    "aktualizovano": "22. 9. 2026",
     "pilulky": [
       {
         "label": "Jádro značky",
@@ -67,6 +67,14 @@
     }
   ],
   "timeline": [
+    {
+      "datum": "22. 9. 2026",
+      "text": "Brand book PDF rozděleno na dvě knihy: interní (110 stran) a veřejný logomanuál (81 stran), každá na své adrese. Doplněna obálka a tiráž."
+    },
+    {
+      "datum": "22. 9. 2026",
+      "text": "Brand book v3.0: revize fáze 1 dokončena (22/22 sekcí, 5 dávek oprav) — přepsané DNA a Pro koho, kompletní sada log, nová pravidla pro jazyk knihy"
+    },
     {
       "datum": "18. 9. 2026",
       "nadpis": "📏 83 měření nohou — XS až L vyrovnané",
@@ -1067,7 +1075,7 @@
       "text": "🔍 Revize brand booku v3.0 — fáze 1 web, pak PDF",
       "stav": "teď",
       "kdo": "Hledík + Doležal",
-      "pozn": "Začato 15. 9. Revizní arch v eldee-business/brand/revize-v3/. Prošlo 9 z 22 stránek (08, 08K, 09, 10, 11, 13, 14, 15, 16), maskot odložen na konec. ✅ Dávka 2 nasazená 18. 9. (brandbook 5420c90): vizitka K1, krabička, visačka na kraftu, podpis na bílé, web s mobilní verzí, fotka hráče v ukázkách, neutrální věta o zlaté. Dávka 1 oprav nasazená 15. 9. (logo místo nápisu, zlatá s černým prstencem, bez vzoru děr, paprsků a odstínů, sekce 13 = Doplňkové prvky). Rozpracovaná sekce 15: ✅ vizitka rozhodnuta 18. 9. — K1 červené jádro (triplex černá–červená–černá, 85 × 55 mm, logo ražbou fólií), do knihy v dávce 2; z K1 dál otevřené vzorek QR ražbou a e-mail. Technika zlaté (tisk barvy, nebo zlatá ražba) u vizitek i krabiček se rozhodne až s dodavatelem. Zbývá 17, Assety, blok I, maskot, předěly; pak další dávka a fáze 2 PDF.",
+      "pozn": "Fáze 1 (web) hotová: 22/22 sekcí prohlédnuto, 5 dávek oprav nasazeno. Fáze 2 (PDF) rozjetá — obálka, tiráž, tmavé ukázky, obsah na začátku.",
       "vzniklo": "2026-09-15"
     },
     {
@@ -1097,6 +1105,30 @@
       "hotovo": null,
       "priorita": "stredni",
       "poradi": 26
+    },
+    {
+      "id": "pdf-zive-zahlavi",
+      "text": "📄 PDF: živé záhlaví na každé straně (sekce vlevo, číslo vpravo) — dnes ho nese 18 stran ze 110",
+      "stav": "další",
+      "kdo": "Hledík + Jarvis",
+      "pozn": "Odhad ~45 min. Bez něj čtenář uprostřed knihy neví, ve které sekci je.",
+      "vzniklo": "22. 9. 2026"
+    },
+    {
+      "id": "pdf-cisla-v-obsahu",
+      "text": "📄 PDF: čísla stránek v obsahu — dvouprůchodové generování",
+      "stav": "další",
+      "kdo": "Hledík + Jarvis",
+      "pozn": "Obsah dnes vypisuje sekce, ale ne kde je najdeš. Odhad 30–60 min.",
+      "vzniklo": "22. 9. 2026"
+    },
+    {
+      "id": "pdf-zlomy",
+      "text": "📄 PDF: doladit zlomy stránek — zbývají 3 skoro prázdné strany",
+      "stav": "fronta",
+      "kdo": "Hledík + Jarvis",
+      "pozn": "Po opravě seznamů 5 → 3. Zbytek chce ruční PrintBreak, iterativně stránku po stránce.",
+      "vzniklo": "22. 9. 2026"
     }
   ],
   "odkazy": [

@@ -1,6 +1,6 @@
 {
   "meta": {
-    "aktualizovano": "22. 9. 2026",
+    "aktualizovano": "23. 9. 2026",
     "pilulky": [
       {
         "label": "Jádro značky",
@@ -67,6 +67,11 @@
     }
   ],
   "timeline": [
+    {
+      "datum": "23. 9. 2026",
+      "nadpis": "📖 Logomanuál v PDF dostal hlavu a patu",
+      "text": "Obsah s čísly stránek, živé záhlaví na každé straně, záložky pro čtečku a název dokumentu. Logomanuál poprvé má obsah."
+    },
     {
       "datum": "22. 9. 2026",
       "text": "Ke stažení jsou dvě knihy: veřejný logomanuál (81 stran) a interní brand book. Obě dostaly obálku a tiráž.",
@@ -1111,26 +1116,36 @@
     {
       "id": "pdf-zive-zahlavi",
       "text": "📄 PDF: živé záhlaví na každé straně (sekce vlevo, číslo vpravo) — dnes ho nese 18 stran ze 110",
-      "stav": "další",
+      "stav": "hotovo",
       "kdo": "Hledík + Jarvis",
       "pozn": "Odhad ~45 min. Bez něj čtenář uprostřed knihy neví, ve které sekci je.",
-      "vzniklo": "22. 9. 2026"
+      "vzniklo": "22. 9. 2026",
+      "hotovo": "23. 9. 2026"
     },
     {
       "id": "pdf-cisla-v-obsahu",
       "text": "📄 PDF: čísla stránek v obsahu — dvouprůchodové generování",
-      "stav": "další",
+      "stav": "hotovo",
       "kdo": "Hledík + Jarvis",
       "pozn": "Obsah dnes vypisuje sekce, ale ne kde je najdeš. Odhad 30–60 min.",
-      "vzniklo": "22. 9. 2026"
+      "vzniklo": "22. 9. 2026",
+      "hotovo": "23. 9. 2026"
     },
     {
       "id": "pdf-zlomy",
       "text": "📄 PDF: doladit zlomy stránek — zbývají 3 skoro prázdné strany",
       "stav": "fronta",
       "kdo": "Hledík + Jarvis",
-      "pozn": "Po opravě seznamů 5 → 3. Zbytek chce ruční PrintBreak, iterativně stránku po stránce.",
+      "pozn": "Změřeno 23. 9.: ze 14 řídkých stran nese každá pás, který se nevešel a skočil celý. Pokus povolit lámání dlouhých seznamů nezměnil nic — drží je `section`. Chce to ruční zlomy, zisk malý.",
       "vzniklo": "22. 9. 2026"
+    },
+    {
+      "id": "logomanual-designer-review",
+      "text": "👁 Poslat logomanuál kamarádovi designérovi k připomínkám (má marketingovou agenturu)",
+      "stav": "teď",
+      "kdo": "Hledík",
+      "pozn": "Mail připravený v 07-eldee-business/marketing/mail-designer-logomanual.md — doplnit jméno a přiložit PDF. Chceme poznámky, ne novou verzi (dva zdroje pravdy).",
+      "vzniklo": "23. 9. 2026"
     }
   ],
   "odkazy": [

@@ -1,6 +1,6 @@
 {
   "meta": {
-    "aktualizovano": "23. 9. 2026",
+    "aktualizovano": "24. 9. 2026",
     "pilulky": [
       {
         "label": "Jádro značky",
@@ -397,6 +397,14 @@
     }
   ],
   "ukoly": [
+    {
+      "id": "smlouva-dodavatel-v3-protinavrh",
+      "text": "🤝 Smlouva s dodavatelem: projednat protinávrh v3 (dodavatel vrátil v2 s ručními námitkami)",
+      "stav": "teď",
+      "kdo": "Doležal",
+      "pozn": "Dodavatel 23. 9. vrátil v2 s ručními poznámkami skoro ke každému článku a chce být výhradním výrobcem. 24. 9. připraven protinávrh v3 (většina námitek přijata, ochrana vzorů a značky drží, výhradnost s podmínkami) a interní podklad k jednání. Podrobnosti jen v eldee-business/smlouvy (privátní).",
+      "vzniklo": "2026-09-24"
+    },
     {
       "id": "smlouva-dodavatel-sazba",
       "text": "🖨️ Smlouva pro dodavatele v2.0 — typografická revize (vzhled, text beze změny)",

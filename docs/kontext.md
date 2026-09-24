@@ -128,6 +128,15 @@ Sdileni s Hledikerm: tlacitko Zaloha (JSON soubor) → prenest do eldee-business
 
 ## Aktualni stav / posledni zmeny
 
+### 2026-09-24
+- **Smlouva s dodavatelem stulpen ve vyjednavani.** Dodavatel vratil pripominkovanou verzi,
+  pripraven protinavrh v3 k odeslani (prehlednejsi format, u kazde zmeny oznaceno co a proc,
+  s prostorem pro reakci dodavatele). Detaily a obsah jednani jsou v privatnim repu
+  `eldee-business` — sem nepatri.
+- Opravena pisma v sablonach smluv — stejny problem jako u brand booku 21. 9. (chybela ceska
+  diakritika).
+- Na nastence bezi ukol `smlouva-dodavatel-v3-protinavrh` (stav „ted").
+
 ### 2026-09-21
 - **Revize brand booku v3.0 (faze 1 — web) je hotova, cela kniha prosla.** Dnes doprosel zbytek:
   blok I (01–07), 12 Maskot, 17 Co-branding, Assety a tri predely. Revizni arch ma **59 aktivnich
@@ -201,6 +210,8 @@ Sdileni s Hledikerm: tlacitko Zaloha (JSON soubor) → prenest do eldee-business
 
 ## Rozpracovane veci / co dal
 
+- **Smlouva s dodavatelem stulpen — protinavrh v3 pripraven k odeslani**, ceka se na reakci
+  dodavatele. Detaily jednani v privatnim `eldee-business`.
 - **Revize brand booku v3.0 — dorozhodnout otevrene body.** Webova faze je cela prohlednuta
   (59 nalezu v arch). Positioning i stav vzoru jsou dorozhodnute (21. 9. vecer). Zbyvaji drobnosti: anglicke nadpisy,
   nazev produktu vs. zakazane slovo, Assety nabizi jen cast log, a text o kurzivnim rezu pisma. Az padnou rozhodnuti, dojet zbyle drobne opravy.

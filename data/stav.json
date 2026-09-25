@@ -408,7 +408,7 @@
       "text": "🏭 Sehnat záložního dodavatele (CZ / SK / PL) — kompletní portfolio",
       "stav": "teď",
       "kdo": "Doležal + Hledík",
-      "pozn": "Změna kurzu 25. 9.: se stávajícím dodavatelem se vše táhne, pokračujeme s ním pomalu dál, ale otevíráme zadní vrátka. Komunikuje Doležal. Postup: (1) rešerše výrobců CZ/SK/PL, (2) poptávkový balík (tech. list + otázky MOQ/cena/lhůta/kapacita), (3) vlna 5–8 oslovení, (4) srovnávací tabulka. Podrobnosti jen v eldee-business/dodavatele (privátní).",
+      "pozn": "Změna kurzu 25. 9.: se stávajícím dodavatelem se vše táhne, pokračujeme s ním pomalu dál, ale otevíráme zadní vrátka. Komunikuje Doležal. Postup: (1) rešerše výrobců CZ/SK/PL, (2) poptávkový balík (tech. list + otázky MOQ/cena/lhůta/kapacita), (3) vlna 5–8 oslovení, (4) srovnávací tabulka. Podrobnosti jen v eldee-business/dodavatele (privátní). | 25. 9. Hledík: běží hloubková rešerše (úkol vyrobce-deep-research-dokoncit); Powersocks má v rozvaze 2024 i 2025 závazky po splatnosti 181+ dní 2,15 mil. Kč.",
       "vzniklo": "2026-09-25"
     },
     {
@@ -1186,6 +1186,14 @@
       "pozn": "Lukáš schválil 25. 9. jako finální. PDF v 07-eldee-business/prezentace/, git tag prezentace-v1.0. Další verze až s reálnou fotkou vzorků.",
       "vzniklo": "2026-09-25",
       "hotovo": "2026-09-25"
+    },
+    {
+      "id": "vyrobce-deep-research-dokoncit",
+      "text": "🔬 Deep research výrobce štulpen — dokončit v úsporném režimu (shortlist ~20 firem, 1 skeptik, porota, HTML report)",
+      "stav": "další",
+      "kdo": "Hledík + Jarvis",
+      "pozn": "Vlna 1 přerušena 25. 9. kvůli tokenům. Zachráněno: měřítko Powersocks, 90 firem, 17 karet (7 prošlo). Data + skripty v 07-eldee-business/dodavatele/deep-research-vyrobce-2026-09-25/, postup v handoff.md nahoře.",
+      "vzniklo": "2026-09-25"
     }
   ],
   "odkazy": [
@@ -1206,6 +1214,26 @@
       "href": "eldee.html",
       "extern": false,
       "skupina": "nastroj"
+    },
+    {
+      "nadpis": "🎤 Prezentace značky",
+      "text": "Představení eldee naživo, 12 slidů 16:9 podle brand booku v3.0. Dvě verze podle publika — <strong>kamarádi</strong> a <strong>kluby / partneři</strong>. Verze pro výrobce (se zadáním výroby) a poznámky pro řečníka jsou jen v soukromém repu eldee-business (rozměry z měření = know-how).",
+      "stav": "on",
+      "stavText": "v1.0 · 25. 9. 2026",
+      "extern": false,
+      "skupina": "brand",
+      "polozky": [
+        {
+          "nadpis": "PDF pro kamarády",
+          "href": "media/prezentace/eldee-prezentace-kamaradi.pdf",
+          "extern": false
+        },
+        {
+          "nadpis": "PDF pro kluby a partnery",
+          "href": "media/prezentace/eldee-prezentace-klub.pdf",
+          "extern": false
+        }
+      ]
     },
     {
       "nadpis": "📱 Sociální sítě",

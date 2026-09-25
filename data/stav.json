@@ -1,6 +1,6 @@
 {
   "meta": {
-    "aktualizovano": "24. 9. 2026",
+    "aktualizovano": "25. 9. 2026",
     "pilulky": [
       {
         "label": "Jádro značky",
@@ -1127,8 +1127,8 @@
       "stav": "hotovo",
       "kdo": "Hledík + Jarvis",
       "pozn": "Odhad ~45 min. Bez něj čtenář uprostřed knihy neví, ve které sekci je.",
-      "vzniklo": "22. 9. 2026",
-      "hotovo": "23. 9. 2026"
+      "vzniklo": "2026-09-22",
+      "hotovo": "2026-09-23"
     },
     {
       "id": "pdf-cisla-v-obsahu",
@@ -1136,8 +1136,8 @@
       "stav": "hotovo",
       "kdo": "Hledík + Jarvis",
       "pozn": "Obsah dnes vypisuje sekce, ale ne kde je najdeš. Odhad 30–60 min.",
-      "vzniklo": "22. 9. 2026",
-      "hotovo": "23. 9. 2026"
+      "vzniklo": "2026-09-22",
+      "hotovo": "2026-09-23"
     },
     {
       "id": "pdf-zlomy",
@@ -1145,15 +1145,24 @@
       "stav": "fronta",
       "kdo": "Hledík + Jarvis",
       "pozn": "Změřeno 23. 9.: ze 14 řídkých stran nese každá pás, který se nevešel a skočil celý. Pokus povolit lámání dlouhých seznamů nezměnil nic — drží je `section`. Chce to ruční zlomy, zisk malý.",
-      "vzniklo": "22. 9. 2026"
+      "vzniklo": "2026-09-22"
     },
     {
       "id": "logomanual-designer-review",
-      "text": "👁 Poslat logomanuál kamarádovi designérovi k připomínkám (má marketingovou agenturu)",
-      "stav": "teď",
+      "text": "👁 Poslat brand book kamarádovi designérovi k připomínkám (má marketingovou agenturu)",
+      "stav": "hotovo",
       "kdo": "Hledík",
-      "pozn": "Mail připravený v 07-eldee-business/marketing/mail-designer-logomanual.md — doplnit jméno a přiložit PDF. Chceme poznámky, ne novou verzi (dva zdroje pravdy).",
-      "vzniklo": "23. 9. 2026"
+      "pozn": "ODESLÁNO 25. 9.: nakonec celý interní brand book (PDF v3.0, 109 stran) místo logomanuálu, s prosbou nešířit dál. Mail v 07-eldee-business/marketing/mail-designer-brandbook.md. Chceme poznámky, ne novou verzi (dva zdroje pravdy).",
+      "vzniklo": "2026-09-23",
+      "hotovo": "2026-09-25"
+    },
+    {
+      "id": "brandbook-designer-pripominky",
+      "text": "⏳ Počkat na připomínky designéra k brand booku a zapracovat je do knihy",
+      "stav": "další",
+      "kdo": "Hledík",
+      "pozn": "Posláno 25. 9. PDF v3.0 z 23. 9. — připomínky se budou odkazovat na čísla stránek téhle verze. Přepsat k sobě jako nálezy, ne přebírat jeho soubor.",
+      "vzniklo": "2026-09-25"
     }
   ],
   "odkazy": [

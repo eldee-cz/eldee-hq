@@ -1189,10 +1189,10 @@
     },
     {
       "id": "vyrobce-deep-research-dokoncit",
-      "text": "🔬 Deep research výrobce štulpen — dokončit v úsporném režimu (shortlist ~20 firem, 1 skeptik, porota, HTML report)",
+      "text": "🔬 Deep research výrobce štulpen — dokončit NAPLNO (74 karet, 3 skeptici, kritik, porota, HTML report)",
       "stav": "další",
       "kdo": "Hledík + Jarvis",
-      "pozn": "Vlna 1 přerušena 25. 9. kvůli tokenům. Zachráněno: měřítko Powersocks, 90 firem, 17 karet (7 prošlo). Data + skripty v 07-eldee-business/dodavatele/deep-research-vyrobce-2026-09-25/, postup v handoff.md nahoře.",
+      "pozn": "Vlna 1 přerušena 25. 9. kvůli tokenům; zachráněno měřítko Powersocks, 90 firem, 17 karet (7 prošlo). Pokračovat přesně podle 07-eldee-business/dodavatele/deep-research-vyrobce-2026-09-25/POKRACOVANI-prompt.md (dávky + merge.py, nic se neztratí). Lukáš: strategické rozhodnutí, ne úsporný režim.",
       "vzniklo": "2026-09-25"
     }
   ],

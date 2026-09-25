@@ -68,6 +68,12 @@
   ],
   "timeline": [
     {
+      "datum": "25. 9. 2026",
+      "nadpis": "Prezentace představení značky",
+      "text": "v1.0 schválena. 15 slidů 16:9 podle brand booku v3.0: jádro 10 + závěry pro kamarády / výrobce (se zadáním výroby) / kluby + kontakt, poznámky pro řečníka. Oficiální vyobrazení vzorů, bez fotek.",
+      "minor": false
+    },
+    {
       "datum": "23. 9. 2026",
       "nadpis": "📖 Logomanuál v PDF dostal hlavu a patu",
       "text": "Obsah s čísly stránek, živé záhlaví na každé straně, záložky pro čtečku a název dokumentu. Logomanuál poprvé má obsah."
@@ -397,6 +403,14 @@
     }
   ],
   "ukoly": [
+    {
+      "id": "zalozni-dodavatel-cz-sk-pl",
+      "text": "🏭 Sehnat záložního dodavatele (CZ / SK / PL) — kompletní portfolio",
+      "stav": "teď",
+      "kdo": "Doležal + Hledík",
+      "pozn": "Změna kurzu 25. 9.: se stávajícím dodavatelem se vše táhne, pokračujeme s ním pomalu dál, ale otevíráme zadní vrátka. Komunikuje Doležal. Postup: (1) rešerše výrobců CZ/SK/PL, (2) poptávkový balík (tech. list + otázky MOQ/cena/lhůta/kapacita), (3) vlna 5–8 oslovení, (4) srovnávací tabulka. Podrobnosti jen v eldee-business/dodavatele (privátní).",
+      "vzniklo": "2026-09-25"
+    },
     {
       "id": "smlouva-dodavatel-v3-protinavrh",
       "text": "🤝 Smlouva s dodavatelem: projednat protinávrh v3 (dodavatel vrátil v2 s ručními námitkami)",
@@ -1163,6 +1177,15 @@
       "kdo": "Hledík",
       "pozn": "Posláno 25. 9. PDF v3.0 z 23. 9. — připomínky se budou odkazovat na čísla stránek téhle verze. Přepsat k sobě jako nálezy, ne přebírat jeho soubor.",
       "vzniklo": "2026-09-25"
+    },
+    {
+      "id": "prezentace-predstaveni-znacky",
+      "text": "🎤 Prezentace „představení značky“ v1.0 — 10 slidů jádro + závěry kamarádi / výrobce (+ zadání výroby) / kluby",
+      "stav": "hotovo",
+      "kdo": "Hledík",
+      "pozn": "Lukáš schválil 25. 9. jako finální. PDF v 07-eldee-business/prezentace/, git tag prezentace-v1.0. Další verze až s reálnou fotkou vzorků.",
+      "vzniklo": "2026-09-25",
+      "hotovo": "2026-09-25"
     }
   ],
   "odkazy": [

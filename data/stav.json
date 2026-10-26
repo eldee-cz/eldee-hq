@@ -808,9 +808,9 @@
     {
       "id": "zabezpeceni-hq",
       "text": "🔒 Zabezpečení HQ — zbývá veřejné repo, ukládání úkolů a data kalkulačky",
-      "stav": "fronta",
+      "stav": "teď",
       "kdo": "Lukáš + Jarvis",
-      "pozn": "Zámek na web je HOTOVÝ 4. 9. (Basic Auth + skříň má vlastní data). Zbývá: (A) VEŘEJNÉ REPO — v repu jsou čísla (kniha, kalkulačka) a Vercel Hobby neumí privátní repo pod organizací (ověřeno 4. 9., zkusili jsme a vrátili). Varianty: Vercel Pro / repo pod osobní účet / citlivé stránky do zvláštního nasazení. (B) UKLÁDÁNÍ ÚKOLŮ — serverless api/save + GitHub token; teď ruční export. (C) DATA kalkulačky/skladu/financí — localStorage per zařízení, nesdílí se.",
+      "pozn": "26. 10.: ROZJETÝ PŘESUN NA CLOUDFLARE PAGES (zdarma, privátní repo v organizaci jde, Doležal dál nasazuje pushem). HQ už běží na eldee-hq.pages.dev se zámkem (functions/_middleware.js, ověřeno po síti + Lukášovo přihlášení). Zbývá: (1) doména hq.eldeeworld.com (CNAME u Web4U), (2) repo eldee-hq přepnout na privátní, (3) vypnout Vercel, (4) dát vědět Doležalovi o nové adrese. Vercel Pro ani osobní účet nejsou potřeba (Vercel zdarma blokuje nasazení od spolupracovníka z privátního repa). Pak zbývá (B) ukládání úkolů a (C) data kalkulačky/skladu. — Původně: Zámek na web je HOTOVÝ 4. 9. (Basic Auth + skříň má vlastní data). Zbývá: (A) VEŘEJNÉ REPO — v repu jsou čísla (kniha, kalkulačka) a Vercel Hobby neumí privátní repo pod organizací (ověřeno 4. 9., zkusili jsme a vrátili). Varianty: Vercel Pro / repo pod osobní účet / citlivé stránky do zvláštního nasazení. (B) UKLÁDÁNÍ ÚKOLŮ — serverless api/save + GitHub token; teď ruční export. (C) DATA kalkulačky/skladu/financí — localStorage per zařízení, nesdílí se.",
       "vzniklo": "2026-06-25",
       "hotovo": null,
       "priorita": "vysoka",
